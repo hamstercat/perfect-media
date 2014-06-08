@@ -1,0 +1,13 @@
+﻿<Application x:Class="PerfectMedia.UI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PerfectMedia.UI.ViewModels"
+             xmlns:conv="clr-namespace:PerfectMedia.UI.Converters"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <vm:TvShowManagerViewModel x:Key="TvShowManagerViewModel" />
+        
+        <conv:NullToBooleanConverter x:Key="NullToBooleanConverter" />
+        <conv:IsEmptyToBooleanConverter x:Key="IsEmptyToBooleanConverter" />
+    </Application.Resources>
+</Application>

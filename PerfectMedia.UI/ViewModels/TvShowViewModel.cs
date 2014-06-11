@@ -13,5 +13,10 @@ namespace PerfectMedia.UI.ViewModels
         {
             Path = path;
         }
+
+        public void Load()
+        {
+            // TODO: refresh this show from filesystem
+        }
     }
 }

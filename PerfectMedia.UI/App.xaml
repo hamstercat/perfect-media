@@ -9,5 +9,6 @@
         
         <conv:NullToBooleanConverter x:Key="NullToBooleanConverter" />
         <conv:IsEmptyToBooleanConverter x:Key="IsEmptyToBooleanConverter" />
+        <conv:PathFolderNameConverter x:Key="PathFolderNameConverter" />
     </Application.Resources>
 </Application>

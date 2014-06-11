@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behaviours="clr-namespace:PerfectMedia.UI.Behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="1000">
     <Grid>
@@ -16,13 +18,19 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TreeView ItemsSource="{Binding TvShows}">
+                <e:Interaction.Behaviors>
+                    <behaviours:BindableSelectedItemBehavior SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
+                </e:Interaction.Behaviors>
                 <TreeView.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Path}" />
+                        <TextBlock Text="{Binding Path, Converter={StaticResource PathFolderNameConverter}}" />
                     </DataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>
             <Button Grid.Row="1" Content="Sources" Click="ShowSources" />
+        </Grid>
+        <Grid Grid.Column="1" DataContext="{Binding SelectedItem}">
+            <TextBlock Text="{Binding Path}" />
         </Grid>
     </Grid>
 </UserControl>

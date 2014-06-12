@@ -1,4 +1,5 @@
 ﻿using PerfectMedia.Sources;
+using PerfectMedia.TvShows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +12,8 @@ namespace PerfectMedia.UI.ViewModels
 {
     public class TvShowManagerViewModel : BaseViewModel, ISourceProvider
     {
+        private readonly ITvShowService _tvShowService;
+
         public SourceManagerViewModel Sources { get; private set; }
         public ObservableCollection<TvShowViewModel> TvShows { get; private set; }
 
@@ -30,11 +33,13 @@ namespace PerfectMedia.UI.ViewModels
         }
 
         public TvShowManagerViewModel()
-            : this(ServiceLocator.Get<ISourceRepository>())
+            : this(ServiceLocator.Get<ITvShowService>(),
+                   ServiceLocator.Get<ISourceRepository>())
         { }
 
-        public TvShowManagerViewModel(ISourceRepository sourceRepository)
+        public TvShowManagerViewModel(ITvShowService tvShowService, ISourceRepository sourceRepository)
         {
+            _tvShowService = tvShowService;
             TvShows = new ObservableCollection<TvShowViewModel>();
 
             Sources = new SourceManagerViewModel(sourceRepository, SourceType.TvShow);
@@ -69,7 +74,7 @@ namespace PerfectMedia.UI.ViewModels
         {
             foreach (string path in tvShows)
             {
-                TvShowViewModel newTvShow = new TvShowViewModel(path);
+                TvShowViewModel newTvShow = new TvShowViewModel(_tvShowService, path);
                 TvShows.Add(newTvShow);
             }
         }

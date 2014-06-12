@@ -69,6 +69,8 @@
     <Compile Include="ServiceLocator.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ISourceProvider.cs" />
+    <Compile Include="ViewModels\ITreeViewItemViewModel.cs" />
+    <Compile Include="ViewModels\SeasonViewModel.cs" />
     <Compile Include="ViewModels\SourceManagerViewModel.cs" />
     <Compile Include="ViewModels\TvShowManagerViewModel.cs" />
     <Compile Include="ViewModels\TvShowViewModel.cs" />
@@ -128,6 +130,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PerfectMedia.TvShows\PerfectMedia.TvShows.csproj">
+      <Project>{be7a5a9e-2967-431d-855a-e2a063643589}</Project>
+      <Name>PerfectMedia.TvShows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PerfectMedia\PerfectMedia.csproj">
       <Project>{e4f6d12d-1f08-429e-82f9-7873db7f30ba}</Project>
       <Name>PerfectMedia</Name>

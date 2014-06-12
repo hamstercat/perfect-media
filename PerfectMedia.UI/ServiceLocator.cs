@@ -1,5 +1,6 @@
 ﻿using Ninject;
 using PerfectMedia.Sources;
+using PerfectMedia.TvShows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace PerfectMedia.UI
         {
             _kernel = new StandardKernel();
             _kernel.Bind<ISourceRepository>().To<SourceRepository>();
+            _kernel.Bind<ITvShowService>().To<TvShowService>();
         }
 
         internal static TService Get<TService>()

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfectMedia.UI", "PerfectM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfectMedia", "PerfectMedia\PerfectMedia.csproj", "{E4F6D12D-1F08-429E-82F9-7873DB7F30BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfectMedia.TvShows", "PerfectMedia.TvShows\PerfectMedia.TvShows.csproj", "{BE7A5A9E-2967-431D-855A-E2A063643589}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{E4F6D12D-1F08-429E-82F9-7873DB7F30BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4F6D12D-1F08-429E-82F9-7873DB7F30BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4F6D12D-1F08-429E-82F9-7873DB7F30BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE7A5A9E-2967-431D-855A-E2A063643589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE7A5A9E-2967-431D-855A-E2A063643589}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE7A5A9E-2967-431D-855A-E2A063643589}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE7A5A9E-2967-431D-855A-E2A063643589}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

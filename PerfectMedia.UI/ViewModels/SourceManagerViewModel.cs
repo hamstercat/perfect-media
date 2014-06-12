@@ -118,7 +118,7 @@ namespace PerfectMedia.UI.ViewModels
                     AddFolders(_rootFolders, e.NewItems.Cast<string>(), true);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    RemoveFolders(_rootFolders, e.NewItems.Cast<string>(), true);
+                    RemoveFolders(_rootFolders, e.OldItems.Cast<string>(), true);
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     RemoveFolders(_rootFolders, e.OldItems.Cast<string>(), true);
@@ -141,7 +141,7 @@ namespace PerfectMedia.UI.ViewModels
                     AddFolders(_specificFolders, e.NewItems.Cast<string>(), false);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    RemoveFolders(_specificFolders, e.NewItems.Cast<string>(), false);
+                    RemoveFolders(_specificFolders, e.OldItems.Cast<string>(), false);
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     RemoveFolders(_specificFolders, e.OldItems.Cast<string>(), false);

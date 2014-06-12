@@ -78,8 +78,17 @@
     <Compile Include="Views\SourcesWindow.xaml.cs">
       <DependentUpon>SourcesWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TvShowControl.xaml.cs">
+    <Compile Include="Views\TvShows\EpisodeMetadata.xaml.cs">
+      <DependentUpon>EpisodeMetadata.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TvShows\SeasonMetadata.xaml.cs">
+      <DependentUpon>SeasonMetadata.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TvShows\TvShowControl.xaml.cs">
       <DependentUpon>TvShowControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TvShows\TvShowMetadata.xaml.cs">
+      <DependentUpon>TvShowMetadata.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -97,7 +106,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TvShowControl.xaml">
+    <Page Include="Views\TvShows\EpisodeMetadata.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TvShows\SeasonMetadata.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TvShows\TvShowControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TvShows\TvShowMetadata.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

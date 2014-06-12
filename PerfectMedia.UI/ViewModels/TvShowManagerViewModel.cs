@@ -17,21 +17,6 @@ namespace PerfectMedia.UI.ViewModels
         public SourceManagerViewModel Sources { get; private set; }
         public ObservableCollection<TvShowViewModel> TvShows { get; private set; }
 
-        public TvShowViewModel _selectedItem;
-        public TvShowViewModel SelectedItem
-        {
-            get
-            {
-                return _selectedItem;
-            }
-            set
-            {
-                _selectedItem = value;
-                _selectedItem.Load();
-                OnPropertyChanged("SelectedItem");
-            }
-        }
-
         public TvShowManagerViewModel()
             : this(ServiceLocator.Get<ITvShowService>(),
                    ServiceLocator.Get<ISourceRepository>())

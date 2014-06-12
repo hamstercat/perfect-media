@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PerfectMedia.UI.Views
+namespace PerfectMedia.UI.Views.TvShows
 {
     /// <summary>
     /// Interaction logic for TvShowControl.xaml

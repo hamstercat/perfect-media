@@ -34,7 +34,7 @@
                                 <TextBlock Text="{Binding Path, Converter={StaticResource PathFolderNameConverter}}" />
                                 <HierarchicalDataTemplate.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Order}" />
+                                        <TextBlock Text="{Binding Path, Converter={StaticResource PathFolderNameConverter}}" />
                                     </DataTemplate>
                                 </HierarchicalDataTemplate.ItemTemplate>
                             </HierarchicalDataTemplate>

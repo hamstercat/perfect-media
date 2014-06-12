@@ -68,6 +68,7 @@
     <Compile Include="Converters\PathFolderNameConverter.cs" />
     <Compile Include="ServiceLocator.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\EpisodeViewModel.cs" />
     <Compile Include="ViewModels\ISourceProvider.cs" />
     <Compile Include="ViewModels\ITreeViewItemViewModel.cs" />
     <Compile Include="ViewModels\SeasonViewModel.cs" />

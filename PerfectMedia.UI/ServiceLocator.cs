@@ -18,6 +18,7 @@ namespace PerfectMedia.UI
         {
             _kernel = new StandardKernel();
             _kernel.Bind<ISourceRepository>().To<SourceRepository>();
+            _kernel.Bind<IFileFinder>().To<FileFinder>();
             _kernel.Bind<ITvShowService>().To<TvShowService>();
         }
 

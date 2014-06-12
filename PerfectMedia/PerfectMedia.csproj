@@ -39,14 +39,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileFinder.cs" />
     <Compile Include="Sources\ISourceRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sources\Source.cs" />
     <Compile Include="Sources\SourceRepository.cs" />
     <Compile Include="Sources\SourceType.cs" />
     <Compile Include="Sources\XmlFile.cs" />
+    <Compile Include="TvShows\Episode.cs" />
     <Compile Include="TvShows\ITvShowService.cs" />
     <Compile Include="TvShows\Season.cs" />
+    <Compile Include="IFileFinder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

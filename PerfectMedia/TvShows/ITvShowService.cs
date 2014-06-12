@@ -9,5 +9,6 @@ namespace PerfectMedia.TvShows
     public interface ITvShowService
     {
         IEnumerable<Season> GetSeasons(string tvShowPath);
+        IEnumerable<Episode> GetEpisodes(string seasonPath);
     }
 }

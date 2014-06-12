@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PerfectMedia
+namespace PerfectMedia.Sources
 {
-    public class Class1
+    public enum SourceType
     {
+        TvShow,
+        Movie,
+        Music
     }
 }

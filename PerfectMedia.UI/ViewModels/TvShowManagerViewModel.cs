@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PerfectMedia.Sources;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -29,11 +30,16 @@ namespace PerfectMedia.UI.ViewModels
         }
 
         public TvShowManagerViewModel()
+            : this(ServiceLocator.Get<ISourceRepository>())
+        { }
+
+        public TvShowManagerViewModel(ISourceRepository sourceRepository)
         {
-            Sources = new SourceManagerViewModel();
             TvShows = new ObservableCollection<TvShowViewModel>();
 
+            Sources = new SourceManagerViewModel(sourceRepository, SourceType.TvShow);
             Sources.SpecificFolders.CollectionChanged += SourceFoldersCollectionChanged;
+            Sources.Load();
         }
 
         private void SourceFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

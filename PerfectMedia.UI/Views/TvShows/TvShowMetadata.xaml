@@ -3,9 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Layout.Toolkit"
+             xmlns:tvviews="clr-namespace:PerfectMedia.UI.Views.TvShows"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TextBlock Text="TV Show Metadata, awesome!" />
+        <toolkit:Accordion HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <toolkit:AccordionItem Header="General Information">
+                <!-- This surrounding Grid is needed to bypass a bug in the WPF toolkik -->
+                <!-- For more info: https://stackoverflow.com/questions/10625728/cant-change-blue-background-in-xaml-accordion -->
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White"
+                      Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, Path=ActualWidth}"
+                      Height="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Grid}}, Path=ActualHeight}">
+                    <tvviews:TvGeneralInformation  />
+                </Grid>
+            </toolkit:AccordionItem>
+            <toolkit:AccordionItem Header="Fanart">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White"
+                      Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, Path=ActualWidth}"
+                      Height="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Grid}}, Path=ActualHeight}">
+                    <tvviews:TvShowFanart />
+                </Grid>
+            </toolkit:AccordionItem>
+            <toolkit:AccordionItem Header="Actors">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White"
+                      Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, Path=ActualWidth}"
+                      Height="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Grid}}, Path=ActualHeight}">
+                    <tvviews:Actors />
+                </Grid>
+            </toolkit:AccordionItem>
+        </toolkit:Accordion>
     </Grid>
 </UserControl>

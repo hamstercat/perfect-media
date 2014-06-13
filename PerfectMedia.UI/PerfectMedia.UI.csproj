@@ -43,8 +43,13 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Controls.Input.Toolkit">
+      <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Input.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Layout.Toolkit">
+      <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -56,13 +61,15 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit">
+      <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\WPFToolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Behaviors\BindableSelectedItemBehavior.cs" />
     <Compile Include="Converters\IsEmptyToBooleanConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
     <Compile Include="Converters\PathFolderNameConverter.cs" />
@@ -78,14 +85,23 @@
     <Compile Include="Views\SourcesWindow.xaml.cs">
       <DependentUpon>SourcesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TvShows\Actors.xaml.cs">
+      <DependentUpon>Actors.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TvShows\EpisodeMetadata.xaml.cs">
       <DependentUpon>EpisodeMetadata.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TvShows\SeasonMetadata.xaml.cs">
       <DependentUpon>SeasonMetadata.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TvShows\GeneralInformation.xaml.cs">
+      <DependentUpon>GeneralInformation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TvShows\TvShowControl.xaml.cs">
       <DependentUpon>TvShowControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TvShows\TvShowFanart.xaml.cs">
+      <DependentUpon>TvShowFanart.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TvShows\TvShowMetadata.xaml.cs">
       <DependentUpon>TvShowMetadata.xaml</DependentUpon>
@@ -106,6 +122,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\TvShows\Actors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TvShows\EpisodeMetadata.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -114,7 +134,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\TvShows\GeneralInformation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TvShows\TvShowControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TvShows\TvShowFanart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

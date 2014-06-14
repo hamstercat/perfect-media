@@ -79,6 +79,7 @@
     <Compile Include="ViewModels\Commands\UpdateMetadataCommand.cs" />
     <Compile Include="ViewModels\Commands\RefreshMetadataCommand.cs" />
     <Compile Include="ViewModels\IMetadataProvider.cs" />
+    <Compile Include="ViewModels\TvShows\ActorViewModel.cs" />
     <Compile Include="ViewModels\TvShows\EpisodeViewModel.cs" />
     <Compile Include="ViewModels\ISourceProvider.cs" />
     <Compile Include="ViewModels\ITreeViewItemViewModel.cs" />

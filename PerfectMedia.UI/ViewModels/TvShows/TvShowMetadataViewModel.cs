@@ -14,6 +14,7 @@ namespace PerfectMedia.UI.ViewModels.TvShows
         private bool _lazyLoaded;
 
         public string Path { get; private set; }
+        public ObservableCollection<ActorViewModel> Actors { get; private set; }
         public ICommand RefreshCommand { get; private set; }
 
         #region Metadata
@@ -206,8 +207,9 @@ namespace PerfectMedia.UI.ViewModels.TvShows
         {
             _tvShowMetadataService = tvShowMetadataService;
             Path = path;
-            Genres = new ObservableCollection<string>();
             _lazyLoaded = false;
+            Genres = new ObservableCollection<string>();
+            Actors = new ObservableCollection<ActorViewModel>();
         }
 
         public void Refresh()
@@ -258,7 +260,22 @@ namespace PerfectMedia.UI.ViewModels.TvShows
                 Genres.Add(genre);
             }
 
-            // TODO: actors
+            AddActors(metadata.Actors);
+        }
+
+        private void AddActors(List<Actor> actors)
+        {
+            Actors.Clear();
+            foreach (Actor actor in actors)
+            {
+                ActorViewModel actorViewModel = new ActorViewModel
+                {
+                    Name = actor.Name,
+                    Role = actor.Role,
+                    Thumb = actor.Thumb
+                };
+                Actors.Add(actorViewModel);
+            }
         }
     }
 }

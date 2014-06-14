@@ -29,7 +29,7 @@
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White"
                       Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, Path=ActualWidth}"
                       Height="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Grid}}, Path=ActualHeight}">
-                    <tvviews:Actors />
+                    <tvviews:Actors DataContext="{Binding Actors}" />
                 </Grid>
             </toolkit:AccordionItem>
         </toolkit:Accordion>

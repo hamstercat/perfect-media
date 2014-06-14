@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PerfectMedia.UI.ViewModels
+namespace PerfectMedia.UI.ViewModels.TvShows
 {
     class EpisodeViewModel
     {

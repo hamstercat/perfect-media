@@ -75,13 +75,18 @@
     <Compile Include="Converters\PathFolderNameConverter.cs" />
     <Compile Include="ServiceLocator.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="ViewModels\EpisodeViewModel.cs" />
+    <Compile Include="ViewModels\Commands\SaveMetadataCommand.cs" />
+    <Compile Include="ViewModels\Commands\UpdateMetadataCommand.cs" />
+    <Compile Include="ViewModels\Commands\RefreshMetadataCommand.cs" />
+    <Compile Include="ViewModels\IMetadataProvider.cs" />
+    <Compile Include="ViewModels\TvShows\EpisodeViewModel.cs" />
     <Compile Include="ViewModels\ISourceProvider.cs" />
     <Compile Include="ViewModels\ITreeViewItemViewModel.cs" />
-    <Compile Include="ViewModels\SeasonViewModel.cs" />
+    <Compile Include="ViewModels\TvShows\SeasonViewModel.cs" />
     <Compile Include="ViewModels\SourceManagerViewModel.cs" />
-    <Compile Include="ViewModels\TvShowManagerViewModel.cs" />
-    <Compile Include="ViewModels\TvShowViewModel.cs" />
+    <Compile Include="ViewModels\TvShows\TvShowManagerViewModel.cs" />
+    <Compile Include="ViewModels\TvShows\TvShowMetadataViewModel.cs" />
+    <Compile Include="ViewModels\TvShows\TvShowViewModel.cs" />
     <Compile Include="Views\SourcesWindow.xaml.cs">
       <DependentUpon>SourcesWindow.xaml</DependentUpon>
     </Compile>
@@ -180,6 +185,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PerfectMedia.Metadata\PerfectMedia.Metadata.csproj">
+      <Project>{1e228903-bf3f-464d-8b2f-bb12de55e4a6}</Project>
+      <Name>PerfectMedia.Metadata</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PerfectMedia.TvShows\PerfectMedia.TvShows.csproj">
       <Project>{be7a5a9e-2967-431d-855a-e2a063643589}</Project>
       <Name>PerfectMedia.TvShows</Name>

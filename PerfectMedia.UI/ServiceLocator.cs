@@ -1,4 +1,5 @@
 ﻿using Ninject;
+using PerfectMedia.Metadata;
 using PerfectMedia.Sources;
 using PerfectMedia.TvShows;
 using System;
@@ -20,6 +21,7 @@ namespace PerfectMedia.UI
             _kernel.Bind<ISourceRepository>().To<SourceRepository>();
             _kernel.Bind<IFileFinder>().To<FileFinder>();
             _kernel.Bind<ITvShowService>().To<TvShowService>();
+            _kernel.Bind<ITvShowMetadataService>().To<TvShowMetadataService>();
         }
 
         internal static TService Get<TService>()

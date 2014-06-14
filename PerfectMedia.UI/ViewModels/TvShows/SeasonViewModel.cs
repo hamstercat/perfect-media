@@ -6,7 +6,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 
-namespace PerfectMedia.UI.ViewModels
+namespace PerfectMedia.UI.ViewModels.TvShows
 {
     public class SeasonViewModel : BaseViewModel, ITreeViewItemViewModel
     {

@@ -1,4 +1,5 @@
-﻿using PerfectMedia.TvShows;
+﻿using PerfectMedia.Metadata;
+using PerfectMedia.TvShows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,7 +7,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 
-namespace PerfectMedia.UI.ViewModels
+namespace PerfectMedia.UI.ViewModels.TvShows
 {
     public class TvShowViewModel : BaseViewModel, ITreeViewItemViewModel
     {
@@ -31,6 +32,7 @@ namespace PerfectMedia.UI.ViewModels
         }
 
         public string Path { get; private set; }
+        public TvShowMetadataViewModel Metadata { get; private set; }
 
         private bool _seasonLoaded;
         private readonly ObservableCollection<SeasonViewModel> _seasons;
@@ -42,10 +44,11 @@ namespace PerfectMedia.UI.ViewModels
             }
         }
 
-        public TvShowViewModel(ITvShowService tvShowService, string path)
+        public TvShowViewModel(ITvShowService tvShowService, ITvShowMetadataService tvShowMetadataService, string path)
         {
             _tvShowService = tvShowService;
             Path = path;
+            Metadata = new TvShowMetadataViewModel(tvShowMetadataService, Path);
 
             // We need to set a "dummy" item in the collection for an arrow to appear in the TreeView since we're lazy-loading the items under it
             _seasonLoaded = false;

@@ -77,6 +77,18 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             _tvShowImagesLoaded = false;
         }
 
+        public void Refresh()
+        {
+            if (_tvShowImagesLoaded)
+            {
+                InitialLoadSeasonImages();
+            }
+            if (_seasonImages != null)
+            {
+                InitialLoadSeasonImages();
+            }
+        }
+
         private void InitialLoadTvShowImages()
         {
             if (!_tvShowImagesLoaded)

@@ -31,6 +31,22 @@ namespace PerfectMedia.Metadata
             }
         }
 
+        public void SaveLocalMetadata(string path, TvShowMetadata metadata)
+        {
+            string nfoFileFullPath = Path.Combine(path, NfoFile);
+            XmlWriterSettings xmlWriterSettings = new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true };
+            using (XmlWriter writer = XmlWriter.Create(nfoFileFullPath, xmlWriterSettings))
+            {
+                writer.WriteRaw("<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\r\n"); 
+
+                XmlSerializer serializer = new XmlSerializer(typeof(TvShowMetadata));
+                XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
+                namespaces.Add(string.Empty, string.Empty);
+
+                serializer.Serialize(writer, metadata, namespaces);
+            }
+        }
+
         public TvShowImages GetLocalImages(string path)
         {
             TvShowImages images = new TvShowImages();

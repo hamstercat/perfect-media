@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace PerfectMedia.Metadata
 {
-    [XmlRoot(ElementName = "tvshow")]
+    [XmlRoot(ElementName = "tvshow", Namespace = "")]
     public class TvShowMetadata
     {
         [XmlElement(ElementName = "state")]
@@ -37,7 +37,7 @@ namespace PerfectMedia.Metadata
         [XmlElement(ElementName = "rating")]
         public double Rating { get; set; }
 
-        [XmlElement(ElementName = "premiered")]
+        [XmlElement(ElementName = "premiered", DataType="date")]
         public DateTime PremieredDate { get; set; }
 
         [XmlElement(ElementName = "studio")]

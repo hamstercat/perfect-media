@@ -1,4 +1,5 @@
 ﻿using PerfectMedia.Metadata;
+using PerfectMedia.UI.ViewModels.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,7 +17,10 @@ namespace PerfectMedia.UI.ViewModels.TvShows
         public string Path { get; private set; }
         public TvShowImagesViewModel Images { get; private set; }
         public ObservableCollection<ActorViewModel> Actors { get; private set; }
+        
         public ICommand RefreshCommand { get; private set; }
+        public ICommand UpdateCommand { get; private set; }
+        public ICommand SaveCommand { get; private set; }
 
         #region Metadata
         private int _state;
@@ -213,12 +217,17 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             Images = new TvShowImagesViewModel(tvShowMetadataService, path);
             Actors = new ObservableCollection<ActorViewModel>();
             Genres = new ObservableCollection<string>();
+
+            RefreshCommand = new RefreshMetadataCommand(this);
+            UpdateCommand = new UpdateMetadataCommand(this);
+            SaveCommand = new SaveMetadataCommand(this);
         }
 
         public void Refresh()
         {
             TvShowMetadata metadata = _tvShowMetadataService.GetLocalMetadata(Path);
             RefreshFromMetadata(metadata);
+            Images.Refresh();
         }
 
         public void Update()
@@ -228,7 +237,8 @@ namespace PerfectMedia.UI.ViewModels.TvShows
 
         public void Save()
         {
-            throw new NotImplementedException();
+            TvShowMetadata metadata = CreateMetadata();
+            _tvShowMetadataService.SaveLocalMetadata(Path, metadata);
         }
 
         private void InitialLoadInformation()
@@ -279,6 +289,47 @@ namespace PerfectMedia.UI.ViewModels.TvShows
                 };
                 Actors.Add(actorViewModel);
             }
+        }
+
+        private TvShowMetadata CreateMetadata()
+        {
+            TvShowMetadata metadata = new TvShowMetadata
+            {
+                State = State,
+                Title = Title,
+                Id = Id,
+                MpaaRating = MpaaRating,
+                ImdbId = ImdbId,
+                Plot = Plot,
+                RuntimeInMinutes = RuntimeInMinutes,
+                Rating = Rating,
+                PremieredDate = PremieredDate,
+                Studio = Studio,
+                Language = Language,
+                EpisodeGuide = new EpisodeGuide
+                {
+                    UrlInformation = new UrlInformation
+                    {
+                        Cache = EpisodeUrlCache,
+                        Url = EpisodeUrl
+                    }
+                },
+                Genres = new List<string>(Genres)
+            };
+
+            metadata.Actors = new List<Actor>();
+            foreach (ActorViewModel actorViewModel in Actors)
+            {
+                Actor actor = new Actor
+                {
+                    Name = actorViewModel.Name,
+                    Role = actorViewModel.Role,
+                    Thumb = actorViewModel.Thumb
+                };
+                metadata.Actors.Add(actor);
+            }
+
+            return metadata;
         }
     }
 }

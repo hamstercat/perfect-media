@@ -55,11 +55,6 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             _seasons = new ObservableCollection<SeasonViewModel> { new SeasonViewModel(_tvShowService, "dummy") };
         }
 
-        public void Load()
-        {
-            // TODO: refresh this show from filesystem
-        }
-
         private void LoadSeasons()
         {
             // Remove the dummy object

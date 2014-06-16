@@ -5,10 +5,15 @@
              xmlns:conv="clr-namespace:PerfectMedia.UI.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <tvvm:TvShowManagerViewModel x:Key="TvShowManagerViewModel" />
-        
-        <conv:NullToBooleanConverter x:Key="NullToBooleanConverter" />
-        <conv:IsEmptyToBooleanConverter x:Key="IsEmptyToBooleanConverter" />
-        <conv:PathFolderNameConverter x:Key="PathFolderNameConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary Source="./Style.xaml" x:Key="GeneralStyle" />
+
+            <tvvm:TvShowManagerViewModel x:Key="TvShowManagerViewModel" />
+
+            <conv:NullToBooleanConverter x:Key="NullToBooleanConverter" />
+            <conv:IsEmptyToBooleanConverter x:Key="IsEmptyToBooleanConverter" />
+            <conv:PathFolderNameConverter x:Key="PathFolderNameConverter" />
+            <conv:SeasonNumberToNameConverter x:Key="SeasonNumberToNameConverter" />
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

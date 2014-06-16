@@ -73,6 +73,7 @@
     <Compile Include="Converters\IsEmptyToBooleanConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
     <Compile Include="Converters\PathFolderNameConverter.cs" />
+    <Compile Include="Converters\SeasonNumberToNameConverter.cs" />
     <Compile Include="ServiceLocator.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\Commands\SaveMetadataCommand.cs" />
@@ -83,8 +84,10 @@
     <Compile Include="ViewModels\TvShows\EpisodeViewModel.cs" />
     <Compile Include="ViewModels\ISourceProvider.cs" />
     <Compile Include="ViewModels\ITreeViewItemViewModel.cs" />
+    <Compile Include="ViewModels\TvShows\SeasonImagesViewModel.cs" />
     <Compile Include="ViewModels\TvShows\SeasonViewModel.cs" />
     <Compile Include="ViewModels\SourceManagerViewModel.cs" />
+    <Compile Include="ViewModels\TvShows\TvShowImagesViewModel.cs" />
     <Compile Include="ViewModels\TvShows\TvShowManagerViewModel.cs" />
     <Compile Include="ViewModels\TvShows\TvShowMetadataViewModel.cs" />
     <Compile Include="ViewModels\TvShows\TvShowViewModel.cs" />
@@ -124,6 +127,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Style.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SourcesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

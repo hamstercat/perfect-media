@@ -14,6 +14,7 @@ namespace PerfectMedia.UI.ViewModels.TvShows
         private bool _lazyLoaded;
 
         public string Path { get; private set; }
+        public TvShowImagesViewModel Images { get; private set; }
         public ObservableCollection<ActorViewModel> Actors { get; private set; }
         public ICommand RefreshCommand { get; private set; }
 
@@ -208,8 +209,10 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             _tvShowMetadataService = tvShowMetadataService;
             Path = path;
             _lazyLoaded = false;
-            Genres = new ObservableCollection<string>();
+
+            Images = new TvShowImagesViewModel(tvShowMetadataService, path);
             Actors = new ObservableCollection<ActorViewModel>();
+            Genres = new ObservableCollection<string>();
         }
 
         public void Refresh()

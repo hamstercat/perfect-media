@@ -41,6 +41,8 @@
   <ItemGroup>
     <Compile Include="FileFinder.cs" />
     <Compile Include="Metadata\ITvShowMetadataService.cs" />
+    <Compile Include="Metadata\SeasonImages.cs" />
+    <Compile Include="Metadata\TvShowImages.cs" />
     <Compile Include="Metadata\TvShowMetadata.cs" />
     <Compile Include="Sources\ISourceRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

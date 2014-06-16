@@ -9,5 +9,7 @@ namespace PerfectMedia.Metadata
     public interface ITvShowMetadataService
     {
         TvShowMetadata GetLocalMetadata(string path);
+        TvShowImages GetLocalImages(string path);
+        IEnumerable<SeasonImages> GetLocalSeasonImages(string _path);
     }
 }

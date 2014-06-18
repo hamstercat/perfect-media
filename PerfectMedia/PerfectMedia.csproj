@@ -49,6 +49,7 @@
     <Compile Include="Metadata\ITvShowMetadataService.cs" />
     <Compile Include="Metadata\ScrapperException.cs" />
     <Compile Include="Metadata\SeasonImages.cs" />
+    <Compile Include="Metadata\TheTvDbDataContracts\Actor.cs" />
     <Compile Include="Metadata\TheTvDbDataContracts\FullSerie.cs" />
     <Compile Include="Metadata\TheTvDbDataContracts\Series.cs" />
     <Compile Include="Metadata\TvShowImages.cs" />

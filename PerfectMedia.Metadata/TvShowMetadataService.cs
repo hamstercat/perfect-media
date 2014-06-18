@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using ThetvdbActor = PerfectMedia.Metadata.TheTvDbDataContracts.Actor;
 
 namespace PerfectMedia.Metadata
 {
@@ -14,6 +15,7 @@ namespace PerfectMedia.Metadata
     {
         private readonly ITvShowLocalMetadataService _localMetadataService;
         private readonly IRestApiWrapper _restApiWrapper;
+        private readonly IFileSystemService _filesystemService;
 
         private string TheTvDbUrl
         {
@@ -31,10 +33,11 @@ namespace PerfectMedia.Metadata
             }
         }
 
-        public TvShowMetadataService(ITvShowLocalMetadataService localMetadataService, IRestApiWrapper restApiWrapper)
+        public TvShowMetadataService(ITvShowLocalMetadataService localMetadataService, IRestApiWrapper restApiWrapper, IFileSystemService filesystemService)
         {
             _localMetadataService = localMetadataService;
             _restApiWrapper = restApiWrapper;
+            _filesystemService = filesystemService;
         }
 
         public IEnumerable<Series> FindSeries(string name)
@@ -101,7 +104,38 @@ namespace PerfectMedia.Metadata
         private void UpdateInformationMetadata(string path, FullSerie serie)
         {
             TvShowMetadata metadata = MapFullSerieToMetadata(serie);
+            UpdateActorsMetadata(path, metadata);
             _localMetadataService.SaveLocalMetadata(path, metadata);
+        }
+
+        private void UpdateActorsMetadata(string path, TvShowMetadata metadata)
+        {
+            string url = string.Format("api/{0}/series/{1}/actors.xml", TheTvDbApiKey, metadata.Id);
+            List<ThetvdbActor> actors = _restApiWrapper.Get<List<ThetvdbActor>>(url);
+            foreach (ThetvdbActor thetvdbActor in actors)
+            {
+                Actor actor = new Actor
+                {
+                    Name = thetvdbActor.Name,
+                    Role = thetvdbActor.Role,
+                    Thumb = ExpandImagesUrl(thetvdbActor.Image)
+                };
+                metadata.Actors.Add(actor);
+                SaveActorMetadata(path, actor);
+            }
+        }
+
+        private void SaveActorMetadata(string path, Actor actor)
+        {
+            string folderName = Path.Combine(path, ".actors");
+            if (!Directory.Exists(folderName))
+            {
+                Directory.CreateDirectory(folderName);
+            }
+
+            string fileName = actor.Name.Replace(" ", "_") + ".jpg";
+            string fullFileName = Path.Combine(folderName, fileName);
+            _filesystemService.DownloadFile(fullFileName, actor.Thumb);
         }
 
         private void UpdateImages(string path, FullSerie serie)
@@ -124,7 +158,6 @@ namespace PerfectMedia.Metadata
         private TvShowMetadata MapFullSerieToMetadata(FullSerie serie)
         {
             TvShowMetadata metadata = new TvShowMetadata();
-            metadata.Actors = MapActors(serie);
             metadata.Genres = MapGenres(serie);
             metadata.Id = serie.Id;
             metadata.ImdbId = serie.ImdbId;
@@ -145,15 +178,6 @@ namespace PerfectMedia.Metadata
         {
             return serie.Genre.Split('|')
                 .Where(genre => !string.IsNullOrEmpty(genre))
-                .ToList();
-        }
-
-        private static List<Actor> MapActors(FullSerie serie)
-        {
-            // TODO: add other information to actor
-            return serie.Actors.Split('|')
-                .Where(actorName => !string.IsNullOrEmpty(actorName))
-                .Select(actorName => new Actor { Name = actorName })
                 .ToList();
         }
     }

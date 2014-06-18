@@ -16,28 +16,14 @@ namespace PerfectMedia.Metadata
         private readonly ITvShowLocalMetadataService _localMetadataService;
         private readonly IRestApiWrapper _restApiWrapper;
         private readonly IFileSystemService _filesystemService;
+        private readonly ISeasonMetadataService _seasonMetadataService;
 
-        private string TheTvDbUrl
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["TheTvDbUrl"];
-            }
-        }
-        
-        private string TheTvDbApiKey
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["TheTvDbApiKey"];
-            }
-        }
-
-        public TvShowMetadataService(ITvShowLocalMetadataService localMetadataService, IRestApiWrapper restApiWrapper, IFileSystemService filesystemService)
+        public TvShowMetadataService(ITvShowLocalMetadataService localMetadataService, IRestApiWrapper restApiWrapper, IFileSystemService filesystemService, ISeasonMetadataService seasonMetadataService)
         {
             _localMetadataService = localMetadataService;
             _restApiWrapper = restApiWrapper;
             _filesystemService = filesystemService;
+            _seasonMetadataService = seasonMetadataService;
         }
 
         public IEnumerable<Series> FindSeries(string name)
@@ -50,14 +36,16 @@ namespace PerfectMedia.Metadata
         {
             FullSerie serie = FindFullSerie(path);
             FixSerieUrl(serie);
+
             UpdateInformationMetadata(path, serie);
             UpdateImages(path, serie);
+            _seasonMetadataService.UpdateMetadata(path, serie.Id);
         }
 
         private FullSerie FindFullSerie(string path)
         {
             string seriesId = GetSeriesId(path);
-            string url = string.Format("api/{0}/series/{1}/en.xml", TheTvDbApiKey, seriesId);
+            string url = string.Format("api/{0}/series/{1}/en.xml", TvShowHelper.TheTvDbApiKey, seriesId);
             return _restApiWrapper.Get<FullSerie>(url);
         }
 
@@ -85,20 +73,9 @@ namespace PerfectMedia.Metadata
 
         private void FixSerieUrl(FullSerie serie)
         {
-            serie.Fanart = ExpandImagesUrl(serie.Fanart);
-            serie.Banner = ExpandImagesUrl(serie.Banner);
-            serie.Poster = ExpandImagesUrl(serie.Poster);
-        }
-
-        private string ExpandImagesUrl(string relativePath)
-        {
-            string imageRelativePath = "banners";
-            if (!relativePath.StartsWith("/"))
-            {
-                imageRelativePath += "/";
-            }
-            imageRelativePath += relativePath;
-            return new Uri(new Uri(TheTvDbUrl), imageRelativePath).ToString();
+            serie.Fanart = TvShowHelper.ExpandImagesUrl(serie.Fanart);
+            serie.Banner = TvShowHelper.ExpandImagesUrl(serie.Banner);
+            serie.Poster = TvShowHelper.ExpandImagesUrl(serie.Poster);
         }
 
         private void UpdateInformationMetadata(string path, FullSerie serie)
@@ -110,7 +87,7 @@ namespace PerfectMedia.Metadata
 
         private void UpdateActorsMetadata(string path, TvShowMetadata metadata)
         {
-            string url = string.Format("api/{0}/series/{1}/actors.xml", TheTvDbApiKey, metadata.Id);
+            string url = string.Format("api/{0}/series/{1}/actors.xml", TvShowHelper.TheTvDbApiKey, metadata.Id);
             List<ThetvdbActor> actors = _restApiWrapper.Get<List<ThetvdbActor>>(url);
             foreach (ThetvdbActor thetvdbActor in actors)
             {
@@ -118,7 +95,7 @@ namespace PerfectMedia.Metadata
                 {
                     Name = thetvdbActor.Name,
                     Role = thetvdbActor.Role,
-                    Thumb = ExpandImagesUrl(thetvdbActor.Image)
+                    Thumb = TvShowHelper.ExpandImagesUrl(thetvdbActor.Image)
                 };
                 metadata.Actors.Add(actor);
                 SaveActorMetadata(path, actor);

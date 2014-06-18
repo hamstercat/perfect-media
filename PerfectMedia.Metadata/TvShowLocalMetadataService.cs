@@ -81,15 +81,7 @@ namespace PerfectMedia.Metadata
 
         public IEnumerable<SeasonImages> GetLocalSeasonImages(string path)
         {
-            foreach (string season in _fileSystemService.FindFolders(path, "Season *"))
-            {
-                SeasonImages seasonImages;
-                if (TryCreateSeasonImages(path, season, out seasonImages))
-                {
-                    yield return seasonImages;
-                }
-            }
-            foreach (string season in _fileSystemService.FindFolders(path, "Special*"))
+            foreach (string season in _fileSystemService.FindSeasonFolders(path))
             {
                 SeasonImages seasonImages;
                 if (TryCreateSeasonImages(path, season, out seasonImages))
@@ -102,42 +94,16 @@ namespace PerfectMedia.Metadata
         private bool TryCreateSeasonImages(string path, string season, out SeasonImages seasonImages)
         {
             seasonImages = new SeasonImages();
-            seasonImages.SeasonNumber = FindSeasonNumberFromFolder(season);
+            seasonImages.SeasonNumber = TvShowHelper.FindSeasonNumberFromFolder(season);
             if (seasonImages.SeasonNumber == -1)
             {
                 seasonImages = null;
                 return false;
             }
 
-            if (seasonImages.SeasonNumber == 0)
-            {
-                seasonImages.PosterUrl = Path.Combine(path, "season-specials-poster.jpg");
-                seasonImages.BannerUrl = Path.Combine(path, "season-specials-banner.jpg");
-            }
-            else
-            {
-                seasonImages.PosterUrl = Path.Combine(path, string.Format("season{0:D2}-poster.jpg", seasonImages.SeasonNumber));
-                seasonImages.BannerUrl = Path.Combine(path, string.Format("season{0:D2}-banner.jpg", seasonImages.SeasonNumber));
-            }
+            seasonImages.PosterUrl = TvShowHelper.GetSeasonImageFileName(path, seasonImages.SeasonNumber, "poster");
+            seasonImages.BannerUrl = TvShowHelper.GetSeasonImageFileName(path, seasonImages.SeasonNumber, "banner");
             return true;
-        }
-
-        private int FindSeasonNumberFromFolder(string season)
-        {
-            string seasonFolder = Path.GetFileName(season);
-            Match match = Regex.Match(seasonFolder, @"Season (\d+).*");
-            if (match.Success)
-            {
-                string matchedSeasonNumber = match.Groups[1].Value;
-                return int.Parse(matchedSeasonNumber);
-            }
-
-            if (seasonFolder.StartsWith("Special"))
-            {
-                return 0;
-            }
-
-            return -1;
         }
     }
 }

@@ -112,6 +112,7 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             {
                 _seasonImages = new ObservableCollection<SeasonImagesViewModel>();
             }
+            _seasonImages.Clear();
             IEnumerable<SeasonImages> images = _tvShowLocalMetadataService.GetLocalSeasonImages(_path);
             foreach (SeasonImages seasonImage in images)
             {

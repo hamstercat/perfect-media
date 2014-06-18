@@ -10,9 +10,11 @@ namespace PerfectMedia
 {
     public class FilesystemService : IFileSystemService
     {
-        public IEnumerable<string> FindFolders(string path, string searchPattern)
+        public IEnumerable<string> FindSeasonFolders(string path)
         {
-            return Directory.GetDirectories(path, searchPattern, SearchOption.TopDirectoryOnly);
+            IEnumerable<string> normalSeasons = Directory.GetDirectories(path, "Season *", SearchOption.TopDirectoryOnly);
+            IEnumerable<string> specialSeasons = Directory.GetDirectories(path, "Special*", SearchOption.TopDirectoryOnly);
+            return normalSeasons.Union(specialSeasons);
         }
 
         public IEnumerable<string> FindVideoFiles(string path)

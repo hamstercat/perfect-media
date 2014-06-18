@@ -20,7 +20,7 @@ namespace PerfectMedia.TvShows
         {
             if(string.IsNullOrEmpty(tvShowPath)) throw new ArgumentNullException("tvShowPath");
 
-            IEnumerable<string> folders = FindSeasonFolders(tvShowPath);
+            IEnumerable<string> folders = _fileSystemService.FindSeasonFolders(tvShowPath);
             foreach (string seasonFolder in folders)
             {
                 yield return new Season { Path = seasonFolder };
@@ -36,13 +36,6 @@ namespace PerfectMedia.TvShows
             {
                 yield return new Episode { Path = episodeFile };
             }
-        }
-
-        private IEnumerable<string> FindSeasonFolders(string tvShowPath)
-        {
-            IEnumerable<string> normalSeasons = _fileSystemService.FindFolders(tvShowPath, "Season *");
-            IEnumerable<string> specialSeasons = _fileSystemService.FindFolders(tvShowPath, "Special*");
-            return normalSeasons.Union(specialSeasons);
         }
     }
 }

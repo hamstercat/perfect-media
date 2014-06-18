@@ -19,15 +19,18 @@ namespace PerfectMedia.UI
 
         static ServiceLocator()
         {
+            string theTvDbBaseUrl = ConfigurationManager.AppSettings["TheTvDbUrl"];
+            IRestApiWrapper thetvdbRestApiWrapper = new RestApiWrapper(theTvDbBaseUrl);
+
             _kernel = new StandardKernel();
             _kernel.Bind<ISourceRepository>().To<SourceRepository>();
             _kernel.Bind<IFileSystemService>().To<FilesystemService>();
             _kernel.Bind<ITvShowService>().To<TvShowService>();
             _kernel.Bind<ITvShowLocalMetadataService>().To<TvShowLocalMetadataService>();
-
-            string theTvDbBaseUrl = ConfigurationManager.AppSettings["TheTvDbUrl"];
             _kernel.Bind<ITvShowMetadataService>().To<TvShowMetadataService>()
-                .WithConstructorArgument<IRestApiWrapper>(new RestApiWrapper(theTvDbBaseUrl));
+                .WithConstructorArgument<IRestApiWrapper>(thetvdbRestApiWrapper);
+            _kernel.Bind<ISeasonMetadataService>().To<SeasonMetadataService>()
+                .WithConstructorArgument<IRestApiWrapper>(thetvdbRestApiWrapper);
         }
 
         internal static TService Get<TService>()

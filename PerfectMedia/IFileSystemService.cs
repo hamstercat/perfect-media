@@ -8,7 +8,7 @@ namespace PerfectMedia
 {
     public interface IFileSystemService
     {
-        IEnumerable<string> FindFolders(string path, string searchPattern);
+        IEnumerable<string> FindSeasonFolders(string path);
         IEnumerable<string> FindVideoFiles(string path);
         void DownloadFile(string filePath, string url);
     }

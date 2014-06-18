@@ -3,6 +3,7 @@ using PerfectMedia.UI.ViewModels.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
@@ -95,7 +96,29 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             set
             {
                 _genres = value;
+                _genres.CollectionChanged += GenresCollectionChanged;
                 OnPropertyChanged("Genres");
+                OnPropertyChanged("GenresString");
+            }
+        }
+
+        private string _genresString;
+        public string GenresString
+        {
+            get
+            {
+                return string.Join(" / ", Genres);
+            }
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    Genres.Clear();
+                }
+                else
+                {
+                    TransformGenresStringToCollection(value);
+                }
             }
         }
 
@@ -318,6 +341,25 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             }
 
             return metadata;
+        }
+
+        private void GenresCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged("GenresString");
+        }
+        
+        private void TransformGenresStringToCollection(string value)
+        {
+            Genres.Clear();
+            IEnumerable<string> splittedGenres = value.Split('/');
+            foreach (string genre in splittedGenres)
+            {
+                string trimmedGenre = genre.Trim();
+                if (!string.IsNullOrEmpty(trimmedGenre))
+                {
+                    Genres.Add(trimmedGenre);
+                }
+            }
         }
     }
 }

@@ -2,8 +2,10 @@
 using PerfectMedia.Metadata;
 using PerfectMedia.Sources;
 using PerfectMedia.TvShows;
+using PerfectMedia.UI.Properties;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +21,13 @@ namespace PerfectMedia.UI
         {
             _kernel = new StandardKernel();
             _kernel.Bind<ISourceRepository>().To<SourceRepository>();
-            _kernel.Bind<IFileFinder>().To<FileFinder>();
+            _kernel.Bind<IFileSystemService>().To<FilesystemService>();
             _kernel.Bind<ITvShowService>().To<TvShowService>();
-            _kernel.Bind<ITvShowMetadataService>().To<TvShowMetadataService>();
+            _kernel.Bind<ITvShowLocalMetadataService>().To<TvShowLocalMetadataService>();
+
+            string theTvDbBaseUrl = ConfigurationManager.AppSettings["TheTvDbUrl"];
+            _kernel.Bind<ITvShowMetadataService>().To<TvShowMetadataService>()
+                .WithConstructorArgument<IRestApiWrapper>(new RestApiWrapper(theTvDbBaseUrl));
         }
 
         internal static TService Get<TService>()

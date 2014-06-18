@@ -11,6 +11,7 @@ perfect-media let's you organize your media files before importing them in XBMC 
 
 It can retrieve information from the following sources automatically:
 - Existing local .nfo files and images
+- thetvdb.org
 
 # How to install
 

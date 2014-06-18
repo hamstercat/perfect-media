@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:tvvm="clr-namespace:PerfectMedia.UI.ViewModels.TvShows"
              xmlns:tvviews="clr-namespace:PerfectMedia.UI.Views.TvShows"
-             xmlns:views="clr-namespace:PerfectMedia.UI.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="1000">
     <Grid>
@@ -49,12 +48,21 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <!-- TODO: don't show the buttons when no element are selected -->
-            <views:MetadataButtons Grid.Row="0" DataContext="{Binding SelectedItem.Metadata, ElementName=TvShowsTreeView}" />
             <ContentControl Grid.Row="1" Content="{Binding SelectedItem, ElementName=TvShowsTreeView}">
                 <ContentControl.Resources>
                     <DataTemplate DataType="{x:Type tvvm:TvShowViewModel}">
-                        <tvviews:TvShowMetadata DataContext="{Binding Metadata}" />
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <Button Content="Refresh" Command="{Binding Metadata.RefreshCommand}" />
+                                <Button Content="Update" Command="{Binding Metadata.UpdateCommand}" />
+                                <Button Content="Save" Command="{Binding Metadata.SaveCommand}" />
+                            </StackPanel>
+                            <tvviews:TvShowMetadata Grid.Row="1" DataContext="{Binding Metadata}" />
+                        </Grid>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type tvvm:SeasonViewModel}">
                         <tvviews:SeasonMetadata />

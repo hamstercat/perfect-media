@@ -9,11 +9,11 @@ namespace PerfectMedia.TvShows
 {
     public class TvShowService : ITvShowService
     {
-        private readonly IFileFinder _fileFinder;
+        private readonly IFileSystemService _fileSystemService;
 
-        public TvShowService(IFileFinder fileFinder)
+        public TvShowService(IFileSystemService fileSystemService)
         {
-            _fileFinder = fileFinder;
+            _fileSystemService = fileSystemService;
         }
 
         public IEnumerable<Season> GetSeasons(string tvShowPath)
@@ -31,7 +31,7 @@ namespace PerfectMedia.TvShows
         {
             if (string.IsNullOrEmpty(seasonPath)) throw new ArgumentNullException("seasonPath");
 
-            IEnumerable<string> videoFiles = _fileFinder.FindVideoFiles(seasonPath);
+            IEnumerable<string> videoFiles = _fileSystemService.FindVideoFiles(seasonPath);
             foreach (string episodeFile in videoFiles)
             {
                 yield return new Episode { Path = episodeFile };
@@ -40,8 +40,8 @@ namespace PerfectMedia.TvShows
 
         private IEnumerable<string> FindSeasonFolders(string tvShowPath)
         {
-            IEnumerable<string> normalSeasons = _fileFinder.FindFolders(tvShowPath, "Season *");
-            IEnumerable<string> specialSeasons = _fileFinder.FindFolders(tvShowPath, "Special*");
+            IEnumerable<string> normalSeasons = _fileSystemService.FindFolders(tvShowPath, "Season *");
+            IEnumerable<string> specialSeasons = _fileSystemService.FindFolders(tvShowPath, "Special*");
             return normalSeasons.Union(specialSeasons);
         }
     }

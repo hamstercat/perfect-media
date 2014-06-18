@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PerfectMedia.Metadata.TheTvDbDataContracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,7 @@ namespace PerfectMedia.Metadata
 {
     public interface ITvShowMetadataService
     {
-        TvShowMetadata GetLocalMetadata(string path);
-        void SaveLocalMetadata(string path, TvShowMetadata metadata);
-        TvShowImages GetLocalImages(string path);
-        IEnumerable<SeasonImages> GetLocalSeasonImages(string _path);
+        IEnumerable<Series> FindSeries(string name);
+        void UpdateMetadata(string path);
     }
 }

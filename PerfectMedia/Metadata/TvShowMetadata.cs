@@ -38,34 +38,22 @@ namespace PerfectMedia.Metadata
         public double Rating { get; set; }
 
         [XmlElement(ElementName = "premiered", DataType="date")]
-        public DateTime PremieredDate { get; set; }
+        public DateTime? PremieredDate { get; set; }
 
         [XmlElement(ElementName = "studio")]
         public string Studio { get; set; }
-
-        [XmlElement(ElementName = "episodeguide")]
-        public EpisodeGuide EpisodeGuide { get; set; }
 
         [XmlElement(ElementName = "language")]
         public string Language { get; set; }
 
         [XmlElement(ElementName = "actor")]
         public List<Actor> Actors { get; set; }
-    }
 
-    public class EpisodeGuide
-    {
-        [XmlElement(ElementName = "url")]
-        public UrlInformation UrlInformation { get; set; }
-    }
-
-    public class UrlInformation
-    {
-        [XmlText]
-        public string Url { get; set; }
-
-        [XmlAttribute(AttributeName = "cache")]
-        public string Cache { get; set; }
+        public TvShowMetadata()
+        {
+            Genres = new List<string>();
+            Actors = new List<Actor>();
+        }
     }
 
     public class Actor

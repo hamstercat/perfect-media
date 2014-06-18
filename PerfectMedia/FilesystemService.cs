@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PerfectMedia
 {
-    public class FileFinder : IFileFinder
+    public class FilesystemService : IFileSystemService
     {
         public IEnumerable<string> FindFolders(string path, string searchPattern)
         {
@@ -17,6 +18,14 @@ namespace PerfectMedia
         public IEnumerable<string> FindVideoFiles(string path)
         {
             return Directory.GetFiles(path, "*.mkv", SearchOption.TopDirectoryOnly);
+        }
+
+        public void DownloadFile(string filePath, string url)
+        {
+            using (WebClient client = new WebClient())
+            {
+                client.DownloadFile(url, filePath);
+            }
         }
     }
 }

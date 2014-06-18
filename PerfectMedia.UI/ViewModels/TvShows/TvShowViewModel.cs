@@ -44,11 +44,11 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             }
         }
 
-        public TvShowViewModel(ITvShowService tvShowService, ITvShowMetadataService tvShowMetadataService, string path)
+        public TvShowViewModel(ITvShowService tvShowService, ITvShowLocalMetadataService tvShowLocalMetadataService, ITvShowMetadataService metadataService, string path)
         {
             _tvShowService = tvShowService;
             Path = path;
-            Metadata = new TvShowMetadataViewModel(tvShowMetadataService, Path);
+            Metadata = new TvShowMetadataViewModel(tvShowLocalMetadataService, metadataService, Path);
 
             // We need to set a "dummy" item in the collection for an arrow to appear in the TreeView since we're lazy-loading the items under it
             _seasonLoaded = false;

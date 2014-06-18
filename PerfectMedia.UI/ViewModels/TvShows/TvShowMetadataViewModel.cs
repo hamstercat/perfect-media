@@ -11,7 +11,8 @@ namespace PerfectMedia.UI.ViewModels.TvShows
 {
     public class TvShowMetadataViewModel : BaseViewModel, IMetadataProvider
     {
-        private readonly ITvShowMetadataService _tvShowMetadataService;
+        private readonly ITvShowLocalMetadataService _tvShowLocalMetadataService;
+        private readonly ITvShowMetadataService _metadataService;
         private bool _lazyLoaded;
 
         public string Path { get; private set; }
@@ -158,8 +159,8 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             }
         }
 
-        private DateTime _premieredDate;
-        public DateTime PremieredDate
+        private DateTime? _premieredDate;
+        public DateTime? PremieredDate
         {
             get
             {
@@ -202,19 +203,16 @@ namespace PerfectMedia.UI.ViewModels.TvShows
                 OnPropertyChanged("Language");
             }
         }
-
-        // Find out if we really need the two following properties in the .nfo
-        private string EpisodeUrl { get; set; }
-        private string EpisodeUrlCache { get; set; }
         #endregion
 
-        public TvShowMetadataViewModel(ITvShowMetadataService tvShowMetadataService, string path)
+        public TvShowMetadataViewModel(ITvShowLocalMetadataService tvShowLocalMetadataService, ITvShowMetadataService metadataService, string path)
         {
-            _tvShowMetadataService = tvShowMetadataService;
+            _tvShowLocalMetadataService = tvShowLocalMetadataService;
+            _metadataService = metadataService;
             Path = path;
             _lazyLoaded = false;
 
-            Images = new TvShowImagesViewModel(tvShowMetadataService, path);
+            Images = new TvShowImagesViewModel(tvShowLocalMetadataService, path);
             Actors = new ObservableCollection<ActorViewModel>();
             Genres = new ObservableCollection<string>();
 
@@ -225,20 +223,21 @@ namespace PerfectMedia.UI.ViewModels.TvShows
 
         public void Refresh()
         {
-            TvShowMetadata metadata = _tvShowMetadataService.GetLocalMetadata(Path);
+            TvShowMetadata metadata = _tvShowLocalMetadataService.GetLocalMetadata(Path);
             RefreshFromMetadata(metadata);
             Images.Refresh();
         }
 
         public void Update()
         {
-            throw new NotImplementedException();
+            _metadataService.UpdateMetadata(Path);
+            Refresh();
         }
 
         public void Save()
         {
             TvShowMetadata metadata = CreateMetadata();
-            _tvShowMetadataService.SaveLocalMetadata(Path, metadata);
+            _tvShowLocalMetadataService.SaveLocalMetadata(Path, metadata);
         }
 
         private void InitialLoadInformation()
@@ -263,9 +262,6 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             PremieredDate = metadata.PremieredDate;
             Studio = metadata.Studio;
             Language = metadata.Language;
-
-            EpisodeUrl = metadata.EpisodeGuide.UrlInformation.Url;
-            EpisodeUrlCache = metadata.EpisodeGuide.UrlInformation.Cache;
             
             Genres.Clear();
             foreach (string genre in metadata.Genres)
@@ -306,14 +302,6 @@ namespace PerfectMedia.UI.ViewModels.TvShows
                 PremieredDate = PremieredDate,
                 Studio = Studio,
                 Language = Language,
-                EpisodeGuide = new EpisodeGuide
-                {
-                    UrlInformation = new UrlInformation
-                    {
-                        Cache = EpisodeUrlCache,
-                        Url = EpisodeUrl
-                    }
-                },
                 Genres = new List<string>(Genres)
             };
 

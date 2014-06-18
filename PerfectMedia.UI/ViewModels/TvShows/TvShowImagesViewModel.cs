@@ -10,17 +10,21 @@ namespace PerfectMedia.UI.ViewModels.TvShows
 {
     public class TvShowImagesViewModel : BaseViewModel
     {
-        private readonly ITvShowMetadataService _tvShowMetadataService;
+        private readonly ITvShowLocalMetadataService _tvShowLocalMetadataService;
         private readonly string _path;
 
-        private readonly bool _tvShowImagesLoaded;
+        private bool _tvShowImagesLoaded;
 
         private string _fanartUrl;
         public string FanartUrl
         {
             get
             {
-                InitialLoadTvShowImages();
+                if (!_tvShowImagesLoaded)
+                {
+                    _tvShowImagesLoaded = true;
+                    InitialLoadTvShowImages();
+                }
                 return _fanartUrl;
             }
             set
@@ -35,7 +39,11 @@ namespace PerfectMedia.UI.ViewModels.TvShows
         {
             get
             {
-                InitialLoadTvShowImages();
+                if (!_tvShowImagesLoaded)
+                {
+                    _tvShowImagesLoaded = true;
+                    InitialLoadTvShowImages();
+                }
                 return _posterUrl;
             }
             set
@@ -50,7 +58,11 @@ namespace PerfectMedia.UI.ViewModels.TvShows
         {
             get
             {
-                InitialLoadTvShowImages();
+                if (!_tvShowImagesLoaded)
+                {
+                    _tvShowImagesLoaded = true;
+                    InitialLoadTvShowImages();
+                }
                 return _bannerUrl;
             }
             set
@@ -65,39 +77,33 @@ namespace PerfectMedia.UI.ViewModels.TvShows
         {
             get
             {
-                InitialLoadSeasonImages();
+                if (_seasonImages == null)
+                {
+                    InitialLoadSeasonImages();
+                }
                 return _seasonImages;
             }
         }
 
-        public TvShowImagesViewModel(ITvShowMetadataService tvShowMetadataService, string path)
+        public TvShowImagesViewModel(ITvShowLocalMetadataService tvShowLocalMetadataService, string path)
         {
-            _tvShowMetadataService = tvShowMetadataService;
+            _tvShowLocalMetadataService = tvShowLocalMetadataService;
             _path = path;
             _tvShowImagesLoaded = false;
         }
 
         public void Refresh()
         {
-            if (_tvShowImagesLoaded)
-            {
-                InitialLoadSeasonImages();
-            }
-            if (_seasonImages != null)
-            {
-                InitialLoadSeasonImages();
-            }
+            InitialLoadTvShowImages();
+            InitialLoadSeasonImages();
         }
 
         private void InitialLoadTvShowImages()
         {
-            if (!_tvShowImagesLoaded)
-            {
-                TvShowImages images = _tvShowMetadataService.GetLocalImages(_path);
-                _fanartUrl = images.FanartUrl;
-                _bannerUrl = images.BannerUrl;
-                _posterUrl = images.PosterUrl;
-            }
+            TvShowImages images = _tvShowLocalMetadataService.GetLocalImages(_path);
+            FanartUrl = images.FanartUrl;
+            BannerUrl = images.BannerUrl;
+            PosterUrl = images.PosterUrl;
         }
 
         private void InitialLoadSeasonImages()
@@ -105,17 +111,17 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             if (_seasonImages == null)
             {
                 _seasonImages = new ObservableCollection<SeasonImagesViewModel>();
-                IEnumerable<SeasonImages> images = _tvShowMetadataService.GetLocalSeasonImages(_path);
-                foreach (SeasonImages seasonImage in images)
+            }
+            IEnumerable<SeasonImages> images = _tvShowLocalMetadataService.GetLocalSeasonImages(_path);
+            foreach (SeasonImages seasonImage in images)
+            {
+                SeasonImagesViewModel viewModel = new SeasonImagesViewModel
                 {
-                    SeasonImagesViewModel viewModel = new SeasonImagesViewModel
-                    {
-                        BannerUrl = seasonImage.BannerUrl,
-                        PosterUrl = seasonImage.PosterUrl,
-                        SeasonNumber = seasonImage.SeasonNumber
-                    };
-                    _seasonImages.Add(viewModel);
-                }
+                    BannerUrl = seasonImage.BannerUrl,
+                    PosterUrl = seasonImage.PosterUrl,
+                    SeasonNumber = seasonImage.SeasonNumber
+                };
+                _seasonImages.Add(viewModel);
             }
         }
     }

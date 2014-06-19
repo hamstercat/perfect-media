@@ -14,34 +14,19 @@ namespace PerfectMedia.UI.ViewModels
         private readonly ISourceRepository _sourceRepository;
         private readonly SourceType _sourceType;
 
-        private readonly ObservableCollection<string> _rootFolders;
-        public INotifyCollectionChanged RootFolders
-        {
-            get
-            {
-                return _rootFolders;
-            }
-        }
-
-        private readonly ObservableCollection<string> _specificFolders;
-        public INotifyCollectionChanged SpecificFolders
-        {
-            get
-            {
-                return _specificFolders;
-            }
-        }
+        public ObservableCollection<string> RootFolders { get; private set; }
+        public ObservableCollection<string> SpecificFolders { get; private set; }
 
         public SourceManagerViewModel(ISourceRepository sourceRepository, SourceType sourceType)
         {
             _sourceRepository = sourceRepository;
             _sourceType = sourceType;
 
-            _rootFolders = new ObservableCollection<string>();
-            _specificFolders = new ObservableCollection<string>();
+            RootFolders = new ObservableCollection<string>();
+            SpecificFolders = new ObservableCollection<string>();
 
-            _rootFolders.CollectionChanged += RootFoldersCollectionChanged;
-            _specificFolders.CollectionChanged += SpecificFoldersCollectionChanged;
+            RootFolders.CollectionChanged += RootFoldersCollectionChanged;
+            SpecificFolders.CollectionChanged += SpecificFoldersCollectionChanged;
         }
 
         public void Load()
@@ -49,8 +34,8 @@ namespace PerfectMedia.UI.ViewModels
             IEnumerable<Source> sources = _sourceRepository.GetSources(_sourceType);
 
             // Since we're loading the sources from the repo, don't save them back when adding them in the manager
-            _rootFolders.CollectionChanged -= RootFoldersCollectionChanged;
-            _specificFolders.CollectionChanged -= SpecificFoldersCollectionChanged;
+            RootFolders.CollectionChanged -= RootFoldersCollectionChanged;
+            SpecificFolders.CollectionChanged -= SpecificFoldersCollectionChanged;
 
             foreach (Source source in sources)
             {
@@ -64,39 +49,39 @@ namespace PerfectMedia.UI.ViewModels
                 }
             }
 
-            _rootFolders.CollectionChanged += RootFoldersCollectionChanged;
-            _specificFolders.CollectionChanged += SpecificFoldersCollectionChanged;
+            RootFolders.CollectionChanged += RootFoldersCollectionChanged;
+            SpecificFolders.CollectionChanged += SpecificFoldersCollectionChanged;
         }
 
         public void AddRootFolder(string folder)
         {
-            if (!_rootFolders.Contains(folder))
+            if (!RootFolders.Contains(folder))
             {
-                _rootFolders.Add(folder);
+                RootFolders.Add(folder);
             }
         }
 
         public void AddSpecificFolder(string folder)
         {
-            if (!_specificFolders.Contains(folder))
+            if (!SpecificFolders.Contains(folder))
             {
-                _specificFolders.Add(folder);
+                SpecificFolders.Add(folder);
             }
         }
 
         public void RemoveRootFolder(string folderToRemove)
         {
-            _rootFolders.Remove(folderToRemove);
+            RootFolders.Remove(folderToRemove);
         }
 
         public void RemoveSpecificFolder(string folderToRemove)
         {
-            _specificFolders.Remove(folderToRemove);
+            SpecificFolders.Remove(folderToRemove);
         }
 
         public void RefreshSpecificFolders()
         {
-            foreach (string folder in _rootFolders)
+            foreach (string folder in RootFolders)
             {
                 IEnumerable<string> tvShows = Directory.GetDirectories(folder);
                 foreach (string tvShow in tvShows)
@@ -115,17 +100,17 @@ namespace PerfectMedia.UI.ViewModels
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    AddFolders(_rootFolders, e.NewItems.Cast<string>(), true);
+                    AddFolders(RootFolders, e.NewItems.Cast<string>(), true);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    RemoveFolders(_rootFolders, e.OldItems.Cast<string>(), true);
+                    RemoveFolders(RootFolders, e.OldItems.Cast<string>(), true);
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    RemoveFolders(_rootFolders, e.OldItems.Cast<string>(), true);
-                    AddFolders(_rootFolders, e.NewItems.Cast<string>(), true);
+                    RemoveFolders(RootFolders, e.OldItems.Cast<string>(), true);
+                    AddFolders(RootFolders, e.NewItems.Cast<string>(), true);
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    _rootFolders.Clear();
+                    RootFolders.Clear();
                     break;
                 case NotifyCollectionChangedAction.Move:
                 default:
@@ -138,17 +123,17 @@ namespace PerfectMedia.UI.ViewModels
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    AddFolders(_specificFolders, e.NewItems.Cast<string>(), false);
+                    AddFolders(SpecificFolders, e.NewItems.Cast<string>(), false);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    RemoveFolders(_specificFolders, e.OldItems.Cast<string>(), false);
+                    RemoveFolders(SpecificFolders, e.OldItems.Cast<string>(), false);
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    RemoveFolders(_specificFolders, e.OldItems.Cast<string>(), false);
-                    AddFolders(_specificFolders, e.NewItems.Cast<string>(), false);
+                    RemoveFolders(SpecificFolders, e.OldItems.Cast<string>(), false);
+                    AddFolders(SpecificFolders, e.NewItems.Cast<string>(), false);
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    _specificFolders.Clear();
+                    SpecificFolders.Clear();
                     break;
                 case NotifyCollectionChangedAction.Move:
                 default:

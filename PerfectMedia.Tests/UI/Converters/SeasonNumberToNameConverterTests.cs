@@ -32,5 +32,15 @@ namespace PerfectMedia.Tests.UI.Converters
             Assert.IsType<string>(result);
             Assert.Equal(seasonName, (string)result);
         }
+
+        [Fact]
+        public void ConvertBack_Always_ThrowsNotImplementedException()
+        {
+            Assert.Throws<NotImplementedException>(() =>
+            {
+                // Act
+                _converter.ConvertBack(null, null, null, null);
+            });
+        }
     }
 }

@@ -13,8 +13,12 @@ namespace PerfectMedia.UI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            ICollection collection = (ICollection)value;
-            return collection.Count != 0;
+            if (value != null)
+            {
+                ICollection collection = (ICollection)value;
+                return collection.Count != 0;
+            }
+            return false;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -8,17 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace PerfectMedia.Tests.UI.Commands
+namespace PerfectMedia.Tests.UI.ViewModels.Commands
 {
-    public class RefreshMetadataCommandTests
+    public class UpdateMetadataCommandTests
     {
         private readonly IMetadataProvider _metadataProvider;
-        private readonly RefreshMetadataCommand _command;
+        private readonly UpdateMetadataCommand _command;
 
-        public RefreshMetadataCommandTests()
+        public UpdateMetadataCommandTests()
         {
             _metadataProvider = Substitute.For<IMetadataProvider>();
-            _command = new RefreshMetadataCommand(_metadataProvider);
+            _command = new UpdateMetadataCommand(_metadataProvider);
         }
 
         [Fact]
@@ -32,13 +32,13 @@ namespace PerfectMedia.Tests.UI.Commands
         }
 
         [Fact]
-        public void Execute_Always_RefreshesMetadata()
+        public void Execute_Always_UpdatesMetadata()
         {
             // Act
             _command.Execute(null);
 
             // Assert
-            _metadataProvider.Received().Refresh();
+            _metadataProvider.Received().Update();
         }
     }
 }

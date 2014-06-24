@@ -26,6 +26,11 @@ namespace PerfectMedia.TvShows
             return images;
         }
 
+        public Season GetSeason(string tvShowPath, string seasonPath)
+        {
+            return CreateSeason(tvShowPath, seasonPath);
+        }
+
         public IEnumerable<Season> GetSeasons(string tvShowPath)
         {
             if(string.IsNullOrEmpty(tvShowPath)) throw new ArgumentNullException("tvShowPath");
@@ -33,12 +38,7 @@ namespace PerfectMedia.TvShows
             IEnumerable<string> folders = GetSeasonFolders(tvShowPath);
             foreach (string seasonFolder in folders)
             {
-                Season season = new Season();
-                season.Path = seasonFolder;
-                season.SeasonNumber = TvShowHelper.FindSeasonNumberFromFolder(seasonFolder);
-                season.PosterUrl = TvShowHelper.GetSeasonImageFileName(tvShowPath, season.SeasonNumber, "poster");
-                season.BannerUrl = TvShowHelper.GetSeasonImageFileName(tvShowPath, season.SeasonNumber, "banner");
-                yield return season;
+                yield return CreateSeason(tvShowPath, seasonFolder);
             }
         }
 
@@ -58,6 +58,16 @@ namespace PerfectMedia.TvShows
             IEnumerable<string> normalSeasons = _fileSystemService.FindDirectories(path, "Season *");
             IEnumerable<string> specialSeasons = _fileSystemService.FindDirectories(path, "Special*");
             return normalSeasons.Union(specialSeasons);
+        }
+
+        private static Season CreateSeason(string tvShowPath, string seasonFolder)
+        {
+            Season season = new Season();
+            season.Path = seasonFolder;
+            season.SeasonNumber = TvShowHelper.FindSeasonNumberFromFolder(seasonFolder);
+            season.PosterUrl = TvShowHelper.GetSeasonImageFileName(tvShowPath, season.SeasonNumber, "poster");
+            season.BannerUrl = TvShowHelper.GetSeasonImageFileName(tvShowPath, season.SeasonNumber, "banner");
+            return season;
         }
     }
 }

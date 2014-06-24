@@ -6,6 +6,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TextBlock Text="Season Metadata, awesomer!" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="{Binding Path}" />
+        <Image Grid.Row="1" Source="{Binding PosterUrl}" MaxWidth="300" />
+        <Image Grid.Row="2" Source="{Binding BannerUrl}" MaxWidth="300" />
     </Grid>
 </UserControl>

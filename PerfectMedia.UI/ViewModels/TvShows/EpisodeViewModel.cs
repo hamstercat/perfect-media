@@ -1,16 +1,20 @@
-﻿using System;
+﻿using PerfectMedia.TvShows.Metadata;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace PerfectMedia.UI.ViewModels.TvShows
 {
-    class EpisodeViewModel
+    public class EpisodeViewModel
     {
+        private readonly IEpisodeMetadataService _metadataService;
+
         public string Path { get; private set; }
 
-        public EpisodeViewModel(string path)
+        public EpisodeViewModel(IEpisodeMetadataService metadataService, string path)
         {
+            _metadataService = metadataService;
             Path = path;
         }
     }

@@ -1,8 +1,9 @@
 ﻿using Ninject;
-using PerfectMedia.Metadata;
 using PerfectMedia.Sources;
 using PerfectMedia.TvShows;
+using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Properties;
+using PerfectMedia.UI.ViewModels.TvShows;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -12,30 +13,41 @@ using System.Threading.Tasks;
 
 namespace PerfectMedia.UI
 {
-    // TODO: find out how to not use a service locator for the ViewModels like in a ASP.NET MVC project
-    internal static class ServiceLocator
+    public class ServiceLocator
     {
-        private static readonly IKernel _kernel;
+        private readonly IKernel _kernel;
 
-        static ServiceLocator()
+        public TvShowManagerViewModel TvShowManagerViewModel
         {
-            string theTvDbBaseUrl = ConfigurationManager.AppSettings["TheTvDbUrl"];
-            IRestApiWrapper thetvdbRestApiWrapper = new RestApiWrapper(theTvDbBaseUrl);
-
-            _kernel = new StandardKernel();
-            _kernel.Bind<ISourceRepository>().To<SourceRepository>();
-            _kernel.Bind<IFileSystemService>().To<FilesystemService>();
-            _kernel.Bind<ITvShowService>().To<TvShowService>();
-            _kernel.Bind<ITvShowLocalMetadataService>().To<TvShowLocalMetadataService>();
-            _kernel.Bind<ITvShowMetadataService>().To<TvShowMetadataService>()
-                .WithConstructorArgument<IRestApiWrapper>(thetvdbRestApiWrapper);
-            _kernel.Bind<ISeasonMetadataService>().To<SeasonMetadataService>()
-                .WithConstructorArgument<IRestApiWrapper>(thetvdbRestApiWrapper);
+            get
+            {
+                return _kernel.Get<TvShowManagerViewModel>();
+            }
         }
 
-        internal static TService Get<TService>()
+        public ServiceLocator()
         {
-            return _kernel.Get<TService>();
+            _kernel = new StandardKernel();
+            _kernel.Bind<ISourceRepository>().To<SourceRepository>();
+            _kernel.Bind<ISourceService>().To<SourceService>();
+            _kernel.Bind<IFileSystemService>().To<FileSystemService>();
+            BindTvShowDependencies();
+        }
+
+        private void BindTvShowDependencies()
+        {
+            string theTvDbBaseUrl = ConfigurationManager.AppSettings["TheTvDbUrl"];
+            IRestApiService thetvdbRestApi = new RestApiService(theTvDbBaseUrl);
+
+            //_kernel.Bind<TvShowManagerViewModel>().ToSelf();
+            _kernel.Bind<ITvShowViewModelFactory>().To<TvShowViewModelFactory>();
+            _kernel.Bind<ITvShowFileService>().To<TvShowFileService>();
+            _kernel.Bind<ITvShowMetadataService>().To<TvShowMetadataService>();
+            _kernel.Bind<ITvShowMetadataRepository>().To<TvShowMetadataRepository>();
+            _kernel.Bind<ITvShowImagesService>().To<TvShowImagesService>();
+            _kernel.Bind<ITvShowMetadataUpdater>().To<ThetvdbTvShowMetadataUpdater>()
+                .WithConstructorArgument<IRestApiService>(thetvdbRestApi);
+            _kernel.Bind<IEpisodeMetadataService>().To<EpisodeMetadataService>();
         }
     }
 }

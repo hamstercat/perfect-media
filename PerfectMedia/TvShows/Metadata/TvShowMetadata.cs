@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace PerfectMedia.Metadata
+namespace PerfectMedia.TvShows.Metadata
 {
     [XmlRoot(ElementName = "tvshow", Namespace = "")]
     public class TvShowMetadata
@@ -37,7 +37,7 @@ namespace PerfectMedia.Metadata
         [XmlElement(ElementName = "rating")]
         public double Rating { get; set; }
 
-        [XmlElement(ElementName = "premiered", DataType="date")]
+        [XmlElement(ElementName = "premiered", DataType = "date")]
         public DateTime? PremieredDate { get; set; }
 
         [XmlElement(ElementName = "studio")]
@@ -47,16 +47,16 @@ namespace PerfectMedia.Metadata
         public string Language { get; set; }
 
         [XmlElement(ElementName = "actor")]
-        public List<Actor> Actors { get; set; }
+        public List<ActorMetadata> Actors { get; set; }
 
         public TvShowMetadata()
         {
             Genres = new List<string>();
-            Actors = new List<Actor>();
+            Actors = new List<ActorMetadata>();
         }
     }
 
-    public class Actor
+    public class ActorMetadata
     {
         [XmlElement(ElementName = "name")]
         public string Name { get; set; }

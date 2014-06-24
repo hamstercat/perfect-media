@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PerfectMedia.Metadata
+namespace PerfectMedia
 {
     [Serializable]
     public class ItemNotFoundException : Exception

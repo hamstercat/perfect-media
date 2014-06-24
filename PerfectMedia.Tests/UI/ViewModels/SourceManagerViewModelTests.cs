@@ -12,13 +12,13 @@ namespace PerfectMedia.Tests.UI.ViewModels
 {
     public class SourceManagerViewModelTests
     {
-        private readonly ISourceRepository _sourceRepository;
+        private readonly ISourceService _sourceService;
         private readonly SourceManagerViewModel _viewModel;
 
         public SourceManagerViewModelTests()
         {
-            _sourceRepository = Substitute.For<ISourceRepository>();
-            _viewModel = new SourceManagerViewModel(_sourceRepository, SourceType.Music);
+            _sourceService = Substitute.For<ISourceService>();
+            _viewModel = new SourceManagerViewModel(_sourceService, SourceType.Music);
         }
 
         [Fact]
@@ -29,7 +29,7 @@ namespace PerfectMedia.Tests.UI.ViewModels
             Source specificFolder = new Source { IsRoot = false, SourceType = SourceType.Music, Folder = @"C:\Folder\Music" };
             List<Source> sources = new List<Source> { rootFolder, specificFolder };
 
-            _sourceRepository.GetSources(SourceType.Music)
+            _sourceService.GetSources(SourceType.Music)
                 .Returns(sources);
 
             // Act
@@ -50,14 +50,14 @@ namespace PerfectMedia.Tests.UI.ViewModels
             Source specificFolder = new Source { IsRoot = false, SourceType = SourceType.Music, Folder = @"C:\Folder\Music" };
             List<Source> sources = new List<Source> { rootFolder, specificFolder };
 
-            _sourceRepository.GetSources(SourceType.Music)
+            _sourceService.GetSources(SourceType.Music)
                 .Returns(sources);
 
             // Act
             _viewModel.Load();
 
             // Assert
-            _sourceRepository.DidNotReceiveWithAnyArgs().Save(null);
+            _sourceService.DidNotReceiveWithAnyArgs().Save(null);
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace PerfectMedia.Tests.UI.ViewModels
             _viewModel.AddRootFolder(folder);
 
             // Assert
-            _sourceRepository.Received()
+            _sourceService.Received()
                 .Save(Arg.Is<Source>(source => source.Folder == folder && source.IsRoot && source.SourceType == SourceType.Music));
         }
 
@@ -126,7 +126,7 @@ namespace PerfectMedia.Tests.UI.ViewModels
             _viewModel.AddSpecificFolder(folder);
 
             // Assert
-            _sourceRepository.Received()
+            _sourceService.Received()
                 .Save(Arg.Is<Source>(source => source.Folder == folder && !source.IsRoot && source.SourceType == SourceType.Music));
         }
 
@@ -169,7 +169,7 @@ namespace PerfectMedia.Tests.UI.ViewModels
             _viewModel.RemoveRootFolder(folder);
 
             // Assert
-            _sourceRepository.Received()
+            _sourceService.Received()
                 .Delete(Arg.Is<Source>(source => source.Folder == folder && source.IsRoot && source.SourceType == SourceType.Music));
         }
 
@@ -198,7 +198,7 @@ namespace PerfectMedia.Tests.UI.ViewModels
             _viewModel.RemoveSpecificFolder(folder);
 
             // Assert
-            _sourceRepository.Received()
+            _sourceService.Received()
                 .Delete(Arg.Is<Source>(source => source.Folder == folder && !source.IsRoot && source.SourceType == SourceType.Music));
         }
 

@@ -1,5 +1,4 @@
-﻿using PerfectMedia.Metadata;
-using RestSharp;
+﻿using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace PerfectMedia
 {
-    public class RestApiWrapper : IRestApiWrapper
+    public class RestApiService : IRestApiService
     {
         private readonly IRestClient _restClient;
 
-        public RestApiWrapper(string baseUrl)
+        public RestApiService(string baseUrl)
         {
             _restClient = new RestClient(baseUrl);
         }

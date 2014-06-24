@@ -1,5 +1,5 @@
-﻿using PerfectMedia.Metadata;
-using PerfectMedia.TvShows;
+﻿using PerfectMedia.TvShows;
+using PerfectMedia.TvShows.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +11,8 @@ namespace PerfectMedia.UI.ViewModels.TvShows
 {
     public class TvShowViewModel : BaseViewModel, ITreeViewItemViewModel
     {
-        private readonly ITvShowService _tvShowService;
+        private readonly ITvShowViewModelFactory _viewModelFactory;
+        private readonly ITvShowFileService _tvShowFileService;
 
         private bool _isExpanded;
         public bool IsExpanded
@@ -44,15 +45,16 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             }
         }
 
-        public TvShowViewModel(ITvShowService tvShowService, ITvShowLocalMetadataService tvShowLocalMetadataService, ITvShowMetadataService metadataService, string path)
+        public TvShowViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowFileService tvShowFileService, string path)
         {
-            _tvShowService = tvShowService;
+            _viewModelFactory = viewModelFactory;
+            _tvShowFileService = tvShowFileService;
             Path = path;
-            Metadata = new TvShowMetadataViewModel(tvShowLocalMetadataService, metadataService, Path);
+            Metadata = viewModelFactory.GetTvShowMetadata(Path);
 
             // We need to set a "dummy" item in the collection for an arrow to appear in the TreeView since we're lazy-loading the items under it
             _seasonLoaded = false;
-            _seasons = new ObservableCollection<SeasonViewModel> { new SeasonViewModel(_tvShowService, "dummy") };
+            _seasons = new ObservableCollection<SeasonViewModel> { _viewModelFactory.GetSeason("dummy") };
         }
 
         private void LoadSeasons()
@@ -60,10 +62,10 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             // Remove the dummy object
             _seasons.Clear();
 
-            IEnumerable<Season> seasons = _tvShowService.GetSeasons(Path);
+            IEnumerable<Season> seasons = _tvShowFileService.GetSeasons(Path);
             foreach (Season season in seasons)
             {
-                SeasonViewModel seasonViewModel = new SeasonViewModel(_tvShowService, season.Path);
+                SeasonViewModel seasonViewModel = _viewModelFactory.GetSeason(season.Path);
                 _seasons.Add(seasonViewModel);
             }
             _seasonLoaded = true;

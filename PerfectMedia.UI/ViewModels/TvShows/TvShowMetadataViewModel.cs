@@ -1,4 +1,5 @@
-﻿using PerfectMedia.Metadata;
+﻿using PerfectMedia.TvShows;
+using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.ViewModels.Commands;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,6 @@ namespace PerfectMedia.UI.ViewModels.TvShows
 {
     public class TvShowMetadataViewModel : BaseViewModel, IMetadataProvider
     {
-        private readonly ITvShowLocalMetadataService _tvShowLocalMetadataService;
         private readonly ITvShowMetadataService _metadataService;
         private bool _lazyLoaded;
 
@@ -228,14 +228,13 @@ namespace PerfectMedia.UI.ViewModels.TvShows
         }
         #endregion
 
-        public TvShowMetadataViewModel(ITvShowLocalMetadataService tvShowLocalMetadataService, ITvShowMetadataService metadataService, string path)
+        public TvShowMetadataViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowMetadataService metadataService, string path)
         {
-            _tvShowLocalMetadataService = tvShowLocalMetadataService;
             _metadataService = metadataService;
             Path = path;
             _lazyLoaded = false;
 
-            Images = new TvShowImagesViewModel(tvShowLocalMetadataService, path);
+            Images = viewModelFactory.GetTvShowImages(path);
             Actors = new ObservableCollection<ActorViewModel>();
             Genres = new ObservableCollection<string>();
 
@@ -246,21 +245,25 @@ namespace PerfectMedia.UI.ViewModels.TvShows
 
         public void Refresh()
         {
-            TvShowMetadata metadata = _tvShowLocalMetadataService.GetLocalMetadata(Path);
+            TvShowMetadata metadata = _metadataService.Get(Path);
             RefreshFromMetadata(metadata);
             Images.Refresh();
         }
 
         public void Update()
         {
-            _metadataService.UpdateMetadata(Path);
+            TvShowMetadata metadata = _metadataService.Get(Path);
+            if (string.IsNullOrEmpty(metadata.Id))
+            {
+                _metadataService.Update(Path);
+            }
             Refresh();
         }
 
         public void Save()
         {
             TvShowMetadata metadata = CreateMetadata();
-            _tvShowLocalMetadataService.SaveLocalMetadata(Path, metadata);
+            _metadataService.Save(Path, metadata);
         }
 
         private void InitialLoadInformation()
@@ -295,10 +298,10 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             AddActors(metadata.Actors);
         }
 
-        private void AddActors(List<Actor> actors)
+        private void AddActors(List<ActorMetadata> actors)
         {
             Actors.Clear();
-            foreach (Actor actor in actors)
+            foreach (ActorMetadata actor in actors)
             {
                 ActorViewModel actorViewModel = new ActorViewModel
                 {
@@ -328,10 +331,10 @@ namespace PerfectMedia.UI.ViewModels.TvShows
                 Genres = new List<string>(Genres)
             };
 
-            metadata.Actors = new List<Actor>();
+            metadata.Actors = new List<ActorMetadata>();
             foreach (ActorViewModel actorViewModel in Actors)
             {
-                Actor actor = new Actor
+                ActorMetadata actor = new ActorMetadata
                 {
                     Name = actorViewModel.Name,
                     Role = actorViewModel.Role,

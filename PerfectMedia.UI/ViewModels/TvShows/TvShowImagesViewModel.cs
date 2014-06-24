@@ -1,8 +1,10 @@
-﻿using PerfectMedia.Metadata;
+﻿using PerfectMedia.TvShows;
+using PerfectMedia.TvShows.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -10,7 +12,8 @@ namespace PerfectMedia.UI.ViewModels.TvShows
 {
     public class TvShowImagesViewModel : BaseViewModel
     {
-        private readonly ITvShowLocalMetadataService _tvShowLocalMetadataService;
+        private ITvShowFileService _tvShowFileService;
+        private readonly ITvShowMetadataService _metadataService;
         private readonly string _path;
 
         private bool _tvShowImagesLoaded;
@@ -85,9 +88,10 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             }
         }
 
-        public TvShowImagesViewModel(ITvShowLocalMetadataService tvShowLocalMetadataService, string path)
+        public TvShowImagesViewModel(ITvShowFileService tvShowFileService, ITvShowMetadataService metadataService, string path)
         {
-            _tvShowLocalMetadataService = tvShowLocalMetadataService;
+            _tvShowFileService = tvShowFileService;
+            _metadataService = metadataService;
             _path = path;
             _tvShowImagesLoaded = false;
         }
@@ -100,10 +104,9 @@ namespace PerfectMedia.UI.ViewModels.TvShows
 
         private void InitialLoadTvShowImages()
         {
-            TvShowImages images = _tvShowLocalMetadataService.GetLocalImages(_path);
-            FanartUrl = images.FanartUrl;
-            BannerUrl = images.BannerUrl;
-            PosterUrl = images.PosterUrl;
+            FanartUrl = Path.Combine(_path, "fanart.jpg");
+            PosterUrl = Path.Combine(_path, "poster.jpg");
+            BannerUrl = Path.Combine(_path, "banner.jpg");
         }
 
         private void InitialLoadSeasonImages()
@@ -113,14 +116,14 @@ namespace PerfectMedia.UI.ViewModels.TvShows
                 _seasonImages = new ObservableCollection<SeasonImagesViewModel>();
             }
             _seasonImages.Clear();
-            IEnumerable<SeasonImages> images = _tvShowLocalMetadataService.GetLocalSeasonImages(_path);
-            foreach (SeasonImages seasonImage in images)
+            IEnumerable<Season> seasons = _tvShowFileService.GetSeasons(_path);
+            foreach (Season season in seasons)
             {
                 SeasonImagesViewModel viewModel = new SeasonImagesViewModel
                 {
-                    BannerUrl = seasonImage.BannerUrl,
-                    PosterUrl = seasonImage.PosterUrl,
-                    SeasonNumber = seasonImage.SeasonNumber
+                    BannerUrl = season.BannerUrl,
+                    PosterUrl = season.PosterUrl,
+                    SeasonNumber = season.SeasonNumber
                 };
                 _seasonImages.Add(viewModel);
             }

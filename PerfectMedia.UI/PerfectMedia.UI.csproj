@@ -76,6 +76,7 @@
     <Compile Include="ViewModels\TvShows\EpisodeViewModel.cs" />
     <Compile Include="ViewModels\ISourceProvider.cs" />
     <Compile Include="ViewModels\ITreeViewItemViewModel.cs" />
+    <Compile Include="ViewModels\TvShows\ITvShowViewModelFactory.cs" />
     <Compile Include="ViewModels\TvShows\SeasonImagesViewModel.cs" />
     <Compile Include="ViewModels\TvShows\SeasonViewModel.cs" />
     <Compile Include="ViewModels\SourceManagerViewModel.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="ViewModels\TvShows\TvShowManagerViewModel.cs" />
     <Compile Include="ViewModels\TvShows\TvShowMetadataViewModel.cs" />
     <Compile Include="ViewModels\TvShows\TvShowViewModel.cs" />
+    <Compile Include="ViewModels\TvShows\TvShowViewModelFactory.cs" />
     <Compile Include="Views\SourcesWindow.xaml.cs">
       <DependentUpon>SourcesWindow.xaml</DependentUpon>
     </Compile>
@@ -185,9 +187,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PerfectMedia.Metadata\PerfectMedia.Metadata.csproj">
-      <Project>{1e228903-bf3f-464d-8b2f-bb12de55e4a6}</Project>
-      <Name>PerfectMedia.Metadata</Name>
+    <ProjectReference Include="..\PerfectMedia.Sources\PerfectMedia.Sources.csproj">
+      <Project>{77409bbd-9696-4912-8a3f-9a0ca28d5cfc}</Project>
+      <Name>PerfectMedia.Sources</Name>
     </ProjectReference>
     <ProjectReference Include="..\PerfectMedia.TvShows\PerfectMedia.TvShows.csproj">
       <Project>{be7a5a9e-2967-431d-855a-e2a063643589}</Project>

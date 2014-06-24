@@ -1,5 +1,6 @@
 ﻿using NSubstitute;
-using PerfectMedia.Metadata;
+using PerfectMedia.TvShows;
+using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.ViewModels.TvShows;
 using System;
 using System.Collections.Generic;
@@ -13,17 +14,17 @@ namespace PerfectMedia.Tests.UI.ViewModels.TvShows
 {
     public class TvShowMetadataViewModelTests
     {
-        private readonly ITvShowLocalMetadataService _localMetadataService;
+        private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowMetadataService _metadataService;
         private readonly TvShowMetadataViewModel _viewModel;
         private readonly string _path;
 
         public TvShowMetadataViewModelTests()
         {
-            _localMetadataService = Substitute.For<ITvShowLocalMetadataService>();
+            _viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
             _metadataService = Substitute.For<ITvShowMetadataService>();
             _path = @"C:\Folder\Music";
-            _viewModel = new TvShowMetadataViewModel(_localMetadataService, _metadataService, _path);
+            _viewModel = new TvShowMetadataViewModel(_viewModelFactory, _metadataService, _path);
         }
 
         [Fact]
@@ -33,10 +34,12 @@ namespace PerfectMedia.Tests.UI.ViewModels.TvShows
             string raisedPropertyName = null;
             _viewModel.PropertyChanged += (s, e) => raisedPropertyName = e.PropertyName;
 
-            _localMetadataService.GetLocalMetadata(Arg.Any<string>())
+            _metadataService.Get(Arg.Any<string>())
                 .Returns(new TvShowMetadata());
-            _localMetadataService.GetLocalImages(Arg.Any<string>())
-                .Returns(new TvShowImages());
+
+            TvShowImagesViewModel imagesViewModel = Substitute.For<TvShowImagesViewModel>();
+            _viewModelFactory.GetTvShowImages(_path)
+                .Returns(imagesViewModel);
 
             // Act
             _viewModel.Genres.Add("Animation");
@@ -54,10 +57,8 @@ namespace PerfectMedia.Tests.UI.ViewModels.TvShows
         public void GenresString_WhenModified_ModifiesGenres()
         {
             // Arrange
-            _localMetadataService.GetLocalMetadata(Arg.Any<string>())
+            _metadataService.Get(Arg.Any<string>())
                 .Returns(new TvShowMetadata());
-            _localMetadataService.GetLocalImages(Arg.Any<string>())
-                .Returns(new TvShowImages());
 
             bool collectionChanged = false;
             _viewModel.Genres.CollectionChanged += (s, e) => collectionChanged = true;
@@ -77,10 +78,8 @@ namespace PerfectMedia.Tests.UI.ViewModels.TvShows
         {
             // Arrange
             TvShowMetadata metadata = CreateTvShowMetadata();
-            _localMetadataService.GetLocalMetadata(_path)
-                .Returns(metadata);
-            _localMetadataService.GetLocalImages(Arg.Any<string>())
-                .Returns(new TvShowImages());
+            _metadataService.Get(Arg.Any<string>())
+                .Returns(new TvShowMetadata());
 
             // Act
             _viewModel.Refresh();
@@ -93,19 +92,18 @@ namespace PerfectMedia.Tests.UI.ViewModels.TvShows
         public void Refresh_Always_RefreshesImages()
         {
             // Arrange
-            _localMetadataService.GetLocalMetadata(Arg.Any<string>())
+            _metadataService.Get(Arg.Any<string>())
                 .Returns(new TvShowMetadata());
-            _localMetadataService.GetLocalImages(Arg.Any<string>())
-                .Returns(new TvShowImages());
 
             // Act
             _viewModel.Refresh();
 
             // Assert
-            _localMetadataService.ReceivedWithAnyArgs()
+            /*_metadataService.ReceivedWithAnyArgs()
                 .GetLocalImages(null);
             _localMetadataService.ReceivedWithAnyArgs()
-                .GetLocalSeasonImages(null);
+                .GetLocalSeasonImages(null);*/
+            throw new NotImplementedException();
         }
 
         [Fact]
@@ -113,17 +111,15 @@ namespace PerfectMedia.Tests.UI.ViewModels.TvShows
         {
             // Arrange
             TvShowMetadata metadata = CreateTvShowMetadata();
-            _localMetadataService.GetLocalMetadata(_path)
-                .Returns(metadata);
-            _localMetadataService.GetLocalImages(Arg.Any<string>())
-                .Returns(new TvShowImages());
+            _metadataService.Get(Arg.Any<string>())
+                .Returns(new TvShowMetadata());
 
             // Act
             _viewModel.Update();
 
             // Assert
             _metadataService.Received()
-                .UpdateMetadata(_path);
+                .Update(_path);
             AssertMetadataEqualsViewModel(metadata);
         }
 
@@ -131,10 +127,8 @@ namespace PerfectMedia.Tests.UI.ViewModels.TvShows
         public void Save_Always_SavesMetadataLocally()
         {
             // Arrange
-            _localMetadataService.GetLocalMetadata(_path)
+            _metadataService.Get(Arg.Any<string>())
                 .Returns(new TvShowMetadata());
-            _localMetadataService.GetLocalImages(Arg.Any<string>())
-                .Returns(new TvShowImages());
 
             _viewModel.Actors.Add(new ActorViewModel { Name = "ActorName", Role = "ActorRole", Thumb = "ActorThumb" });
             _viewModel.Actors.Add(new ActorViewModel { Name = "ActorName", Role = "ActorRole", Thumb = "ActorThumb" });
@@ -156,18 +150,18 @@ namespace PerfectMedia.Tests.UI.ViewModels.TvShows
 
             // Assert
             // TODO: validate we're getting the good properties in the second argument to save
-            _localMetadataService.Received()
-                .SaveLocalMetadata(_path, Arg.Any<TvShowMetadata>());
+            _metadataService.Received()
+                .Save(_path, Arg.Any<TvShowMetadata>());
         }
 
         private TvShowMetadata CreateTvShowMetadata()
         {
             return new TvShowMetadata
             {
-                Actors = new List<Actor>
+                Actors = new List<ActorMetadata>
                 {
-                    new Actor { Name = "ActorName", Role="ActorRole", Thumb ="ActorThumb" },
-                    new Actor { Name = "ActorName", Role="ActorRole", Thumb ="ActorThumb" }
+                    new ActorMetadata { Name = "ActorName", Role="ActorRole", Thumb ="ActorThumb" },
+                    new ActorMetadata { Name = "ActorName", Role="ActorRole", Thumb ="ActorThumb" }
                 },
                 Genres = new List<string> { "Animation", "Action" },
                 Id = "Good ID",

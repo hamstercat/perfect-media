@@ -1,6 +1,6 @@
-﻿using PerfectMedia.Metadata;
-using PerfectMedia.Sources;
+﻿using PerfectMedia.Sources;
 using PerfectMedia.TvShows;
+using PerfectMedia.TvShows.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,28 +13,21 @@ namespace PerfectMedia.UI.ViewModels.TvShows
 {
     public class TvShowManagerViewModel : BaseViewModel, ISourceProvider
     {
-        private readonly ITvShowService _tvShowService;
-        private readonly ITvShowLocalMetadataService _tvShowLocalMetadataService;
+        private readonly ITvShowViewModelFactory _viewModelFactory;
+        private readonly ITvShowFileService _tvShowFileService;
         private readonly ITvShowMetadataService _metadataService;
 
         public SourceManagerViewModel Sources { get; private set; }
         public ObservableCollection<TvShowViewModel> TvShows { get; private set; }
 
-        public TvShowManagerViewModel()
-            : this(ServiceLocator.Get<ITvShowService>(),
-                   ServiceLocator.Get<ITvShowLocalMetadataService>(),
-                   ServiceLocator.Get<ITvShowMetadataService>(),
-                   ServiceLocator.Get<ISourceRepository>())
-        { }
-
-        public TvShowManagerViewModel(ITvShowService tvShowService, ITvShowLocalMetadataService tvShowLocalMetadataService, ITvShowMetadataService metadataService, ISourceRepository sourceRepository)
+        public TvShowManagerViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowFileService tvShowFileService, ITvShowMetadataService metadataService)
         {
-            _tvShowService = tvShowService;
-            _tvShowLocalMetadataService = tvShowLocalMetadataService;
+            _viewModelFactory = viewModelFactory;
+            _tvShowFileService = tvShowFileService;
             _metadataService = metadataService;
             TvShows = new ObservableCollection<TvShowViewModel>();
 
-            Sources = new SourceManagerViewModel(sourceRepository, SourceType.TvShow);
+            Sources = viewModelFactory.GetSourceManager(SourceType.TvShow);
             Sources.SpecificFolders.CollectionChanged += SourceFoldersCollectionChanged;
             Sources.Load();
         }
@@ -66,7 +59,7 @@ namespace PerfectMedia.UI.ViewModels.TvShows
         {
             foreach (string path in tvShows)
             {
-                TvShowViewModel newTvShow = new TvShowViewModel(_tvShowService, _tvShowLocalMetadataService, _metadataService, path);
+                TvShowViewModel newTvShow = _viewModelFactory.GetTvShow(path);
                 TvShows.Add(newTvShow);
             }
         }

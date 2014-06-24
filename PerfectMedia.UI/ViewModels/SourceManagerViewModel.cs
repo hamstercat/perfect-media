@@ -11,15 +11,15 @@ namespace PerfectMedia.UI.ViewModels
 {
     public class SourceManagerViewModel : BaseViewModel
     {
-        private readonly ISourceRepository _sourceRepository;
+        private readonly ISourceService _sourceService;
         private readonly SourceType _sourceType;
 
         public ObservableCollection<string> RootFolders { get; private set; }
         public ObservableCollection<string> SpecificFolders { get; private set; }
 
-        public SourceManagerViewModel(ISourceRepository sourceRepository, SourceType sourceType)
+        public SourceManagerViewModel(ISourceService sourceService, SourceType sourceType)
         {
-            _sourceRepository = sourceRepository;
+            _sourceService = sourceService;
             _sourceType = sourceType;
 
             RootFolders = new ObservableCollection<string>();
@@ -31,7 +31,7 @@ namespace PerfectMedia.UI.ViewModels
 
         public void Load()
         {
-            IEnumerable<Source> sources = _sourceRepository.GetSources(_sourceType);
+            IEnumerable<Source> sources = _sourceService.GetSources(_sourceType);
 
             // Since we're loading the sources from the repo, don't save them back when adding them in the manager
             RootFolders.CollectionChanged -= RootFoldersCollectionChanged;
@@ -146,7 +146,7 @@ namespace PerfectMedia.UI.ViewModels
             foreach (string folder in newFolders)
             {
                 Source source = new Source(_sourceType, isRoot, folder);
-                _sourceRepository.Save(source);
+                _sourceService.Save(source);
             }
         }
 
@@ -155,7 +155,7 @@ namespace PerfectMedia.UI.ViewModels
             foreach (string folder in foldersToRemove)
             {
                 Source source = new Source(_sourceType, isRoot, folder);
-                _sourceRepository.Delete(source);
+                _sourceService.Delete(source);
             }
         }
     }

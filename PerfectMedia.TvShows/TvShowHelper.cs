@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace PerfectMedia.Metadata
+namespace PerfectMedia.TvShows
 {
     internal static class TvShowHelper
     {
@@ -27,17 +27,17 @@ namespace PerfectMedia.Metadata
             }
         }
 
-        internal static int FindSeasonNumberFromFolder(string season)
+        internal static int FindSeasonNumberFromFolder(string seasonFolder)
         {
-            string seasonFolder = Path.GetFileName(season);
-            Match match = Regex.Match(seasonFolder, @"Season (\d+).*");
+            string seasonFolderName = Path.GetFileName(seasonFolder);
+            Match match = Regex.Match(seasonFolderName, @"Season (\d+).*");
             if (match.Success)
             {
                 string matchedSeasonNumber = match.Groups[1].Value;
                 return int.Parse(matchedSeasonNumber);
             }
 
-            if (seasonFolder.StartsWith("Special"))
+            if (seasonFolderName.StartsWith("Special"))
             {
                 return 0;
             }

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1E228903-BF3F-464D-8B2F-BB12DE55E4A6}</ProjectGuid>
+    <ProjectGuid>{77409BBD-9696-4912-8A3F-9A0CA28D5CFC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PerfectMedia.Metadata</RootNamespace>
-    <AssemblyName>PerfectMedia.Metadata</AssemblyName>
+    <RootNamespace>PerfectMedia.Sources</RootNamespace>
+    <AssemblyName>PerfectMedia.Sources</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,9 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,12 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ISeasonMetadataService.cs" />
-    <Compile Include="SeasonMetadataService.cs" />
-    <Compile Include="TvShowHelper.cs" />
-    <Compile Include="TvShowLocalMetadataService.cs" />
+    <Compile Include="SourceRepository.cs" />
+    <Compile Include="SourceService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TvShowMetadataService.cs" />
+    <Compile Include="XmlFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PerfectMedia\PerfectMedia.csproj">

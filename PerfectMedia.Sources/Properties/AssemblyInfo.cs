@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PerfectMedia.Metadata")]
+[assembly: AssemblyTitle("PerfectMedia.Sources")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PerfectMedia.Metadata")]
+[assembly: AssemblyProduct("PerfectMedia.Sources")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("004b80ca-1d27-42eb-8711-c59ccbd17c86")]
+[assembly: Guid("bfaddaf1-16f6-4994-9201-db97d16c4dce")]
 
 // Version information for an assembly consists of the following four values:
 //

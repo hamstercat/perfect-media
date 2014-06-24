@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PerfectMedia
+namespace PerfectMedia.TvShows.Metadata
 {
-    public interface IRestApiWrapper
+    public class EpisodeMetadata
     {
-        T Get<T>(string url) where T : new();
+        // TODO
     }
 }

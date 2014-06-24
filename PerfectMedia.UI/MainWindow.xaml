@@ -6,7 +6,7 @@
     <Grid>
         <TabControl>
             <TabItem Header="TV Shows">
-                <tvview:TvShowControl DataContext="{StaticResource TvShowManagerViewModel}" />
+                <tvview:TvShowControl DataContext="{Binding TvShowManagerViewModel, Source={StaticResource ServiceLocator}}" />
             </TabItem>
             <TabItem Header="Movies" IsEnabled="False">
                 <TextBlock Text="TODO" />

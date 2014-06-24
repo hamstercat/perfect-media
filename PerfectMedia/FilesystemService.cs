@@ -8,18 +8,16 @@ using System.Threading.Tasks;
 
 namespace PerfectMedia
 {
-    public class FilesystemService : IFileSystemService
+    public class FileSystemService : IFileSystemService
     {
-        public IEnumerable<string> FindSeasonFolders(string path)
+        public bool FileExists(string nfoFileFullPath)
         {
-            IEnumerable<string> normalSeasons = Directory.GetDirectories(path, "Season *", SearchOption.TopDirectoryOnly);
-            IEnumerable<string> specialSeasons = Directory.GetDirectories(path, "Special*", SearchOption.TopDirectoryOnly);
-            return normalSeasons.Union(specialSeasons);
+            return File.Exists(nfoFileFullPath);
         }
 
-        public IEnumerable<string> FindVideoFiles(string path)
+        public void DeleteFile(string filePath)
         {
-            return Directory.GetFiles(path, "*.mkv", SearchOption.TopDirectoryOnly);
+            File.Delete(filePath);
         }
 
         public void DownloadFile(string filePath, string url)
@@ -28,6 +26,26 @@ namespace PerfectMedia
             {
                 client.DownloadFile(url, filePath);
             }
+        }
+
+        public bool FolderExists(string folderName)
+        {
+            return Directory.Exists(folderName);
+        }
+
+        public void CreateFolder(string folderName)
+        {
+            Directory.CreateDirectory(folderName);
+        }
+
+        public IEnumerable<string> FindDirectories(string path, string searchPattern)
+        {
+            return Directory.GetDirectories(path, searchPattern, SearchOption.TopDirectoryOnly);
+        }
+
+        public IEnumerable<string> FindFiles(string path, string searchPattern)
+        {
+            return Directory.GetFiles(path, searchPattern, SearchOption.TopDirectoryOnly);
         }
     }
 }

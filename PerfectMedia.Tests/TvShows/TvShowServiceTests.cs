@@ -13,12 +13,12 @@ namespace PerfectMedia.Tests.TvShows
     public class TvShowServiceTests
     {
         private readonly IFileSystemService _fileSystemService;
-        private readonly TvShowService _service;
+        private readonly TvShowFileService _service;
 
         public TvShowServiceTests()
         {
             _fileSystemService = Substitute.For<IFileSystemService>();
-            _service = new TvShowService(_fileSystemService);
+            _service = new TvShowFileService(_fileSystemService);
         }
 
         [Fact]
@@ -32,8 +32,6 @@ namespace PerfectMedia.Tests.TvShows
                 @"C:\Folder\Season 2",
                 @"C:\Folder\Specials"
             };
-            _fileSystemService.FindSeasonFolders(path)
-                .Returns(seasonFolders);
 
             // Act
             IEnumerable<Season> seasons = _service.GetSeasons(path);
@@ -47,8 +45,6 @@ namespace PerfectMedia.Tests.TvShows
         public void GetSeasons_WithoutFolders_ReturnsEmpty()
         {
             // Arrange
-            _fileSystemService.FindSeasonFolders(Arg.Any<string>())
-                .Returns(new List<string>());
 
             // Act
             IEnumerable<Season> seasons = _service.GetSeasons(@"C:\Folder");
@@ -80,8 +76,6 @@ namespace PerfectMedia.Tests.TvShows
                 @"C:\Folder\Season 1\0x02.mkv",
                 @"C:\Folder\Season 1\0x03.mkv"
             };
-            _fileSystemService.FindVideoFiles(path)
-                .Returns(episodeFolders);
 
             // Act
             IEnumerable<Episode> episodes = _service.GetEpisodes(path);
@@ -95,8 +89,6 @@ namespace PerfectMedia.Tests.TvShows
         public void GetEpisodes_WithoutFolders_ReturnsEmpty()
         {
             // Arrange
-            _fileSystemService.FindVideoFiles(Arg.Any<string>())
-                .Returns(new List<string>());
 
             // Act
             IEnumerable<Episode> episodes = _service.GetEpisodes(@"C:\Folder");

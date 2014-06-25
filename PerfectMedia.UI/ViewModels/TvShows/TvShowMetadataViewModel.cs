@@ -85,40 +85,17 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             }
         }
 
-        private ObservableCollection<string> _genres;
-        public ObservableCollection<string> Genres
+        private DashDelimitedCollectionViewModel<string> _genres;
+        public DashDelimitedCollectionViewModel<string> Genres
         {
             get
             {
-                InitialLoadInformation();
                 return _genres;
             }
             set
             {
                 _genres = value;
-                _genres.CollectionChanged += GenresCollectionChanged;
                 OnPropertyChanged("Genres");
-                OnPropertyChanged("GenresString");
-            }
-        }
-
-        private string _genresString;
-        public string GenresString
-        {
-            get
-            {
-                return string.Join(" / ", Genres);
-            }
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    Genres.Clear();
-                }
-                else
-                {
-                    TransformGenresStringToCollection(value);
-                }
             }
         }
 
@@ -236,7 +213,7 @@ namespace PerfectMedia.UI.ViewModels.TvShows
 
             Images = viewModelFactory.GetTvShowImages(path);
             Actors = new ObservableCollection<ActorViewModel>();
-            Genres = new ObservableCollection<string>();
+            Genres = new DashDelimitedCollectionViewModel<string>(s => s);
 
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this);
@@ -289,10 +266,10 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             Studio = metadata.Studio;
             Language = metadata.Language;
             
-            Genres.Clear();
+            Genres.Collection.Clear();
             foreach (string genre in metadata.Genres)
             {
-                Genres.Add(genre);
+                Genres.Collection.Add(genre);
             }
 
             AddActors(metadata.Actors);
@@ -328,7 +305,7 @@ namespace PerfectMedia.UI.ViewModels.TvShows
                 PremieredDate = PremieredDate,
                 Studio = Studio,
                 Language = Language,
-                Genres = new List<string>(Genres)
+                Genres = new List<string>(Genres.Collection)
             };
 
             metadata.Actors = new List<ActorMetadata>();
@@ -344,25 +321,6 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             }
 
             return metadata;
-        }
-
-        private void GenresCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            OnPropertyChanged("GenresString");
-        }
-        
-        private void TransformGenresStringToCollection(string value)
-        {
-            Genres.Clear();
-            IEnumerable<string> splittedGenres = value.Split('/');
-            foreach (string genre in splittedGenres)
-            {
-                string trimmedGenre = genre.Trim();
-                if (!string.IsNullOrEmpty(trimmedGenre))
-                {
-                    Genres.Add(trimmedGenre);
-                }
-            }
         }
     }
 }

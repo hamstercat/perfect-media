@@ -1,4 +1,5 @@
 ﻿using Ninject;
+using PerfectMedia.FileInformation;
 using PerfectMedia.Sources;
 using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
@@ -31,6 +32,7 @@ namespace PerfectMedia.UI
             _kernel.Bind<ISourceRepository>().To<SourceRepository>();
             _kernel.Bind<ISourceService>().To<SourceService>();
             _kernel.Bind<IFileSystemService>().To<FileSystemService>();
+            _kernel.Bind<IFileInformationService>().To<FileInformationService>();
             BindTvShowDependencies();
         }
 
@@ -44,6 +46,7 @@ namespace PerfectMedia.UI
             _kernel.Bind<ITvShowFileService>().To<TvShowFileService>();
             _kernel.Bind<ITvShowMetadataService>().To<TvShowMetadataService>();
             _kernel.Bind<ITvShowMetadataRepository>().To<TvShowMetadataRepository>();
+            _kernel.Bind<IEpisodeMetadataRepository>().To<EpisodeMetadataRepository>();
             _kernel.Bind<ITvShowImagesService>().To<TvShowImagesService>();
             _kernel.Bind<ITvShowMetadataUpdater>().To<ThetvdbTvShowMetadataUpdater>()
                 .WithConstructorArgument<IRestApiService>(thetvdbRestApi);

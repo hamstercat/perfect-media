@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfectMedia.Tests", "Perfe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfectMedia.Sources", "PerfectMedia.Sources\PerfectMedia.Sources.csproj", "{77409BBD-9696-4912-8A3F-9A0CA28D5CFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfectMedia.FileInformation", "PerfectMedia.FileInformation\PerfectMedia.FileInformation.csproj", "{F2149FF4-5FE2-4BC5-AC07-6E8703D131A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{77409BBD-9696-4912-8A3F-9A0CA28D5CFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77409BBD-9696-4912-8A3F-9A0CA28D5CFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77409BBD-9696-4912-8A3F-9A0CA28D5CFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2149FF4-5FE2-4BC5-AC07-6E8703D131A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2149FF4-5FE2-4BC5-AC07-6E8703D131A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2149FF4-5FE2-4BC5-AC07-6E8703D131A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2149FF4-5FE2-4BC5-AC07-6E8703D131A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

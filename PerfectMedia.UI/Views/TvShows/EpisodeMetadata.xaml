@@ -3,9 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:tvviews="clr-namespace:PerfectMedia.UI.Views.TvShows"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <TextBlock Text="Episode Metadata, awesomest!" />
-    </Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Expander Grid.Row="0" Header="General Information" IsExpanded="True">
+                <tvviews:EpisodeGeneralInformation />
+            </Expander>
+            <Expander Grid.Row="1" Header="Actors">
+                <tvviews:Actors DataContext="{Binding Actors}" />
+            </Expander>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

@@ -68,7 +68,18 @@
                         <tvviews:SeasonMetadata />
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type tvvm:EpisodeViewModel}">
-                        <tvviews:EpisodeMetadata />
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <Button Content="Refresh" Command="{Binding RefreshCommand}" />
+                                <Button Content="Update" Command="{Binding UpdateCommand}" />
+                                <Button Content="Save" Command="{Binding SaveCommand}" />
+                            </StackPanel>
+                            <tvviews:EpisodeMetadata Grid.Row="1" />
+                        </Grid>
                     </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>

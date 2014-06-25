@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace PerfectMedia.TvShows.Metadata
 {
-    public interface IEpisodeMetadataService
+    public interface IEpisodeMetadataRepository
     {
         EpisodeMetadata Get(string episodeFile);
         void Save(string episodeFile, EpisodeMetadata metadata);
-        void Update(string episodeFile);
         void Delete(string episodeFile);
     }
 }

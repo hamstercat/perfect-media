@@ -43,6 +43,13 @@ namespace PerfectMedia.TvShows.Metadata
             return _restApiService.Get<List<Actor>>(url);
         }
 
+        public EpisodeMetadata GetEpisodeMetadata(string serieId, int seasonNumber, int episodeNumber)
+        {
+            string url = string.Format("api/{0}/series/{1}/default/{2}/{3}/en.xml", TvShowHelper.TheTvDbApiKey, serieId, seasonNumber, episodeNumber);
+            Episode episode = _restApiService.Get<Episode>(url);
+            return MapEpisodeToMetadata(episode);
+        }
+
         private void FixSerieUrl(FullSerie serie)
         {
             serie.Fanart = TvShowHelper.ExpandImagesUrl(serie.Fanart);
@@ -54,6 +61,26 @@ namespace PerfectMedia.TvShows.Metadata
         {
             AvailableTvShowImagesMapper mapper = new AvailableTvShowImagesMapper(banners);
             return mapper.Map();
+        }
+
+        private EpisodeMetadata MapEpisodeToMetadata(Episode episode)
+        {
+            return new EpisodeMetadata
+            {
+                AiredDate = episode.FirstAired,
+                Credits = episode.Writer,
+                Director = episode.Director,
+                // TODO: check the 2 following properties
+                DisplayEpisode = episode.AirsBeforeEpisode,
+                DisplaySeason = episode.AirsBeforeSeason,
+                EpisodeNumber = episode.EpisodeNumber,
+                ImageUrl = TvShowHelper.ExpandImagesUrl(episode.Filename),
+                //MpaaRating = episode.
+                Plot = episode.Overview,
+                Rating = episode.Rating,
+                SeasonNumber = episode.SeasonNumber,
+                Title = episode.EpisodeName
+            };
         }
     }
 }

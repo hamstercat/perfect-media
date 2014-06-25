@@ -9,56 +9,26 @@ using System.Xml.Serialization;
 
 namespace PerfectMedia.TvShows.Metadata
 {
-    public class TvShowMetadataRepository : ITvShowMetadataRepository
+    public class TvShowMetadataRepository : NfoRepository<TvShowMetadata>, ITvShowMetadataRepository
     {
         private const string NfoFile = "tvshow.nfo";
         private readonly IFileSystemService _fileSystemService;
 
         public TvShowMetadataRepository(IFileSystemService fileSystemService)
+            : base(fileSystemService)
         {
             _fileSystemService = fileSystemService;
         }
 
-        public TvShowMetadata Get(string path)
+        public override void Save(string path, TvShowMetadata metadata)
         {
-            string nfoFileFullPath = Path.Combine(path, NfoFile);
-            if (!_fileSystemService.FileExists(nfoFileFullPath))
-            {
-                return new TvShowMetadata();
-            }
-            return Deserialize(nfoFileFullPath);
-        }
-
-        public void Save(string path, TvShowMetadata metadata)
-        {
-            string nfoFileFullPath = Path.Combine(path, NfoFile);
-            XmlWriterSettings xmlWriterSettings = new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true };
-            using (XmlWriter writer = XmlWriter.Create(nfoFileFullPath, xmlWriterSettings))
-            {
-                writer.WriteRaw("<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\r\n");
-
-                XmlSerializer serializer = new XmlSerializer(typeof(TvShowMetadata));
-                XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
-                namespaces.Add(string.Empty, string.Empty);
-
-                serializer.Serialize(writer, metadata, namespaces);
-            }
+            base.Save(path, metadata);
             SaveActorsThumbnails(path, metadata.Actors);
         }
 
-        public void Delete(string path)
+        protected override string GetNfoFile(string path)
         {
-            string nfoFileFullPath = Path.Combine(path, NfoFile);
-            _fileSystemService.DeleteFile(nfoFileFullPath);
-        }
-
-        private static TvShowMetadata Deserialize(string nfoFileFullPath)
-        {
-            using (XmlReader reader = XmlReader.Create(nfoFileFullPath))
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(TvShowMetadata));
-                return (TvShowMetadata)serializer.Deserialize(reader);
-            }
+            return Path.Combine(path, NfoFile);
         }
 
         private void SaveActorsThumbnails(string path, IEnumerable<ActorMetadata> actors)

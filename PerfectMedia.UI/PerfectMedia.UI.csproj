@@ -71,6 +71,7 @@
     <Compile Include="ViewModels\Commands\SaveMetadataCommand.cs" />
     <Compile Include="ViewModels\Commands\UpdateMetadataCommand.cs" />
     <Compile Include="ViewModels\Commands\RefreshMetadataCommand.cs" />
+    <Compile Include="ViewModels\DashDelimitedCollectionViewModel.cs" />
     <Compile Include="ViewModels\IMetadataProvider.cs" />
     <Compile Include="ViewModels\TvShows\ActorViewModel.cs" />
     <Compile Include="ViewModels\TvShows\EpisodeViewModel.cs" />
@@ -91,14 +92,17 @@
     <Compile Include="Views\TvShows\Actors.xaml.cs">
       <DependentUpon>Actors.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TvShows\EpisodeGeneralInformation.xaml.cs">
+      <DependentUpon>EpisodeGeneralInformation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TvShows\EpisodeMetadata.xaml.cs">
       <DependentUpon>EpisodeMetadata.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TvShows\SeasonMetadata.xaml.cs">
       <DependentUpon>SeasonMetadata.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TvShows\GeneralInformation.xaml.cs">
-      <DependentUpon>GeneralInformation.xaml</DependentUpon>
+    <Compile Include="Views\TvShows\TvGeneralInformation.xaml.cs">
+      <DependentUpon>TvGeneralInformation.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TvShows\TvShowControl.xaml.cs">
       <DependentUpon>TvShowControl.xaml</DependentUpon>
@@ -133,6 +137,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\TvShows\EpisodeGeneralInformation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TvShows\EpisodeMetadata.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -141,7 +149,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TvShows\GeneralInformation.xaml">
+    <Page Include="Views\TvShows\TvGeneralInformation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -187,6 +195,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PerfectMedia.FileInformation\PerfectMedia.FileInformation.csproj">
+      <Project>{f2149ff4-5fe2-4bc5-ac07-6e8703d131a4}</Project>
+      <Name>PerfectMedia.FileInformation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PerfectMedia.Sources\PerfectMedia.Sources.csproj">
       <Project>{77409bbd-9696-4912-8a3f-9a0ca28d5cfc}</Project>
       <Name>PerfectMedia.Sources</Name>

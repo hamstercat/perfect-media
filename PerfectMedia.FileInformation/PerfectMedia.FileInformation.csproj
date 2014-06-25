@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BE7A5A9E-2967-431D-855A-E2A063643589}</ProjectGuid>
+    <ProjectGuid>{F2149FF4-5FE2-4BC5-AC07-6E8703D131A4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PerfectMedia.TvShows</RootNamespace>
-    <AssemblyName>PerfectMedia.TvShows</AssemblyName>
+    <RootNamespace>PerfectMedia.FileInformation</RootNamespace>
+    <AssemblyName>PerfectMedia.FileInformation</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,9 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,17 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Metadata\AvailableTvShowImagesMapper.cs" />
-    <Compile Include="Metadata\Episode.cs" />
-    <Compile Include="Metadata\EpisodeMetadataRepository.cs" />
-    <Compile Include="Metadata\EpisodeMetadataService.cs" />
-    <Compile Include="EpisodeNumber.cs" />
-    <Compile Include="Metadata\ThetvdbTvShowMetadataUpdater.cs" />
-    <Compile Include="Metadata\TvShowImagesService.cs" />
-    <Compile Include="TvShowHelper.cs" />
-    <Compile Include="Metadata\TvShowMetadataRepository.cs" />
-    <Compile Include="Metadata\TvShowMetadataService.cs" />
-    <Compile Include="TvShowFileService.cs" />
+    <Compile Include="FileInformationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -60,7 +48,6 @@
       <Name>PerfectMedia</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

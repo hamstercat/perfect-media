@@ -42,15 +42,15 @@ namespace PerfectMedia.Tests.UI.ViewModels.TvShows
                 .Returns(imagesViewModel);
 
             // Act
-            _viewModel.Genres.Add("Animation");
-            _viewModel.Genres.Add("Action");
-            _viewModel.Genres.Add("Adventure");
+            _viewModel.Genres.Collection.Add("Animation");
+            _viewModel.Genres.Collection.Add("Action");
+            _viewModel.Genres.Collection.Add("Adventure");
 
             // Assert
             Assert.Equal("GenresString", raisedPropertyName);
-            Assert.Contains("Animation", _viewModel.GenresString);
-            Assert.Contains("Action", _viewModel.GenresString);
-            Assert.Contains("Adventure", _viewModel.GenresString);
+            Assert.Contains("Animation", _viewModel.Genres.String);
+            Assert.Contains("Action", _viewModel.Genres.String);
+            Assert.Contains("Adventure", _viewModel.Genres.String);
         }
 
         [Fact]
@@ -61,16 +61,16 @@ namespace PerfectMedia.Tests.UI.ViewModels.TvShows
                 .Returns(new TvShowMetadata());
 
             bool collectionChanged = false;
-            _viewModel.Genres.CollectionChanged += (s, e) => collectionChanged = true;
+            _viewModel.Genres.Collection.CollectionChanged += (s, e) => collectionChanged = true;
 
             // Act
-            _viewModel.GenresString = "Animation / Action / Adventure";
+            _viewModel.Genres.String = "Animation / Action / Adventure";
 
             // Assert
             Assert.True(collectionChanged);
-            Assert.Contains("Animation", _viewModel.Genres);
-            Assert.Contains("Action", _viewModel.Genres);
-            Assert.Contains("Adventure", _viewModel.Genres);
+            Assert.Contains("Animation", _viewModel.Genres.Collection);
+            Assert.Contains("Action", _viewModel.Genres.Collection);
+            Assert.Contains("Adventure", _viewModel.Genres.Collection);
         }
 
         [Fact]
@@ -132,7 +132,6 @@ namespace PerfectMedia.Tests.UI.ViewModels.TvShows
 
             _viewModel.Actors.Add(new ActorViewModel { Name = "ActorName", Role = "ActorRole", Thumb = "ActorThumb" });
             _viewModel.Actors.Add(new ActorViewModel { Name = "ActorName", Role = "ActorRole", Thumb = "ActorThumb" });
-            _viewModel.Genres = new ObservableCollection<string> { "Animation", "Action" };
             _viewModel.Id = "Good ID";
             _viewModel.ImdbId = "IMDB ID";
             _viewModel.Language = "fr";
@@ -186,7 +185,7 @@ namespace PerfectMedia.Tests.UI.ViewModels.TvShows
             Assert.Equal("ActorRole", actorViewModel.Role);
             Assert.Equal("ActorThumb", actorViewModel.Thumb);
 
-            Assert.Equal(metadata.Genres, _viewModel.Genres);
+            Assert.Equal(metadata.Genres, _viewModel.Genres.Collection);
             Assert.Equal(metadata.Id, _viewModel.Id);
             Assert.Equal(metadata.ImdbId, _viewModel.ImdbId);
             Assert.Equal(metadata.Language, _viewModel.Language);

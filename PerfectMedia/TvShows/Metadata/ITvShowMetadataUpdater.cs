@@ -12,5 +12,6 @@ namespace PerfectMedia.TvShows.Metadata
         FullSerie GetTvShowMetadata(string serieId);
         AvailableTvShowImages FindImages(string serieId);
         IEnumerable<Actor> FindActors(string serieId);
+        EpisodeMetadata GetEpisodeMetadata(string serieId, int seasonNumber, int episodeNumber);
     }
 }

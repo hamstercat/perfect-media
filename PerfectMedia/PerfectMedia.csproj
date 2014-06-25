@@ -42,9 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileInformation\IFileInformationService.cs" />
     <Compile Include="FileSystemService.cs" />
     <Compile Include="IRestApiService.cs" />
     <Compile Include="ItemNotFoundException.cs" />
+    <Compile Include="NfoRepository.cs" />
     <Compile Include="RestApiService.cs" />
     <Compile Include="ScrapperException.cs" />
     <Compile Include="Sources\ISourceRepository.cs" />
@@ -55,10 +57,16 @@
     <Compile Include="TvShows\Episode.cs" />
     <Compile Include="TvShows\Image.cs" />
     <Compile Include="TvShows\ITvShowFileService.cs" />
+    <Compile Include="TvShows\Metadata\ActorMetadata.cs" />
     <Compile Include="TvShows\Metadata\AvailableSeasonImages.cs" />
     <Compile Include="TvShows\Metadata\AvailableTvShowImages.cs" />
     <Compile Include="TvShows\Metadata\EpisodeMetadata.cs" />
+    <Compile Include="FileInformation\Audio.cs" />
+    <Compile Include="FileInformation\VideoFileInformation.cs" />
+    <Compile Include="FileInformation\StreamDetails.cs" />
+    <Compile Include="FileInformation\Video.cs" />
     <Compile Include="TvShows\Metadata\ITvShowImagesService.cs" />
+    <Compile Include="TvShows\Metadata\IEpisodeMetadataRepository.cs" />
     <Compile Include="TvShows\TvShowImages.cs" />
     <Compile Include="TvShows\Metadata\TvShowMetadata.cs" />
     <Compile Include="TvShows\Metadata\IEpisodeMetadataService.cs" />
@@ -75,6 +83,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

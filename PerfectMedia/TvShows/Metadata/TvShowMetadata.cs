@@ -54,17 +54,20 @@ namespace PerfectMedia.TvShows.Metadata
             Genres = new List<string>();
             Actors = new List<ActorMetadata>();
         }
-    }
 
-    public class ActorMetadata
-    {
-        [XmlElement(ElementName = "name")]
-        public string Name { get; set; }
+        public bool ShouldSerializeGenres()
+        {
+            return Genres != null;
+        }
 
-        [XmlElement(ElementName = "role")]
-        public string Role { get; set; }
+        public bool ShouldSerializePremieredDate()
+        {
+            return PremieredDate.HasValue;
+        }
 
-        [XmlElement(ElementName = "thumb")]
-        public string Thumb { get; set; }
+        public bool ShouldSerializeActors()
+        {
+            return Actors != null;
+        }
     }
 }

@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace PerfectMedia.UI.ViewModels.TvShows
 {
-    public class EpisodeViewModel : BaseViewModel, IMetadataProvider
+    public class EpisodeViewModel : BaseViewModel, ITreeViewItemViewModel, IMetadataProvider
     {
         private readonly IEpisodeMetadataService _metadataService;
         private bool _lazyLoaded;
@@ -285,6 +285,9 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             }
         }
         #endregion
+
+        // Do nothing with it, no children to show
+        public bool IsExpanded { get; set; }
 
         public string Path { get; private set; }
         public ICommand RefreshCommand { get; private set; }

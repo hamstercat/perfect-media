@@ -46,7 +46,7 @@ namespace PerfectMedia.TvShows
         {
             if (string.IsNullOrEmpty(seasonPath)) throw new ArgumentNullException("seasonPath");
 
-            IEnumerable<string> videoFiles = _fileSystemService.FindFiles(seasonPath, "*.mkv");
+            IEnumerable<string> videoFiles = _fileSystemService.FindFiles(seasonPath, TvShowHelper.GetVideoFileExtensions());
             foreach (string episodeFile in videoFiles)
             {
                 yield return new Episode { Path = episodeFile };

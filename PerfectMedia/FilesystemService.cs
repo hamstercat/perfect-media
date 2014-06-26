@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace PerfectMedia
@@ -43,9 +44,14 @@ namespace PerfectMedia
             return Directory.GetDirectories(path, searchPattern, SearchOption.TopDirectoryOnly);
         }
 
-        public IEnumerable<string> FindFiles(string path, string searchPattern)
+        public IEnumerable<string> FindFiles(string path, params string[] extensions)
         {
-            return Directory.GetFiles(path, searchPattern, SearchOption.TopDirectoryOnly);
+            return Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly)
+                .Where(file =>
+                {
+                    string extension = Path.GetExtension(file);
+                    return extensions.Contains(extension.ToLower());
+                });
         }
     }
 }

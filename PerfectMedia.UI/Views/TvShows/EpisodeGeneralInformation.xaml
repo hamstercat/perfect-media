@@ -54,7 +54,7 @@
         <Label Grid.Row="4" Grid.Column="2" Content="Director" />
         <TextBox Grid.Row="4" Grid.Column="3" Text="{Binding Director}" />
         <Label Grid.Row="5" Grid.Column="2" Content="Playcount" />
-        <TextBox Grid.Row="5" Grid.Column="3" Text="{Binding Playcount}" />
+        <TextBox Grid.Row="5" Grid.Column="3" Text="{Binding PlayCount}" />
         <Label Grid.Row="6" Grid.Column="2" Content="Last Played" />
         <DatePicker Grid.Row="6" Grid.Column="3" SelectedDate="{Binding LastPlayed}" />
     </Grid>

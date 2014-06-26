@@ -30,7 +30,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MediaInfoDotNet">
+      <HintPath>..\packages\MediaInfoDotNet.0.7.62.40921\lib\net40\MediaInfoDotNet.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,13 +44,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileInformationService.cs" />
+    <Compile Include="LanguageHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CodecHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PerfectMedia\PerfectMedia.csproj">
       <Project>{e4f6d12d-1f08-429e-82f9-7873db7f30ba}</Project>
       <Name>PerfectMedia</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="x64\MediaInfo.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\MediaInfo.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MediaInfoDotNet.dll.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

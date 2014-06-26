@@ -42,9 +42,7 @@ namespace PerfectMedia.TvShows.Metadata
 
         protected override string GetNfoFile(string path)
         {
-            string folder = Path.GetDirectoryName(path);
-            string fileName = Path.GetFileNameWithoutExtension(path);
-            return Path.Combine(folder, fileName + ".nfo");
+            return Path.ChangeExtension(path, ".nfo");
         }
 
         private string GetImageFile(string path)

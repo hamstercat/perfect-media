@@ -87,6 +87,14 @@ namespace PerfectMedia.TvShows
             return null;
         }
 
+        internal static string[] GetVideoFileExtensions()
+        {
+            return new string[]
+            {
+                ".mkv", ".wmv", ".mov", ".avi"
+            };
+        }
+
         // This method comes from https://stackoverflow.com/questions/4389775/what-is-a-good-way-to-remove-last-few-directory
         // TODO: Rewrite it more clearly
         private static string GetParentDirectory(string path, int parentCount)

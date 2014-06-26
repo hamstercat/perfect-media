@@ -8,20 +8,20 @@ namespace PerfectMedia.FileInformation
 {
     public class StreamDetails
     {
-        [XmlElement(ElementName = "audio")]
-        public Audio Audio { get; set; }
-
         [XmlElement(ElementName = "video")]
-        public Video Video { get; set; }
+        public List<Video> Videos { get; set; }
 
-        public bool ShouldSerializeAudio()
+        [XmlElement(ElementName = "audio")]
+        public List<Audio> Audios { get; set; }
+
+        public bool ShouldSerializeVideos()
         {
-            return Audio != null;
+            return Videos != null;
         }
 
-        public bool ShouldSerializeVideo()
+        public bool ShouldSerializeAudios()
         {
-            return Video != null;
+            return Audios != null;
         }
     }
 }

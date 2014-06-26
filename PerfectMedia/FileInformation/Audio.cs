@@ -8,6 +8,9 @@ namespace PerfectMedia.FileInformation
 {
     public class Audio
     {
+        [XmlElement(ElementName = "language")]
+        public string Language { get; set; }
+
         [XmlElement(ElementName = "channels")]
         public int NumberOfChannels { get; set; }
 

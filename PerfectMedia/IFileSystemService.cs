@@ -11,6 +11,7 @@ namespace PerfectMedia
         bool FileExists(string nfoFileFullPath);
         void DeleteFile(string filePath);
         void DownloadFile(string filePath, string url);
+        void SaveImageAsPng(string filePath, string url);
 
         bool FolderExists(string folderName);
         void CreateFolder(string folderName);

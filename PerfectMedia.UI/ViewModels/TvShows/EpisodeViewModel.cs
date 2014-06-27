@@ -1,4 +1,5 @@
-﻿using PerfectMedia.TvShows.Metadata;
+﻿using PerfectMedia.FileInformation;
+using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.ViewModels.Commands;
 using System;
 using System.Collections.Generic;
@@ -90,18 +91,33 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             }
         }
 
-        private string _image;
-        public string Image
+        private string _imagePath;
+        public string ImagePath
         {
             get
             {
                 InitialLoadInformation();
-                return _image;
+                return _imagePath;
             }
             set
             {
-                _image = value;
-                OnPropertyChanged("Image");
+                _imagePath = value;
+                OnPropertyChanged("ImagePath");
+            }
+        }
+
+        private string _imageUrl;
+        public string ImageUrl
+        {
+            get
+            {
+                InitialLoadInformation();
+                return _imageUrl;
+            }
+            set
+            {
+                _imageUrl = value;
+                OnPropertyChanged("ImageUrl");
             }
         }
 
@@ -135,8 +151,8 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             }
         }
 
-        private string _credits;
-        public string Credits
+        private DashDelimitedCollectionViewModel<string> _credits;
+        public DashDelimitedCollectionViewModel<string> Credits
         {
             get
             {
@@ -150,18 +166,18 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             }
         }
 
-        private string _director;
-        public string Director
+        private DashDelimitedCollectionViewModel<string> _directors;
+        public DashDelimitedCollectionViewModel<string> Directors
         {
             get
             {
                 InitialLoadInformation();
-                return _director;
+                return _directors;
             }
             set
             {
-                _director = value;
-                OnPropertyChanged("Director");
+                _directors = value;
+                OnPropertyChanged("Directors");
             }
         }
 
@@ -177,51 +193,6 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             {
                 _airedDate = value;
                 OnPropertyChanged("AiredDate");
-            }
-        }
-
-        private DateTime? _premieredDate;
-        public DateTime? PremieredDate
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _premieredDate;
-            }
-            set
-            {
-                _premieredDate = value;
-                OnPropertyChanged("PremieredDate");
-            }
-        }
-
-        private string _studio;
-        public string Studio
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _studio;
-            }
-            set
-            {
-                _studio = value;
-                OnPropertyChanged("Studio");
-            }
-        }
-
-        private string _mpaaRating;
-        public string MpaaRating
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _mpaaRating;
-            }
-            set
-            {
-                _mpaaRating = value;
-                OnPropertyChanged("MpaaRating");
             }
         }
 
@@ -255,8 +226,8 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             }
         }
 
-        private DashDelimitedCollectionViewModel<int> _episodeBookmarks;
-        public DashDelimitedCollectionViewModel<int> EpisodeBookmarks
+        private double? _episodeBookmarks;
+        public double? EpisodeBookmarks
         {
             get
             {
@@ -269,23 +240,22 @@ namespace PerfectMedia.UI.ViewModels.TvShows
                 OnPropertyChanged("EpisodeBookmarks");
             }
         }
+        #endregion
 
-        private ObservableCollection<ActorViewModel> _actors;
-        public ObservableCollection<ActorViewModel> Actors
+        private string _error;
+        public string Error
         {
             get
             {
-                InitialLoadInformation();
-                return _actors;
+                return _error;
             }
             set
             {
-                _actors = value;
-                OnPropertyChanged("Actors");
+                _error = value;
+                OnPropertyChanged("Error");
             }
         }
-        #endregion
-
+        
         // Do nothing with it, no children to show
         public bool IsExpanded { get; set; }
 
@@ -300,8 +270,8 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             Path = path;
             _lazyLoaded = false;
 
-            EpisodeBookmarks = new DashDelimitedCollectionViewModel<int>(int.Parse);
-            Actors = new ObservableCollection<ActorViewModel>();
+            Credits = new DashDelimitedCollectionViewModel<string>(s => s);
+            Directors = new DashDelimitedCollectionViewModel<string>(s => s);
 
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this);
@@ -310,22 +280,33 @@ namespace PerfectMedia.UI.ViewModels.TvShows
 
         public void Refresh()
         {
+            Error = null;
             EpisodeMetadata metadata = _metadataService.Get(Path);
             RefreshFromMetadata(metadata);
         }
 
         public void Update()
         {
+            Error = null;
             EpisodeMetadata metadata = _metadataService.Get(Path);
-            if (metadata.FileInformation == null)
+            try
             {
-                _metadataService.Update(Path);
+                if (metadata.FileInformation == null)
+                {
+                    _metadataService.Update(Path);
+                }
+                Refresh();
             }
-            Refresh();
+            catch (UnknownCodecException ex)
+            {
+                // TODO: do something else than showing the message error
+                Error = ex.Message;
+            }
         }
 
         public void Save()
         {
+            Error = null;
             EpisodeMetadata metadata = CreateMetadata();
             _metadataService.Save(Path, metadata);
         }
@@ -346,77 +327,48 @@ namespace PerfectMedia.UI.ViewModels.TvShows
             SeasonNumber = metadata.SeasonNumber;
             EpisodeNumber = metadata.EpisodeNumber;
             Plot = metadata.Plot;
-            Image = metadata.ImagePath;
+            ImagePath = metadata.ImagePath;
+            ImageUrl = metadata.ImageUrl;
             PlayCount = metadata.Playcount;
             LastPlayed = metadata.LastPlayed;
-            Credits = metadata.Credits;
-            Director = metadata.Director;
             AiredDate = metadata.AiredDate;
-            PremieredDate = metadata.PremieredDate;
-            Studio = metadata.Studio;
-            MpaaRating = metadata.MpaaRating;
             DisplaySeason = metadata.DisplaySeason;
             DisplayEpisode = metadata.DisplayEpisode;
+            EpisodeBookmarks = metadata.EpisodeBookmarks;
 
-            EpisodeBookmarks.Collection.Clear();
-            foreach (int bookmark in metadata.EpisodeBookmarks)
+            Credits.Collection.Clear();
+            foreach (string credit in metadata.Credits)
             {
-                EpisodeBookmarks.Collection.Add(bookmark);
+                Credits.Collection.Add(credit);
             }
 
-            AddActors(metadata.Actors);
-        }
-
-        private void AddActors(List<ActorMetadata> actors)
-        {
-            Actors.Clear();
-            foreach (ActorMetadata actor in actors)
+            Directors.Collection.Clear();
+            foreach (string director in metadata.Director)
             {
-                ActorViewModel actorViewModel = new ActorViewModel
-                {
-                    Name = actor.Name,
-                    Role = actor.Role,
-                    Thumb = actor.Thumb
-                };
-                Actors.Add(actorViewModel);
+                Directors.Collection.Add(director);
             }
         }
 
         private EpisodeMetadata CreateMetadata()
         {
-            EpisodeMetadata metadata = new EpisodeMetadata
+            return new EpisodeMetadata
             {
                 Title = Title,
                 Rating = Rating,
                 SeasonNumber = SeasonNumber,
                 EpisodeNumber = EpisodeNumber,
                 Plot = Plot,
+                ImagePath = ImagePath,
+                ImageUrl = ImageUrl,
                 Playcount = PlayCount,
                 LastPlayed = LastPlayed,
-                Credits = Credits,
-                Director = Director,
+                Credits = new List<string>(Credits.Collection),
+                Director = new List<string>(Directors.Collection),
                 AiredDate = AiredDate,
-                PremieredDate = PremieredDate,
-                Studio = Studio,
-                MpaaRating = MpaaRating,
                 DisplaySeason = DisplaySeason,
                 DisplayEpisode = DisplayEpisode,
-                EpisodeBookmarks = new List<int>(EpisodeBookmarks.Collection)
+                EpisodeBookmarks = EpisodeBookmarks
             };
-
-            metadata.Actors = new List<ActorMetadata>();
-            foreach (ActorViewModel actorViewModel in Actors)
-            {
-                ActorMetadata actor = new ActorMetadata
-                {
-                    Name = actorViewModel.Name,
-                    Role = actorViewModel.Role,
-                    Thumb = actorViewModel.Thumb
-                };
-                metadata.Actors.Add(actor);
-            }
-
-            return metadata;
         }
     }
 }

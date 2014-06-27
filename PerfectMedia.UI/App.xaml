@@ -14,6 +14,8 @@
             <conv:IsEmptyToBooleanConverter x:Key="IsEmptyToBooleanConverter" />
             <conv:PathFolderNameConverter x:Key="PathFolderNameConverter" />
             <conv:SeasonNumberToNameConverter x:Key="SeasonNumberToNameConverter" />
+            <conv:SpecialsSeasonVisibilityConverter x:Key="SpecialsSeasonVisibilityConverter" />
+            <conv:ShowIfNotEmptyConverter x:Key="ShowIfNotEmptyConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -68,18 +68,17 @@ namespace PerfectMedia.TvShows.Metadata
             return new EpisodeMetadata
             {
                 AiredDate = episode.FirstAired,
-                Credits = episode.Writer,
-                Director = episode.Director,
+                Credits = episode.Writer.Split('|').ToList(),
+                Director = episode.Director.Split('|').ToList(),
                 // TODO: check the 2 following properties
                 DisplayEpisode = episode.AirsBeforeEpisode,
                 DisplaySeason = episode.AirsBeforeSeason,
                 EpisodeNumber = episode.EpisodeNumber,
                 ImageUrl = TvShowHelper.ExpandImagesUrl(episode.Filename),
-                //MpaaRating = episode.
                 Plot = episode.Overview,
                 Rating = episode.Rating,
                 SeasonNumber = episode.SeasonNumber,
-                Title = episode.EpisodeName
+                Title = episode.EpisodeName,
             };
         }
     }

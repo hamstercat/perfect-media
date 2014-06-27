@@ -30,7 +30,7 @@ namespace PerfectMedia.TvShows.Metadata
         {
             base.Save(path, metadata);
             string imageFile = GetImageFile(path);
-            _fileSystemService.DownloadFile(imageFile, metadata.ImageUrl);
+            _fileSystemService.SaveImageAsPng(imageFile, metadata.ImageUrl);
         }
 
         public override void Delete(string path)
@@ -49,7 +49,7 @@ namespace PerfectMedia.TvShows.Metadata
         {
             string folder = Path.GetDirectoryName(path);
             string fileName = Path.GetFileNameWithoutExtension(path);
-            return Path.Combine(folder, fileName + "-thumb.jpg");
+            return Path.Combine(folder, fileName + "-thumb.png");
         }
     }
 }

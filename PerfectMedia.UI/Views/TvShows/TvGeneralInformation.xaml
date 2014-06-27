@@ -25,7 +25,7 @@
         <Label Grid.Row="0" Grid.Column="0" Content="Title" />
         <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title}" />
         <Label Grid.Row="1" Grid.Column="0" Content="Plot" />
-        <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Plot}" />
+        <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Plot}" TextWrapping="Wrap" />
         <Label Grid.Row="2" Grid.Column="0" Content="Genre" />
         <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding GenresString}" />
 

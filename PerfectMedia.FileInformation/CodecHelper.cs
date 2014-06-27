@@ -30,7 +30,7 @@ namespace PerfectMedia.FileInformation
 
         internal static string GetAudioCodecName(string codecCommonName, string codecId, string format)
         {
-            string codec = string.IsNullOrEmpty(codecCommonName) ? format : codecCommonName;
+            string codec = DetermineAudioCodec(codecCommonName, codecId, format);
             if (!_knownAudioCodecs.Contains(codec.ToLower()))
             {
                 throw new UnknownCodecException(codecCommonName, codecId, format);
@@ -48,6 +48,28 @@ namespace PerfectMedia.FileInformation
                 default:
                     return codecId;
             }
+        }
+
+        private static string DetermineAudioCodec(string codecCommonName, string codecId, string format)
+        {
+            // TODO: finish up codec
+            switch (format.ToLower())
+            {
+                case "wma":
+                    return "wmav2";
+                case "mpeg audio":
+                    return "mp2";
+                case "pcm":
+                    if (codecId == "sowt")
+                        return "pcm_s16le";
+                    break;
+                default:
+                    break;
+            }
+
+            if (string.IsNullOrEmpty(codecCommonName))
+                return format;
+            return codecCommonName;
         }
     }
 }

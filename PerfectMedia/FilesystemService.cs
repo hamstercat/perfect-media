@@ -1,5 +1,8 @@
-﻿using System;
+﻿using ImageMagick;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -26,6 +29,16 @@ namespace PerfectMedia
             using (WebClient client = new WebClient())
             {
                 client.DownloadFile(url, filePath);
+            }
+        }
+
+        public void SaveImageAsPng(string filePath, string url)
+        {
+            using (WebClient client = new WebClient())
+            using (Stream stream = client.OpenRead(url))
+            using (MagickImage image = new MagickImage(stream))
+            {
+                image.Write(filePath);
             }
         }
 

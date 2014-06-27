@@ -15,7 +15,7 @@ namespace PerfectMedia.FileInformation
         public string Format { get; private set; }
 
         public UnknownCodecException(string codecCommonName, string codecId, string format)
-            : base(string.Format("Couldn't determine the video codec based on these information: {{ codecCommonName: {0}, codecId: {1}, format: {2} }}", codecCommonName, codecId, format))
+            : base(string.Format("Couldn't determine the codec based on these information: {{ codecCommonName: {0}, codecId: {1}, format: {2} }}", codecCommonName, codecId, format))
         {
             CodecCommonName = codecCommonName;
             CodecId = codecId;

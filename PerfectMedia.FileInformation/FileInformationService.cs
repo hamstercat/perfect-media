@@ -54,12 +54,11 @@ namespace PerfectMedia.FileInformation
                     Codec = CodecHelper.GetVideoCodecName(stream.codecCommonName, stream.codecId, stream.format),
                     DurationInSeconds = stream.duration / 1000,
                     Height = stream.height,
-                    Language = stream.language,
                     LongLanguage = stream.miGetString("Language/String"),
                     ScanType = stream.miGetString("ScanType"),
                     Width = stream.width
                 };
-                video.Language = LanguageHelper.GetLanguageCode(video.Language);
+                video.Language = LanguageHelper.GetLanguageCode(video.LongLanguage);
 
                 if (video.Aspect == "0")
                 {

@@ -66,6 +66,8 @@
     <Compile Include="Converters\NullToBooleanConverter.cs" />
     <Compile Include="Converters\PathFolderNameConverter.cs" />
     <Compile Include="Converters\SeasonNumberToNameConverter.cs" />
+    <Compile Include="Converters\ShowIfNotEmptyConverter.cs" />
+    <Compile Include="Converters\SpecialsSeasonVisibilityConverter.cs" />
     <Compile Include="ServiceLocator.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\Commands\SaveMetadataCommand.cs" />
@@ -91,9 +93,6 @@
     </Compile>
     <Compile Include="Views\TvShows\Actors.xaml.cs">
       <DependentUpon>Actors.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\TvShows\EpisodeGeneralInformation.xaml.cs">
-      <DependentUpon>EpisodeGeneralInformation.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TvShows\EpisodeMetadata.xaml.cs">
       <DependentUpon>EpisodeMetadata.xaml</DependentUpon>
@@ -134,10 +133,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TvShows\Actors.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\TvShows\EpisodeGeneralInformation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

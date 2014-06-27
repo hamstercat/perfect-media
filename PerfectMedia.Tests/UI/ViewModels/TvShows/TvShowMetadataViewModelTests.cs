@@ -1,7 +1,8 @@
 ﻿using NSubstitute;
 using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
-using PerfectMedia.UI.ViewModels.TvShows;
+using PerfectMedia.UI.TvShows;
+using PerfectMedia.UI.TvShows.Shows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

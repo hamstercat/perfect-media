@@ -72,48 +72,48 @@
     <Compile Include="Converters\ShowIfNotEmptyConverter.cs" />
     <Compile Include="Converters\SpecialsSeasonVisibilityConverter.cs" />
     <Compile Include="ServiceLocator.cs" />
-    <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="ViewModels\Commands\SaveMetadataCommand.cs" />
-    <Compile Include="ViewModels\Commands\UpdateMetadataCommand.cs" />
-    <Compile Include="ViewModels\Commands\RefreshMetadataCommand.cs" />
-    <Compile Include="ViewModels\DashDelimitedCollectionViewModel.cs" />
-    <Compile Include="ViewModels\IMetadataProvider.cs" />
-    <Compile Include="ViewModels\TvShows\ActorViewModel.cs" />
-    <Compile Include="ViewModels\TvShows\EpisodeViewModel.cs" />
-    <Compile Include="ViewModels\ISourceProvider.cs" />
-    <Compile Include="ViewModels\ITreeViewItemViewModel.cs" />
-    <Compile Include="ViewModels\TvShows\ITvShowViewModelFactory.cs" />
-    <Compile Include="ViewModels\TvShows\SeasonImagesViewModel.cs" />
-    <Compile Include="ViewModels\TvShows\SeasonViewModel.cs" />
-    <Compile Include="ViewModels\SourceManagerViewModel.cs" />
-    <Compile Include="ViewModels\TvShows\TvShowImagesViewModel.cs" />
-    <Compile Include="ViewModels\TvShows\TvShowManagerViewModel.cs" />
-    <Compile Include="ViewModels\TvShows\TvShowMetadataViewModel.cs" />
-    <Compile Include="ViewModels\TvShows\TvShowViewModel.cs" />
-    <Compile Include="ViewModels\TvShows\TvShowViewModelFactory.cs" />
-    <Compile Include="Views\SourcesWindow.xaml.cs">
+    <Compile Include="BaseViewModel.cs" />
+    <Compile Include="Metadata\SaveMetadataCommand.cs" />
+    <Compile Include="Metadata\UpdateMetadataCommand.cs" />
+    <Compile Include="Metadata\RefreshMetadataCommand.cs" />
+    <Compile Include="DashDelimitedCollectionViewModel.cs" />
+    <Compile Include="Metadata\IMetadataProvider.cs" />
+    <Compile Include="TvShows\ActorViewModel.cs" />
+    <Compile Include="TvShows\Episodes\EpisodeViewModel.cs" />
+    <Compile Include="Sources\ISourceProvider.cs" />
+    <Compile Include="ITreeViewItemViewModel.cs" />
+    <Compile Include="TvShows\ITvShowViewModelFactory.cs" />
+    <Compile Include="TvShows\Seasons\SeasonImagesViewModel.cs" />
+    <Compile Include="TvShows\Seasons\SeasonViewModel.cs" />
+    <Compile Include="Sources\SourceManagerViewModel.cs" />
+    <Compile Include="TvShows\Shows\TvShowImagesViewModel.cs" />
+    <Compile Include="TvShows\TvShowManagerViewModel.cs" />
+    <Compile Include="TvShows\Shows\TvShowMetadataViewModel.cs" />
+    <Compile Include="TvShows\Shows\TvShowViewModel.cs" />
+    <Compile Include="TvShows\TvShowViewModelFactory.cs" />
+    <Compile Include="Sources\SourcesWindow.xaml.cs">
       <DependentUpon>SourcesWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TvShows\Actors.xaml.cs">
+    <Compile Include="TvShows\Actors.xaml.cs">
       <DependentUpon>Actors.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TvShows\EpisodeMetadata.xaml.cs">
-      <DependentUpon>EpisodeMetadata.xaml</DependentUpon>
+    <Compile Include="TvShows\Episodes\EpisodeMetadataControl.xaml.cs">
+      <DependentUpon>EpisodeMetadataControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TvShows\SeasonMetadata.xaml.cs">
+    <Compile Include="TvShows\Seasons\SeasonMetadata.xaml.cs">
       <DependentUpon>SeasonMetadata.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TvShows\TvGeneralInformation.xaml.cs">
+    <Compile Include="TvShows\Shows\TvGeneralInformation.xaml.cs">
       <DependentUpon>TvGeneralInformation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TvShows\TvShowControl.xaml.cs">
+    <Compile Include="TvShows\TvShowControl.xaml.cs">
       <DependentUpon>TvShowControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TvShows\TvShowFanart.xaml.cs">
+    <Compile Include="TvShows\Shows\TvShowFanart.xaml.cs">
       <DependentUpon>TvShowFanart.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TvShows\TvShowMetadata.xaml.cs">
-      <DependentUpon>TvShowMetadata.xaml</DependentUpon>
+    <Compile Include="TvShows\Shows\TvShowMetadataControl.xaml.cs">
+      <DependentUpon>TvShowMetadataControl.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -131,35 +131,35 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SourcesWindow.xaml">
+    <Page Include="Sources\SourcesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TvShows\Actors.xaml">
+    <Page Include="TvShows\Actors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TvShows\EpisodeMetadata.xaml">
+    <Page Include="TvShows\Episodes\EpisodeMetadataControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TvShows\SeasonMetadata.xaml">
+    <Page Include="TvShows\Seasons\SeasonMetadata.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TvShows\TvGeneralInformation.xaml">
+    <Page Include="TvShows\Shows\TvGeneralInformation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TvShows\TvShowControl.xaml">
+    <Page Include="TvShows\TvShowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TvShows\TvShowFanart.xaml">
+    <Page Include="TvShows\Shows\TvShowFanart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TvShows\TvShowMetadata.xaml">
+    <Page Include="TvShows\Shows\TvShowMetadataControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -210,6 +210,7 @@
       <Name>PerfectMedia</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

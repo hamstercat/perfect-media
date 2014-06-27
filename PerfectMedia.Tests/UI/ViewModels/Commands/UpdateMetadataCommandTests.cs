@@ -1,6 +1,5 @@
 ﻿using NSubstitute;
-using PerfectMedia.UI.ViewModels;
-using PerfectMedia.UI.ViewModels.Commands;
+using PerfectMedia.UI.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;

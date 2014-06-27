@@ -1,19 +1,10 @@
 ﻿using Ninject;
-using PerfectMedia.FileInformation;
-using PerfectMedia.Sources;
-using PerfectMedia.TvShows;
-using PerfectMedia.TvShows.Metadata;
-using PerfectMedia.UI.Properties;
-using PerfectMedia.UI.ViewModels.TvShows;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ninject.Extensions.Conventions;
-using System.Reflection;
+using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.TvShows;
+using System.Configuration;
 using System.IO;
+using System.Reflection;
 
 namespace PerfectMedia.UI
 {

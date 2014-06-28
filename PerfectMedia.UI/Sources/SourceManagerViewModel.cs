@@ -1,25 +1,24 @@
 ﻿using PerfectMedia.Sources;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace PerfectMedia.UI.Sources
 {
     public class SourceManagerViewModel : BaseViewModel, ISourceManagerViewModel
     {
         private readonly ISourceService _sourceService;
+        private readonly IFileSystemService _fileSystemService;
         private readonly SourceType _sourceType;
 
         public ObservableCollection<string> RootFolders { get; private set; }
         public ObservableCollection<string> SpecificFolders { get; private set; }
 
-        public SourceManagerViewModel(ISourceService sourceService, SourceType sourceType)
+        public SourceManagerViewModel(ISourceService sourceService, IFileSystemService fileSystemService, SourceType sourceType)
         {
             _sourceService = sourceService;
+            _fileSystemService = fileSystemService;
             _sourceType = sourceType;
 
             RootFolders = new ObservableCollection<string>();
@@ -83,10 +82,10 @@ namespace PerfectMedia.UI.Sources
         {
             foreach (string folder in RootFolders)
             {
-                IEnumerable<string> tvShows = Directory.GetDirectories(folder);
-                foreach (string tvShow in tvShows)
+                IEnumerable<string> specificFolders = _fileSystemService.FindDirectories(folder);
+                foreach (string specificFolder in specificFolders)
                 {
-                    AddSpecificFolder(tvShow);
+                    AddSpecificFolder(specificFolder);
                 }
             }
         }

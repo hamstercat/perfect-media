@@ -11,16 +11,19 @@ namespace PerfectMedia.UI.TvShows
     public class TvShowViewModelFactory : ITvShowViewModelFactory
     {
         private readonly ISourceService _sourceService;
+        private readonly IFileSystemService _fileSystemService;
         private readonly ITvShowFileService _tvShowFileService;
         private readonly ITvShowMetadataService _tvShowMetadataService;
         private readonly IEpisodeMetadataService _episodeMetadataService;
 
         public TvShowViewModelFactory(ISourceService sourceService,
+            IFileSystemService fileSystemService,
             ITvShowFileService tvShowFileService,
             ITvShowMetadataService tvShowMetadataService,
             IEpisodeMetadataService episodeMetadataService)
         {
             _sourceService = sourceService;
+            _fileSystemService = fileSystemService;
             _tvShowFileService = tvShowFileService;
             _tvShowMetadataService = tvShowMetadataService;
             _episodeMetadataService = episodeMetadataService;
@@ -28,7 +31,7 @@ namespace PerfectMedia.UI.TvShows
 
         public ISourceManagerViewModel GetSourceManager(SourceType sourceType)
         {
-            return new SourceManagerViewModel(_sourceService, sourceType);
+            return new SourceManagerViewModel(_sourceService, _fileSystemService, sourceType);
         }
 
         public ITvShowViewModel GetTvShow(string path)

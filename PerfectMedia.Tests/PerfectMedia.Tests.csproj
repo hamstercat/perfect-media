@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TvShows\TvShowServiceTests.cs" />
+    <Compile Include="TvShows\TvShowFileServiceTests.cs" />
     <Compile Include="BaseViewModelTests.cs" />
     <Compile Include="UI\Converters\ShowIfNotEmptyConverterTests.cs" />
     <Compile Include="UI\Converters\SpecialsSeasonVisibilityConverterTests.cs" />
@@ -62,7 +62,7 @@
     <Compile Include="UI\Converters\NullToBooleanConverterTests.cs" />
     <Compile Include="UI\Converters\PathFolderNameConverterTests.cs" />
     <Compile Include="UI\Converters\SeasonNumberToNameConverterTests.cs" />
-    <Compile Include="Sources\SourceManagerViewModelTests.cs" />
+    <Compile Include="UI\Sources\SourceManagerViewModelTests.cs" />
     <Compile Include="UI\TvShows\Shows\TvShowMetadataViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>

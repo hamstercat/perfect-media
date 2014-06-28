@@ -52,6 +52,11 @@ namespace PerfectMedia
             Directory.CreateDirectory(folderName);
         }
 
+        public IEnumerable<string> FindDirectories(string path)
+        {
+            return FindDirectories(path, "*");
+        }
+        
         public IEnumerable<string> FindDirectories(string path, string searchPattern)
         {
             return Directory.GetDirectories(path, searchPattern, SearchOption.TopDirectoryOnly);

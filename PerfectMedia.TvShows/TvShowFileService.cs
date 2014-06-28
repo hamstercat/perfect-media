@@ -26,9 +26,9 @@ namespace PerfectMedia.TvShows
             return images;
         }
 
-        public Season GetSeason(string tvShowPath, string seasonPath)
+        public Season GetSeason(string tvShowPath, string seasonFolder)
         {
-            return CreateSeason(tvShowPath, seasonPath);
+            return CreateSeason(tvShowPath, seasonFolder);
         }
 
         public IEnumerable<Season> GetSeasons(string tvShowPath)

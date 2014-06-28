@@ -7,18 +7,52 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Extensions;
 
 namespace PerfectMedia.Tests.TvShows
 {
-    public class TvShowServiceTests
+    public class TvShowFileServiceTests
     {
         private readonly IFileSystemService _fileSystemService;
         private readonly TvShowFileService _service;
 
-        public TvShowServiceTests()
+        public TvShowFileServiceTests()
         {
             _fileSystemService = Substitute.For<IFileSystemService>();
             _service = new TvShowFileService(_fileSystemService);
+        }
+
+        [Fact]
+        public void GetShowImages_Always_CalculatesTheShowMainImagePaths()
+        {
+            // Arrange
+            string path = @"C:\Folder\TV Shows\Game of Thrones";
+
+            // Act
+            TvShowImages images = _service.GetShowImages(path);
+
+            // Assert
+            Assert.Equal(@"C:\Folder\TV Shows\Game of Thrones\fanart.jpg", images.Fanart);
+            Assert.Equal(@"C:\Folder\TV Shows\Game of Thrones\poster.jpg", images.Poster);
+            Assert.Equal(@"C:\Folder\TV Shows\Game of Thrones\banner.jpg", images.Banner);
+        }
+
+        [Theory]
+        [InlineData("Specials", 0, @"C:\Folder\TV Shows\Game of Thrones\season-specials-")]
+        [InlineData("Season 1", 1, @"C:\Folder\TV Shows\Game of Thrones\season01-")]
+        [InlineData("Season 39", 39, @"C:\Folder\TV Shows\Game of Thrones\season39-")]
+        public void GetSeason_WithValidFolderName_ExtractsTheCorrectSeasonNumber(string seasonFolder, int expectedSeasonNumber, string imagePath)
+        {
+            // Arrange
+            string path = @"C:\Folder\TV Shows\Game of Thrones";
+
+            // Act
+            Season season = _service.GetSeason(path, seasonFolder);
+
+            // Assert
+            Assert.Equal(expectedSeasonNumber, season.SeasonNumber);
+            Assert.Equal(imagePath + "poster.jpg", season.PosterUrl);
+            Assert.Equal(imagePath + "banner.jpg", season.BannerUrl);
         }
 
         [Fact]
@@ -32,6 +66,10 @@ namespace PerfectMedia.Tests.TvShows
                 @"C:\Folder\Season 2",
                 @"C:\Folder\Specials"
             };
+            _fileSystemService.FindDirectories(path, "Season *")
+                .Returns(seasonFolders.Take(2));
+            _fileSystemService.FindDirectories(path, "Special*")
+                .Returns(seasonFolders.Skip(2));
 
             // Act
             IEnumerable<Season> seasons = _service.GetSeasons(path);
@@ -44,8 +82,6 @@ namespace PerfectMedia.Tests.TvShows
         [Fact]
         public void GetSeasons_WithoutFolders_ReturnsEmpty()
         {
-            // Arrange
-
             // Act
             IEnumerable<Season> seasons = _service.GetSeasons(@"C:\Folder");
 
@@ -72,10 +108,12 @@ namespace PerfectMedia.Tests.TvShows
             string path = @"C:\Folder\Season 1";
             List<string> episodeFolders = new List<string>
             {
-                @"C:\Folder\Season 1\0x01.mkv",
-                @"C:\Folder\Season 1\0x02.mkv",
-                @"C:\Folder\Season 1\0x03.mkv"
+                @"C:\Folder\Season 1\1x01.mkv",
+                @"C:\Folder\Season 1\1x02.mkv",
+                @"C:\Folder\Season 1\1x03.mkv"
             };
+            _fileSystemService.FindFiles(path, Arg.Any<string[]>())
+                .Returns(episodeFolders);
 
             // Act
             IEnumerable<Episode> episodes = _service.GetEpisodes(path);
@@ -88,8 +126,6 @@ namespace PerfectMedia.Tests.TvShows
         [Fact]
         public void GetEpisodes_WithoutFolders_ReturnsEmpty()
         {
-            // Arrange
-
             // Act
             IEnumerable<Episode> episodes = _service.GetEpisodes(@"C:\Folder");
 

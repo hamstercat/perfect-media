@@ -16,6 +16,7 @@ namespace PerfectMedia
         bool FolderExists(string folderName);
         void CreateFolder(string folderName);
 
+        IEnumerable<string> FindDirectories(string path);
         IEnumerable<string> FindDirectories(string path, string searchPattern);
         IEnumerable<string> FindFiles(string path, params string[] extensions);
     }

@@ -1,77 +1,26 @@
 ﻿using NSubstitute;
-using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.TvShows;
 using PerfectMedia.UI.TvShows.Shows;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
-namespace PerfectMedia.Tests.UI.ViewModels.TvShows
+namespace PerfectMedia.Tests.UI.TvShows.Shows
 {
     public class TvShowMetadataViewModelTests
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowMetadataService _metadataService;
-        private readonly TvShowMetadataViewModel _viewModel;
+        private TvShowMetadataViewModel _viewModel;
         private readonly string _path;
 
         public TvShowMetadataViewModelTests()
         {
             _viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
             _metadataService = Substitute.For<ITvShowMetadataService>();
-            _path = @"C:\Folder\Music";
+            _path = @"C:\Folder\TV Shows";
             _viewModel = new TvShowMetadataViewModel(_viewModelFactory, _metadataService, _path);
-        }
-
-        [Fact]
-        public void Genres_WhenModified_ModifiesGenresString()
-        {
-            // Arrange
-            string raisedPropertyName = null;
-            _viewModel.PropertyChanged += (s, e) => raisedPropertyName = e.PropertyName;
-
-            _metadataService.Get(Arg.Any<string>())
-                .Returns(new TvShowMetadata());
-
-            TvShowImagesViewModel imagesViewModel = Substitute.For<TvShowImagesViewModel>();
-            _viewModelFactory.GetTvShowImages(_path)
-                .Returns(imagesViewModel);
-
-            // Act
-            _viewModel.Genres.Collection.Add("Animation");
-            _viewModel.Genres.Collection.Add("Action");
-            _viewModel.Genres.Collection.Add("Adventure");
-
-            // Assert
-            Assert.Equal("GenresString", raisedPropertyName);
-            Assert.Contains("Animation", _viewModel.Genres.String);
-            Assert.Contains("Action", _viewModel.Genres.String);
-            Assert.Contains("Adventure", _viewModel.Genres.String);
-        }
-
-        [Fact]
-        public void GenresString_WhenModified_ModifiesGenres()
-        {
-            // Arrange
-            _metadataService.Get(Arg.Any<string>())
-                .Returns(new TvShowMetadata());
-
-            bool collectionChanged = false;
-            _viewModel.Genres.Collection.CollectionChanged += (s, e) => collectionChanged = true;
-
-            // Act
-            _viewModel.Genres.String = "Animation / Action / Adventure";
-
-            // Assert
-            Assert.True(collectionChanged);
-            Assert.Contains("Animation", _viewModel.Genres.Collection);
-            Assert.Contains("Action", _viewModel.Genres.Collection);
-            Assert.Contains("Adventure", _viewModel.Genres.Collection);
         }
 
         [Fact]
@@ -80,7 +29,7 @@ namespace PerfectMedia.Tests.UI.ViewModels.TvShows
             // Arrange
             TvShowMetadata metadata = CreateTvShowMetadata();
             _metadataService.Get(Arg.Any<string>())
-                .Returns(new TvShowMetadata());
+                .Returns(metadata);
 
             // Act
             _viewModel.Refresh();
@@ -93,27 +42,45 @@ namespace PerfectMedia.Tests.UI.ViewModels.TvShows
         public void Refresh_Always_RefreshesImages()
         {
             // Arrange
-            _metadataService.Get(Arg.Any<string>())
+            _metadataService.Get(_path)
                 .Returns(new TvShowMetadata());
+
+            ITvShowImagesViewModel imagesViewModel = Substitute.For<ITvShowImagesViewModel>();
+            _viewModelFactory.GetTvShowImages(_path)
+                .Returns(imagesViewModel);
+            // Recreate the ViewModel as the ImagesViewModel is retrieved in the constructor
+            _viewModel = new TvShowMetadataViewModel(_viewModelFactory, _metadataService, _path);
 
             // Act
             _viewModel.Refresh();
 
             // Assert
-            /*_metadataService.ReceivedWithAnyArgs()
-                .GetLocalImages(null);
-            _localMetadataService.ReceivedWithAnyArgs()
-                .GetLocalSeasonImages(null);*/
-            throw new NotImplementedException();
+            imagesViewModel.Received().Refresh();
         }
 
         [Fact]
-        public void Update_Always_RetrievesFreshMetadata()
+        public void Update_WhenMetadataAlreadyExists_DoesNothing()
         {
             // Arrange
             TvShowMetadata metadata = CreateTvShowMetadata();
             _metadataService.Get(Arg.Any<string>())
-                .Returns(new TvShowMetadata());
+                .Returns(metadata);
+
+            // Act
+            _viewModel.Update();
+
+            // Assert
+            _metadataService.DidNotReceiveWithAnyArgs()
+                .Update(_path);
+        }
+
+        [Fact]
+        public void Update_WhenNoMetadataAlreadyExists_RetrievesFreshMetadata()
+        {
+            // Arrange
+            TvShowMetadata metadata = CreateTvShowMetadata();
+            _metadataService.Get(Arg.Any<string>())
+                .Returns(new TvShowMetadata(), metadata);
 
             // Act
             _viewModel.Update();
@@ -151,7 +118,7 @@ namespace PerfectMedia.Tests.UI.ViewModels.TvShows
             // Assert
             // TODO: validate we're getting the good properties in the second argument to save
             _metadataService.Received()
-                .Save(_path, Arg.Any<TvShowMetadata>());
+                .Save(_path, Arg.Do<TvShowMetadata>(metadata => AssertMetadataEqualsViewModel(metadata)));
         }
 
         private TvShowMetadata CreateTvShowMetadata()

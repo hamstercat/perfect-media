@@ -13,12 +13,14 @@ namespace PerfectMedia.Tests.UI.Sources
     public class SourceManagerViewModelTests
     {
         private readonly ISourceService _sourceService;
+        private readonly IFileSystemService _fileSystemService;
         private readonly SourceManagerViewModel _viewModel;
 
         public SourceManagerViewModelTests()
         {
             _sourceService = Substitute.For<ISourceService>();
-            _viewModel = new SourceManagerViewModel(_sourceService, SourceType.Music);
+            _fileSystemService = Substitute.For<IFileSystemService>();
+            _viewModel = new SourceManagerViewModel(_sourceService, _fileSystemService, SourceType.Music);
         }
 
         [Fact]
@@ -202,10 +204,27 @@ namespace PerfectMedia.Tests.UI.Sources
                 .Delete(Arg.Is<Source>(source => source.Folder == folder && !source.IsRoot && source.SourceType == SourceType.Music));
         }
 
-        [Fact(Skip = "Depends on filesystem")]
+        [Fact]
         public void RefreshSpecificFolders_WithRootFolder_AddsSpecificFolders()
         {
+            // Arrange
+            string folder = @"C:\Folder\Music\";
+            _viewModel.RootFolders.Add(folder);
 
+            List<string> artistFolders = new List<string>
+            {
+                @"C:\Folder\Music\Billy Talent",
+                @"C:\Folder\Music\Cobra Starship",
+                @"C:\Folder\Music\Linkin Park"
+            };
+            _fileSystemService.FindDirectories(folder)
+                .Returns(artistFolders);
+
+            // Act
+            _viewModel.RefreshSpecificFolders();
+
+            // Assert
+            Assert.Equal(artistFolders, _viewModel.SpecificFolders);
         }
     }
 }

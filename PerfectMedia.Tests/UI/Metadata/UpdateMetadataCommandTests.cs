@@ -1,13 +1,8 @@
 ﻿using NSubstitute;
 using PerfectMedia.UI.Metadata;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
-namespace PerfectMedia.Tests.UI.ViewModels.Commands
+namespace PerfectMedia.Tests.UI.Metadata
 {
     public class UpdateMetadataCommandTests
     {

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace PerfectMedia.Tests.UI.ViewModels
+namespace PerfectMedia.Tests.UI.Sources
 {
     public class SourceManagerViewModelTests
     {

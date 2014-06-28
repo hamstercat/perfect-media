@@ -33,6 +33,7 @@
     <Reference Include="NSubstitute">
       <HintPath>..\packages\NSubstitute.1.7.2.0\lib\NET45\NSubstitute.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -51,16 +52,18 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TvShows\TvShowServiceTests.cs" />
-    <Compile Include="UI\ViewModels\BaseViewModelTests.cs" />
-    <Compile Include="UI\ViewModels\Commands\UpdateMetadataCommandTests.cs" />
-    <Compile Include="UI\ViewModels\Commands\SaveMetadataCommandTests.cs" />
-    <Compile Include="UI\ViewModels\Commands\RefreshMetadataCommandTests.cs" />
+    <Compile Include="BaseViewModelTests.cs" />
+    <Compile Include="UI\Converters\ShowIfNotEmptyConverterTests.cs" />
+    <Compile Include="UI\Converters\SpecialsSeasonVisibilityConverterTests.cs" />
+    <Compile Include="UI\Metadata\UpdateMetadataCommandTests.cs" />
+    <Compile Include="UI\Metadata\SaveMetadataCommandTests.cs" />
+    <Compile Include="UI\Metadata\RefreshMetadataCommandTests.cs" />
     <Compile Include="UI\Converters\IsEmptyToBooleanConverterTests.cs" />
     <Compile Include="UI\Converters\NullToBooleanConverterTests.cs" />
     <Compile Include="UI\Converters\PathFolderNameConverterTests.cs" />
     <Compile Include="UI\Converters\SeasonNumberToNameConverterTests.cs" />
-    <Compile Include="UI\ViewModels\SourceManagerViewModelTests.cs" />
-    <Compile Include="UI\ViewModels\TvShows\TvShowMetadataViewModelTests.cs" />
+    <Compile Include="Sources\SourceManagerViewModelTests.cs" />
+    <Compile Include="UI\TvShows\Shows\TvShowMetadataViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

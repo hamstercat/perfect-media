@@ -1,23 +1,18 @@
 ﻿using NSubstitute;
 using PerfectMedia.UI.Metadata;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
-namespace PerfectMedia.Tests.UI.ViewModels.Commands
+namespace PerfectMedia.Tests.UI.Metadata
 {
-    public class RefreshMetadataCommandTests
+    public class SaveMetadataCommandTests
     {
         private readonly IMetadataProvider _metadataProvider;
-        private readonly RefreshMetadataCommand _command;
+        private readonly SaveMetadataCommand _command;
 
-        public RefreshMetadataCommandTests()
+        public SaveMetadataCommandTests()
         {
             _metadataProvider = Substitute.For<IMetadataProvider>();
-            _command = new RefreshMetadataCommand(_metadataProvider);
+            _command = new SaveMetadataCommand(_metadataProvider);
         }
 
         [Fact]
@@ -31,13 +26,13 @@ namespace PerfectMedia.Tests.UI.ViewModels.Commands
         }
 
         [Fact]
-        public void Execute_Always_RefreshesMetadata()
+        public void Execute_Always_SavesMetadata()
         {
             // Act
             _command.Execute(null);
 
             // Assert
-            _metadataProvider.Received().Refresh();
+            _metadataProvider.Received().Save();
         }
     }
 }

@@ -11,7 +11,7 @@ using System.Text;
 
 namespace PerfectMedia.UI.TvShows.Shows
 {
-    public class TvShowImagesViewModel : BaseViewModel
+    public class TvShowImagesViewModel : BaseViewModel, ITvShowImagesViewModel
     {
         private ITvShowFileService _tvShowFileService;
         private readonly ITvShowMetadataService _metadataService;

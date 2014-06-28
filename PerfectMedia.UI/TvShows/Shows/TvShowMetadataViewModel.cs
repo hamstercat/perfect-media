@@ -11,13 +11,13 @@ using System.Windows.Input;
 
 namespace PerfectMedia.UI.TvShows.Shows
 {
-    public class TvShowMetadataViewModel : BaseViewModel, IMetadataProvider
+    public class TvShowMetadataViewModel : BaseViewModel, ITvShowMetadataViewModel, IMetadataProvider
     {
         private readonly ITvShowMetadataService _metadataService;
         private bool _lazyLoaded;
 
         public string Path { get; private set; }
-        public TvShowImagesViewModel Images { get; private set; }
+        public ITvShowImagesViewModel Images { get; private set; }
         public ObservableCollection<ActorViewModel> Actors { get; private set; }
         
         public ICommand RefreshCommand { get; private set; }

@@ -21,7 +21,7 @@ namespace PerfectMedia.UI.Sources
     /// </summary>
     public partial class SourcesWindow : Window
     {
-        private SourceManagerViewModel Sources
+        private ISourceManagerViewModel Sources
         {
             get
             {

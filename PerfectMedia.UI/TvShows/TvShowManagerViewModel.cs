@@ -19,15 +19,15 @@ namespace PerfectMedia.UI.TvShows
         private readonly ITvShowFileService _tvShowFileService;
         private readonly ITvShowMetadataService _metadataService;
 
-        public SourceManagerViewModel Sources { get; private set; }
-        public ObservableCollection<TvShowViewModel> TvShows { get; private set; }
+        public ISourceManagerViewModel Sources { get; private set; }
+        public ObservableCollection<ITvShowViewModel> TvShows { get; private set; }
 
         public TvShowManagerViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowFileService tvShowFileService, ITvShowMetadataService metadataService)
         {
             _viewModelFactory = viewModelFactory;
             _tvShowFileService = tvShowFileService;
             _metadataService = metadataService;
-            TvShows = new ObservableCollection<TvShowViewModel>();
+            TvShows = new ObservableCollection<ITvShowViewModel>();
 
             Sources = viewModelFactory.GetSourceManager(SourceType.TvShow);
             Sources.SpecificFolders.CollectionChanged += SourceFoldersCollectionChanged;
@@ -61,7 +61,7 @@ namespace PerfectMedia.UI.TvShows
         {
             foreach (string path in tvShows)
             {
-                TvShowViewModel newTvShow = _viewModelFactory.GetTvShow(path);
+                ITvShowViewModel newTvShow = _viewModelFactory.GetTvShow(path);
                 TvShows.Add(newTvShow);
             }
         }
@@ -70,7 +70,7 @@ namespace PerfectMedia.UI.TvShows
         {
             foreach (string path in tvShows)
             {
-                TvShowViewModel tvShowToRemove = TvShows.First(show => show.Path == path);
+                ITvShowViewModel tvShowToRemove = TvShows.First(show => show.Path == path);
                 TvShows.Remove(tvShowToRemove);
             }
         }

@@ -9,7 +9,7 @@ using System.Text;
 
 namespace PerfectMedia.UI.TvShows.Seasons
 {
-    public class SeasonViewModel : BaseViewModel, ITreeViewItemViewModel
+    public class SeasonViewModel : BaseViewModel, ISeasonViewModel, ITreeViewItemViewModel
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowFileService _tvShowFileService;
@@ -67,7 +67,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
         }
 
         public string Path { get; private set; }
-        public ObservableCollection<EpisodeViewModel> Episodes { get; private set; }
+        public ObservableCollection<IEpisodeViewModel> Episodes { get; private set; }
 
         public SeasonViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowFileService tvShowFileService, string tvShowPath, string path)
         {
@@ -79,7 +79,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
             // We need to set a "dummy" item in the collection for an arrow to appear in the TreeView since we're lazy-loading the items under it
             _imagesLoaded = false;
             _episodeLoaded = false;
-            Episodes = new ObservableCollection<EpisodeViewModel> { _viewModelFactory.GetEpisode("dummy") };
+            Episodes = new ObservableCollection<IEpisodeViewModel> { _viewModelFactory.GetEpisode("dummy") };
         }
 
         private void LoadEpisodes()
@@ -90,7 +90,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
             IEnumerable<Episode> episodes = _tvShowFileService.GetEpisodes(Path);
             foreach (Episode episode in episodes)
             {
-                EpisodeViewModel episodeViewModel = _viewModelFactory.GetEpisode(episode.Path);
+                IEpisodeViewModel episodeViewModel = _viewModelFactory.GetEpisode(episode.Path);
                 Episodes.Add(episodeViewModel);
             }
             _episodeLoaded = true;

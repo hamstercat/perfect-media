@@ -13,11 +13,11 @@ namespace PerfectMedia.UI.TvShows
 {
     public interface ITvShowViewModelFactory
     {
-        SourceManagerViewModel GetSourceManager(SourceType sourceType);
-        TvShowViewModel GetTvShow(string path);
-        TvShowMetadataViewModel GetTvShowMetadata(string path);
-        TvShowImagesViewModel GetTvShowImages(string path);
-        SeasonViewModel GetSeason(string tvShowPath, string path);
-        EpisodeViewModel GetEpisode(string path);
+        ISourceManagerViewModel GetSourceManager(SourceType sourceType);
+        ITvShowViewModel GetTvShow(string path);
+        ITvShowMetadataViewModel GetTvShowMetadata(string path);
+        ITvShowImagesViewModel GetTvShowImages(string path);
+        ISeasonViewModel GetSeason(string tvShowPath, string path);
+        IEpisodeViewModel GetEpisode(string path);
     }
 }

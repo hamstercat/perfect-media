@@ -9,7 +9,7 @@ using System.Text;
 
 namespace PerfectMedia.UI.Sources
 {
-    public class SourceManagerViewModel : BaseViewModel
+    public class SourceManagerViewModel : BaseViewModel, ISourceManagerViewModel
     {
         private readonly ISourceService _sourceService;
         private readonly SourceType _sourceType;

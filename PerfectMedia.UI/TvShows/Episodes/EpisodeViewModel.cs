@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace PerfectMedia.UI.TvShows.Episodes
 {
-    public class EpisodeViewModel : BaseViewModel, ITreeViewItemViewModel, IMetadataProvider
+    public class EpisodeViewModel : BaseViewModel, IEpisodeViewModel, ITreeViewItemViewModel, IMetadataProvider
     {
         private readonly IEpisodeMetadataService _metadataService;
         private bool _lazyLoaded;

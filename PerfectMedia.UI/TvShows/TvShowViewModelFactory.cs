@@ -26,32 +26,32 @@ namespace PerfectMedia.UI.TvShows
             _episodeMetadataService = episodeMetadataService;
         }
 
-        public SourceManagerViewModel GetSourceManager(SourceType sourceType)
+        public ISourceManagerViewModel GetSourceManager(SourceType sourceType)
         {
             return new SourceManagerViewModel(_sourceService, sourceType);
         }
 
-        public TvShowViewModel GetTvShow(string path)
+        public ITvShowViewModel GetTvShow(string path)
         {
             return new TvShowViewModel(this, _tvShowFileService, path);
         }
 
-        public TvShowMetadataViewModel GetTvShowMetadata(string path)
+        public ITvShowMetadataViewModel GetTvShowMetadata(string path)
         {
             return new TvShowMetadataViewModel(this, _tvShowMetadataService, path);
         }
 
-        public TvShowImagesViewModel GetTvShowImages(string path)
+        public ITvShowImagesViewModel GetTvShowImages(string path)
         {
             return new TvShowImagesViewModel(_tvShowFileService, _tvShowMetadataService, path);
         }
 
-        public SeasonViewModel GetSeason(string tvShowPath, string path)
+        public ISeasonViewModel GetSeason(string tvShowPath, string path)
         {
             return new SeasonViewModel(this, _tvShowFileService, tvShowPath, path);
         }
 
-        public EpisodeViewModel GetEpisode(string path)
+        public IEpisodeViewModel GetEpisode(string path)
         {
             return new EpisodeViewModel(_episodeMetadataService, path);
         }

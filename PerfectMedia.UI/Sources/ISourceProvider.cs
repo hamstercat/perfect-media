@@ -8,6 +8,6 @@ namespace PerfectMedia.UI.Sources
 {
     public interface ISourceProvider
     {
-        SourceManagerViewModel Sources { get; }
+        ISourceManagerViewModel Sources { get; }
     }
 }

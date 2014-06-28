@@ -63,7 +63,9 @@
     <Compile Include="UI\Converters\PathFolderNameConverterTests.cs" />
     <Compile Include="UI\Converters\SeasonNumberToNameConverterTests.cs" />
     <Compile Include="UI\Sources\SourceManagerViewModelTests.cs" />
+    <Compile Include="UI\TvShows\DashDelimitedCollectionViewModelTests.cs" />
     <Compile Include="UI\TvShows\Shows\TvShowMetadataViewModelTests.cs" />
+    <Compile Include="UI\TvShows\TvShowManagerViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -64,7 +64,11 @@
     <Compile Include="UI\Converters\SeasonNumberToNameConverterTests.cs" />
     <Compile Include="UI\Sources\SourceManagerViewModelTests.cs" />
     <Compile Include="UI\TvShows\DashDelimitedCollectionViewModelTests.cs" />
+    <Compile Include="UI\TvShows\Episodes\EpisodeViewModelTests.cs" />
+    <Compile Include="UI\TvShows\Seasons\SeasonViewModelTests.cs" />
+    <Compile Include="UI\TvShows\Shows\TvShowImagesViewModelTests.cs" />
     <Compile Include="UI\TvShows\Shows\TvShowMetadataViewModelTests.cs" />
+    <Compile Include="UI\TvShows\Shows\TvShowViewModelTests.cs" />
     <Compile Include="UI\TvShows\TvShowManagerViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>

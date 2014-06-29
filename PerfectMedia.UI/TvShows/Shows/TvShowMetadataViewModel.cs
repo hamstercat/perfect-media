@@ -18,13 +18,28 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         public string Path { get; private set; }
         public ITvShowImagesViewModel Images { get; private set; }
-        public ObservableCollection<ActorViewModel> Actors { get; private set; }
         
         public ICommand RefreshCommand { get; private set; }
         public ICommand UpdateCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
 
         #region Metadata
+        private ObservableCollection<ActorViewModel> _actors;
+        public ObservableCollection<ActorViewModel> Actors
+        {
+            get
+            {
+                InitialLoadInformation();
+                return _actors;
+            }
+            set
+            {
+                InitialLoadInformation();
+                _actors = value;
+                OnPropertyChanged("Actors");
+            }
+        }
+        
         private int _state;
         public int State
         {
@@ -35,6 +50,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
             set
             {
+                InitialLoadInformation();
                 _state = value;
                 OnPropertyChanged("State");
             }
@@ -50,6 +66,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
             set
             {
+                InitialLoadInformation();
                 _title = value;
                 OnPropertyChanged("Title");
             }
@@ -65,6 +82,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
             set
             {
+                InitialLoadInformation();
                 _id = value;
                 OnPropertyChanged("Id");
             }
@@ -80,6 +98,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
             set
             {
+                InitialLoadInformation();
                 _mpaaRating = value;
                 OnPropertyChanged("MpaaRating");
             }
@@ -90,10 +109,12 @@ namespace PerfectMedia.UI.TvShows.Shows
         {
             get
             {
+                InitialLoadInformation();
                 return _genres;
             }
             set
             {
+                InitialLoadInformation();
                 _genres = value;
                 OnPropertyChanged("Genres");
             }
@@ -109,6 +130,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
             set
             {
+                InitialLoadInformation();
                 _imdbId = value;
                 OnPropertyChanged("ImdbId");
             }
@@ -124,6 +146,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
             set
             {
+                InitialLoadInformation();
                 _plot = value;
                 OnPropertyChanged("Plot");
             }
@@ -139,6 +162,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
             set
             {
+                InitialLoadInformation();
                 _runtimeInMinutes = value;
                 OnPropertyChanged("RuntimeInMinutes");
             }
@@ -154,6 +178,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
             set
             {
+                InitialLoadInformation();
                 _rating = value;
                 OnPropertyChanged("Rating");
             }
@@ -169,6 +194,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
             set
             {
+                InitialLoadInformation();
                 _premieredDate = value;
                 OnPropertyChanged("PremieredDate");
             }
@@ -184,6 +210,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
             set
             {
+                InitialLoadInformation();
                 _studio = value;
                 OnPropertyChanged("Studio");
             }
@@ -199,6 +226,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
             set
             {
+                InitialLoadInformation();
                 _language = value;
                 OnPropertyChanged("Language");
             }
@@ -212,8 +240,9 @@ namespace PerfectMedia.UI.TvShows.Shows
             _lazyLoaded = false;
 
             Images = viewModelFactory.GetTvShowImages(path);
-            Actors = new ObservableCollection<ActorViewModel>();
-            Genres = new DashDelimitedCollectionViewModel<string>(s => s);
+            // We don't want to trigger the InitialLoadInformation by setting the properties
+            _actors = new ObservableCollection<ActorViewModel>();
+            _genres = new DashDelimitedCollectionViewModel<string>(s => s);
 
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this);

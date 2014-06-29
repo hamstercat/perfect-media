@@ -77,7 +77,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         }
 
         private ObservableCollection<SeasonImagesViewModel> _seasonImages;
-        public INotifyCollectionChanged SeasonImages
+        public ObservableCollection<SeasonImagesViewModel> SeasonImages
         {
             get
             {

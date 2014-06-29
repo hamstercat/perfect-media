@@ -98,8 +98,10 @@ namespace PerfectMedia.Tests.UI.TvShows.Shows
             _metadataService.Get(Arg.Any<string>())
                 .Returns(new TvShowMetadata());
 
-            _viewModel.Actors.Add(new ActorViewModel { Name = "ActorName", Role = "ActorRole", Thumb = "ActorThumb" });
-            _viewModel.Actors.Add(new ActorViewModel { Name = "ActorName", Role = "ActorRole", Thumb = "ActorThumb" });
+            _viewModel.Actors.Add(new ActorViewModel { Name = "ActorName1", Role = "ActorRole1", Thumb = "ActorThumb1" });
+            _viewModel.Actors.Add(new ActorViewModel { Name = "ActorName2", Role = "ActorRole2", Thumb = "ActorThumb2" });
+            _viewModel.Genres.Collection.Add("Animation");
+            _viewModel.Genres.Collection.Add("Action");
             _viewModel.Id = "Good ID";
             _viewModel.ImdbId = "IMDB ID";
             _viewModel.Language = "fr";
@@ -116,9 +118,8 @@ namespace PerfectMedia.Tests.UI.TvShows.Shows
             _viewModel.Save();
 
             // Assert
-            // TODO: validate we're getting the good properties in the second argument to save
             _metadataService.Received()
-                .Save(_path, Arg.Do<TvShowMetadata>(metadata => AssertMetadataEqualsViewModel(metadata)));
+                .Save(_path, Arg.Is<TvShowMetadata>(x => AssertMetadataEqualsViewModel(CreateTvShowMetadata())));
         }
 
         private TvShowMetadata CreateTvShowMetadata()
@@ -127,8 +128,8 @@ namespace PerfectMedia.Tests.UI.TvShows.Shows
             {
                 Actors = new List<ActorMetadata>
                 {
-                    new ActorMetadata { Name = "ActorName", Role="ActorRole", Thumb ="ActorThumb" },
-                    new ActorMetadata { Name = "ActorName", Role="ActorRole", Thumb ="ActorThumb" }
+                    new ActorMetadata { Name = "ActorName1", Role="ActorRole1", Thumb ="ActorThumb1" },
+                    new ActorMetadata { Name = "ActorName2", Role="ActorRole2", Thumb ="ActorThumb2" }
                 },
                 Genres = new List<string> { "Animation", "Action" },
                 Id = "Good ID",
@@ -145,13 +146,13 @@ namespace PerfectMedia.Tests.UI.TvShows.Shows
             };
         }
 
-        private void AssertMetadataEqualsViewModel(TvShowMetadata metadata)
+        private bool AssertMetadataEqualsViewModel(TvShowMetadata metadata)
         {
             Assert.Equal(2, _viewModel.Actors.Count);
             ActorViewModel actorViewModel = _viewModel.Actors[0];
-            Assert.Equal("ActorName", actorViewModel.Name);
-            Assert.Equal("ActorRole", actorViewModel.Role);
-            Assert.Equal("ActorThumb", actorViewModel.Thumb);
+            Assert.Equal("ActorName1", actorViewModel.Name);
+            Assert.Equal("ActorRole1", actorViewModel.Role);
+            Assert.Equal("ActorThumb1", actorViewModel.Thumb);
 
             Assert.Equal(metadata.Genres, _viewModel.Genres.Collection);
             Assert.Equal(metadata.Id, _viewModel.Id);
@@ -165,6 +166,8 @@ namespace PerfectMedia.Tests.UI.TvShows.Shows
             Assert.Equal(metadata.State, _viewModel.State);
             Assert.Equal(metadata.Studio, _viewModel.Studio);
             Assert.Equal(metadata.Title, _viewModel.Title);
+
+            return true;
         }
     }
 }

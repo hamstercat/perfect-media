@@ -26,6 +26,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             }
             set
             {
+                InitialLoadInformation();
                 _title = value;
                 OnPropertyChanged("Title");
             }
@@ -41,6 +42,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             }
             set
             {
+                InitialLoadInformation();
                 _rating = value;
                 OnPropertyChanged("Rating");
             }
@@ -56,6 +58,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             }
             set
             {
+                InitialLoadInformation();
                 _seasonNumber = value;
                 OnPropertyChanged("SeasonNumber");
             }
@@ -71,6 +74,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             }
             set
             {
+                InitialLoadInformation();
                 _episodeNumber = value;
                 OnPropertyChanged("EpisodeNumber");
             }
@@ -86,6 +90,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             }
             set
             {
+                InitialLoadInformation();
                 _plot = value;
                 OnPropertyChanged("Plot");
             }
@@ -101,6 +106,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             }
             set
             {
+                InitialLoadInformation();
                 _imagePath = value;
                 OnPropertyChanged("ImagePath");
             }
@@ -116,6 +122,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             }
             set
             {
+                InitialLoadInformation();
                 _imageUrl = value;
                 OnPropertyChanged("ImageUrl");
             }
@@ -131,6 +138,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             }
             set
             {
+                InitialLoadInformation();
                 _playCount = value;
                 OnPropertyChanged("PlayCount");
             }
@@ -146,6 +154,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             }
             set
             {
+                InitialLoadInformation();
                 _lastPlayed = value;
                 OnPropertyChanged("LastPlayed");
             }
@@ -161,6 +170,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             }
             set
             {
+                InitialLoadInformation();
                 _credits = value;
                 OnPropertyChanged("Credits");
             }
@@ -176,6 +186,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             }
             set
             {
+                InitialLoadInformation();
                 _directors = value;
                 OnPropertyChanged("Directors");
             }
@@ -191,6 +202,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             }
             set
             {
+                InitialLoadInformation();
                 _airedDate = value;
                 OnPropertyChanged("AiredDate");
             }
@@ -206,6 +218,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             }
             set
             {
+                InitialLoadInformation();
                 _displaySeason = value;
                 OnPropertyChanged("DisplaySeason");
             }
@@ -221,6 +234,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             }
             set
             {
+                InitialLoadInformation();
                 _displayEpisode = value;
                 OnPropertyChanged("DisplayEpisode");
             }
@@ -236,6 +250,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             }
             set
             {
+                InitialLoadInformation();
                 _episodeBookmarks = value;
                 OnPropertyChanged("EpisodeBookmarks");
             }
@@ -270,8 +285,9 @@ namespace PerfectMedia.UI.TvShows.Episodes
             Path = path;
             _lazyLoaded = false;
 
-            Credits = new DashDelimitedCollectionViewModel<string>(s => s);
-            Directors = new DashDelimitedCollectionViewModel<string>(s => s);
+            // We don't want to trigger the InitialLoadInformation by setting the properties
+            _credits = new DashDelimitedCollectionViewModel<string>(s => s);
+            _directors = new DashDelimitedCollectionViewModel<string>(s => s);
 
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this);

@@ -1,6 +1,7 @@
 ﻿using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Metadata;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +12,8 @@ using System.Windows.Input;
 
 namespace PerfectMedia.UI.TvShows.Shows
 {
-    public class TvShowMetadataViewModel : BaseViewModel, ITvShowMetadataViewModel, IMetadataProvider
+    [ImplementPropertyChanged]
+    public class TvShowMetadataViewModel : ITvShowMetadataViewModel, IMetadataProvider
     {
         private readonly ITvShowMetadataService _metadataService;
         private bool _lazyLoaded;
@@ -36,7 +38,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             {
                 InitialLoadInformation();
                 _actors = value;
-                OnPropertyChanged("Actors");
             }
         }
         
@@ -52,7 +53,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             {
                 InitialLoadInformation();
                 _state = value;
-                OnPropertyChanged("State");
             }
         }
 
@@ -68,7 +68,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             {
                 InitialLoadInformation();
                 _title = value;
-                OnPropertyChanged("Title");
             }
         }
 
@@ -84,7 +83,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             {
                 InitialLoadInformation();
                 _id = value;
-                OnPropertyChanged("Id");
             }
         }
 
@@ -100,7 +98,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             {
                 InitialLoadInformation();
                 _mpaaRating = value;
-                OnPropertyChanged("MpaaRating");
             }
         }
 
@@ -116,7 +113,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             {
                 InitialLoadInformation();
                 _genres = value;
-                OnPropertyChanged("Genres");
             }
         }
 
@@ -132,7 +128,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             {
                 InitialLoadInformation();
                 _imdbId = value;
-                OnPropertyChanged("ImdbId");
             }
         }
 
@@ -148,7 +143,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             {
                 InitialLoadInformation();
                 _plot = value;
-                OnPropertyChanged("Plot");
             }
         }
 
@@ -164,7 +158,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             {
                 InitialLoadInformation();
                 _runtimeInMinutes = value;
-                OnPropertyChanged("RuntimeInMinutes");
             }
         }
 
@@ -180,7 +173,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             {
                 InitialLoadInformation();
                 _rating = value;
-                OnPropertyChanged("Rating");
             }
         }
 
@@ -196,7 +188,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             {
                 InitialLoadInformation();
                 _premieredDate = value;
-                OnPropertyChanged("PremieredDate");
             }
         }
 
@@ -212,7 +203,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             {
                 InitialLoadInformation();
                 _studio = value;
-                OnPropertyChanged("Studio");
             }
         }
 
@@ -228,7 +218,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             {
                 InitialLoadInformation();
                 _language = value;
-                OnPropertyChanged("Language");
             }
         }
         #endregion
@@ -345,7 +334,8 @@ namespace PerfectMedia.UI.TvShows.Shows
                 {
                     Name = actorViewModel.Name,
                     Role = actorViewModel.Role,
-                    Thumb = actorViewModel.ThumbUrl
+                    Thumb = actorViewModel.ThumbUrl,
+                    ThumbPath = actorViewModel.ThumbPath
                 };
                 metadata.Actors.Add(actor);
             }

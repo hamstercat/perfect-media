@@ -1,6 +1,7 @@
 ﻿using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.TvShows.Seasons;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +12,8 @@ using System.Text;
 
 namespace PerfectMedia.UI.TvShows.Shows
 {
-    public class TvShowImagesViewModel : BaseViewModel, ITvShowImagesViewModel
+    [ImplementPropertyChanged]
+    public class TvShowImagesViewModel : ITvShowImagesViewModel
     {
         private ITvShowFileService _tvShowFileService;
         private readonly ITvShowMetadataService _metadataService;
@@ -34,7 +36,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             set
             {
                 _fanartUrl = value;
-                OnPropertyChanged("FanartUrl");
             }
         }
 
@@ -53,7 +54,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             set
             {
                 _posterUrl = value;
-                OnPropertyChanged("PosterUrl");
             }
         }
 
@@ -72,7 +72,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             set
             {
                 _bannerUrl = value;
-                OnPropertyChanged("BannerUrl");
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.TvShows.Seasons;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +11,8 @@ using System.Text;
 
 namespace PerfectMedia.UI.TvShows.Shows
 {
-    public class TvShowViewModel : BaseViewModel, ITvShowViewModel, ITreeViewItemViewModel
+    [ImplementPropertyChanged]
+    public class TvShowViewModel : ITvShowViewModel, ITreeViewItemViewModel
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowFileService _tvShowFileService;
@@ -29,7 +31,6 @@ namespace PerfectMedia.UI.TvShows.Shows
                 {
                     LoadSeasons();
                 }
-                OnPropertyChanged("IsExpanded");
             }
         }
 

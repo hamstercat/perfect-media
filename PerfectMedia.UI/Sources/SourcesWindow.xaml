@@ -22,7 +22,7 @@
         <TextBlock Grid.Row="0" Grid.Column="2" Text="Specific Folders" />
         <ListView Grid.Row="1" Grid.Column="2" Name="SpecificFoldersListView" ItemsSource="{Binding SpecificFolders}" />
         <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal">
-            <Button Content="Refresh from roots" Click="RefreshSpecificFolders" IsEnabled="{Binding RootFolders, Converter={StaticResource IsEmptyToBooleanConverter}}" />
+            <Button Content="Refresh from roots" Click="RefreshSpecificFolders" IsEnabled="{Binding RootFolders.Count, Converter={StaticResource NotZeroConverter}}" />
             <Button Content="Add" Click="AddSpecificFolder" />
             <Button Content="Remove" Click="RemoveSpecificFolder" IsEnabled="{Binding ElementName=SpecificFoldersListView, Path=SelectedItem, Converter={StaticResource NullToBooleanConverter}}" />
         </StackPanel>

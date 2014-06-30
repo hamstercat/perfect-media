@@ -1,4 +1,5 @@
 ﻿using PerfectMedia.Sources;
+using PropertyChanged;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -6,7 +7,8 @@ using System.Linq;
 
 namespace PerfectMedia.UI.Sources
 {
-    public class SourceManagerViewModel : BaseViewModel, ISourceManagerViewModel
+    [ImplementPropertyChanged]
+    public class SourceManagerViewModel : ISourceManagerViewModel
     {
         private readonly ISourceService _sourceService;
         private readonly IFileSystemService _fileSystemService;
@@ -92,10 +94,6 @@ namespace PerfectMedia.UI.Sources
 
         private void RootFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            // Required to update the UI binding
-            // TODO: need to find another way than this
-            OnPropertyChanged("RootFolders");
-
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:

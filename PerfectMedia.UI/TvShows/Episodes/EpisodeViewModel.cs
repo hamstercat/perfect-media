@@ -1,6 +1,7 @@
 ﻿using PerfectMedia.FileInformation;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Metadata;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +11,8 @@ using System.Windows.Input;
 
 namespace PerfectMedia.UI.TvShows.Episodes
 {
-    public class EpisodeViewModel : BaseViewModel, IEpisodeViewModel, ITreeViewItemViewModel, IMetadataProvider
+    [ImplementPropertyChanged]
+    public class EpisodeViewModel : IEpisodeViewModel, ITreeViewItemViewModel, IMetadataProvider
     {
         private readonly IEpisodeMetadataService _metadataService;
         private bool _lazyLoaded;
@@ -28,7 +30,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 InitialLoadInformation();
                 _title = value;
-                OnPropertyChanged("Title");
             }
         }
 
@@ -44,7 +45,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 InitialLoadInformation();
                 _rating = value;
-                OnPropertyChanged("Rating");
             }
         }
 
@@ -60,7 +60,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 InitialLoadInformation();
                 _seasonNumber = value;
-                OnPropertyChanged("SeasonNumber");
             }
         }
 
@@ -76,7 +75,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 InitialLoadInformation();
                 _episodeNumber = value;
-                OnPropertyChanged("EpisodeNumber");
             }
         }
 
@@ -92,7 +90,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 InitialLoadInformation();
                 _plot = value;
-                OnPropertyChanged("Plot");
             }
         }
 
@@ -108,7 +105,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 InitialLoadInformation();
                 _imagePath = value;
-                OnPropertyChanged("ImagePath");
             }
         }
 
@@ -124,7 +120,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 InitialLoadInformation();
                 _imageUrl = value;
-                OnPropertyChanged("ImageUrl");
             }
         }
 
@@ -140,7 +135,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 InitialLoadInformation();
                 _playCount = value;
-                OnPropertyChanged("PlayCount");
             }
         }
 
@@ -156,7 +150,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 InitialLoadInformation();
                 _lastPlayed = value;
-                OnPropertyChanged("LastPlayed");
             }
         }
 
@@ -172,7 +165,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 InitialLoadInformation();
                 _credits = value;
-                OnPropertyChanged("Credits");
             }
         }
 
@@ -188,7 +180,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 InitialLoadInformation();
                 _directors = value;
-                OnPropertyChanged("Directors");
             }
         }
 
@@ -204,7 +195,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 InitialLoadInformation();
                 _airedDate = value;
-                OnPropertyChanged("AiredDate");
             }
         }
 
@@ -220,7 +210,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 InitialLoadInformation();
                 _displaySeason = value;
-                OnPropertyChanged("DisplaySeason");
             }
         }
 
@@ -236,7 +225,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 InitialLoadInformation();
                 _displayEpisode = value;
-                OnPropertyChanged("DisplayEpisode");
             }
         }
 
@@ -252,28 +240,14 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 InitialLoadInformation();
                 _episodeBookmarks = value;
-                OnPropertyChanged("EpisodeBookmarks");
             }
         }
         #endregion
 
-        private string _error;
-        public string Error
-        {
-            get
-            {
-                return _error;
-            }
-            set
-            {
-                _error = value;
-                OnPropertyChanged("Error");
-            }
-        }
-        
         // Do nothing with it, no children to show
         public bool IsExpanded { get; set; }
 
+        public string Error { get; set; }
         public string Path { get; private set; }
         public ICommand RefreshCommand { get; private set; }
         public ICommand UpdateCommand { get; private set; }

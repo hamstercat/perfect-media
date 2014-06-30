@@ -1,5 +1,6 @@
 ﻿using PerfectMedia.TvShows;
 using PerfectMedia.UI.TvShows.Episodes;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +10,8 @@ using System.Text;
 
 namespace PerfectMedia.UI.TvShows.Seasons
 {
-    public class SeasonViewModel : BaseViewModel, ISeasonViewModel, ITreeViewItemViewModel
+    [ImplementPropertyChanged]
+    public class SeasonViewModel : ISeasonViewModel, ITreeViewItemViewModel
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowFileService _tvShowFileService;
@@ -32,7 +34,6 @@ namespace PerfectMedia.UI.TvShows.Seasons
                 {
                     LoadEpisodes();
                 }
-                OnPropertyChanged("IsExpanded");
             }
         }
 
@@ -47,7 +48,6 @@ namespace PerfectMedia.UI.TvShows.Seasons
             set
             {
                 _posterUrl = value;
-                OnPropertyChanged("PosterUrl");
             }
         }
 
@@ -62,7 +62,6 @@ namespace PerfectMedia.UI.TvShows.Seasons
             set
             {
                 _bannerUrl = value;
-                OnPropertyChanged("BannerUrl");
             }
         }
 

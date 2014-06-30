@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace PerfectMedia.UI
 {
+    // Only used when Fody.PropertyChanged isn't enough
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

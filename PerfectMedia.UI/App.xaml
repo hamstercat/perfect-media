@@ -17,6 +17,7 @@
             <conv:SpecialsSeasonVisibilityConverter x:Key="SpecialsSeasonVisibilityConverter" />
             <conv:ShowIfNotEmptyConverter x:Key="ShowIfNotEmptyConverter" />
             <conv:ImagePathConverter x:Key="ImagePathConverter" />
+            <conv:NotZeroConverter x:Key="NotZeroConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

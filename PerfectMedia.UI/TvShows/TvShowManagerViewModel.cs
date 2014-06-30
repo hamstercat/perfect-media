@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace PerfectMedia.UI.TvShows
 {
-    public class TvShowManagerViewModel : BaseViewModel, ISourceProvider
+    public class TvShowManagerViewModel : ISourceProvider
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowFileService _tvShowFileService;

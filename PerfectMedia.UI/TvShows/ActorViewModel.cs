@@ -36,7 +36,7 @@ namespace PerfectMedia.UI.TvShows
         }
 
         private string _thumb;
-        public string Thumb
+        public string ThumbUrl
         {
             get
             {
@@ -45,7 +45,21 @@ namespace PerfectMedia.UI.TvShows
             set
             {
                 _thumb = value;
-                OnPropertyChanged("Thumb");
+                OnPropertyChanged("ThumbUrl");
+            }
+        }
+
+        private string _thumbPath;
+        public string ThumbPath
+        {
+            get
+            {
+                return _thumbPath;
+            }
+            set
+            {
+                _thumbPath = value;
+                OnPropertyChanged("ThumbPath");
             }
         }
     }

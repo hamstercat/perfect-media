@@ -22,7 +22,12 @@ namespace PerfectMedia.TvShows.Metadata
 
         public TvShowMetadata Get(string path)
         {
-            return _metadataRepository.Get(path);
+            TvShowMetadata metadata = _metadataRepository.Get(path);
+            foreach (ActorMetadata actor in metadata.Actors)
+            {
+                actor.ThumbPath = GetActorThumbPath(path, actor.Name);
+            }
+            return metadata;
         }
 
         public void Save(string path, TvShowMetadata metadata)
@@ -53,6 +58,13 @@ namespace PerfectMedia.TvShows.Metadata
         public AvailableTvShowImages FindImages(string seriesId)
         {
             return _metadataUpdater.FindImages(seriesId);
+        }
+
+        private string GetActorThumbPath(string path, string actorName)
+        {
+            string actorsFolder = TvShowHelper.GetActorsFolder(path);
+            string fileName = actorName.Replace(" ", "_") + ".jpg";
+            return Path.Combine(actorsFolder, fileName);
         }
 
         private FullSerie FindFullSerie(string path)
@@ -132,8 +144,10 @@ namespace PerfectMedia.TvShows.Metadata
                 {
                     Name = thetvdbActor.Name,
                     Role = thetvdbActor.Role,
-                    Thumb = TvShowHelper.ExpandImagesUrl(thetvdbActor.Image)
+                    Thumb = TvShowHelper.ExpandImagesUrl(thetvdbActor.Image),
+                    ThumbPath = GetActorThumbPath(path, thetvdbActor.Name)
                 };
+                
                 metadata.Actors.Add(actor);
             }
         }

@@ -46,6 +46,7 @@
     <Compile Include="TvShows\Metadata\EpisodeMetadataRepositoryTests.cs" />
     <Compile Include="TvShows\Metadata\ThetvdbTvShowMetadataUpdaterTests.cs" />
     <Compile Include="TvShows\Metadata\TvShowMetadataRepositoryTests.cs" />
+    <Compile Include="UI\Converters\ImagePathConverterTests.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -33,30 +33,23 @@ namespace PerfectMedia.TvShows.Metadata
 
         private void SaveActorsThumbnails(string path, IEnumerable<ActorMetadata> actors)
         {
-            string actorsFolder = GetActorsFolder(path);
+            string actorFolder = TvShowHelper.GetActorsFolder(path);
+            if (!_fileSystemService.FolderExists(actorFolder))
+            {
+                _fileSystemService.CreateFolder(actorFolder);
+            }
+
             foreach (ActorMetadata actor in actors)
             {
-                SaveActorMetadata(actorsFolder, actor);
+                SaveActorMetadata(actor);
             }
         }
 
-        private string GetActorsFolder(string path)
+        private void SaveActorMetadata(ActorMetadata actor)
         {
-            string folderName = Path.Combine(path, ".actors");
-            if (!_fileSystemService.FolderExists(folderName))
+            if (!_fileSystemService.FileExists(actor.ThumbPath) && !string.IsNullOrEmpty(actor.Thumb))
             {
-                _fileSystemService.CreateFolder(folderName);
-            }
-            return folderName;
-        }
-
-        private void SaveActorMetadata(string actorsFolder, ActorMetadata actor)
-        {
-            string fileName = actor.Name.Replace(" ", "_") + ".jpg";
-            string fullFileName = Path.Combine(actorsFolder, fileName);
-            if (!_fileSystemService.FileExists(fullFileName))
-            {
-                _fileSystemService.DownloadFile(fullFileName, actor.Thumb);
+                _fileSystemService.DownloadFile(actor.ThumbPath, actor.Thumb);
             }
         }
     }

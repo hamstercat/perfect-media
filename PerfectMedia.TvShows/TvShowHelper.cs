@@ -11,6 +11,8 @@ namespace PerfectMedia.TvShows
 {
     internal static class TvShowHelper
     {
+        internal static string[] VideoFileExtensions { get; private set; }
+
         internal static string TheTvDbUrl
         {
             get
@@ -25,6 +27,11 @@ namespace PerfectMedia.TvShows
             {
                 return ConfigurationManager.AppSettings["TheTvDbApiKey"];
             }
+        }
+
+        static TvShowHelper()
+        {
+            VideoFileExtensions = ConfigurationManager.AppSettings["VideoFileExtensions"].Split(',');
         }
 
         internal static int FindSeasonNumberFromFolder(string seasonFolder)
@@ -47,6 +54,11 @@ namespace PerfectMedia.TvShows
 
         internal static string ExpandImagesUrl(string relativePath)
         {
+            if (string.IsNullOrEmpty(relativePath))
+            {
+                return string.Empty;
+            }
+
             string imageRelativePath = "banners";
             if (!relativePath.StartsWith("/"))
             {
@@ -87,12 +99,9 @@ namespace PerfectMedia.TvShows
             return null;
         }
 
-        internal static string[] GetVideoFileExtensions()
+        internal static string GetActorsFolder(string tvShowPath)
         {
-            return new string[]
-            {
-                ".mkv", ".wmv", ".mov", ".avi"
-            };
+            return Path.Combine(tvShowPath, ".actors");
         }
 
         // This method comes from https://stackoverflow.com/questions/4389775/what-is-a-good-way-to-remove-last-few-directory

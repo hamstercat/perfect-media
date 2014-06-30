@@ -10,7 +10,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Width="100">
-                        <Image Source="{Binding Thumb}" MaxWidth="60" MaxHeight="90" />
+                        <Image Source="{Binding ThumbPath, Converter={StaticResource ImagePathConverter}}" MaxWidth="60" MaxHeight="90" />
                         <TextBox Text="{Binding Name}" />
                         <TextBox Text="{Binding Role}" />
                     </StackPanel>

@@ -35,21 +35,25 @@ namespace PerfectMedia.TvShows
         {
             if(string.IsNullOrEmpty(tvShowPath)) throw new ArgumentNullException("tvShowPath");
 
-            IEnumerable<string> folders = GetSeasonFolders(tvShowPath);
-            foreach (string seasonFolder in folders)
-            {
-                yield return CreateSeason(tvShowPath, seasonFolder);
-            }
+            return GetUnorderedSeasons(tvShowPath)
+                .OrderBy(season => season.SeasonNumber);
         }
 
         public IEnumerable<Episode> GetEpisodes(string seasonPath)
         {
             if (string.IsNullOrEmpty(seasonPath)) throw new ArgumentNullException("seasonPath");
 
-            IEnumerable<string> videoFiles = _fileSystemService.FindFiles(seasonPath, TvShowHelper.GetVideoFileExtensions());
-            foreach (string episodeFile in videoFiles)
+            return GetUnorderedEpisodes(seasonPath)
+                .OrderBy(episode => episode.SeasonNumber)
+                .ThenBy(episode => episode.EpisodeNumber);
+        }
+
+        private IEnumerable<Season> GetUnorderedSeasons(string tvShowPath)
+        {
+            IEnumerable<string> folders = GetSeasonFolders(tvShowPath);
+            foreach (string seasonFolder in folders)
             {
-                yield return new Episode { Path = episodeFile };
+                yield return CreateSeason(tvShowPath, seasonFolder);
             }
         }
 
@@ -68,6 +72,25 @@ namespace PerfectMedia.TvShows
             season.PosterUrl = TvShowHelper.GetSeasonImageFileName(tvShowPath, season.SeasonNumber, "poster");
             season.BannerUrl = TvShowHelper.GetSeasonImageFileName(tvShowPath, season.SeasonNumber, "banner");
             return season;
+        }
+
+        private IEnumerable<Episode> GetUnorderedEpisodes(string seasonPath)
+        {
+            IEnumerable<string> videoFiles = _fileSystemService.FindFiles(seasonPath, TvShowHelper.VideoFileExtensions);
+            foreach (string episodeFile in videoFiles)
+            {
+                yield return CreateEpisode(episodeFile);
+            }
+        }
+
+        private Episode CreateEpisode(string episodeFile)
+        {
+            Episode episode = new Episode();
+            EpisodeNumber episodeNumber = TvShowHelper.FindEpisodeNumberFromFile(episodeFile);
+            episode.Path = episodeFile;
+            episode.SeasonNumber = episodeNumber.SeasonNumber;
+            episode.EpisodeNumber = episodeNumber.EpisodeSeasonNumber;
+            return episode;
         }
     }
 }

@@ -14,9 +14,9 @@ namespace PerfectMedia
 {
     public class FileSystemService : IFileSystemService
     {
-        public bool FileExists(string nfoFileFullPath)
+        public bool FileExists(string filePath)
         {
-            return File.Exists(nfoFileFullPath);
+            return File.Exists(filePath);
         }
 
         public void DeleteFile(string filePath)

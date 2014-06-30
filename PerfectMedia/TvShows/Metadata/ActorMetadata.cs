@@ -17,5 +17,8 @@ namespace PerfectMedia.TvShows.Metadata
 
         [XmlElement(ElementName = "thumb")]
         public string Thumb { get; set; }
+
+        [XmlIgnore]
+        public string ThumbPath { get; set; }
     }
 }

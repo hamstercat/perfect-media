@@ -313,7 +313,8 @@ namespace PerfectMedia.UI.TvShows.Shows
                 {
                     Name = actor.Name,
                     Role = actor.Role,
-                    Thumb = actor.Thumb
+                    ThumbUrl = actor.Thumb,
+                    ThumbPath = actor.ThumbPath
                 };
                 Actors.Add(actorViewModel);
             }
@@ -344,7 +345,7 @@ namespace PerfectMedia.UI.TvShows.Shows
                 {
                     Name = actorViewModel.Name,
                     Role = actorViewModel.Role,
-                    Thumb = actorViewModel.Thumb
+                    Thumb = actorViewModel.ThumbUrl
                 };
                 metadata.Actors.Add(actor);
             }

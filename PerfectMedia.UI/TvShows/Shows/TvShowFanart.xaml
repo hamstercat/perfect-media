@@ -19,9 +19,9 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Source="{Binding FanartUrl}" />
-            <Image Grid.Row="0" Grid.Column="1" Source="{Binding PosterUrl}" MaxWidth="300" />
-            <Image Grid.Row="1" Grid.Column="1" Source="{Binding BannerUrl}" MaxWidth="300" />
+            <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Source="{Binding FanartUrl, Converter={StaticResource ImagePathConverter}}" />
+            <Image Grid.Row="0" Grid.Column="1" Source="{Binding PosterUrl, Converter={StaticResource ImagePathConverter}}" MaxWidth="300" />
+            <Image Grid.Row="1" Grid.Column="1" Source="{Binding BannerUrl, Converter={StaticResource ImagePathConverter}}" MaxWidth="300" />
         </Grid>
         <Grid Grid.Row="1">
             <ItemsControl ItemsSource="{Binding SeasonImages}">
@@ -29,8 +29,8 @@
                     <DataTemplate>
                         <StackPanel Width="250">
                             <TextBox Text="{Binding SeasonNumber, Converter={StaticResource SeasonNumberToNameConverter}}" />
-                            <Image Source="{Binding PosterUrl}" MaxWidth="250" />
-                            <Image Source="{Binding BannerUrl}" MaxWidth="250" />
+                            <Image Source="{Binding PosterUrl, Converter={StaticResource ImagePathConverter}}" MaxWidth="250" />
+                            <Image Source="{Binding BannerUrl, Converter={StaticResource ImagePathConverter}}" MaxWidth="250" />
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

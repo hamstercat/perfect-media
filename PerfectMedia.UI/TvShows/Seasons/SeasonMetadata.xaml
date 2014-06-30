@@ -15,7 +15,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="0" Text="{Binding Path}" />
-        <Image Grid.Row="1" Source="{Binding PosterUrl}" MaxWidth="300" />
-        <Image Grid.Row="2" Source="{Binding BannerUrl}" MaxWidth="300" />
+        <Image Grid.Row="1" Source="{Binding PosterUrl, Converter={StaticResource ImagePathConverter}}" MaxWidth="300" />
+        <Image Grid.Row="2" Source="{Binding BannerUrl, Converter={StaticResource ImagePathConverter}}" MaxWidth="300" />
     </Grid>
 </UserControl>

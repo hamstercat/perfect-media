@@ -75,7 +75,11 @@ namespace PerfectMedia.TvShows
 
             // Assert
             IEnumerable<string> actualSeasonFolders = seasons.Select(s => s.Path);
-            Assert.Equal(seasonFolders, actualSeasonFolders);
+            Assert.Equal(seasonFolders.Count, actualSeasonFolders.Count());
+            // Seasons are sorted by season number
+            Assert.Equal(seasonFolders[0], actualSeasonFolders.ElementAt(1));
+            Assert.Equal(seasonFolders[1], actualSeasonFolders.ElementAt(2));
+            Assert.Equal(seasonFolders[2], actualSeasonFolders.ElementAt(0));
         }
 
         [Fact]
@@ -107,8 +111,8 @@ namespace PerfectMedia.TvShows
             string path = @"C:\Folder\Season 1";
             List<string> episodeFolders = new List<string>
             {
-                @"C:\Folder\Season 1\1x01.mkv",
                 @"C:\Folder\Season 1\1x02.mkv",
+                @"C:\Folder\Season 1\1x01.mkv",
                 @"C:\Folder\Season 1\1x03.mkv"
             };
             _fileSystemService.FindFiles(path, Arg.Any<string[]>())
@@ -119,7 +123,11 @@ namespace PerfectMedia.TvShows
 
             // Assert
             IEnumerable<string> actualEpisodeFolders = episodes.Select(s => s.Path);
-            Assert.Equal(episodeFolders, actualEpisodeFolders);
+            Assert.Equal(episodeFolders.Count, actualEpisodeFolders.Count());
+            // Episodes are sorted by season number / episode number
+            Assert.Equal(episodeFolders[0], actualEpisodeFolders.ElementAt(1));
+            Assert.Equal(episodeFolders[1], actualEpisodeFolders.ElementAt(0));
+            Assert.Equal(episodeFolders[2], actualEpisodeFolders.ElementAt(2));
         }
 
         [Fact]

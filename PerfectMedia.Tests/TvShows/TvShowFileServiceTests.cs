@@ -1,5 +1,4 @@
 ﻿using NSubstitute;
-using PerfectMedia.TvShows;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Extensions;
 
-namespace PerfectMedia.Tests.TvShows
+namespace PerfectMedia.TvShows
 {
     public class TvShowFileServiceTests
     {

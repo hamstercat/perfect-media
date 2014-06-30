@@ -1,5 +1,4 @@
-﻿using PerfectMedia.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +6,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Extensions;
 
-namespace PerfectMedia.Tests.UI.TvShows
+namespace PerfectMedia.UI
 {
     public class DashDelimitedCollectionViewModelTests
     {

@@ -1,8 +1,7 @@
 ﻿using NSubstitute;
-using PerfectMedia.UI.Metadata;
 using Xunit;
 
-namespace PerfectMedia.Tests.UI.Metadata
+namespace PerfectMedia.UI.Metadata
 {
     public class RefreshMetadataCommandTests
     {

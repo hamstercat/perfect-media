@@ -1,8 +1,6 @@
 ﻿using NSubstitute;
 using PerfectMedia.TvShows;
-using PerfectMedia.UI.TvShows;
 using PerfectMedia.UI.TvShows.Episodes;
-using PerfectMedia.UI.TvShows.Seasons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace PerfectMedia.Tests.UI.TvShows.Seasons
+namespace PerfectMedia.UI.TvShows.Seasons
 {
     public class SeasonViewModelTests
     {

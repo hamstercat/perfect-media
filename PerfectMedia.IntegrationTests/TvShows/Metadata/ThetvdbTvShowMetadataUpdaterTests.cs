@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PerfectMedia.IntegrationTests.TvShows.Metadata
+namespace PerfectMedia.TvShows.Metadata
 {
     class ThetvdbTvShowMetadataUpdaterTests
     {

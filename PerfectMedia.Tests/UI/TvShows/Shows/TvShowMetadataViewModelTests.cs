@@ -1,12 +1,10 @@
 ﻿using NSubstitute;
 using PerfectMedia.TvShows.Metadata;
-using PerfectMedia.UI.TvShows;
-using PerfectMedia.UI.TvShows.Shows;
 using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace PerfectMedia.Tests.UI.TvShows.Shows
+namespace PerfectMedia.UI.TvShows.Shows
 {
     public class TvShowMetadataViewModelTests
     {

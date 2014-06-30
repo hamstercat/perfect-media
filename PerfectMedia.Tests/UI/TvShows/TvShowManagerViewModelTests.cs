@@ -3,7 +3,6 @@ using PerfectMedia.Sources;
 using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Sources;
-using PerfectMedia.UI.TvShows;
 using PerfectMedia.UI.TvShows.Shows;
 using System;
 using System.Collections.Generic;
@@ -13,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace PerfectMedia.Tests.UI.TvShows
+namespace PerfectMedia.UI.TvShows
 {
     public class TvShowManagerViewModelTests
     {

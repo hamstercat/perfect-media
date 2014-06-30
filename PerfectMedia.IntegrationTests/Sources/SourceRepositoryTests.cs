@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PerfectMedia.IntegrationTests.Sources
+namespace PerfectMedia.Sources
 {
     public class SourceRepositoryTests
     {

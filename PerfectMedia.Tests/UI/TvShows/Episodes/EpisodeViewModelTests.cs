@@ -1,7 +1,6 @@
 ﻿using NSubstitute;
 using PerfectMedia.FileInformation;
 using PerfectMedia.TvShows.Metadata;
-using PerfectMedia.UI.TvShows.Episodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace PerfectMedia.Tests.UI.TvShows.Episodes
+namespace PerfectMedia.UI.TvShows.Episodes
 {
     public class EpisodeViewModelTests
     {

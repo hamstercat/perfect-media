@@ -1,6 +1,4 @@
 ﻿using NSubstitute;
-using PerfectMedia.TvShows;
-using PerfectMedia.TvShows.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace PerfectMedia.Tests.TvShows.Metadata
+namespace PerfectMedia.TvShows.Metadata
 {
     public class TvShowImagesServiceTests
     {

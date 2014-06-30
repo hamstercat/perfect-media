@@ -2,7 +2,6 @@
 using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.TvShows.Seasons;
-using PerfectMedia.UI.TvShows.Shows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace PerfectMedia.Tests.UI.TvShows.Shows
+namespace PerfectMedia.UI.TvShows.Shows
 {
     public class TvShowImagesViewModelTests
     {

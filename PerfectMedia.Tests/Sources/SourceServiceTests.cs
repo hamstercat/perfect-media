@@ -1,5 +1,4 @@
 ﻿using NSubstitute;
-using PerfectMedia.Sources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Extensions;
 
-namespace PerfectMedia.Tests.Sources
+namespace PerfectMedia.Sources
 {
     public class SourceServiceTests
     {

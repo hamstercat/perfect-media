@@ -1,5 +1,4 @@
-﻿using PerfectMedia.UI.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +7,7 @@ using System.Windows;
 using Xunit;
 using Xunit.Extensions;
 
-namespace PerfectMedia.Tests.UI.Converters
+namespace PerfectMedia.UI.Converters
 {
     public class ShowIfNotEmptyConverterTests
     {

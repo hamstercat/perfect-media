@@ -7,7 +7,7 @@
     <ProjectGuid>{AA5048B1-1E7E-4068-B5FE-CAB6D469A302}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PerfectMedia.Tests</RootNamespace>
+    <RootNamespace>PerfectMedia</RootNamespace>
     <AssemblyName>PerfectMedia.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -67,7 +67,7 @@
     <Compile Include="UI\Converters\PathFolderNameConverterTests.cs" />
     <Compile Include="UI\Converters\SeasonNumberToNameConverterTests.cs" />
     <Compile Include="UI\Sources\SourceManagerViewModelTests.cs" />
-    <Compile Include="UI\TvShows\DashDelimitedCollectionViewModelTests.cs" />
+    <Compile Include="UI\DashDelimitedCollectionViewModelTests.cs" />
     <Compile Include="UI\TvShows\Episodes\EpisodeViewModelTests.cs" />
     <Compile Include="UI\TvShows\Seasons\SeasonViewModelTests.cs" />
     <Compile Include="UI\TvShows\Shows\TvShowImagesViewModelTests.cs" />

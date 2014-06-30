@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 
 namespace PerfectMedia.TvShows.Metadata
 {
+    [Equals]
     [XmlRoot(ElementName = "episodedetails")]
     public class EpisodeMetadata
     {

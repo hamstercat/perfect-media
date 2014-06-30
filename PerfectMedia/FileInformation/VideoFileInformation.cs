@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 
 namespace PerfectMedia.FileInformation
 {
+    [Equals]
     public class VideoFileInformation
     {
         [XmlElement(ElementName = "streamdetails")]

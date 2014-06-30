@@ -55,9 +55,69 @@ namespace PerfectMedia.TvShows.Metadata
         }
 
         [Fact(Skip = "Not implemented")]
-        public void Update_()
+        public void Update_WhenSerieAlreadyHasMetadata_UpdatesMetadata()
         {
+            // Arrange
+            _metadataRepository.Get(_path)
+                .Returns(new TvShowMetadata { Id = "456" });
+            
+            FullSerie fullSerie = CreateFullSerie("456");
+            _metadataUpdater.GetTvShowMetadata("456")
+                .Returns(fullSerie);
 
+            // Act
+            _service.Update(_path);
+
+            // Assert
+        }
+
+        [Fact(Skip = "Not implemented")]
+        public void Update_WhenSerieAlreadyHasMetadata_UpdatesImages()
+        {
+            // Arrange
+            _metadataRepository.Get(_path)
+                .Returns(new TvShowMetadata { Id = "456" });
+
+            // Act
+            _service.Update(_path);
+
+            // Assert
+        }
+
+        [Fact(Skip = "Not implemented")]
+        public void Update_WhenSerieDoesntHaveMetadata_UpdatesMetadata()
+        {
+            // Arrange
+
+            // Act
+            _service.Update(_path);
+
+            // Assert
+        }
+
+        [Fact(Skip = "Not implemented")]
+        public void Update_WhenSerieDoesntHaveMetadata_UpdatesImages()
+        {
+            // Arrange
+
+            // Act
+            _service.Update(_path);
+
+            // Assert
+        }
+
+        [Fact]
+        public void Update_WhenSerieDoesntHaveMetadataAndSerieDoesntMatch_ThrowsException()
+        {
+            // Arrange
+            _metadataRepository.Get(_path)
+                .Returns(new TvShowMetadata());
+
+            Assert.Throws<ItemNotFoundException>(() =>
+            {
+                // Act
+                _service.Update(_path);
+            });
         }
 
         [Fact]
@@ -133,6 +193,11 @@ namespace PerfectMedia.TvShows.Metadata
 
             // Assert
             Assert.Equal(expectedImages, images);
+        }
+
+        private FullSerie CreateFullSerie(string serieId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

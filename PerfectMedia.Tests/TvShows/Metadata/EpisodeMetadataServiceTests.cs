@@ -57,38 +57,54 @@ namespace PerfectMedia.TvShows.Metadata
                 .Save(_path, metadata);
         }
 
-        [Fact(Skip = "Not implemented")]
+        [Fact]
         public void Update_SpecialEpisode_ShouldSaveMetadata()
         {
             // Arrange
-            EpisodeMetadata metadata = new EpisodeMetadata
-            {
+            string path = @"C:\Folder\TV Shows\Game of Thrones\Specials\0x02.mkv";
+            EpisodeMetadata metadata = CreateEpisodeMetadata(0, "Specials");
 
-            };
+            _tvShowMetadataService.Get(@"C:\Folder\TV Shows\Game of Thrones")
+                .Returns(new TvShowMetadata { Id = "123" });
+
+            _metadataUpdater.GetEpisodeMetadata("123", 0, 2)
+                .Returns(metadata);
+
+            _fileInformationService.GetVideoFileInformation(path)
+                .Returns(CreateFileInformation());
 
             // Act
-            _service.Update(_path);
+            _service.Update(path);
 
             // Assert
+            EpisodeMetadata expectedMetadata = CreateEpisodeMetadataWithFileInformation(0, "Specials");
             _metadataRepository.Received()
-                .Save(_path, metadata);
+                .Save(path, Arg.Is<EpisodeMetadata>(m => m == expectedMetadata));
         }
 
-        [Fact(Skip = "Not implemented")]
+        [Fact]
         public void Update_EpisodeFromSeason3_ShouldSaveMetadata()
         {
             // Arrange
-            EpisodeMetadata metadata = new EpisodeMetadata
-            {
+            string path = @"C:\Folder\TV Shows\Game of Thrones\Specials\3x02.mkv";
+            EpisodeMetadata metadata = CreateEpisodeMetadata(3, "Season 3");
 
-            };
+            _tvShowMetadataService.Get(@"C:\Folder\TV Shows\Game of Thrones")
+                .Returns(new TvShowMetadata { Id = "123" });
+
+            _metadataUpdater.GetEpisodeMetadata("123", 3, 2)
+                .Returns(metadata);
+
+            _fileInformationService.GetVideoFileInformation(path)
+                .Returns(CreateFileInformation());
 
             // Act
-            _service.Update(_path);
+            _service.Update(path);
 
             // Assert
+            EpisodeMetadata expectedMetadata = CreateEpisodeMetadataWithFileInformation(3, "Season 3");
             _metadataRepository.Received()
-                .Save(_path, metadata);
+                .Save(path, Arg.Is<EpisodeMetadata>(m => m == expectedMetadata));
         }
 
         [Fact]
@@ -100,6 +116,68 @@ namespace PerfectMedia.TvShows.Metadata
             // Assert
             _metadataRepository.Received()
                 .Delete(_path);
+        }
+
+        private EpisodeMetadata CreateEpisodeMetadata(int seasonNumber, string seasonFolder)
+        {
+            return new EpisodeMetadata
+            {
+                AiredDate = new DateTime(2012, 06, 27),
+                Credits = new List<string> { "Writer #1", "Writer #2" },
+                Director = new List<string> { "Director #1", "Director #2" },
+                DisplayEpisode = 56,
+                DisplaySeason = 1,
+                EpisodeBookmarks = 23.4,
+                EpisodeNumber = 2,
+                ImagePath = string.Format(@"C:\Folder\TV Shows\Game of Thrones\{0}\{1}x02-thumb.png", seasonFolder, seasonNumber),
+                ImageUrl = "http://thetvdb.com/banners/image.jpg",
+                LastPlayed = new DateTime(2013, 08, 13),
+                Playcount = 3,
+                Plot = "The best plot ever",
+                Rating = 8.7,
+                SeasonNumber = seasonNumber,
+                Title = "Game of Thrones"
+            };
+        }
+
+        private EpisodeMetadata CreateEpisodeMetadataWithFileInformation(int seasonNumber, string seasonFolder)
+        {
+            EpisodeMetadata metadata = CreateEpisodeMetadata(seasonNumber, seasonFolder);
+            metadata.FileInformation = CreateFileInformation();
+            return metadata;
+        }
+
+        private VideoFileInformation CreateFileInformation()
+        {
+            return new VideoFileInformation
+            {
+                StreamDetails = new StreamDetails
+                {
+                    Audios = new List<Audio>
+                    {
+                        new Audio
+                        {
+                            Codec = "MP3",
+                            Language = "eng",
+                            NumberOfChannels = 2
+                        }
+                    },
+                    Videos = new List<Video>
+                    {
+                        new Video
+                        {
+                            Aspect = "1.8777",
+                            Codec = "h264",
+                            DurationInSeconds = 1427,
+                            Height = 1080,
+                            Language = "eng",
+                            LongLanguage = "English",
+                            ScanType = "Progressive",
+                            Width = 1920
+                        }
+                    }
+                }
+            };
         }
     }
 }

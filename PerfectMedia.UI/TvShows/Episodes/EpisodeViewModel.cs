@@ -1,6 +1,7 @@
 ﻿using PerfectMedia.FileInformation;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Metadata;
+using PerfectMedia.UI.TvShows.Shows;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
     public class EpisodeViewModel : IEpisodeViewModel, ITreeViewItemViewModel, IMetadataProvider
     {
         private readonly IEpisodeMetadataService _metadataService;
+        private readonly ITvShowMetadataViewModel _tvShowMetadata;
         private bool _lazyLoaded;
 
         #region Metadata
@@ -253,9 +255,10 @@ namespace PerfectMedia.UI.TvShows.Episodes
         public ICommand UpdateCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
 
-        public EpisodeViewModel(IEpisodeMetadataService metadataService, string path)
+        public EpisodeViewModel(IEpisodeMetadataService metadataService, ITvShowMetadataViewModel tvShowMetadata, string path)
         {
             _metadataService = metadataService;
+            _tvShowMetadata = tvShowMetadata;
             Path = path;
             _lazyLoaded = false;
 
@@ -283,7 +286,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 if (metadata.FileInformation == null)
                 {
-                    _metadataService.Update(Path);
+                    _metadataService.Update(Path, _tvShowMetadata.Id);
                 }
                 Refresh();
             }

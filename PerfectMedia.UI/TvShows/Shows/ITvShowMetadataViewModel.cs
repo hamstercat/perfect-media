@@ -7,5 +7,7 @@ namespace PerfectMedia.UI.TvShows.Shows
 {
     public interface ITvShowMetadataViewModel
     {
+        string Id { get; }
+        string Path { get; }
     }
 }

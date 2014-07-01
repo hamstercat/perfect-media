@@ -50,11 +50,11 @@ namespace PerfectMedia.UI.TvShows.Shows
             // Assert
             Assert.Equal(3, _viewModel.Seasons.Count);
             _viewModelFactory.Received()
-                .GetSeason(_path, Arg.Is<string>(seasonPaths[0].Path));
+                .GetSeason(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is<string>(seasonPaths[0].Path));
             _viewModelFactory.Received()
-                .GetSeason(_path, Arg.Is<string>(seasonPaths[1].Path));
+                .GetSeason(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is<string>(seasonPaths[1].Path));
             _viewModelFactory.Received()
-                .GetSeason(_path, Arg.Is<string>(seasonPaths[2].Path));
+                .GetSeason(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is<string>(seasonPaths[2].Path));
         }
 
         [Fact]

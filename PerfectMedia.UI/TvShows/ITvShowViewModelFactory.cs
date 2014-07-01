@@ -17,7 +17,7 @@ namespace PerfectMedia.UI.TvShows
         ITvShowViewModel GetTvShow(string path);
         ITvShowMetadataViewModel GetTvShowMetadata(string path);
         ITvShowImagesViewModel GetTvShowImages(string path);
-        ISeasonViewModel GetSeason(string tvShowPath, string path);
-        IEpisodeViewModel GetEpisode(string path);
+        ISeasonViewModel GetSeason(ITvShowMetadataViewModel tvShowMetadata, string path);
+        IEpisodeViewModel GetEpisode(ITvShowMetadataViewModel tvShowMetadata, string path);
     }
 }

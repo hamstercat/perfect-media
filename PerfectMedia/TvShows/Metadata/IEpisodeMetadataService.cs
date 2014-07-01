@@ -10,7 +10,7 @@ namespace PerfectMedia.TvShows.Metadata
     {
         EpisodeMetadata Get(string episodeFile);
         void Save(string episodeFile, EpisodeMetadata metadata);
-        void Update(string episodeFile);
+        void Update(string episodeFile, string serieId);
         void Delete(string episodeFile);
     }
 }

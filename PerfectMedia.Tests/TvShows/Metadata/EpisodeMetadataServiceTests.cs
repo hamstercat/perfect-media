@@ -13,7 +13,6 @@ namespace PerfectMedia.TvShows.Metadata
     {
         private readonly IEpisodeMetadataRepository _metadataRepository;
         private readonly ITvShowMetadataUpdater _metadataUpdater;
-        private readonly ITvShowMetadataService _tvShowMetadataService;
         private readonly IFileInformationService _fileInformationService;
         private readonly string _path;
         private readonly EpisodeMetadataService _service;
@@ -22,10 +21,9 @@ namespace PerfectMedia.TvShows.Metadata
         {
             _metadataRepository = Substitute.For<IEpisodeMetadataRepository>();
             _metadataUpdater = Substitute.For<ITvShowMetadataUpdater>();
-            _tvShowMetadataService = Substitute.For<ITvShowMetadataService>();
             _fileInformationService = Substitute.For<IFileInformationService>();
             _path = @"C:\Folder\TV Shows\Game of Thrones\Season 3\3x09.mkv";
-            _service = new EpisodeMetadataService(_metadataRepository, _metadataUpdater, _tvShowMetadataService, _fileInformationService);
+            _service = new EpisodeMetadataService(_metadataRepository, _metadataUpdater, _fileInformationService);
         }
 
         [Fact]
@@ -64,9 +62,6 @@ namespace PerfectMedia.TvShows.Metadata
             string path = @"C:\Folder\TV Shows\Game of Thrones\Specials\0x02.mkv";
             EpisodeMetadata metadata = CreateEpisodeMetadata(0, "Specials");
 
-            _tvShowMetadataService.Get(@"C:\Folder\TV Shows\Game of Thrones")
-                .Returns(new TvShowMetadata { Id = "123" });
-
             _metadataUpdater.GetEpisodeMetadata("123", 0, 2)
                 .Returns(metadata);
 
@@ -74,7 +69,7 @@ namespace PerfectMedia.TvShows.Metadata
                 .Returns(CreateFileInformation());
 
             // Act
-            _service.Update(path);
+            _service.Update(path, "123");
 
             // Assert
             EpisodeMetadata expectedMetadata = CreateEpisodeMetadataWithFileInformation(0, "Specials");
@@ -89,9 +84,6 @@ namespace PerfectMedia.TvShows.Metadata
             string path = @"C:\Folder\TV Shows\Game of Thrones\Specials\3x02.mkv";
             EpisodeMetadata metadata = CreateEpisodeMetadata(3, "Season 3");
 
-            _tvShowMetadataService.Get(@"C:\Folder\TV Shows\Game of Thrones")
-                .Returns(new TvShowMetadata { Id = "123" });
-
             _metadataUpdater.GetEpisodeMetadata("123", 3, 2)
                 .Returns(metadata);
 
@@ -99,7 +91,7 @@ namespace PerfectMedia.TvShows.Metadata
                 .Returns(CreateFileInformation());
 
             // Act
-            _service.Update(path);
+            _service.Update(path, "123");
 
             // Assert
             EpisodeMetadata expectedMetadata = CreateEpisodeMetadataWithFileInformation(3, "Season 3");

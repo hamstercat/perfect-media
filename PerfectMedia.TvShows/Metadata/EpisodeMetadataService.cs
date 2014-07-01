@@ -11,17 +11,14 @@ namespace PerfectMedia.TvShows.Metadata
     {
         private readonly IEpisodeMetadataRepository _metadataRepository;
         private readonly ITvShowMetadataUpdater _metadataUpdater;
-        private readonly ITvShowMetadataService _tvShowMetadataService;
         private readonly IFileInformationService _fileInformationService;
 
         public EpisodeMetadataService(IEpisodeMetadataRepository metadataRepository,
             ITvShowMetadataUpdater metadataUpdater,
-            ITvShowMetadataService tvShowMetadataService,
             IFileInformationService fileInformationService)
         {
             _metadataRepository = metadataRepository;
             _metadataUpdater = metadataUpdater;
-            _tvShowMetadataService = tvShowMetadataService;
             _fileInformationService = fileInformationService;
         }
 
@@ -35,10 +32,9 @@ namespace PerfectMedia.TvShows.Metadata
             _metadataRepository.Save(episodeFile, metadata);
         }
 
-        public void Update(string episodeFile)
+        public void Update(string episodeFile, string serieId)
         {
             EpisodeNumber episode = TvShowHelper.FindEpisodeNumberFromFile(episodeFile);
-            string serieId = _tvShowMetadataService.Get(episode.TvShowPath).Id;
             EpisodeMetadata metadata = _metadataUpdater.GetEpisodeMetadata(serieId, episode.SeasonNumber, episode.EpisodeSeasonNumber);
             metadata.FileInformation = _fileInformationService.GetVideoFileInformation(episodeFile);
             Save(episodeFile, metadata);

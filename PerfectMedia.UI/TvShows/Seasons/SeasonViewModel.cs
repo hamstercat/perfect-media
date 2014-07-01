@@ -1,5 +1,6 @@
 ﻿using PerfectMedia.TvShows;
 using PerfectMedia.UI.TvShows.Episodes;
+using PerfectMedia.UI.TvShows.Shows;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowFileService _tvShowFileService;
-        private readonly string _tvShowPath;
+        private readonly ITvShowMetadataViewModel _tvShowMetadata;
 
         private bool _imagesLoaded;
         private bool _episodeLoaded;
@@ -68,17 +69,17 @@ namespace PerfectMedia.UI.TvShows.Seasons
         public string Path { get; private set; }
         public ObservableCollection<IEpisodeViewModel> Episodes { get; private set; }
 
-        public SeasonViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowFileService tvShowFileService, string tvShowPath, string path)
+        public SeasonViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowFileService tvShowFileService, ITvShowMetadataViewModel tvShowMetadata, string path)
         {
             _viewModelFactory = viewModelFactory;
             _tvShowFileService = tvShowFileService;
-            _tvShowPath = tvShowPath;
+            _tvShowMetadata = tvShowMetadata;
             Path = path;
 
             // We need to set a "dummy" item in the collection for an arrow to appear in the TreeView since we're lazy-loading the items under it
             _imagesLoaded = false;
             _episodeLoaded = false;
-            Episodes = new ObservableCollection<IEpisodeViewModel> { _viewModelFactory.GetEpisode("dummy") };
+            Episodes = new ObservableCollection<IEpisodeViewModel> { _viewModelFactory.GetEpisode(_tvShowMetadata, "dummy") };
         }
 
         private void LoadEpisodes()
@@ -89,7 +90,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
             IEnumerable<Episode> episodes = _tvShowFileService.GetEpisodes(Path);
             foreach (Episode episode in episodes)
             {
-                IEpisodeViewModel episodeViewModel = _viewModelFactory.GetEpisode(episode.Path);
+                IEpisodeViewModel episodeViewModel = _viewModelFactory.GetEpisode(_tvShowMetadata, episode.Path);
                 Episodes.Add(episodeViewModel);
             }
             _episodeLoaded = true;
@@ -99,7 +100,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
         {
             if (!_imagesLoaded)
             {
-                Season season = _tvShowFileService.GetSeason(_tvShowPath, Path);
+                Season season = _tvShowFileService.GetSeason(_tvShowMetadata.Path, Path);
                 _imagesLoaded = true;
                 PosterUrl = season.PosterUrl;
                 BannerUrl = season.BannerUrl;

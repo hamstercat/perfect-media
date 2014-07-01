@@ -1,6 +1,7 @@
 ﻿using NSubstitute;
 using PerfectMedia.TvShows;
 using PerfectMedia.UI.TvShows.Episodes;
+using PerfectMedia.UI.TvShows.Shows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowFileService _tvShowFileService;
-        private readonly string _tvShowPath;
+        private readonly ITvShowMetadataViewModel _tvShowMetadata;
         private readonly string _path;
         private readonly SeasonViewModel _viewModel;
 
@@ -22,9 +23,9 @@ namespace PerfectMedia.UI.TvShows.Seasons
         {
             _viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
             _tvShowFileService = Substitute.For<ITvShowFileService>();
-            _tvShowPath = @"C:\Folder\TV Shows\Game of Thrones";
+            _tvShowMetadata = Substitute.For<ITvShowMetadataViewModel>();
             _path = @"C:\Folder\TV Shows\Game of Thrones\Season 1";
-            _viewModel = new SeasonViewModel(_viewModelFactory, _tvShowFileService, _tvShowPath, _path);
+            _viewModel = new SeasonViewModel(_viewModelFactory, _tvShowFileService, _tvShowMetadata, _path);
         }
 
         [Fact]
@@ -53,11 +54,11 @@ namespace PerfectMedia.UI.TvShows.Seasons
             // Assert
             Assert.Equal(3, _viewModel.Episodes.Count);
             _viewModelFactory.Received()
-                .GetEpisode(Arg.Is<string>(episodePaths[0].Path));
+                .GetEpisode(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is<string>(episodePaths[0].Path));
             _viewModelFactory.Received()
-                .GetEpisode(Arg.Is<string>(episodePaths[1].Path));
+                .GetEpisode(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is<string>(episodePaths[1].Path));
             _viewModelFactory.Received()
-                .GetEpisode(Arg.Is<string>(episodePaths[2].Path));
+                .GetEpisode(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is<string>(episodePaths[2].Path));
         }
 
         [Fact]
@@ -75,7 +76,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
         {
             // Arrange
             Season season = new Season { PosterUrl = @"C:\Folder\TV Shows\Game of Thrones\season01-poster.jpg" };
-            _tvShowFileService.GetSeason(_tvShowPath, _path)
+            _tvShowFileService.GetSeason(Arg.Any<string>(), _path)
                 .Returns(season);
 
             // Act
@@ -90,7 +91,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
         {
             // Arrange
             Season season = new Season { BannerUrl = @"C:\Folder\TV Shows\Game of Thrones\season01-banner.jpg" };
-            _tvShowFileService.GetSeason(_tvShowPath, _path)
+            _tvShowFileService.GetSeason(Arg.Any<string>(), _path)
                 .Returns(season);
 
             // Act

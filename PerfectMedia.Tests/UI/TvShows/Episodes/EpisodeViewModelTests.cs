@@ -1,6 +1,7 @@
 ﻿using NSubstitute;
 using PerfectMedia.FileInformation;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.TvShows.Shows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,13 +15,15 @@ namespace PerfectMedia.UI.TvShows.Episodes
     {
         private readonly EpisodeViewModel _viewModel;
         private readonly IEpisodeMetadataService _metadataService;
+        private readonly ITvShowMetadataViewModel _tvShowMetadata;
         private readonly string _path;
 
         public EpisodeViewModelTests()
         {
             _metadataService = Substitute.For<IEpisodeMetadataService>();
+            _tvShowMetadata = Substitute.For<ITvShowMetadataViewModel>();
             _path = @"C:\Folder\TV Shows\Game of Thrones\Season 2\3x09.mkv";
-            _viewModel = new EpisodeViewModel(_metadataService, _path);
+            _viewModel = new EpisodeViewModel(_metadataService, _tvShowMetadata, _path);
         }
 
         [Fact]
@@ -60,13 +63,15 @@ namespace PerfectMedia.UI.TvShows.Episodes
             EpisodeMetadata metadata = CreateEpisodeMetadata();
             _metadataService.Get(_path)
                 .Returns(metadata);
+            _tvShowMetadata.Id
+                .Returns("123");
 
             // Act
             _viewModel.Update();
 
             // Assert
             _metadataService.DidNotReceiveWithAnyArgs()
-                .Update(_path);
+                .Update(_path, "123");
         }
 
         [Fact]
@@ -76,13 +81,15 @@ namespace PerfectMedia.UI.TvShows.Episodes
             EpisodeMetadata metadata = CreateEpisodeMetadata();
             _metadataService.Get(_path)
                 .Returns(new EpisodeMetadata(), metadata);
+            _tvShowMetadata.Id
+                .Returns("123");
 
             // Act
             _viewModel.Update();
 
             // Assert
             _metadataService.Received()
-                .Update(_path);
+                .Update(_path, "123");
             AssertMetadataEqualsViewModel(metadata);
         }
 
@@ -92,8 +99,10 @@ namespace PerfectMedia.UI.TvShows.Episodes
             // Arrange
             _metadataService.Get(_path)
                 .Returns(new EpisodeMetadata());
-            _metadataService.When(svc => svc.Update(_path))
+            _metadataService.When(svc => svc.Update(_path, "123"))
                 .Do(x => { throw new UnknownCodecException("", "456", "MP7"); });
+            _tvShowMetadata.Id
+                .Returns("123");
             
             // Act
             _viewModel.Update();
@@ -107,8 +116,10 @@ namespace PerfectMedia.UI.TvShows.Episodes
         {
             _metadataService.Get(_path)
                 .Returns(new EpisodeMetadata());
-            _metadataService.When(svc => svc.Update(_path))
+            _metadataService.When(svc => svc.Update(_path, "123"))
                 .Do(x => { throw new UnknownCodecException("", "456", "MP7"); });
+            _tvShowMetadata.Id
+                .Returns("123");
 
             // Act
             _viewModel.Update();

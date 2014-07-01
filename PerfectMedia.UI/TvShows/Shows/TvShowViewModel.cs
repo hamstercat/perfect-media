@@ -27,7 +27,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             set
             {
                 _isExpanded = value;
-                if (!_seasonLoaded && _isExpanded)
+                if (_isExpanded)
                 {
                     LoadSeasons();
                 }
@@ -52,18 +52,35 @@ namespace PerfectMedia.UI.TvShows.Shows
             Seasons = new ObservableCollection<ISeasonViewModel> { _viewModelFactory.GetSeason(Metadata, "dummy") };
         }
 
+        public void Update()
+        {
+            Metadata.Update();
+        }
+
+        public void FindNewEpisodes()
+        {
+            LoadSeasons();
+            foreach (ISeasonViewModel season in Seasons)
+            {
+                season.FindNewEpisodes();
+            }
+        }
+
         private void LoadSeasons()
         {
-            // Remove the dummy object
-            Seasons.Clear();
-
-            IEnumerable<Season> seasons = _tvShowFileService.GetSeasons(Path);
-            foreach (Season season in seasons)
+            if (!_seasonLoaded)
             {
-                ISeasonViewModel seasonViewModel = _viewModelFactory.GetSeason(Metadata, season.Path);
-                Seasons.Add(seasonViewModel);
+                // Remove the dummy object
+                Seasons.Clear();
+
+                IEnumerable<Season> seasons = _tvShowFileService.GetSeasons(Path);
+                foreach (Season season in seasons)
+                {
+                    ISeasonViewModel seasonViewModel = _viewModelFactory.GetSeason(Metadata, season.Path);
+                    Seasons.Add(seasonViewModel);
+                }
+                _seasonLoaded = true;
             }
-            _seasonLoaded = true;
         }
     }
 }

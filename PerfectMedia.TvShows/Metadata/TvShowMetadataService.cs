@@ -25,7 +25,7 @@ namespace PerfectMedia.TvShows.Metadata
             TvShowMetadata metadata = _metadataRepository.Get(path);
             foreach (ActorMetadata actor in metadata.Actors)
             {
-                actor.ThumbPath = GetActorThumbPath(path, actor.Name);
+                actor.ThumbPath = TvShowHelper.GetActorThumbPath(path, actor.Name);
             }
             return metadata;
         }
@@ -37,9 +37,7 @@ namespace PerfectMedia.TvShows.Metadata
 
         public void Update(string path)
         {
-            string seriesId = GetSeriesId(path);
-            FullSerie serie = _metadataUpdater.GetTvShowMetadata(seriesId);
-            FixSerieUrl(serie);
+            FullSerie serie = FindFullSerie(path);
             UpdateInformationMetadata(path, serie);
             UpdateImages(path, serie.Id);
         }
@@ -60,17 +58,15 @@ namespace PerfectMedia.TvShows.Metadata
             return _metadataUpdater.FindImages(seriesId);
         }
 
-        private string GetActorThumbPath(string path, string actorName)
-        {
-            string actorsFolder = TvShowHelper.GetActorsFolder(path);
-            string fileName = actorName.Replace(" ", "_") + ".jpg";
-            return Path.Combine(actorsFolder, fileName);
-        }
-
         private FullSerie FindFullSerie(string path)
         {
             string seriesId = GetSeriesId(path);
-            return _metadataUpdater.GetTvShowMetadata(seriesId);
+            FullSerie fullSerie = _metadataUpdater.GetTvShowMetadata(seriesId);
+            if (fullSerie == null)
+            {
+                throw new ItemNotFoundException(path);
+            }
+            return fullSerie;
         }
 
         private string GetSeriesId(string path)
@@ -93,13 +89,6 @@ namespace PerfectMedia.TvShows.Metadata
                 throw new ItemNotFoundException(message);
             }
             return series.First().SeriesId;
-        }
-
-        private void FixSerieUrl(FullSerie serie)
-        {
-            serie.Fanart = TvShowHelper.ExpandImagesUrl(serie.Fanart);
-            serie.Banner = TvShowHelper.ExpandImagesUrl(serie.Banner);
-            serie.Poster = TvShowHelper.ExpandImagesUrl(serie.Poster);
         }
 
         private void UpdateInformationMetadata(string path, FullSerie serie)
@@ -145,9 +134,8 @@ namespace PerfectMedia.TvShows.Metadata
                     Name = thetvdbActor.Name,
                     Role = thetvdbActor.Role,
                     Thumb = TvShowHelper.ExpandImagesUrl(thetvdbActor.Image),
-                    ThumbPath = GetActorThumbPath(path, thetvdbActor.Name)
+                    ThumbPath = TvShowHelper.GetActorThumbPath(path, thetvdbActor.Name)
                 };
-                
                 metadata.Actors.Add(actor);
             }
         }

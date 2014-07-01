@@ -100,6 +100,16 @@ namespace PerfectMedia.TvShows.Metadata
         }
 
         [Fact]
+        public void Update_WhenNoMetadataIsFound_ThrowsException()
+        {
+            Assert.Throws<ItemNotFoundException>(() =>
+            {
+                // Act
+                _service.Update(_path, "234");
+            });
+        }
+
+        [Fact]
         public void Delete_Always_DeleteMetadata()
         {
             // Act

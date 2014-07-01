@@ -36,6 +36,10 @@ namespace PerfectMedia.TvShows.Metadata
         {
             EpisodeNumber episode = TvShowHelper.FindEpisodeNumberFromFile(episodeFile);
             EpisodeMetadata metadata = _metadataUpdater.GetEpisodeMetadata(serieId, episode.SeasonNumber, episode.EpisodeSeasonNumber);
+            if (metadata == null)
+            {
+                throw new ItemNotFoundException(episodeFile);
+            }
             metadata.FileInformation = _fileInformationService.GetVideoFileInformation(episodeFile);
             Save(episodeFile, metadata);
         }

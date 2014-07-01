@@ -161,8 +161,8 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
         }
 
-        private double _rating;
-        public double Rating
+        private double? _rating;
+        public double? Rating
         {
             get
             {

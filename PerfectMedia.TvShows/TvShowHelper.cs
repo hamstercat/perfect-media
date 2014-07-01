@@ -99,9 +99,24 @@ namespace PerfectMedia.TvShows
             return null;
         }
 
+        internal static string GetActorThumbPath(string tvShowPath, string actorName)
+        {
+            string actorsFolder = TvShowHelper.GetActorsFolder(tvShowPath);
+            string fileName = TvShowHelper.GetActorThumnbnailFileName(actorName);
+            return Path.Combine(actorsFolder, fileName);
+        }
+
         internal static string GetActorsFolder(string tvShowPath)
         {
             return Path.Combine(tvShowPath, ".actors");
+        }
+
+        internal static string GetActorThumnbnailFileName(string actorName)
+        {
+            string fileName = actorName
+                .Replace(" ", "_")
+                .Replace("\t", "");
+            return fileName + ".jpg";
         }
 
         // This method comes from https://stackoverflow.com/questions/4389775/what-is-a-good-way-to-remove-last-few-directory

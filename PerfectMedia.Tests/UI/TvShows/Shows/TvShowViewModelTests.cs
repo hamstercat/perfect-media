@@ -1,5 +1,6 @@
 ﻿using NSubstitute;
 using PerfectMedia.TvShows;
+using PerfectMedia.UI.TvShows.Seasons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowFileService _tvShowFileService;
         private readonly string _path;
-        private readonly TvShowViewModel _viewModel;
+        private TvShowViewModel _viewModel;
 
         public TvShowViewModelTests()
         {
@@ -65,6 +66,52 @@ namespace PerfectMedia.UI.TvShows.Shows
 
             // Assert
             Assert.Empty(_viewModel.Seasons);
+        }
+
+        [Fact]
+        public void Update_Always_UpdatesMetadata()
+        {
+            // Arrange
+            ITvShowMetadataViewModel metadata = Substitute.For<ITvShowMetadataViewModel>();
+            _viewModelFactory.GetTvShowMetadata(_path)
+                .Returns(metadata);
+            _viewModel = new TvShowViewModel(_viewModelFactory, _tvShowFileService, _path);
+
+            // Act
+            _viewModel.Update();
+
+            // Assert
+            metadata.Received()
+                .Update();
+        }
+
+        [Fact]
+        public void FindNewEpisodes_WithoutSeasons_DoesNothing()
+        {
+            // Act
+            _viewModel.FindNewEpisodes();
+        }
+
+        [Fact]
+        public void FindNewEpisodes_WithSeasons_FindNewEpisodesInTheseSeasons()
+        {
+            // Arrange
+            _tvShowFileService.GetSeasons(_path)
+                .Returns(new List<Season> { new Season(), new Season() });
+
+            ISeasonViewModel seasonViewModel1 = Substitute.For<ISeasonViewModel>();
+            ISeasonViewModel seasonViewModel2 = Substitute.For<ISeasonViewModel>();
+            _viewModelFactory.GetSeason(Arg.Any<ITvShowMetadataViewModel>(), Arg.Any<string>())
+                .Returns(seasonViewModel1, seasonViewModel2);
+
+            // Act
+            _viewModel.FindNewEpisodes();
+
+            // Assert
+            seasonViewModel1.Received()
+                .FindNewEpisodes();
+            seasonViewModel2.Received()
+                .FindNewEpisodes();
         }
     }
 }

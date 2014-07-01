@@ -10,6 +10,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace PerfectMedia.UI.TvShows
 {
@@ -21,6 +22,8 @@ namespace PerfectMedia.UI.TvShows
 
         public ISourceManagerViewModel Sources { get; private set; }
         public ObservableCollection<ITvShowViewModel> TvShows { get; private set; }
+        public ICommand UpdateAll { get; private set; }
+        public ICommand FindNewEpisodes { get; private set; }
 
         public TvShowManagerViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowFileService tvShowFileService, ITvShowMetadataService metadataService)
         {
@@ -28,6 +31,9 @@ namespace PerfectMedia.UI.TvShows
             _tvShowFileService = tvShowFileService;
             _metadataService = metadataService;
             TvShows = new ObservableCollection<ITvShowViewModel>();
+
+            UpdateAll = new UpdateAllCommand(TvShows);
+            FindNewEpisodes = new FindNewEpisodesCommand(TvShows);
 
             Sources = viewModelFactory.GetSourceManager(SourceType.TvShow);
             Sources.SpecificFolders.CollectionChanged += SourceFoldersCollectionChanged;

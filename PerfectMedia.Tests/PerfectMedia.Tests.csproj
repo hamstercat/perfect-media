@@ -70,11 +70,13 @@
     <Compile Include="UI\Sources\SourceManagerViewModelTests.cs" />
     <Compile Include="UI\DashDelimitedCollectionViewModelTests.cs" />
     <Compile Include="UI\TvShows\Episodes\EpisodeViewModelTests.cs" />
+    <Compile Include="UI\TvShows\FindNewEpisodesCommandTests.cs" />
     <Compile Include="UI\TvShows\Seasons\SeasonViewModelTests.cs" />
     <Compile Include="UI\TvShows\Shows\TvShowImagesViewModelTests.cs" />
     <Compile Include="UI\TvShows\Shows\TvShowMetadataViewModelTests.cs" />
     <Compile Include="UI\TvShows\Shows\TvShowViewModelTests.cs" />
     <Compile Include="UI\TvShows\TvShowManagerViewModelTests.cs" />
+    <Compile Include="UI\TvShows\UpdateAllCommandTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

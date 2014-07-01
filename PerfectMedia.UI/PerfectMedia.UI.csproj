@@ -91,6 +91,7 @@
     <Compile Include="Sources\ISourceProvider.cs" />
     <Compile Include="ITreeViewItemViewModel.cs" />
     <Compile Include="TvShows\Episodes\IEpisodeViewModel.cs" />
+    <Compile Include="TvShows\FindNewEpisodesCommand.cs" />
     <Compile Include="TvShows\ITvShowViewModelFactory.cs" />
     <Compile Include="TvShows\Seasons\ISeasonViewModel.cs" />
     <Compile Include="TvShows\Seasons\SeasonImagesViewModel.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="TvShows\Shows\TvShowMetadataControl.xaml.cs">
       <DependentUpon>TvShowMetadataControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TvShows\UpdateAllCommand.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

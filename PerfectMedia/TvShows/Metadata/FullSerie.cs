@@ -17,7 +17,7 @@ namespace PerfectMedia.TvShows.Metadata
         public string Language { get; set; }
         public string Network { get; set; }
         public string Overview { get; set; }
-        public double Rating { get; set; }
+        public double? Rating { get; set; }
         public int Runtime { get; set; }
         public string SeriesName { get; set; }
         public string Status { get; set; }

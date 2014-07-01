@@ -249,7 +249,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
         // Do nothing with it, no children to show
         public bool IsExpanded { get; set; }
 
-        public string Error { get; set; }
         public string Path { get; private set; }
         public ICommand RefreshCommand { get; private set; }
         public ICommand UpdateCommand { get; private set; }
@@ -273,33 +272,22 @@ namespace PerfectMedia.UI.TvShows.Episodes
 
         public void Refresh()
         {
-            Error = null;
             EpisodeMetadata metadata = _metadataService.Get(Path);
             RefreshFromMetadata(metadata);
         }
 
         public void Update()
         {
-            Error = null;
             EpisodeMetadata metadata = _metadataService.Get(Path);
-            try
+            if (metadata.FileInformation == null)
             {
-                if (metadata.FileInformation == null)
-                {
-                    _metadataService.Update(Path, _tvShowMetadata.Id);
-                }
-                Refresh();
+                _metadataService.Update(Path, _tvShowMetadata.Id);
             }
-            catch (UnknownCodecException ex)
-            {
-                // TODO: do something else than showing the message error
-                Error = ex.Message;
-            }
+            Refresh();
         }
 
         public void Save()
         {
-            Error = null;
             EpisodeMetadata metadata = CreateMetadata();
             _metadataService.Save(Path, metadata);
         }

@@ -100,5 +100,34 @@ namespace PerfectMedia.UI.TvShows.Seasons
             // Assert
             Assert.Equal(season.BannerUrl, bannerUrl);
         }
+
+        [Fact]
+        public void FindNewEpisodes_WithoutEpisodes_DoesNothing()
+        {
+            // Act
+            _viewModel.FindNewEpisodes();
+        }
+
+        [Fact]
+        public void FindNewEpisodes_WithTvShows_UpdatesTheseEpisodes()
+        {
+            // Arrange
+            _tvShowFileService.GetEpisodes(_path)
+                .Returns(new List<Episode> { new Episode(), new Episode() });
+
+            IEpisodeViewModel episodeViewModel1 = Substitute.For<IEpisodeViewModel>();
+            IEpisodeViewModel episodeViewModel2 = Substitute.For<IEpisodeViewModel>();
+            _viewModelFactory.GetEpisode(Arg.Any<ITvShowMetadataViewModel>(), Arg.Any<string>())
+                .Returns(episodeViewModel1, episodeViewModel2);
+
+            // Act
+            _viewModel.FindNewEpisodes();
+
+            // Assert
+            episodeViewModel1.Received()
+                .Update();
+            episodeViewModel2.Received()
+                .Update();
+        }
     }
 }

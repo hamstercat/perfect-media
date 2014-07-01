@@ -60,7 +60,7 @@ namespace PerfectMedia.TvShows.Metadata
             // Arrange
             _metadataRepository.Get(_path)
                 .Returns(new TvShowMetadata { Id = "456" });
-            
+
             FullSerie fullSerie = CreateFullSerie("456");
             _metadataUpdater.GetTvShowMetadata("456")
                 .Returns(fullSerie);

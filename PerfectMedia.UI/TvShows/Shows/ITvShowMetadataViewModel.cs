@@ -9,5 +9,6 @@ namespace PerfectMedia.UI.TvShows.Shows
     {
         string Id { get; }
         string Path { get; }
+        void Update();
     }
 }

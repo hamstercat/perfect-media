@@ -8,5 +8,7 @@ namespace PerfectMedia.UI.TvShows.Shows
     public interface ITvShowViewModel
     {
         string Path { get; }
+        void Update();
+        void FindNewEpisodes();
     }
 }

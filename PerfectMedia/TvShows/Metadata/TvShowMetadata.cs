@@ -35,7 +35,7 @@ namespace PerfectMedia.TvShows.Metadata
         public int RuntimeInMinutes { get; set; }
 
         [XmlElement(ElementName = "rating")]
-        public double Rating { get; set; }
+        public double? Rating { get; set; }
 
         [XmlElement(ElementName = "premiered", DataType = "date")]
         public DateTime? PremieredDate { get; set; }
@@ -58,6 +58,11 @@ namespace PerfectMedia.TvShows.Metadata
         public bool ShouldSerializeGenres()
         {
             return Genres != null;
+        }
+
+        public bool ShouldSerializeRating()
+        {
+            return Rating.HasValue;
         }
 
         public bool ShouldSerializePremieredDate()

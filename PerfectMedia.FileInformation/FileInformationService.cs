@@ -27,45 +27,53 @@ namespace PerfectMedia.FileInformation
         {
             foreach (var audioTrack in audioTracks)
             {
-                AudioStream stream = audioTrack.Value;
-                Audio audio = new Audio
-                {
-                    Language = LanguageHelper.GetLanguageCode(stream.miGetString("Language/String")),
-                    Codec = CodecHelper.GetAudioCodecName(stream.codecCommonName, stream.codecId, stream.format),
-                    NumberOfChannels = stream.channels
-                };
-
-                if (audio.Codec.ToUpper() == "AC-3")
-                {
-                    audio.Codec = "AC3";
-                }
-                yield return audio;
+                yield return ConvertAudioStream(audioTrack.Value);
             }
+        }
+
+        private static Audio ConvertAudioStream(AudioStream stream)
+        {
+            Audio audio = new Audio
+            {
+                Language = LanguageHelper.GetLanguageCode(stream.miGetString("Language/String")),
+                Codec = CodecHelper.GetAudioCodecName(stream.codecCommonName, stream.codecId, stream.format),
+                NumberOfChannels = stream.channels
+            };
+
+            if (audio.Codec.ToUpper() == "AC-3")
+            {
+                audio.Codec = "AC3";
+            }
+            return audio;
         }
 
         private IEnumerable<Video> GetVideoTracks(IDictionary<int, VideoStream> videoTracks)
         {
             foreach (var videoTrack in videoTracks)
             {
-                VideoStream stream = videoTrack.Value;
-                Video video = new Video
-                {
-                    Aspect = stream.pixelAspectRatio.ToString(CultureInfo.InvariantCulture),
-                    Codec = CodecHelper.GetVideoCodecName(stream.codecCommonName, stream.codecId, stream.format),
-                    DurationInSeconds = stream.duration / 1000,
-                    Height = stream.height,
-                    LongLanguage = stream.miGetString("Language/String"),
-                    ScanType = stream.miGetString("ScanType"),
-                    Width = stream.width
-                };
-                video.Language = LanguageHelper.GetLanguageCode(video.LongLanguage);
-
-                if (video.Aspect == "0")
-                {
-                    video.Aspect = "Unknown";
-                }
-                yield return video;
+                yield return ConvertVideoStream(videoTrack.Value);
             }
+        }
+
+        private static Video ConvertVideoStream(VideoStream stream)
+        {
+            Video video = new Video
+            {
+                Aspect = stream.pixelAspectRatio.ToString(CultureInfo.InvariantCulture),
+                Codec = CodecHelper.GetVideoCodecName(stream.codecCommonName, stream.codecId, stream.format),
+                DurationInSeconds = stream.duration / 1000,
+                Height = stream.height,
+                LongLanguage = stream.miGetString("Language/String"),
+                ScanType = stream.miGetString("ScanType"),
+                Width = stream.width
+            };
+            video.Language = LanguageHelper.GetLanguageCode(video.LongLanguage);
+
+            if (video.Aspect == "0")
+            {
+                video.Aspect = "Unknown";
+            }
+            return video;
         }
     }
 }

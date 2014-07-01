@@ -42,21 +42,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
         }
 
         [Fact]
-        public void Refresh_Always_ClearsAnyError()
-        {
-            // Arrange
-            _metadataService.Get(_path)
-                .Returns(new EpisodeMetadata());
-            _viewModel.Error = "An error";
-
-            // Act
-            _viewModel.Refresh();
-
-            // Assert
-            Assert.True(string.IsNullOrEmpty(_viewModel.Error));
-        }
-
-        [Fact]
         public void Update_WhenMetadataAlreadyExists_DoesNothing()
         {
             // Arrange
@@ -94,24 +79,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
         }
 
         [Fact]
-        public void Update_WithAnUnknownCodec_ShowsAnErrorMessage()
-        {
-            // Arrange
-            _metadataService.Get(_path)
-                .Returns(new EpisodeMetadata());
-            _metadataService.When(svc => svc.Update(_path, "123"))
-                .Do(x => { throw new UnknownCodecException("", "456", "MP7"); });
-            _tvShowMetadata.Id
-                .Returns("123");
-            
-            // Act
-            _viewModel.Update();
-
-            // Assert
-            Assert.False(string.IsNullOrEmpty(_viewModel.Error));
-        }
-
-        [Fact]
         public void Update_WithAnUnknownCodec_DoesntRefreshMetadata()
         {
             _metadataService.Get(_path)
@@ -121,8 +88,11 @@ namespace PerfectMedia.UI.TvShows.Episodes
             _tvShowMetadata.Id
                 .Returns("123");
 
-            // Act
-            _viewModel.Update();
+            Assert.Throws<UnknownCodecException>(() =>
+            {
+                // Act
+                _viewModel.Update();
+            });
 
             // Assert
             Assert.NotEqual(9, _viewModel.EpisodeNumber);
@@ -159,21 +129,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
             // Assert
             _metadataService.Received()
                 .Save(_path, Arg.Is<EpisodeMetadata>(x => AssertMetadataEqualsViewModel(CreateEpisodeMetadata())));
-        }
-
-        [Fact]
-        public void Save_Always_ClearsAnyError()
-        {
-            // Arrange
-            _metadataService.Get(_path)
-                .Returns(new EpisodeMetadata());
-            _viewModel.Error = "An error";
-
-            // Act
-            _viewModel.Save();
-
-            // Assert
-            Assert.True(string.IsNullOrEmpty(_viewModel.Error));
         }
 
         private EpisodeMetadata CreateEpisodeMetadata()

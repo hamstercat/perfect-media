@@ -7,5 +7,6 @@ namespace PerfectMedia.UI.TvShows.Seasons
 {
     public interface ISeasonViewModel
     {
+        void FindNewEpisodes();
     }
 }

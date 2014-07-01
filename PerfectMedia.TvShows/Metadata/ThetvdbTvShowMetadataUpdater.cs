@@ -52,9 +52,12 @@ namespace PerfectMedia.TvShows.Metadata
 
         private void FixSerieUrl(FullSerie serie)
         {
-            serie.Fanart = TvShowHelper.ExpandImagesUrl(serie.Fanart);
-            serie.Banner = TvShowHelper.ExpandImagesUrl(serie.Banner);
-            serie.Poster = TvShowHelper.ExpandImagesUrl(serie.Poster);
+            if (serie != null)
+            {
+                serie.Fanart = TvShowHelper.ExpandImagesUrl(serie.Fanart);
+                serie.Banner = TvShowHelper.ExpandImagesUrl(serie.Banner);
+                serie.Poster = TvShowHelper.ExpandImagesUrl(serie.Poster);
+            }
         }
 
         private AvailableTvShowImages MapBannersToAvailableTvShowImages(IEnumerable<Banner> banners)

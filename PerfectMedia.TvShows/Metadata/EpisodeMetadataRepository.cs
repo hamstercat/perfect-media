@@ -29,8 +29,12 @@ namespace PerfectMedia.TvShows.Metadata
         public override void Save(string path, EpisodeMetadata metadata)
         {
             base.Save(path, metadata);
-            string imageFile = GetImageFile(path);
-            _fileSystemService.SaveImageAsPng(imageFile, metadata.ImageUrl);
+
+            if (!string.IsNullOrEmpty(metadata.ImageUrl))
+            {
+                string imageFile = GetImageFile(path);
+                _fileSystemService.SaveImageAsPng(imageFile, metadata.ImageUrl);
+            }
         }
 
         public override void Delete(string path)

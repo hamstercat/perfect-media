@@ -7,5 +7,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
 {
     public interface IEpisodeViewModel
     {
+        void Update();
     }
 }

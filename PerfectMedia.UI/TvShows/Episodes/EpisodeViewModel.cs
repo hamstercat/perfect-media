@@ -320,6 +320,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             SeasonNumber = metadata.SeasonNumber;
             EpisodeNumber = metadata.EpisodeNumber;
             Plot = metadata.Plot;
+            ImagePath = null;
             ImagePath = metadata.ImagePath;
             ImageUrl = metadata.ImageUrl;
             PlayCount = metadata.Playcount;

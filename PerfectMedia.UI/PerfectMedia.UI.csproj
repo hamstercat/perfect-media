@@ -78,6 +78,13 @@
     <Compile Include="Converters\SeasonNumberToNameConverter.cs" />
     <Compile Include="Converters\ShowIfNotEmptyConverter.cs" />
     <Compile Include="Converters\SpecialsSeasonVisibilityConverter.cs" />
+    <Compile Include="Progress\IProgressIndicator.cs" />
+    <Compile Include="Progress\ProgressItem.cs" />
+    <Compile Include="Progress\IProgressManagerViewModel.cs" />
+    <Compile Include="Progress\ProgressManagerViewModel.cs" />
+    <Compile Include="Progress\ProgressWindow.xaml.cs">
+      <DependentUpon>ProgressWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ServiceLocator.cs" />
     <Compile Include="BaseViewModel.cs" />
     <Compile Include="Metadata\SaveMetadataCommand.cs" />
@@ -142,6 +149,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Progress\ProgressWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Style.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

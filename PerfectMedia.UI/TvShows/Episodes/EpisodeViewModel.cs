@@ -1,6 +1,7 @@
 ﻿using PerfectMedia.FileInformation;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Metadata;
+using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Shows;
 using PropertyChanged;
 using System;
@@ -254,7 +255,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
         public ICommand UpdateCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
 
-        public EpisodeViewModel(IEpisodeMetadataService metadataService, ITvShowMetadataViewModel tvShowMetadata, string path)
+        public EpisodeViewModel(IEpisodeMetadataService metadataService, ITvShowMetadataViewModel tvShowMetadata, IProgressManagerViewModel progressManager, string path)
         {
             _metadataService = metadataService;
             _tvShowMetadata = tvShowMetadata;
@@ -266,7 +267,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             _directors = new DashDelimitedCollectionViewModel<string>(s => s);
 
             RefreshCommand = new RefreshMetadataCommand(this);
-            UpdateCommand = new UpdateMetadataCommand(this);
+            UpdateCommand = new UpdateMetadataCommand(this, progressManager);
             SaveCommand = new SaveMetadataCommand(this);
         }
 

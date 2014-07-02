@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PerfectMedia.UI.Progress;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,10 +13,12 @@ namespace PerfectMedia.UI.Metadata
         public event EventHandler CanExecuteChanged;
 
         private readonly IMetadataProvider _metadataProvider;
+        private readonly IProgressManagerViewModel _progressManager;
 
-        public UpdateMetadataCommand(IMetadataProvider metadataProvider)
+        public UpdateMetadataCommand(IMetadataProvider metadataProvider, IProgressManagerViewModel progressManager)
         {
             _metadataProvider = metadataProvider;
+            _progressManager = progressManager;
         }
 
         public bool CanExecute(object parameter)
@@ -25,7 +28,8 @@ namespace PerfectMedia.UI.Metadata
 
         public void Execute(object parameter)
         {
-            _metadataProvider.Update();
+            ProgressItem progressItem = new ProgressItem("", _metadataProvider.Update);
+            _progressManager.Total.Add(progressItem);
         }
     }
 }

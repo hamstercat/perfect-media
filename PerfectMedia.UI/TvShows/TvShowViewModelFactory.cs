@@ -1,6 +1,7 @@
 ﻿using PerfectMedia.Sources;
 using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.Sources;
 using PerfectMedia.UI.TvShows.Episodes;
 using PerfectMedia.UI.TvShows.Seasons;
@@ -15,18 +16,21 @@ namespace PerfectMedia.UI.TvShows
         private readonly ITvShowFileService _tvShowFileService;
         private readonly ITvShowMetadataService _tvShowMetadataService;
         private readonly IEpisodeMetadataService _episodeMetadataService;
+        private readonly IProgressManagerViewModel _progressManagerViewModel;
 
         public TvShowViewModelFactory(ISourceService sourceService,
             IFileSystemService fileSystemService,
             ITvShowFileService tvShowFileService,
             ITvShowMetadataService tvShowMetadataService,
-            IEpisodeMetadataService episodeMetadataService)
+            IEpisodeMetadataService episodeMetadataService,
+            IProgressManagerViewModel progressManagerViewModel)
         {
             _sourceService = sourceService;
             _fileSystemService = fileSystemService;
             _tvShowFileService = tvShowFileService;
             _tvShowMetadataService = tvShowMetadataService;
             _episodeMetadataService = episodeMetadataService;
+            _progressManagerViewModel = progressManagerViewModel;
         }
 
         public ISourceManagerViewModel GetSourceManager(SourceType sourceType)
@@ -41,7 +45,7 @@ namespace PerfectMedia.UI.TvShows
 
         public ITvShowMetadataViewModel GetTvShowMetadata(string path)
         {
-            return new TvShowMetadataViewModel(this, _tvShowMetadataService, path);
+            return new TvShowMetadataViewModel(this, _tvShowMetadataService, _progressManagerViewModel, path);
         }
 
         public ITvShowImagesViewModel GetTvShowImages(string path)
@@ -56,7 +60,7 @@ namespace PerfectMedia.UI.TvShows
 
         public IEpisodeViewModel GetEpisode(ITvShowMetadataViewModel tvShowMetadata, string path)
         {
-            return new EpisodeViewModel(_episodeMetadataService, tvShowMetadata, path);
+            return new EpisodeViewModel(_episodeMetadataService, tvShowMetadata, _progressManagerViewModel, path);
         }
     }
 }

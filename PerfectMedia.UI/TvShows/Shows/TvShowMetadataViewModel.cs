@@ -1,6 +1,7 @@
 ﻿using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Metadata;
+using PerfectMedia.UI.Progress;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -222,7 +223,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         }
         #endregion
 
-        public TvShowMetadataViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowMetadataService metadataService, string path)
+        public TvShowMetadataViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowMetadataService metadataService, IProgressManagerViewModel progressManager, string path)
         {
             _metadataService = metadataService;
             Path = path;
@@ -234,7 +235,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             _genres = new DashDelimitedCollectionViewModel<string>(s => s);
 
             RefreshCommand = new RefreshMetadataCommand(this);
-            UpdateCommand = new UpdateMetadataCommand(this);
+            UpdateCommand = new UpdateMetadataCommand(this, progressManager);
             SaveCommand = new SaveMetadataCommand(this);
         }
 

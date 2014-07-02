@@ -278,6 +278,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
 
         public void Update()
         {
+            _tvShowMetadata.Update();
             EpisodeMetadata metadata = _metadataService.Get(Path);
             if (metadata.FileInformation == null)
             {

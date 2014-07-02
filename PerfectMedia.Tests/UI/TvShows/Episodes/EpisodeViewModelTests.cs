@@ -79,6 +79,21 @@ namespace PerfectMedia.UI.TvShows.Episodes
         }
 
         [Fact]
+        public void Update_Always_UpdatesTvShowMetadata()
+        {
+            // Arrange
+            _metadataService.Get(_path)
+                .Returns(new EpisodeMetadata());
+
+            // Act
+            _viewModel.Update();
+
+            // Assert
+            _tvShowMetadata.Received()
+                .Update();
+        }
+
+        [Fact]
         public void Update_WithAnUnknownCodec_DoesntRefreshMetadata()
         {
             _metadataService.Get(_path)

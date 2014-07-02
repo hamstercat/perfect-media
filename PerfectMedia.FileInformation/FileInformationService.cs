@@ -39,11 +39,6 @@ namespace PerfectMedia.FileInformation
                 Codec = CodecHelper.GetAudioCodecName(stream.codecCommonName, stream.codecId, stream.format),
                 NumberOfChannels = stream.channels
             };
-
-            if (audio.Codec.ToUpper() == "AC-3")
-            {
-                audio.Codec = "AC3";
-            }
             return audio;
         }
 

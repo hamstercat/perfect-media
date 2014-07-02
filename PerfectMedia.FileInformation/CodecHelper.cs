@@ -45,9 +45,15 @@ namespace PerfectMedia.FileInformation
             {
                 case "avc":
                     return "H264";
-                default:
-                    return codecId;
             }
+            switch (codecCommonName)
+            {
+                case "xvid":
+                    return "xvid";
+            }
+            if (codecCommonName.StartsWith("divx"))
+                return "divx";
+            return codecCommonName;
         }
 
         private static string DetermineAudioCodec(string codecCommonName, string codecId, string format)
@@ -63,8 +69,8 @@ namespace PerfectMedia.FileInformation
                     if (codecId == "sowt")
                         return "pcm_s16le";
                     break;
-                default:
-                    break;
+                case "ac-3":
+                    return "ac3";
             }
 
             if (string.IsNullOrEmpty(codecCommonName))

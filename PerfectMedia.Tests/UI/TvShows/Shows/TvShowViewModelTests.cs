@@ -1,5 +1,6 @@
 ﻿using NSubstitute;
 using PerfectMedia.TvShows;
+using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Seasons;
 using System;
 using System.Collections.Generic;
@@ -100,17 +101,14 @@ namespace PerfectMedia.UI.TvShows.Shows
                 .Returns(new List<Season> { new Season(), new Season() });
 
             ISeasonViewModel seasonViewModel1 = Substitute.For<ISeasonViewModel>();
-            ISeasonViewModel seasonViewModel2 = Substitute.For<ISeasonViewModel>();
             _viewModelFactory.GetSeason(Arg.Any<ITvShowMetadataViewModel>(), Arg.Any<string>())
-                .Returns(seasonViewModel1, seasonViewModel2);
+                .Returns(seasonViewModel1);
 
             // Act
-            _viewModel.FindNewEpisodes();
+            _viewModel.FindNewEpisodes().ToList();
 
             // Assert
             seasonViewModel1.Received()
-                .FindNewEpisodes();
-            seasonViewModel2.Received()
                 .FindNewEpisodes();
         }
     }

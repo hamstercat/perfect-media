@@ -28,8 +28,11 @@ namespace PerfectMedia.UI.Metadata
 
         public void Execute(object parameter)
         {
-            ProgressItem progressItem = new ProgressItem("", _metadataProvider.Update);
-            _progressManager.Total.Add(progressItem);
+            foreach (ProgressItem item in _metadataProvider.Update())
+            {
+                _progressManager.AddItem(item);
+            }
+            _progressManager.Start();
         }
     }
 }

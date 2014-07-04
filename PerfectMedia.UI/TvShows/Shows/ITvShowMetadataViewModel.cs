@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PerfectMedia.UI.Progress;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace PerfectMedia.UI.TvShows.Shows
     {
         string Id { get; }
         string Path { get; }
-        void Update();
+        string Title { get; }
+        IEnumerable<ProgressItem> Update();
     }
 }

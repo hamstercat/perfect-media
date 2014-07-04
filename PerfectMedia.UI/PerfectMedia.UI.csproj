@@ -79,6 +79,8 @@
     <Compile Include="Converters\ShowIfNotEmptyConverter.cs" />
     <Compile Include="Converters\SpecialsSeasonVisibilityConverter.cs" />
     <Compile Include="Progress\IProgressIndicator.cs" />
+    <Compile Include="Progress\IProgressIndicatorFactory.cs" />
+    <Compile Include="Progress\ProgressIndicatorFactory.cs" />
     <Compile Include="Progress\ProgressItem.cs" />
     <Compile Include="Progress\IProgressManagerViewModel.cs" />
     <Compile Include="Progress\ProgressManagerViewModel.cs" />

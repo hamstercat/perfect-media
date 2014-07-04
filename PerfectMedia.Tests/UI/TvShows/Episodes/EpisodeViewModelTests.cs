@@ -1,6 +1,7 @@
 ﻿using NSubstitute;
 using PerfectMedia.FileInformation;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Shows;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             _metadataService = Substitute.For<IEpisodeMetadataService>();
             _tvShowMetadata = Substitute.For<ITvShowMetadataViewModel>();
             _path = @"C:\Folder\TV Shows\Game of Thrones\Season 2\3x09.mkv";
-            _viewModel = new EpisodeViewModel(_metadataService, _tvShowMetadata, _path);
+            _viewModel = new EpisodeViewModel(_metadataService, _tvShowMetadata, null, _path);
         }
 
         [Fact]
@@ -60,7 +61,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
         }
 
         [Fact]
-        public void Update_WhenNoMetadataAlreadyExists_RetrievesFreshMetadata()
+        public async void Update_WhenNoMetadataAlreadyExists_RetrievesFreshMetadata()
         {
             // Arrange
             EpisodeMetadata metadata = CreateEpisodeMetadata();
@@ -70,7 +71,8 @@ namespace PerfectMedia.UI.TvShows.Episodes
                 .Returns("123");
 
             // Act
-            _viewModel.Update();
+            ProgressItem item = _viewModel.Update().First();
+            await item.Execute();
 
             // Assert
             _metadataService.Received()
@@ -86,7 +88,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
                 .Returns(new EpisodeMetadata());
 
             // Act
-            _viewModel.Update();
+            _viewModel.Update().ToList();
 
             // Assert
             _tvShowMetadata.Received()
@@ -94,22 +96,21 @@ namespace PerfectMedia.UI.TvShows.Episodes
         }
 
         [Fact]
-        public void Update_WithAnUnknownCodec_DoesntRefreshMetadata()
+        public async void Update_WithAnUnknownCodec_DoesntRefreshMetadata()
         {
             _metadataService.Get(_path)
                 .Returns(new EpisodeMetadata());
-            _metadataService.When(svc => svc.Update(_path, "123"))
+            _metadataService.When(svc => svc.Update(_path, Arg.Any<string>()))
                 .Do(x => { throw new UnknownCodecException("", "456", "MP7"); });
             _tvShowMetadata.Id
                 .Returns("123");
 
-            Assert.Throws<UnknownCodecException>(() =>
-            {
-                // Act
-                _viewModel.Update();
-            });
+            // Act
+            ProgressItem item = _viewModel.Update().First();
+            await item.Execute();
 
             // Assert
+            Assert.NotEmpty(item.Error);
             Assert.NotEqual(9, _viewModel.EpisodeNumber);
         }
 

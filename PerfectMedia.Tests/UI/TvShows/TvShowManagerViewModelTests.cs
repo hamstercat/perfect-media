@@ -21,7 +21,6 @@ namespace PerfectMedia.UI.TvShows
         private readonly ITvShowFileService _tvShowFileService;
         private readonly ITvShowMetadataService _metadataService;
         private readonly TvShowManagerViewModel _viewModel;
-        
 
         public TvShowManagerViewModelTests()
         {
@@ -35,7 +34,7 @@ namespace PerfectMedia.UI.TvShows
 
             _tvShowFileService = Substitute.For<ITvShowFileService>();
             _metadataService = Substitute.For<ITvShowMetadataService>();
-            _viewModel = new TvShowManagerViewModel(_viewModelFactory, _tvShowFileService, _metadataService);
+            _viewModel = new TvShowManagerViewModel(_viewModelFactory, _tvShowFileService, _metadataService, null);
         }
 
         [Fact]

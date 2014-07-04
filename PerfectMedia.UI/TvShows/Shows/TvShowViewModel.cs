@@ -1,5 +1,6 @@
 ﻿using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Seasons;
 using PropertyChanged;
 using System;
@@ -52,17 +53,20 @@ namespace PerfectMedia.UI.TvShows.Shows
             Seasons = new ObservableCollection<ISeasonViewModel> { _viewModelFactory.GetSeason(Metadata, "dummy") };
         }
 
-        public void Update()
+        public IEnumerable<ProgressItem> Update()
         {
-            Metadata.Update();
+            return Metadata.Update();
         }
 
-        public void FindNewEpisodes()
+        public IEnumerable<ProgressItem> FindNewEpisodes()
         {
             LoadSeasons();
             foreach (ISeasonViewModel season in Seasons)
             {
-                season.FindNewEpisodes();
+                foreach (ProgressItem item in season.FindNewEpisodes())
+                {
+                    yield return item;
+                }
             }
         }
 

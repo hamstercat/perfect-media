@@ -1,4 +1,5 @@
-﻿using PerfectMedia.UI.TvShows.Shows;
+﻿using PerfectMedia.UI.Progress;
+using PerfectMedia.UI.TvShows.Shows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,11 +14,13 @@ namespace PerfectMedia.UI.TvShows
     {
         public event EventHandler CanExecuteChanged;
         private readonly ObservableCollection<ITvShowViewModel> _tvShows;
+        private readonly IProgressManagerViewModel _progressManager;
 
-        public UpdateAllCommand(ObservableCollection<ITvShowViewModel> tvShows)
+        public UpdateAllCommand(ObservableCollection<ITvShowViewModel> tvShows, IProgressManagerViewModel progressManager)
         {
             _tvShows = tvShows;
             _tvShows.CollectionChanged += TvShowsCollectionChanged;
+            _progressManager = progressManager;
         }
 
         public bool CanExecute(object parameter)
@@ -29,16 +32,12 @@ namespace PerfectMedia.UI.TvShows
         {
             foreach (ITvShowViewModel tvShow in _tvShows)
             {
-                try
+                foreach (ProgressItem item in tvShow.Update())
                 {
-                    tvShow.Update();
-                }
-                catch (ItemNotFoundException)
-                {
-                    // TODO
-                    throw;
+                    _progressManager.AddItem(item);
                 }
             }
+            _progressManager.Start();
         }
 
         private void TvShowsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

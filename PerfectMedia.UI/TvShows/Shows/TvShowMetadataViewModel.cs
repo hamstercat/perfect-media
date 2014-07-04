@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace PerfectMedia.UI.TvShows.Shows
@@ -21,7 +22,7 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         public string Path { get; private set; }
         public ITvShowImagesViewModel Images { get; private set; }
-        
+
         public ICommand RefreshCommand { get; private set; }
         public ICommand UpdateCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
@@ -41,7 +42,7 @@ namespace PerfectMedia.UI.TvShows.Shows
                 _actors = value;
             }
         }
-        
+
         private int _state;
         public int State
         {
@@ -246,20 +247,29 @@ namespace PerfectMedia.UI.TvShows.Shows
             Images.Refresh();
         }
 
-        public void Update()
+        public IEnumerable<ProgressItem> Update()
         {
             TvShowMetadata metadata = _metadataService.Get(Path);
             if (string.IsNullOrEmpty(metadata.Id))
             {
-                _metadataService.Update(Path);
+                Lazy<string> displayName = new Lazy<string>(ToString);
+                yield return new ProgressItem(displayName, UpdateInternal);
             }
-            Refresh();
         }
 
         public void Save()
         {
             TvShowMetadata metadata = CreateMetadata();
             _metadataService.Save(Path, metadata);
+        }
+
+        public override string ToString()
+        {
+            if (string.IsNullOrEmpty(Title))
+            {
+                return Path;
+            }
+            return Title;
         }
 
         private void InitialLoadInformation()
@@ -284,7 +294,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             PremieredDate = metadata.PremieredDate;
             Studio = metadata.Studio;
             Language = metadata.Language;
-            
+
             Genres.Collection.Clear();
             foreach (string genre in metadata.Genres)
             {
@@ -342,6 +352,15 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
 
             return metadata;
+        }
+
+        private Task UpdateInternal()
+        {
+            return Task.Run(() =>
+            {
+                _metadataService.Update(Path);
+                Refresh();
+            });
         }
     }
 }

@@ -8,6 +8,7 @@ namespace PerfectMedia.UI.Progress
 {
     public interface IProgressManagerViewModel
     {
-        ObservableCollection<ProgressItem> Total { get; set; }
+        void AddItem(ProgressItem item);
+        void Start();
     }
 }

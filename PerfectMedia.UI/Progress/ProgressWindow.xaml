@@ -1,7 +1,7 @@
 ﻿<Window x:Class="PerfectMedia.UI.Progress.ProgressWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ProgressWindow" Height="300" Width="300">
+        Title="Progress" Height="300" Width="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -14,13 +14,13 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Content="Completed Updates: " />
-        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Completed.Count}" />
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding NumberOfCompletedItems}" />
         <Label Grid.Row="1" Grid.Column="0" Content="Total Number of Updates: " />
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Total.Count}" />
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding TotalNumberOfItems}" />
         <Label Grid.Row="2" Grid.Column="0" Content="Errors: " />
-        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding InError.Count}" />
-        <ItemsControl ItemsSource="{Binding InError}">
-            <ItemsControl.ItemTemplate>
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding NumberOfItemsInError}" />
+        <ListBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding InError}">
+            <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock>
                         <TextBlock.Text>
@@ -31,7 +31,7 @@
                         </TextBlock.Text>
                     </TextBlock>
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>

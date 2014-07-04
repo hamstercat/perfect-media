@@ -1,4 +1,5 @@
 ﻿using NSubstitute;
+using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Shows;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,14 @@ namespace PerfectMedia.UI.TvShows
     public class UpdateAllCommandTests
     {
         private readonly ObservableCollection<ITvShowViewModel> _tvShows;
+        private IProgressManagerViewModel _progressManager;
         private readonly UpdateAllCommand _command;
 
         public UpdateAllCommandTests()
         {
             _tvShows = new ObservableCollection<ITvShowViewModel>();
-            _command = new UpdateAllCommand(_tvShows);
+            _progressManager = Substitute.For<IProgressManagerViewModel>();
+            _command = new UpdateAllCommand(_tvShows, _progressManager);
         }
 
         [Fact]
@@ -66,22 +69,32 @@ namespace PerfectMedia.UI.TvShows
         }
 
         [Fact]
-        public void Execute_WithTvShows_UpdatesTheseTvShows()
+        public void Execute_WithTvShows_QueuesUpdates()
         {
             // Arrange
             ITvShowViewModel viewModel1 = Substitute.For<ITvShowViewModel>();
             _tvShows.Add(viewModel1);
-            ITvShowViewModel viewModel2 = Substitute.For<ITvShowViewModel>();
-            _tvShows.Add(viewModel2);
+            viewModel1.Update()
+                .Returns(new List<ProgressItem> { CreateProgressItem() });
 
             // Act
             _command.Execute(null);
 
             // Assert
-            viewModel1.Received()
-                .Update();
-            viewModel2.Received()
-                .Update();
+            _progressManager.Received()
+                .AddItem(Arg.Any<ProgressItem>());
+            _progressManager.Received()
+                .Start();
+        }
+
+        private ProgressItem CreateProgressItem()
+        {
+            Lazy<string> displayName = new Lazy<string>(() => "Dinosaur");
+            Task task = new Task(() =>
+            {
+                throw new Exception();
+            });
+            return new ProgressItem(null, null);
         }
     }
 }

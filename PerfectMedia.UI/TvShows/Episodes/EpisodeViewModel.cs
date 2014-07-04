@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace PerfectMedia.UI.TvShows.Episodes
@@ -277,21 +278,42 @@ namespace PerfectMedia.UI.TvShows.Episodes
             RefreshFromMetadata(metadata);
         }
 
-        public void Update()
+        public IEnumerable<ProgressItem> Update()
         {
-            _tvShowMetadata.Update();
+            foreach (ProgressItem item in _tvShowMetadata.Update())
+            {
+                yield return item;
+            }
+
             EpisodeMetadata metadata = _metadataService.Get(Path);
             if (metadata.FileInformation == null)
             {
-                _metadataService.Update(Path, _tvShowMetadata.Id);
+                Lazy<string> displayName = new Lazy<string>(ToString);
+                yield return new ProgressItem(displayName, UpdateInternal);
             }
-            Refresh();
         }
 
         public void Save()
         {
             EpisodeMetadata metadata = CreateMetadata();
             _metadataService.Save(Path, metadata);
+        }
+
+        public override string ToString()
+        {
+            if (string.IsNullOrEmpty(_tvShowMetadata.Title))
+            {
+                return Path;
+            }
+            if (string.IsNullOrEmpty(Title))
+            {
+                return string.Format("{0}: {1}", _tvShowMetadata.Title, Path);
+            }
+            return string.Format("{0} {1}x{2:d2}: {2}",
+                _tvShowMetadata.Title,
+                SeasonNumber,
+                EpisodeNumber,
+                Title);
         }
 
         private void InitialLoadInformation()
@@ -353,6 +375,15 @@ namespace PerfectMedia.UI.TvShows.Episodes
                 DisplayEpisode = DisplayEpisode,
                 EpisodeBookmarks = EpisodeBookmarks
             };
+        }
+
+        private Task UpdateInternal()
+        {
+            return Task.Run(() =>
+            {
+                _metadataService.Update(Path, _tvShowMetadata.Id);
+                Refresh();
+            });
         }
     }
 }

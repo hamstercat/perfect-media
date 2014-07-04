@@ -1,6 +1,7 @@
 ﻿using PerfectMedia.Sources;
 using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.Sources;
 using PerfectMedia.UI.TvShows.Shows;
 using System;
@@ -25,15 +26,15 @@ namespace PerfectMedia.UI.TvShows
         public ICommand UpdateAll { get; private set; }
         public ICommand FindNewEpisodes { get; private set; }
 
-        public TvShowManagerViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowFileService tvShowFileService, ITvShowMetadataService metadataService)
+        public TvShowManagerViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowFileService tvShowFileService, ITvShowMetadataService metadataService, IProgressManagerViewModel progressManager)
         {
             _viewModelFactory = viewModelFactory;
             _tvShowFileService = tvShowFileService;
             _metadataService = metadataService;
             TvShows = new ObservableCollection<ITvShowViewModel>();
 
-            UpdateAll = new UpdateAllCommand(TvShows);
-            FindNewEpisodes = new FindNewEpisodesCommand(TvShows);
+            UpdateAll = new UpdateAllCommand(TvShows, progressManager);
+            FindNewEpisodes = new FindNewEpisodesCommand(TvShows, progressManager);
 
             Sources = viewModelFactory.GetSourceManager(SourceType.TvShow);
             Sources.SpecificFolders.CollectionChanged += SourceFoldersCollectionChanged;

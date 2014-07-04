@@ -3,27 +3,35 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.UI.Progress
 {
     public class ProgressItem
     {
-        private readonly Action _action;
+        private readonly Lazy<string> _display;
+        private readonly Func<Task> _action;
 
-        public string Display { get; private set; }
+        public string Display
+        {
+            get
+            {
+                return _display.Value;
+            }
+        }
         public string Error { get; private set; }
 
-        public ProgressItem(string display, Action action)
+        public ProgressItem(Lazy<string> display, Func<Task> action)
         {
-            Display = display;
+            _display = display;
             _action = action;
         }
 
-        public void Execute()
+        public async Task Execute()
         {
             try
             {
-                _action();
+                await _action();
             }
             catch (UnknownCodecException ex)
             {

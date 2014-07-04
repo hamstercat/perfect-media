@@ -1,7 +1,9 @@
 ﻿using NSubstitute;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Progress;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace PerfectMedia.UI.TvShows.Shows
@@ -10,15 +12,17 @@ namespace PerfectMedia.UI.TvShows.Shows
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowMetadataService _metadataService;
-        private TvShowMetadataViewModel _viewModel;
+        private readonly IProgressManagerViewModel _progressManager;
         private readonly string _path;
+        private TvShowMetadataViewModel _viewModel;
 
         public TvShowMetadataViewModelTests()
         {
             _viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
             _metadataService = Substitute.For<ITvShowMetadataService>();
+            _progressManager = Substitute.For<IProgressManagerViewModel>();
             _path = @"C:\Folder\TV Shows";
-            _viewModel = new TvShowMetadataViewModel(_viewModelFactory, _metadataService, _path);
+            _viewModel = new TvShowMetadataViewModel(_viewModelFactory, _metadataService, _progressManager, _path);
         }
 
         [Fact]
@@ -47,7 +51,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             _viewModelFactory.GetTvShowImages(_path)
                 .Returns(imagesViewModel);
             // Recreate the ViewModel as the ImagesViewModel is retrieved in the constructor
-            _viewModel = new TvShowMetadataViewModel(_viewModelFactory, _metadataService, _path);
+            _viewModel = new TvShowMetadataViewModel(_viewModelFactory, _metadataService, _progressManager, _path);
 
             // Act
             _viewModel.Refresh();
@@ -73,7 +77,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         }
 
         [Fact]
-        public void Update_WhenNoMetadataAlreadyExists_RetrievesFreshMetadata()
+        public async void Update_WhenNoMetadataAlreadyExists_RetrievesFreshMetadata()
         {
             // Arrange
             TvShowMetadata metadata = CreateTvShowMetadata();
@@ -81,7 +85,8 @@ namespace PerfectMedia.UI.TvShows.Shows
                 .Returns(new TvShowMetadata(), metadata);
 
             // Act
-            _viewModel.Update();
+            ProgressItem item = _viewModel.Update().First();
+            await item.Execute();
 
             // Assert
             _metadataService.Received()

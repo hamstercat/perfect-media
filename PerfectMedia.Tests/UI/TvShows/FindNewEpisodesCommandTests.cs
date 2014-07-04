@@ -1,4 +1,5 @@
 ﻿using NSubstitute;
+using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Shows;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,14 @@ namespace PerfectMedia.UI.TvShows
     public class FindNewEpisodesCommandTests
     {
         private readonly ObservableCollection<ITvShowViewModel> _tvShows;
+        private IProgressManagerViewModel _progressManager;
         private readonly FindNewEpisodesCommand _command;
 
         public FindNewEpisodesCommandTests()
         {
             _tvShows = new ObservableCollection<ITvShowViewModel>();
-            _command = new FindNewEpisodesCommand(_tvShows);
+            _progressManager = Substitute.For<IProgressManagerViewModel>();
+            _command = new FindNewEpisodesCommand(_tvShows, _progressManager);
         }
 
         [Fact]
@@ -71,17 +74,22 @@ namespace PerfectMedia.UI.TvShows
             // Arrange
             ITvShowViewModel viewModel1 = Substitute.For<ITvShowViewModel>();
             _tvShows.Add(viewModel1);
-            ITvShowViewModel viewModel2 = Substitute.For<ITvShowViewModel>();
-            _tvShows.Add(viewModel2);
+            viewModel1.FindNewEpisodes()
+                .Returns(new List<ProgressItem> { CreateProgressItem() });
 
             // Act
             _command.Execute(null);
 
             // Assert
-            viewModel1.Received()
-                .FindNewEpisodes();
-            viewModel2.Received()
-                .FindNewEpisodes();
+            _progressManager.Received()
+                .AddItem(Arg.Any<ProgressItem>());
+            _progressManager.Received()
+                .Start();
+        }
+
+        private ProgressItem CreateProgressItem()
+        {
+            return new ProgressItem(null, null);
         }
     }
 }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace PerfectMedia.UI.Progress
 {
-    public interface IProgressIndicator
+    public interface IProgressIndicatorFactory
     {
-        void Show(IProgressManagerViewModel progressManagerViewModel);
+        IProgressIndicator CreateProgressIndicator();
     }
 }

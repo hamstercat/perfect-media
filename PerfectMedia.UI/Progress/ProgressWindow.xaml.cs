@@ -25,18 +25,10 @@ namespace PerfectMedia.UI.Progress
             InitializeComponent();
         }
 
-        public void SetProgressManager(IProgressManagerViewModel viewModel)
+        public void Show(IProgressManagerViewModel progressManager)
         {
-            DataContext = viewModel;
-            viewModel.Total.CollectionChanged += ProgressItemCollectionChanged;
-        }
-
-        private void ProgressItemCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (Visibility != Visibility.Visible)
-            {
-                ShowDialog();
-            }
+            DataContext = progressManager;
+            Show();
         }
     }
 }

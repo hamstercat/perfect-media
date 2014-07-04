@@ -6,20 +6,29 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Content="Completed Updates: " />
-        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding NumberOfCompletedItems}" />
-        <Label Grid.Row="1" Grid.Column="0" Content="Total Number of Updates: " />
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding TotalNumberOfItems}" />
-        <Label Grid.Row="2" Grid.Column="0" Content="Errors: " />
-        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding NumberOfItemsInError}" />
-        <ListBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding InError}">
+        <ProgressBar Grid.Row="0" Grid.Column="0" Minimum="0" Maximum="{Binding TotalNumberOfItems}" Value="{Binding NumberOfCompletedItems}" />
+        <TextBlock Grid.Row="0" Grid.Column="1">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0} / {1}">
+                    <Binding Path="NumberOfCompletedItems" />
+                    <Binding Path="TotalNumberOfItems" />
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}Errors: ({0})">
+                    <Binding Path="NumberOfItemsInError" />
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+        <ListBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding InError}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock>

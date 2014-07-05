@@ -78,6 +78,10 @@
     <Compile Include="Converters\SeasonNumberToNameConverter.cs" />
     <Compile Include="Converters\ShowIfNotEmptyConverter.cs" />
     <Compile Include="Converters\SpecialsSeasonVisibilityConverter.cs" />
+    <Compile Include="Images\ImageViewModel.cs" />
+    <Compile Include="Images\SelectableImage.xaml.cs">
+      <DependentUpon>SelectableImage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Progress\IProgressIndicator.cs" />
     <Compile Include="Progress\IProgressIndicatorFactory.cs" />
     <Compile Include="Progress\ProgressIndicatorFactory.cs" />
@@ -139,6 +143,10 @@
       <DependentUpon>TvShowMetadataControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="TvShows\UpdateAllCommand.cs" />
+    <Page Include="Images\SelectableImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -241,6 +249,7 @@
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.1.24.0\build\Fody.targets" Condition="Exists('..\packages\Fody.1.24.0\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

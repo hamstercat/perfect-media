@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:img="clr-namespace:PerfectMedia.UI.Images"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Background="White" Grid.IsSharedSizeScope="True">
@@ -54,6 +55,6 @@
         <TextBox Grid.Row="10" Grid.Column="3" Text="{Binding DisplayEpisode}" Visibility="{Binding SeasonNumber, Converter={StaticResource SpecialsSeasonVisibilityConverter}}" />
         <!-- TODO: EpisodeBookmarks when multi-episode file is supported -->
 
-        <Image Grid.Row="2" Grid.RowSpan="7" Grid.Column="2" Grid.ColumnSpan="2" MaxWidth="400" Source="{Binding ImagePath, Converter={StaticResource ImagePathConverter}}" />
+        <img:SelectableImage Grid.Row="2" Grid.RowSpan="7" Grid.Column="2" Grid.ColumnSpan="2" MaxWidth="400" DataContext="{Binding ImagePath}" />
     </Grid>
 </UserControl>

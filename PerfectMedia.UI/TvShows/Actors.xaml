@@ -1,16 +1,17 @@
 ﻿<UserControl x:Class="PerfectMedia.UI.TvShows.Actors"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:img="clr-namespace:PerfectMedia.UI.Images"
+             mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <ItemsControl ItemsSource="{Binding}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Width="100">
-                        <Image Source="{Binding ThumbPath, Converter={StaticResource ImagePathConverter}}" MaxWidth="60" MaxHeight="90" />
+                        <img:SelectableImage DataContext="{Binding ThumbPath}" MaxWidth="60" MaxHeight="90" />
                         <TextBox Text="{Binding Name}" />
                         <TextBox Text="{Binding Role}" />
                     </StackPanel>

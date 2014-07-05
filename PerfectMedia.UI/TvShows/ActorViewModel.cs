@@ -1,4 +1,5 @@
-﻿using PropertyChanged;
+﻿using PerfectMedia.UI.Images;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,11 @@ namespace PerfectMedia.UI.TvShows
         public string Name { get; set; }
         public string Role { get; set; }
         public string ThumbUrl { get; set; }
-        public string ThumbPath { get; set; }
+        public ImageViewModel ThumbPath { get; private set; }
+
+        public ActorViewModel()
+        {
+            ThumbPath = new ImageViewModel();
+        }
     }
 }

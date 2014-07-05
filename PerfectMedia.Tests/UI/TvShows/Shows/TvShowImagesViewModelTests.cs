@@ -23,14 +23,14 @@ namespace PerfectMedia.UI.TvShows.Shows
             _tvShowFileService = Substitute.For<ITvShowFileService>();
             _metadataService = Substitute.For<ITvShowMetadataService>();
             _path = @"C:\Folder\TV Shows\Game of Thrones";
-            _viewModel = new TvShowImagesViewModel(_tvShowFileService, _metadataService, _path);
+            _viewModel = new TvShowImagesViewModel(_tvShowFileService, _metadataService, null, _path);
         }
 
         [Fact]
         public void FanartUrl_Always_ShouldBeLoaded()
         {
             // Act
-            string fanartUrl = _viewModel.FanartUrl;
+            string fanartUrl = _viewModel.FanartUrl.Path;
 
             // Assert
             Assert.Equal(@"C:\Folder\TV Shows\Game of Thrones\fanart.jpg", fanartUrl);
@@ -40,7 +40,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         public void PosterUrl_Always_ShouldBeLoaded()
         {
             // Act
-            string posterUrl = _viewModel.PosterUrl;
+            string posterUrl = _viewModel.PosterUrl.Path;
 
             // Assert
             Assert.Equal(@"C:\Folder\TV Shows\Game of Thrones\poster.jpg", posterUrl);
@@ -50,7 +50,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         public void BannerUrl_Always_ShouldBeLoaded()
         {
             // Act
-            string bannerUrl = _viewModel.BannerUrl;
+            string bannerUrl = _viewModel.BannerUrl.Path;
 
             // Assert
             Assert.Equal(@"C:\Folder\TV Shows\Game of Thrones\banner.jpg", bannerUrl);

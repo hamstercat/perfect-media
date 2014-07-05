@@ -26,7 +26,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
             _tvShowFileService = Substitute.For<ITvShowFileService>();
             _tvShowMetadata = Substitute.For<ITvShowMetadataViewModel>();
             _path = @"C:\Folder\TV Shows\Game of Thrones\Season 1";
-            _viewModel = new SeasonViewModel(_viewModelFactory, _tvShowFileService, _tvShowMetadata, _path);
+            _viewModel = new SeasonViewModel(_viewModelFactory, _tvShowFileService, _tvShowMetadata, null, _path);
         }
 
         [Fact]
@@ -81,7 +81,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
                 .Returns(season);
 
             // Act
-            string posterUrl = _viewModel.PosterUrl;
+            string posterUrl = _viewModel.PosterUrl.Path;
 
             // Assert
             Assert.Equal(season.PosterUrl, posterUrl);
@@ -96,7 +96,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
                 .Returns(season);
 
             // Act
-            string bannerUrl = _viewModel.BannerUrl;
+            string bannerUrl = _viewModel.BannerUrl.Path;
 
             // Assert
             Assert.Equal(season.BannerUrl, bannerUrl);

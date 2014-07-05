@@ -1,4 +1,6 @@
 ﻿using PerfectMedia.TvShows;
+using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Episodes;
 using PerfectMedia.UI.TvShows.Shows;
@@ -39,43 +41,42 @@ namespace PerfectMedia.UI.TvShows.Seasons
             }
         }
 
-        private string _posterUrl;
-        public string PosterUrl
+        private ImageViewModel _posterUrl;
+        public ImageViewModel PosterUrl
         {
             get
             {
                 LoadImages();
                 return _posterUrl;
             }
-            set
-            {
-                _posterUrl = value;
-            }
         }
 
-        private string _bannerUrl;
-        public string BannerUrl
+        private ImageViewModel _bannerUrl;
+        public ImageViewModel BannerUrl
         {
             get
             {
                 LoadImages();
                 return _bannerUrl;
             }
-            set
-            {
-                _bannerUrl = value;
-            }
         }
 
         public string Path { get; private set; }
         public ObservableCollection<IEpisodeViewModel> Episodes { get; private set; }
 
-        public SeasonViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowFileService tvShowFileService, ITvShowMetadataViewModel tvShowMetadata, string path)
+        public SeasonViewModel(ITvShowViewModelFactory viewModelFactory,
+            ITvShowFileService tvShowFileService,
+            ITvShowMetadataViewModel tvShowMetadata,
+            ITvShowMetadataService metadataService,
+            string path)
         {
             _viewModelFactory = viewModelFactory;
             _tvShowFileService = tvShowFileService;
             _tvShowMetadata = tvShowMetadata;
             Path = path;
+
+            _posterUrl = new ImageViewModel(new SeasonPosterImageStrategy(metadataService, path));
+            _bannerUrl = new ImageViewModel(new SeasonBannerImageStrategy(metadataService, path));
 
             // We need to set a "dummy" item in the collection for an arrow to appear in the TreeView since we're lazy-loading the items under it
             _imagesLoaded = false;
@@ -102,8 +103,8 @@ namespace PerfectMedia.UI.TvShows.Seasons
                 // Remove the dummy object
                 Episodes.Clear();
 
-                IEnumerable<Episode> episodes = _tvShowFileService.GetEpisodes(Path);
-                foreach (Episode episode in episodes)
+                IEnumerable<PerfectMedia.TvShows.Episode> episodes = _tvShowFileService.GetEpisodes(Path);
+                foreach (PerfectMedia.TvShows.Episode episode in episodes)
                 {
                     IEpisodeViewModel episodeViewModel = _viewModelFactory.GetEpisode(_tvShowMetadata, episode.Path);
                     Episodes.Add(episodeViewModel);
@@ -118,8 +119,8 @@ namespace PerfectMedia.UI.TvShows.Seasons
             {
                 Season season = _tvShowFileService.GetSeason(_tvShowMetadata.Path, Path);
                 _imagesLoaded = true;
-                PosterUrl = season.PosterUrl;
-                BannerUrl = season.BannerUrl;
+                PosterUrl.Path = season.PosterUrl;
+                BannerUrl.Path = season.BannerUrl;
             }
         }
     }

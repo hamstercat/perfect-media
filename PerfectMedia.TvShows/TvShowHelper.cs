@@ -121,7 +121,7 @@ namespace PerfectMedia.TvShows
 
         // This method comes from https://stackoverflow.com/questions/4389775/what-is-a-good-way-to-remove-last-few-directory
         // TODO: Rewrite it more clearly
-        private static string GetParentDirectory(string path, int parentCount)
+        internal static string GetParentDirectory(string path, int parentCount)
         {
             if (string.IsNullOrEmpty(path) || parentCount < 1)
                 return path;

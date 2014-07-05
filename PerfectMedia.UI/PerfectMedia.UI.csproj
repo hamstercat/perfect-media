@@ -78,7 +78,13 @@
     <Compile Include="Converters\SeasonNumberToNameConverter.cs" />
     <Compile Include="Converters\ShowIfNotEmptyConverter.cs" />
     <Compile Include="Converters\SpecialsSeasonVisibilityConverter.cs" />
+    <Compile Include="Images\IImageStrategy.cs" />
+    <Compile Include="Images\IImageViewModel.cs" />
+    <Compile Include="Images\ImageSelection.xaml.cs">
+      <DependentUpon>ImageSelection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Images\ImageViewModel.cs" />
+    <Compile Include="Images\NoImageStrategy.cs" />
     <Compile Include="Images\SelectableImage.xaml.cs">
       <DependentUpon>SelectableImage.xaml</DependentUpon>
     </Compile>
@@ -107,12 +113,17 @@
     <Compile Include="TvShows\FindNewEpisodesCommand.cs" />
     <Compile Include="TvShows\ITvShowViewModelFactory.cs" />
     <Compile Include="TvShows\Seasons\ISeasonViewModel.cs" />
+    <Compile Include="TvShows\Seasons\SeasonBannerImageStrategy.cs" />
     <Compile Include="TvShows\Seasons\SeasonImagesViewModel.cs" />
+    <Compile Include="TvShows\Seasons\SeasonPosterImageStrategy.cs" />
     <Compile Include="TvShows\Seasons\SeasonViewModel.cs" />
     <Compile Include="Sources\SourceManagerViewModel.cs" />
+    <Compile Include="TvShows\Shows\BannerImageStrategy.cs" />
+    <Compile Include="TvShows\Shows\FanartImageStrategy.cs" />
     <Compile Include="TvShows\Shows\ITvShowImagesViewModel.cs" />
     <Compile Include="TvShows\Shows\ITvShowMetadataViewModel.cs" />
     <Compile Include="TvShows\Shows\ITvShowViewModel.cs" />
+    <Compile Include="TvShows\Shows\PosterImageStrategy.cs" />
     <Compile Include="TvShows\Shows\TvShowImagesViewModel.cs" />
     <Compile Include="TvShows\TvShowManagerViewModel.cs" />
     <Compile Include="TvShows\Shows\TvShowMetadataViewModel.cs" />
@@ -143,6 +154,10 @@
       <DependentUpon>TvShowMetadataControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="TvShows\UpdateAllCommand.cs" />
+    <Page Include="Images\ImageSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Images\SelectableImage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

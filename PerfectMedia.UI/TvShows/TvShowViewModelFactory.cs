@@ -48,14 +48,14 @@ namespace PerfectMedia.UI.TvShows
             return new TvShowMetadataViewModel(this, _tvShowMetadataService, _progressManagerViewModel, path);
         }
 
-        public ITvShowImagesViewModel GetTvShowImages(string path)
+        public ITvShowImagesViewModel GetTvShowImages(ITvShowMetadataViewModel metadataViewModel, string path)
         {
-            return new TvShowImagesViewModel(_tvShowFileService, _tvShowMetadataService, path);
+            return new TvShowImagesViewModel(_tvShowFileService, _tvShowMetadataService, metadataViewModel, path);
         }
 
         public ISeasonViewModel GetSeason(ITvShowMetadataViewModel tvShowMetadata, string path)
         {
-            return new SeasonViewModel(this, _tvShowFileService, tvShowMetadata, path);
+            return new SeasonViewModel(this, _tvShowFileService, tvShowMetadata, _tvShowMetadataService, path);
         }
 
         public IEpisodeViewModel GetEpisode(ITvShowMetadataViewModel tvShowMetadata, string path)

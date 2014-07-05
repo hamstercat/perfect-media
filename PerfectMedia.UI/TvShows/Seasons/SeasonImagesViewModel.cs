@@ -1,4 +1,6 @@
-﻿using PropertyChanged;
+﻿using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Images;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +12,14 @@ namespace PerfectMedia.UI.TvShows.Seasons
     [ImplementPropertyChanged]
     public class SeasonImagesViewModel
     {
-        public string PosterUrl { get; set; }
-        public string BannerUrl { get; set; }
+        public ImageViewModel PosterUrl { get; private set; }
+        public ImageViewModel BannerUrl { get; private set; }
         public int SeasonNumber { get; set; }
+
+        public SeasonImagesViewModel(ITvShowMetadataService metadataService, string seasonPath)
+        {
+            PosterUrl = new ImageViewModel(new SeasonPosterImageStrategy(metadataService, seasonPath));
+            BannerUrl = new ImageViewModel(new SeasonBannerImageStrategy(metadataService, seasonPath));
+        }
     }
 }

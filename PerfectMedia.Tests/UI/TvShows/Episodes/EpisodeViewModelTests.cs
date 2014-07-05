@@ -130,7 +130,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             _viewModel.DisplaySeason = 1;
             _viewModel.EpisodeBookmarks = 3.2;
             _viewModel.EpisodeNumber = 9;
-            _viewModel.ImagePath = @"C:\Folder\TV Shows\Game of Thrones\Season 2\3x09-thumb.png";
+            _viewModel.ImagePath.Path = @"C:\Folder\TV Shows\Game of Thrones\Season 2\3x09-thumb.png";
             _viewModel.ImageUrl = "http://thetvdb.com/banners/seasons/79481-0.jpg";
             _viewModel.LastPlayed = new DateTime(2013, 01, 13);
             _viewModel.PlayCount = 4;
@@ -179,7 +179,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             Assert.Equal(metadata.DisplaySeason, _viewModel.DisplaySeason);
             Assert.Equal(metadata.EpisodeBookmarks, _viewModel.EpisodeBookmarks);
             Assert.Equal(metadata.EpisodeNumber, _viewModel.EpisodeNumber);
-            Assert.Equal(metadata.ImagePath, _viewModel.ImagePath);
+            Assert.Equal(metadata.ImagePath, _viewModel.ImagePath.Path);
             Assert.Equal(metadata.ImageUrl, _viewModel.ImageUrl);
             Assert.Equal(metadata.LastPlayed, _viewModel.LastPlayed);
             Assert.Equal(metadata.Playcount, _viewModel.PlayCount);

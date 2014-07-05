@@ -60,6 +60,7 @@
     <Compile Include="UI\Converters\NotZeroConverterTests.cs" />
     <Compile Include="UI\Converters\ShowIfNotEmptyConverterTests.cs" />
     <Compile Include="UI\Converters\SpecialsSeasonVisibilityConverterTests.cs" />
+    <Compile Include="UI\Images\ImageViewModelTests.cs" />
     <Compile Include="UI\Metadata\UpdateMetadataCommandTests.cs" />
     <Compile Include="UI\Metadata\SaveMetadataCommandTests.cs" />
     <Compile Include="UI\Metadata\RefreshMetadataCommandTests.cs" />

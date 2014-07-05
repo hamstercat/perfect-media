@@ -1,5 +1,6 @@
 ﻿using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Images;
 using PerfectMedia.UI.TvShows.Seasons;
 using PropertyChanged;
 using System;
@@ -21,8 +22,8 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         private bool _tvShowImagesLoaded;
 
-        private string _fanartUrl;
-        public string FanartUrl
+        private ImageViewModel _fanartUrl;
+        public ImageViewModel FanartUrl
         {
             get
             {
@@ -33,14 +34,10 @@ namespace PerfectMedia.UI.TvShows.Shows
                 }
                 return _fanartUrl;
             }
-            set
-            {
-                _fanartUrl = value;
-            }
         }
 
-        private string _posterUrl;
-        public string PosterUrl
+        private ImageViewModel _posterUrl;
+        public ImageViewModel PosterUrl
         {
             get
             {
@@ -51,14 +48,10 @@ namespace PerfectMedia.UI.TvShows.Shows
                 }
                 return _posterUrl;
             }
-            set
-            {
-                _posterUrl = value;
-            }
         }
 
-        private string _bannerUrl;
-        public string BannerUrl
+        private ImageViewModel _bannerUrl;
+        public ImageViewModel BannerUrl
         {
             get
             {
@@ -68,10 +61,6 @@ namespace PerfectMedia.UI.TvShows.Shows
                     InitialLoadTvShowImages();
                 }
                 return _bannerUrl;
-            }
-            set
-            {
-                _bannerUrl = value;
             }
         }
 
@@ -88,12 +77,16 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
         }
 
-        public TvShowImagesViewModel(ITvShowFileService tvShowFileService, ITvShowMetadataService metadataService, string path)
+        public TvShowImagesViewModel(ITvShowFileService tvShowFileService, ITvShowMetadataService metadataService, ITvShowMetadataViewModel metadataViewModel, string path)
         {
             _tvShowFileService = tvShowFileService;
             _metadataService = metadataService;
             _path = path;
             _tvShowImagesLoaded = false;
+
+            _fanartUrl = new ImageViewModel(new FanartImageStrategy(metadataService, metadataViewModel));
+            _posterUrl = new ImageViewModel(new PosterImageStrategy(metadataService, metadataViewModel));
+            _bannerUrl = new ImageViewModel(new BannerImageStrategy(metadataService, metadataViewModel));
         }
 
         public void Refresh()
@@ -104,9 +97,9 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         private void InitialLoadTvShowImages()
         {
-            FanartUrl = Path.Combine(_path, "fanart.jpg");
-            PosterUrl = Path.Combine(_path, "poster.jpg");
-            BannerUrl = Path.Combine(_path, "banner.jpg");
+            FanartUrl.Path = Path.Combine(_path, "fanart.jpg");
+            PosterUrl.Path = Path.Combine(_path, "poster.jpg");
+            BannerUrl.Path = Path.Combine(_path, "banner.jpg");
         }
 
         private void InitialLoadSeasonImages()
@@ -119,12 +112,10 @@ namespace PerfectMedia.UI.TvShows.Shows
             IEnumerable<Season> seasons = _tvShowFileService.GetSeasons(_path);
             foreach (Season season in seasons)
             {
-                SeasonImagesViewModel viewModel = new SeasonImagesViewModel
-                {
-                    BannerUrl = season.BannerUrl,
-                    PosterUrl = season.PosterUrl,
-                    SeasonNumber = season.SeasonNumber
-                };
+                SeasonImagesViewModel viewModel = new SeasonImagesViewModel(_metadataService, season.Path);
+                viewModel.BannerUrl.Path = season.BannerUrl;
+                viewModel.PosterUrl.Path = season.PosterUrl;
+                viewModel.SeasonNumber = season.SeasonNumber;
                 _seasonImages.Add(viewModel);
             }
         }

@@ -20,6 +20,13 @@ namespace PerfectMedia.UI.Images
     /// </summary>
     public partial class SelectableImage : UserControl
     {
+        public static readonly DependencyProperty ContainerControlProperty = DependencyProperty.Register("ContainerControl", typeof(ContentControl), typeof(SelectableImage));
+        public ContentControl ContainerControl
+        {
+            get { return (ContentControl)base.GetValue(ContainerControlProperty); }
+            set { base.SetValue(ContainerControlProperty, value); }
+        }
+
         public SelectableImage()
         {
             InitializeComponent();
@@ -38,6 +45,26 @@ namespace PerfectMedia.UI.Images
         private void ChangeMouseOverOverlayVisibility(Visibility visibility)
         {
             MouseOverOverlay.Visibility = visibility;
+        }
+
+        private void HyperlinkClick(object sender, RoutedEventArgs e)
+        {
+            RefreshAvailableImages();
+            ContainerControl.Content = CreateImageSelectionControl();
+        }
+
+        private void RefreshAvailableImages()
+        {
+            IImageViewModel imageViewModel = (IImageViewModel)DataContext;
+            imageViewModel.LoadAvailableImages();
+        }
+
+        private ImageSelection CreateImageSelectionControl()
+        {
+            ImageSelection imageSelection = new ImageSelection();
+            imageSelection.DataContext = DataContext;
+            imageSelection.OriginalContent = (Control)ContainerControl.Content;
+            return imageSelection;
         }
     }
 }

@@ -230,7 +230,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             Path = path;
             _lazyLoaded = false;
 
-            Images = viewModelFactory.GetTvShowImages(path);
+            Images = viewModelFactory.GetTvShowImages(this, path);
             // We don't want to trigger the InitialLoadInformation by setting the properties
             _actors = new ObservableCollection<ActorViewModel>();
             _genres = new DashDelimitedCollectionViewModel<string>(s => s);
@@ -313,9 +313,9 @@ namespace PerfectMedia.UI.TvShows.Shows
                 {
                     Name = actor.Name,
                     Role = actor.Role,
-                    ThumbUrl = actor.Thumb,
-                    ThumbPath = actor.ThumbPath
+                    ThumbUrl = actor.Thumb
                 };
+                actorViewModel.ThumbPath.Path = actor.ThumbPath;
                 Actors.Add(actorViewModel);
             }
         }
@@ -346,7 +346,7 @@ namespace PerfectMedia.UI.TvShows.Shows
                     Name = actorViewModel.Name,
                     Role = actorViewModel.Role,
                     Thumb = actorViewModel.ThumbUrl,
-                    ThumbPath = actorViewModel.ThumbPath
+                    ThumbPath = actorViewModel.ThumbPath.Path
                 };
                 metadata.Actors.Add(actor);
             }

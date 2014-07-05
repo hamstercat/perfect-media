@@ -16,7 +16,7 @@ namespace PerfectMedia.UI.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string imagePath = (string)value;
-            if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
+            if (!string.IsNullOrEmpty(imagePath) && PathIsValid(imagePath))
             {
                 BitmapImage image = new BitmapImage();
                 image.BeginInit();
@@ -32,6 +32,16 @@ namespace PerfectMedia.UI.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+
+        private bool PathIsValid(string imagePath)
+        {
+            return (IsPathAnUrl(imagePath) || File.Exists(imagePath));
+        }
+
+        private bool IsPathAnUrl(string path)
+        {
+            return path.StartsWith("http://") || path.StartsWith("https://");
         }
     }
 }

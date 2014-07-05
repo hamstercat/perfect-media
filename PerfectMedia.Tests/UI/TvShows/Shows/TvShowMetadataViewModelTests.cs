@@ -48,7 +48,7 @@ namespace PerfectMedia.UI.TvShows.Shows
                 .Returns(new TvShowMetadata());
 
             ITvShowImagesViewModel imagesViewModel = Substitute.For<ITvShowImagesViewModel>();
-            _viewModelFactory.GetTvShowImages(_path)
+            _viewModelFactory.GetTvShowImages(Arg.Any<ITvShowMetadataViewModel>(), _path)
                 .Returns(imagesViewModel);
             // Recreate the ViewModel as the ImagesViewModel is retrieved in the constructor
             _viewModel = new TvShowMetadataViewModel(_viewModelFactory, _metadataService, _progressManager, _path);

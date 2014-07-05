@@ -1,5 +1,6 @@
 ﻿using PerfectMedia.FileInformation;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Shows;
@@ -97,18 +98,13 @@ namespace PerfectMedia.UI.TvShows.Episodes
             }
         }
 
-        private string _imagePath;
-        public string ImagePath
+        private ImageViewModel _imagePath;
+        public ImageViewModel ImagePath
         {
             get
             {
                 InitialLoadInformation();
                 return _imagePath;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _imagePath = value;
             }
         }
 
@@ -266,6 +262,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             // We don't want to trigger the InitialLoadInformation by setting the properties
             _credits = new DashDelimitedCollectionViewModel<string>(s => s);
             _directors = new DashDelimitedCollectionViewModel<string>(s => s);
+            _imagePath = new ImageViewModel();
 
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this, progressManager);
@@ -332,8 +329,8 @@ namespace PerfectMedia.UI.TvShows.Episodes
             SeasonNumber = metadata.SeasonNumber;
             EpisodeNumber = metadata.EpisodeNumber;
             Plot = metadata.Plot;
-            ImagePath = null;
-            ImagePath = metadata.ImagePath;
+            ImagePath.Path = null;
+            ImagePath.Path = metadata.ImagePath;
             ImageUrl = metadata.ImageUrl;
             PlayCount = metadata.Playcount;
             LastPlayed = metadata.LastPlayed;
@@ -364,7 +361,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
                 SeasonNumber = SeasonNumber,
                 EpisodeNumber = EpisodeNumber,
                 Plot = Plot,
-                ImagePath = ImagePath,
+                ImagePath = ImagePath.Path,
                 ImageUrl = ImageUrl,
                 Playcount = PlayCount,
                 LastPlayed = LastPlayed,

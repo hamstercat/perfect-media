@@ -58,6 +58,15 @@ namespace PerfectMedia.TvShows.Metadata
             return _metadataUpdater.FindImages(seriesId);
         }
 
+        public AvailableSeasonImages FindSeasonImages(string seasonPath)
+        {
+            string seriePath = TvShowHelper.GetParentDirectory(seasonPath, 1);
+            string serieId = GetSeriesId(seriePath);
+            AvailableTvShowImages images = FindImages(seriePath);
+            int seasonNumber = TvShowHelper.FindSeasonNumberFromFolder(seasonPath);
+            return images.Seasons[seasonNumber];
+        }
+
         private FullSerie FindFullSerie(string path)
         {
             string seriesId = GetSeriesId(path);

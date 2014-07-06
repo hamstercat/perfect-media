@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         private readonly ITvShowMetadataService _metadataService;
         private bool _lazyLoaded;
 
+        public event PropertyChangedEventHandler PropertyChanged;
         public string Path { get; private set; }
         public ITvShowImagesViewModel Images { get; private set; }
 

@@ -27,13 +27,13 @@
                 </TreeView.ItemContainerStyle>
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Seasons}">
-                        <TextBlock Text="{Binding Path, Converter={StaticResource PathFolderNameConverter}}" />
+                        <TextBlock Text="{Binding DisplayName}" />
                         <HierarchicalDataTemplate.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding Episodes}">
-                                <TextBlock Text="{Binding Path, Converter={StaticResource PathFolderNameConverter}}" />
+                                <TextBlock Text="{Binding DisplayName}" />
                                 <HierarchicalDataTemplate.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Path, Converter={StaticResource PathFolderNameConverter}}" />
+                                        <TextBlock Text="{Binding DisplayName}" />
                                     </DataTemplate>
                                 </HierarchicalDataTemplate.ItemTemplate>
                             </HierarchicalDataTemplate>

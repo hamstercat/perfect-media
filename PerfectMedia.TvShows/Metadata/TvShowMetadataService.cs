@@ -62,7 +62,7 @@ namespace PerfectMedia.TvShows.Metadata
         {
             string seriePath = TvShowHelper.GetParentDirectory(seasonPath, 1);
             string serieId = GetSeriesId(seriePath);
-            AvailableTvShowImages images = FindImages(seriePath);
+            AvailableTvShowImages images = FindImages(serieId);
             int seasonNumber = TvShowHelper.FindSeasonNumberFromFolder(seasonPath);
             return images.Seasons[seasonNumber];
         }

@@ -247,6 +247,21 @@ namespace PerfectMedia.UI.TvShows.Episodes
         // Do nothing with it, no children to show
         public bool IsExpanded { get; set; }
 
+        public string DisplayName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Title))
+                {
+                    return System.IO.Path.GetFileName(Path);
+                }
+                return string.Format("{0}x{1:d2}: {2}",
+                    SeasonNumber,
+                    EpisodeNumber,
+                    Title);
+            }
+        }
+
         public string Path { get; private set; }
         public ICommand RefreshCommand { get; private set; }
         public ICommand UpdateCommand { get; private set; }
@@ -298,19 +313,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
 
         public override string ToString()
         {
-            if (string.IsNullOrEmpty(_tvShowMetadata.Title))
-            {
-                return Path;
-            }
-            if (string.IsNullOrEmpty(Title))
-            {
-                return string.Format("{0}: {1}", _tvShowMetadata.Title, Path);
-            }
-            return string.Format("{0} {1}x{2:d2}: {2}",
-                _tvShowMetadata.Title,
-                SeasonNumber,
-                EpisodeNumber,
-                Title);
+            return DisplayName;
         }
 
         private void InitialLoadInformation()

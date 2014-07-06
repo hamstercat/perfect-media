@@ -41,6 +41,14 @@ namespace PerfectMedia.UI.TvShows.Seasons
             }
         }
 
+        public string DisplayName
+        {
+            get
+            {
+                return System.IO.Path.GetFileName(Path);
+            }
+        }
+
         private ImageViewModel _posterUrl;
         public ImageViewModel PosterUrl
         {
@@ -94,6 +102,11 @@ namespace PerfectMedia.UI.TvShows.Seasons
                     yield return item;
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            return DisplayName;
         }
 
         private void LoadEpisodes()

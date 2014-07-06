@@ -35,6 +35,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
         }
 
+        public string DisplayName { get; set; }
         public string Path { get; private set; }
         public ITvShowMetadataViewModel Metadata { get; private set; }
 
@@ -47,6 +48,8 @@ namespace PerfectMedia.UI.TvShows.Shows
             _tvShowFileService = tvShowFileService;
             Path = path;
             Metadata = viewModelFactory.GetTvShowMetadata(Path);
+            DisplayName = Metadata.ToString();
+            Metadata.PropertyChanged += (s, e) => DisplayName = Metadata.ToString();
 
             // We need to set a "dummy" item in the collection for an arrow to appear in the TreeView since we're lazy-loading the items under it
             _seasonLoaded = false;

@@ -6,6 +6,7 @@
              xmlns:shows="clr-namespace:PerfectMedia.UI.TvShows.Shows"
              xmlns:seasons="clr-namespace:PerfectMedia.UI.TvShows.Seasons"
              xmlns:episodes="clr-namespace:PerfectMedia.UI.TvShows.Episodes"
+             xmlns:img="clr-namespace:PerfectMedia.UI.Images"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="1000">
     <Grid>
@@ -47,11 +48,7 @@
             </StackPanel>
         </Grid>
         <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <ContentControl Grid.Row="1" Content="{Binding SelectedItem, ElementName=TvShowsTreeView}">
+            <ContentControl Content="{Binding SelectedItem, ElementName=TvShowsTreeView}" x:Name="MainContentControl">
                 <ContentControl.Resources>
                     <DataTemplate DataType="{x:Type shows:TvShowViewModel}">
                         <Grid>
@@ -83,6 +80,9 @@
                             </StackPanel>
                             <episodes:EpisodeMetadataControl Grid.Row="1" />
                         </Grid>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type img:ImageViewModel}">
+                        <img:ImageSelection />
                     </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>

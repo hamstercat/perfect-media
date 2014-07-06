@@ -20,16 +20,43 @@ namespace PerfectMedia.UI.Images
     /// </summary>
     public partial class ImageSelection : UserControl
     {
-        public static readonly DependencyProperty OriginalContentProperty = DependencyProperty.Register("OriginalContent", typeof(Control), typeof(SelectableImage));
-        public Control OriginalContent
-        {
-            get { return (Control)base.GetValue(OriginalContentProperty); }
-            set { base.SetValue(OriginalContentProperty, value); }
-        }
-
         public ImageSelection()
         {
             InitializeComponent();
+        }
+
+        internal void CloseControl()
+        {
+            ContentControl parent = GetParentContentControl(this);
+            Binding originalBinding = FindOriginalContent();
+            BindingOperations.SetBinding(parent, ContentControl.ContentProperty, originalBinding);
+        }
+
+        private void CancelClick(object sender, RoutedEventArgs e)
+        {
+            CloseControl();
+        }
+
+        private ContentControl GetParentContentControl(DependencyObject dependencyObject)
+        {
+            DependencyObject parent = VisualTreeHelper.GetParent(dependencyObject);
+            if (IsMainContentControl(parent))
+            {
+                return (ContentControl)parent;
+            }
+            return GetParentContentControl(parent);
+        }
+
+        private bool IsMainContentControl(DependencyObject parent)
+        {
+            ContentControl control = parent as ContentControl;
+            return control != null && control.Name == "MainContentControl";
+        }
+
+        private Binding FindOriginalContent()
+        {
+            IImageViewModel image = (IImageViewModel)DataContext;
+            return (Binding)image.OriginalContent;
         }
     }
 }

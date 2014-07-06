@@ -84,7 +84,9 @@
       <DependentUpon>ImageSelection.xaml</DependentUpon>
     </Compile>
     <Compile Include="Images\ImageViewModel.cs" />
+    <Compile Include="Images\IsClosedAttachedBehavior.cs" />
     <Compile Include="Images\NoImageStrategy.cs" />
+    <Compile Include="Images\SaveImageCommand.cs" />
     <Compile Include="Images\SelectableImage.xaml.cs">
       <DependentUpon>SelectableImage.xaml</DependentUpon>
     </Compile>

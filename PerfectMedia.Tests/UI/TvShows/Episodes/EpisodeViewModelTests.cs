@@ -24,7 +24,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             _metadataService = Substitute.For<IEpisodeMetadataService>();
             _tvShowMetadata = Substitute.For<ITvShowMetadataViewModel>();
             _path = @"C:\Folder\TV Shows\Game of Thrones\Season 2\3x09.mkv";
-            _viewModel = new EpisodeViewModel(_metadataService, _tvShowMetadata, null, _path);
+            _viewModel = new EpisodeViewModel(_metadataService, _tvShowMetadata, null, null, _path);
         }
 
         [Fact]

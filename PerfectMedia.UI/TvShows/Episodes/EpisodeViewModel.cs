@@ -252,7 +252,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
         public ICommand UpdateCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
 
-        public EpisodeViewModel(IEpisodeMetadataService metadataService, ITvShowMetadataViewModel tvShowMetadata, IProgressManagerViewModel progressManager, string path)
+        public EpisodeViewModel(IEpisodeMetadataService metadataService, ITvShowMetadataViewModel tvShowMetadata, IProgressManagerViewModel progressManager, IFileSystemService fileSystemService, string path)
         {
             _metadataService = metadataService;
             _tvShowMetadata = tvShowMetadata;
@@ -262,7 +262,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             // We don't want to trigger the InitialLoadInformation by setting the properties
             _credits = new DashDelimitedCollectionViewModel<string>(s => s);
             _directors = new DashDelimitedCollectionViewModel<string>(s => s);
-            _imagePath = new ImageViewModel();
+            _imagePath = new ImageViewModel(fileSystemService);
 
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this, progressManager);

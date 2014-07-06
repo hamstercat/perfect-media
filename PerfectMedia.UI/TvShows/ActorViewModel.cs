@@ -15,9 +15,9 @@ namespace PerfectMedia.UI.TvShows
         public string ThumbUrl { get; set; }
         public ImageViewModel ThumbPath { get; private set; }
 
-        public ActorViewModel()
+        public ActorViewModel(IFileSystemService fileSystemService)
         {
-            ThumbPath = new ImageViewModel();
+            ThumbPath = new ImageViewModel(fileSystemService);
         }
     }
 }

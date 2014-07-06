@@ -16,10 +16,10 @@ namespace PerfectMedia.UI.TvShows.Seasons
         public ImageViewModel BannerUrl { get; private set; }
         public int SeasonNumber { get; set; }
 
-        public SeasonImagesViewModel(ITvShowMetadataService metadataService, string seasonPath)
+        public SeasonImagesViewModel(IFileSystemService fileSystemService, ITvShowMetadataService metadataService, string seasonPath)
         {
-            PosterUrl = new ImageViewModel(new SeasonPosterImageStrategy(metadataService, seasonPath));
-            BannerUrl = new ImageViewModel(new SeasonBannerImageStrategy(metadataService, seasonPath));
+            PosterUrl = new ImageViewModel(fileSystemService, new SeasonPosterImageStrategy(metadataService, seasonPath));
+            BannerUrl = new ImageViewModel(fileSystemService, new SeasonBannerImageStrategy(metadataService, seasonPath));
         }
     }
 }

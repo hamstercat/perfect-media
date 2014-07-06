@@ -1,6 +1,7 @@
 ﻿using PerfectMedia.Sources;
 using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.Sources;
 using PerfectMedia.UI.TvShows.Episodes;
@@ -50,7 +51,7 @@ namespace PerfectMedia.UI.TvShows
 
         public ITvShowImagesViewModel GetTvShowImages(ITvShowMetadataViewModel metadataViewModel, string path)
         {
-            return new TvShowImagesViewModel(_tvShowFileService, _tvShowMetadataService, metadataViewModel, path);
+            return new TvShowImagesViewModel(_tvShowFileService, _tvShowMetadataService, _fileSystemService, metadataViewModel, path);
         }
 
         public ISeasonViewModel GetSeason(ITvShowMetadataViewModel tvShowMetadata, string path)
@@ -60,7 +61,17 @@ namespace PerfectMedia.UI.TvShows
 
         public IEpisodeViewModel GetEpisode(ITvShowMetadataViewModel tvShowMetadata, string path)
         {
-            return new EpisodeViewModel(_episodeMetadataService, tvShowMetadata, _progressManagerViewModel, path);
+            return new EpisodeViewModel(_episodeMetadataService, tvShowMetadata, _progressManagerViewModel, _fileSystemService, path);
+        }
+
+        public ImageViewModel GetImage(IImageStrategy imageStrategy)
+        {
+            return new ImageViewModel(_fileSystemService, imageStrategy);
+        }
+
+        public ActorViewModel GetActor()
+        {
+            return new ActorViewModel(_fileSystemService);
         }
     }
 }

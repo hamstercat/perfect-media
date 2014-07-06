@@ -17,6 +17,7 @@ namespace PerfectMedia.UI.TvShows.Shows
     [ImplementPropertyChanged]
     public class TvShowMetadataViewModel : ITvShowMetadataViewModel, IMetadataProvider
     {
+        private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowMetadataService _metadataService;
         private bool _lazyLoaded;
 
@@ -226,6 +227,7 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         public TvShowMetadataViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowMetadataService metadataService, IProgressManagerViewModel progressManager, string path)
         {
+            _viewModelFactory = viewModelFactory;
             _metadataService = metadataService;
             Path = path;
             _lazyLoaded = false;
@@ -309,12 +311,10 @@ namespace PerfectMedia.UI.TvShows.Shows
             Actors.Clear();
             foreach (ActorMetadata actor in actors)
             {
-                ActorViewModel actorViewModel = new ActorViewModel
-                {
-                    Name = actor.Name,
-                    Role = actor.Role,
-                    ThumbUrl = actor.Thumb
-                };
+                ActorViewModel actorViewModel = _viewModelFactory.GetActor();
+                actorViewModel.Name = actor.Name;
+                actorViewModel.Role = actor.Role;
+                actorViewModel.ThumbUrl = actor.Thumb;
                 actorViewModel.ThumbPath.Path = actor.ThumbPath;
                 Actors.Add(actorViewModel);
             }

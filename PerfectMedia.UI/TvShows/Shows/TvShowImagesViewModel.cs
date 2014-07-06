@@ -18,6 +18,7 @@ namespace PerfectMedia.UI.TvShows.Shows
     {
         private ITvShowFileService _tvShowFileService;
         private readonly ITvShowMetadataService _metadataService;
+        private readonly IFileSystemService _fileSystemService;
         private readonly string _path;
 
         private bool _tvShowImagesLoaded;
@@ -77,16 +78,21 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
         }
 
-        public TvShowImagesViewModel(ITvShowFileService tvShowFileService, ITvShowMetadataService metadataService, ITvShowMetadataViewModel metadataViewModel, string path)
+        public TvShowImagesViewModel(ITvShowFileService tvShowFileService,
+            ITvShowMetadataService metadataService,
+            IFileSystemService fileSystemService,
+            ITvShowMetadataViewModel metadataViewModel,
+            string path)
         {
             _tvShowFileService = tvShowFileService;
             _metadataService = metadataService;
+            _fileSystemService = fileSystemService;
             _path = path;
             _tvShowImagesLoaded = false;
 
-            _fanartUrl = new ImageViewModel(new FanartImageStrategy(metadataService, metadataViewModel));
-            _posterUrl = new ImageViewModel(new PosterImageStrategy(metadataService, metadataViewModel));
-            _bannerUrl = new ImageViewModel(new BannerImageStrategy(metadataService, metadataViewModel));
+            _fanartUrl = new ImageViewModel(fileSystemService, new FanartImageStrategy(metadataService, metadataViewModel));
+            _posterUrl = new ImageViewModel(fileSystemService, new PosterImageStrategy(metadataService, metadataViewModel));
+            _bannerUrl = new ImageViewModel(fileSystemService, new BannerImageStrategy(metadataService, metadataViewModel));
         }
 
         public void Refresh()
@@ -112,7 +118,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             IEnumerable<Season> seasons = _tvShowFileService.GetSeasons(_path);
             foreach (Season season in seasons)
             {
-                SeasonImagesViewModel viewModel = new SeasonImagesViewModel(_metadataService, season.Path);
+                SeasonImagesViewModel viewModel = new SeasonImagesViewModel(_fileSystemService, _metadataService, season.Path);
                 viewModel.BannerUrl.Path = season.BannerUrl;
                 viewModel.PosterUrl.Path = season.PosterUrl;
                 viewModel.SeasonNumber = season.SeasonNumber;

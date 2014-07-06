@@ -23,7 +23,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             _tvShowFileService = Substitute.For<ITvShowFileService>();
             _metadataService = Substitute.For<ITvShowMetadataService>();
             _path = @"C:\Folder\TV Shows\Game of Thrones";
-            _viewModel = new TvShowImagesViewModel(_tvShowFileService, _metadataService, null, _path);
+            _viewModel = new TvShowImagesViewModel(_tvShowFileService, _metadataService, null, null, _path);
         }
 
         [Fact]

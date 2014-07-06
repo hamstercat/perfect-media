@@ -75,8 +75,8 @@ namespace PerfectMedia.UI.TvShows.Seasons
             _tvShowMetadata = tvShowMetadata;
             Path = path;
 
-            _posterUrl = new ImageViewModel(new SeasonPosterImageStrategy(metadataService, path));
-            _bannerUrl = new ImageViewModel(new SeasonBannerImageStrategy(metadataService, path));
+            _posterUrl = viewModelFactory.GetImage(new SeasonPosterImageStrategy(metadataService, path));
+            _bannerUrl = viewModelFactory.GetImage(new SeasonBannerImageStrategy(metadataService, path));
 
             // We need to set a "dummy" item in the collection for an arrow to appear in the TreeView since we're lazy-loading the items under it
             _imagesLoaded = false;

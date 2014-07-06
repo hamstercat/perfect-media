@@ -20,12 +20,7 @@ namespace PerfectMedia.UI.Images
     /// </summary>
     public partial class SelectableImage : UserControl
     {
-        public static readonly DependencyProperty ContainerControlProperty = DependencyProperty.Register("ContainerControl", typeof(ContentControl), typeof(SelectableImage));
-        public ContentControl ContainerControl
-        {
-            get { return (ContentControl)base.GetValue(ContainerControlProperty); }
-            set { base.SetValue(ContainerControlProperty, value); }
-        }
+        private Control _oldContent;
 
         public SelectableImage()
         {
@@ -49,22 +44,27 @@ namespace PerfectMedia.UI.Images
 
         private void HyperlinkClick(object sender, RoutedEventArgs e)
         {
-            RefreshAvailableImages();
-            ContainerControl.Content = CreateImageSelectionControl();
+            IImageViewModel images = FindAvailableImages();
+            ContentControl control = FindParentMainContentControl(this);
+            images.OriginalContent = BindingOperations.GetBinding(control, ContentControl.ContentProperty);
+            control.Content = images;
         }
 
-        private void RefreshAvailableImages()
+        private ContentControl FindParentMainContentControl(FrameworkElement frameworkElement)
+        {
+            if (frameworkElement.Name == "MainContentControl")
+            {
+                return (ContentControl)frameworkElement;
+            }
+            FrameworkElement parent = (FrameworkElement)VisualTreeHelper.GetParent(frameworkElement);
+            return FindParentMainContentControl(parent);
+        }
+
+        private IImageViewModel FindAvailableImages()
         {
             IImageViewModel imageViewModel = (IImageViewModel)DataContext;
             imageViewModel.LoadAvailableImages();
-        }
-
-        private ImageSelection CreateImageSelectionControl()
-        {
-            ImageSelection imageSelection = new ImageSelection();
-            imageSelection.DataContext = DataContext;
-            imageSelection.OriginalContent = (Control)ContainerControl.Content;
-            return imageSelection;
+            return imageViewModel;
         }
     }
 }

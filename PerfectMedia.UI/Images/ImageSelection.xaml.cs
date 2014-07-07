@@ -18,14 +18,22 @@ namespace PerfectMedia.UI.Images
     /// <summary>
     /// Interaction logic for ImageSelection.xaml
     /// </summary>
-    public partial class ImageSelection : UserControl
+    public partial class ImageSelection : UserControl, ICloseable
     {
+        private IImageViewModel ImageViewModel
+        {
+            get
+            {
+                return (IImageViewModel)DataContext;
+            }
+        }
+
         public ImageSelection()
         {
             InitializeComponent();
         }
 
-        internal void CloseControl()
+        public void CloseControl()
         {
             ContentControl parent = GetParentContentControl(this);
             Binding originalBinding = FindOriginalContent();
@@ -35,6 +43,14 @@ namespace PerfectMedia.UI.Images
         private void CancelClick(object sender, RoutedEventArgs e)
         {
             CloseControl();
+        }
+
+        private void ChooseFileClick(object sender, RoutedEventArgs e)
+        {
+            ChooseImageFileWindow chooseImage = new ChooseImageFileWindow();
+            chooseImage.Owner = Window.GetWindow(this);
+            chooseImage.DataContext = ImageViewModel.Download;
+            chooseImage.ShowDialog();
         }
 
         private ContentControl GetParentContentControl(DependencyObject dependencyObject)
@@ -55,8 +71,7 @@ namespace PerfectMedia.UI.Images
 
         private Binding FindOriginalContent()
         {
-            IImageViewModel image = (IImageViewModel)DataContext;
-            return (Binding)image.OriginalContent;
+            return (Binding)ImageViewModel.OriginalContent;
         }
     }
 }

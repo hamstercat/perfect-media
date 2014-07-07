@@ -10,6 +10,7 @@ namespace PerfectMedia
     {
         bool FileExists(string filePath);
         void DeleteFile(string filePath);
+        void CopyFile(string file, string copiedFile);
         void DownloadFile(string filePath, string url);
         void SaveImageAsPng(string filePath, string url);
 

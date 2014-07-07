@@ -20,6 +20,7 @@
         <Grid Grid.Row="0" Grid.Column="1">
             <StackPanel>
                 <Button Content="Save" Command="{Binding SaveCommand}" />
+                <Button Content="Choose File" Click="ChooseFileClick" DataContext="{Binding Download}" />
                 <Button Content="Cancel" Click="CancelClick" />
             </StackPanel>
         </Grid>

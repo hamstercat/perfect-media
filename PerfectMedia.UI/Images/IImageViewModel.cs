@@ -12,6 +12,8 @@ namespace PerfectMedia.UI.Images
         string Path { get; }
         Image SelectedImage { get; }
         object OriginalContent { get; set; }
+        bool IsClosed { get; set; }
+        ChooseImageFileViewModel Download { get; }
         void LoadAvailableImages();
         void SaveSelectedImage();
     }

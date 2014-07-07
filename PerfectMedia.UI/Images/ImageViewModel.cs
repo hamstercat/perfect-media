@@ -21,6 +21,7 @@ namespace PerfectMedia.UI.Images
         public event PropertyChangedEventHandler PropertyChanged;
         public string Path { get; set; }
         public object OriginalContent { get; set; }
+        public ChooseImageFileViewModel Download { get; private set; }
         public bool IsClosed { get; set; }
         public ObservableCollection<Image> AvailableImages { get; private set; }
         public Image SelectedImage { get; set; }
@@ -45,6 +46,7 @@ namespace PerfectMedia.UI.Images
             SelectedImage = new Image { Url = Path };
             IsClosed = false;
             AvailableImages.Clear();
+            Download = new ChooseImageFileViewModel(_fileSystemService, this);
             foreach (Image image in _imageStrategy.FindImages())
             {
                 AvailableImages.Add(image);

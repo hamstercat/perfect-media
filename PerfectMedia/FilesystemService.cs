@@ -24,6 +24,11 @@ namespace PerfectMedia
             File.Delete(filePath);
         }
 
+        public void CopyFile(string file, string copiedFile)
+        {
+            File.Copy(file, copiedFile, true);
+        }
+
         public void DownloadFile(string filePath, string url)
         {
             using (WebClient client = new WebClient())
@@ -56,7 +61,7 @@ namespace PerfectMedia
         {
             return FindDirectories(path, "*");
         }
-        
+
         public IEnumerable<string> FindDirectories(string path, string searchPattern)
         {
             return Directory.GetDirectories(path, searchPattern, SearchOption.TopDirectoryOnly);

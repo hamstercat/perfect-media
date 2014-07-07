@@ -23,10 +23,10 @@ namespace PerfectMedia.UI.Images
 
         public static void OnIsClosedView(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ImageSelection imageSelection = (ImageSelection)d;
+            ICloseable closeable = (ICloseable)d;
             if ((bool)e.NewValue)
             {
-                imageSelection.CloseControl();
+                closeable.CloseControl();
             }
         }
     }

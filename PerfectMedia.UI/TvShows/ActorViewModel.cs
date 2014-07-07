@@ -13,11 +13,11 @@ namespace PerfectMedia.UI.TvShows
         public string Name { get; set; }
         public string Role { get; set; }
         public string ThumbUrl { get; set; }
-        public ImageViewModel ThumbPath { get; private set; }
+        public IImageViewModel ThumbPath { get; private set; }
 
-        public ActorViewModel(IFileSystemService fileSystemService)
+        public ActorViewModel(IViewModelFactory viewModelFactory)
         {
-            ThumbPath = new ImageViewModel(fileSystemService);
+            ThumbPath = viewModelFactory.GetImage();
         }
     }
 }

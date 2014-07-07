@@ -15,6 +15,16 @@ namespace PerfectMedia
 
         private readonly IFileSystemService _fileSystemService;
 
+        private static XmlSerializerNamespaces NoNamespaces
+        {
+            get
+            {
+                XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
+                namespaces.Add(string.Empty, string.Empty);
+                return namespaces;
+            }
+        }
+
         protected NfoRepository(IFileSystemService fileSystemService)
         {
             _fileSystemService = fileSystemService;
@@ -36,13 +46,7 @@ namespace PerfectMedia
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true };
             using (XmlWriter writer = XmlWriter.Create(nfoFileFullPath, xmlWriterSettings))
             {
-                writer.WriteRaw("<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\r\n");
-
-                XmlSerializer serializer = new XmlSerializer(typeof(TMetadata));
-                XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
-                namespaces.Add(string.Empty, string.Empty);
-
-                serializer.Serialize(writer, metadata, namespaces);
+                Serialize(writer, metadata);
             }
         }
 
@@ -59,6 +63,18 @@ namespace PerfectMedia
                 XmlSerializer serializer = new XmlSerializer(typeof(TMetadata));
                 return (TMetadata)serializer.Deserialize(reader);
             }
+        }
+
+        private static void Serialize(XmlWriter writer, TMetadata metadata)
+        {
+            WriteXmlDeclaration(writer);
+            XmlSerializer serializer = new XmlSerializer(typeof(TMetadata));
+            serializer.Serialize(writer, metadata, NoNamespaces);
+        }
+
+        private static void WriteXmlDeclaration(XmlWriter writer)
+        {
+            writer.WriteRaw("<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\r\n");
         }
     }
 }

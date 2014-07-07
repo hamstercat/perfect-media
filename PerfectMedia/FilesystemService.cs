@@ -19,12 +19,17 @@ namespace PerfectMedia
             return File.Exists(filePath);
         }
 
+        public void CreateFile(string filePath, IEnumerable<string> content)
+        {
+            File.WriteAllLines(filePath, content);
+        }
+
         public void DeleteFile(string filePath)
         {
             File.Delete(filePath);
         }
 
-        public void CopyFile(string file, string copiedFile)
+        public void CopyFile(string sourceFile, string destinationFile);
         {
             File.Copy(file, copiedFile, true);
         }

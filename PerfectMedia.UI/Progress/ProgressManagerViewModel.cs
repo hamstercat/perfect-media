@@ -48,9 +48,7 @@ namespace PerfectMedia.UI.Progress
             if (!_collecting)
             {
                 _collecting = true;
-                _total.Clear();
-                _completed.Clear();
-                _inError.Clear();
+                ClearItems();
                 ShowProgressIndicator();
             }
             _total.Add(item);
@@ -70,6 +68,13 @@ namespace PerfectMedia.UI.Progress
             TotalNumberOfItems = _total.Count;
             NumberOfCompletedItems = _completed.Count;
             NumberOfItemsInError = _inError.Count;
+        }
+
+        private void ClearItems()
+        {
+            _total.Clear();
+            _completed.Clear();
+            _inError.Clear();
         }
 
         private void ShowProgressIndicator()

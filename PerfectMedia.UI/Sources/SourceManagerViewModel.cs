@@ -38,17 +38,7 @@ namespace PerfectMedia.UI.Sources
             RootFolders.CollectionChanged -= RootFoldersCollectionChanged;
             SpecificFolders.CollectionChanged -= SpecificFoldersCollectionChanged;
 
-            foreach (Source source in sources)
-            {
-                if (source.IsRoot)
-                {
-                    AddRootFolder(source.Folder);
-                }
-                else
-                {
-                    AddSpecificFolder(source.Folder);
-                }
-            }
+            LoadFolders(sources);
 
             RootFolders.CollectionChanged += RootFoldersCollectionChanged;
             SpecificFolders.CollectionChanged += SpecificFoldersCollectionChanged;
@@ -97,17 +87,17 @@ namespace PerfectMedia.UI.Sources
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    AddFolders(RootFolders, e.NewItems.Cast<string>(), true);
+                    AddFolders(e.NewItems.Cast<string>(), true);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    RemoveFolders(RootFolders, e.OldItems.Cast<string>(), true);
+                    RemoveFolders(e.OldItems.Cast<string>(), true);
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    RemoveFolders(RootFolders, e.OldItems.Cast<string>(), true);
-                    AddFolders(RootFolders, e.NewItems.Cast<string>(), true);
+                    RemoveFolders(e.OldItems.Cast<string>(), true);
+                    AddFolders(e.NewItems.Cast<string>(), true);
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    RootFolders.Clear();
+                    RemoveFolders(RootFolders, true);
                     break;
                 case NotifyCollectionChangedAction.Move:
                 default:
@@ -120,17 +110,17 @@ namespace PerfectMedia.UI.Sources
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    AddFolders(SpecificFolders, e.NewItems.Cast<string>(), false);
+                    AddFolders(e.NewItems.Cast<string>(), false);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    RemoveFolders(SpecificFolders, e.OldItems.Cast<string>(), false);
+                    RemoveFolders(e.OldItems.Cast<string>(), false);
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    RemoveFolders(SpecificFolders, e.OldItems.Cast<string>(), false);
-                    AddFolders(SpecificFolders, e.NewItems.Cast<string>(), false);
+                    RemoveFolders(e.OldItems.Cast<string>(), false);
+                    AddFolders(e.NewItems.Cast<string>(), false);
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    SpecificFolders.Clear();
+                    RemoveFolders(SpecificFolders, false);
                     break;
                 case NotifyCollectionChangedAction.Move:
                 default:
@@ -138,7 +128,22 @@ namespace PerfectMedia.UI.Sources
             }
         }
 
-        private void AddFolders(ObservableCollection<string> foldersCollection, IEnumerable<string> newFolders, bool isRoot)
+        private void LoadFolders(IEnumerable<Source> sources)
+        {
+            foreach (Source source in sources)
+            {
+                if (source.IsRoot)
+                {
+                    AddRootFolder(source.Folder);
+                }
+                else
+                {
+                    AddSpecificFolder(source.Folder);
+                }
+            }
+        }
+
+        private void AddFolders(IEnumerable<string> newFolders, bool isRoot)
         {
             foreach (string folder in newFolders)
             {
@@ -147,7 +152,7 @@ namespace PerfectMedia.UI.Sources
             }
         }
 
-        private void RemoveFolders(ObservableCollection<string> foldersCollection, IEnumerable<string> foldersToRemove, bool isRoot)
+        private void RemoveFolders(IEnumerable<string> foldersToRemove, bool isRoot)
         {
             foreach (string folder in foldersToRemove)
             {

@@ -9,8 +9,9 @@ namespace PerfectMedia
     public interface IFileSystemService
     {
         bool FileExists(string filePath);
+        void CreateFile(string filePath, IEnumerable<string> content);
         void DeleteFile(string filePath);
-        void CopyFile(string file, string copiedFile);
+        void CopyFile(string sourceFile, string destinationFile);
         void DownloadFile(string filePath, string url);
         void SaveImageAsPng(string filePath, string url);
 

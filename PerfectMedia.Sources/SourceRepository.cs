@@ -13,10 +13,12 @@ namespace PerfectMedia.Sources
 {
     public class SourceRepository : ISourceRepository
     {
+        private readonly IFileSystemService _fileSystemService;
         private readonly string _basePath;
 
-        public SourceRepository()
+        public SourceRepository(IFileSystemService fileSystemService)
         {
+            _fileSystemService = fileSystemService;
             // Save the file in an XML located in the same folder as the executable
             string assemblyFolder = Assembly.GetExecutingAssembly().Location;
             _basePath = Path.GetDirectoryName(assemblyFolder);
@@ -24,19 +26,19 @@ namespace PerfectMedia.Sources
 
         public IEnumerable<Source> GetSources(SourceType sourceType)
         {
-            XmlFile file = GetSourceTypeFile(sourceType);
-            if (file.Exists)
+            string file = GetSourceTypeFile(sourceType);
+            if (_fileSystemService.FileExists(file))
             {
-                return Deserialize(file.Path);
+                return Deserialize(file);
             }
             return Enumerable.Empty<Source>();
         }
 
         public void Save(Source source)
         {
-            XmlFile file = GetSourceTypeFile(source.SourceType);
+            string file = GetSourceTypeFile(source.SourceType);
             string serializedSource = GetSerializedSource(source);
-            File.AppendAllLines(file.Path, new List<string> { serializedSource });
+            File.AppendAllLines(file, new List<string> { serializedSource });
         }
 
         public void Delete(Source source)
@@ -46,21 +48,19 @@ namespace PerfectMedia.Sources
             ReplaceSources(newSources, source.SourceType);
         }
 
-        private XmlFile GetSourceTypeFile(SourceType sourceType)
+        private string GetSourceTypeFile(SourceType sourceType)
         {
             string fileName = sourceType.ToString() + ".xml";
             string folder = GetFolder();
-            string fullFilePath = Path.Combine(folder, fileName);
-
-            return new XmlFile(fullFilePath);
+            return Path.Combine(folder, fileName);
         }
 
         private string GetFolder()
         {
             string folder = Path.Combine(_basePath, "Sources");
-            if (!Directory.Exists(folder))
+            if (!_fileSystemService.FolderExists(folder))
             {
-                Directory.CreateDirectory(folder);
+                _fileSystemService.CreateFolder(folder);
             }
             return folder;
         }
@@ -68,7 +68,7 @@ namespace PerfectMedia.Sources
         private IEnumerable<Source> Deserialize(string path)
         {
             // For simplicity sake each sources are appended at the end of the file, so there are multiple root elements in the "XML document"
-            // This isn't supported, except for XmlReader
+            // This isn't supported in the XML specification, but XmlReader allows it
             XmlReaderSettings readerSettings = new XmlReaderSettings { ConformanceLevel = ConformanceLevel.Fragment };
             using (XmlReader reader = XmlReader.Create(path, readerSettings))
             {
@@ -102,15 +102,15 @@ namespace PerfectMedia.Sources
 
         private void ReplaceSources(IEnumerable<Source> newSources, SourceType sourceType)
         {
-            XmlFile file = GetSourceTypeFile(sourceType);
+            string file = GetSourceTypeFile(sourceType);
             List<string> serializedSources = new List<string>();
             foreach (Source source in newSources)
             {
                 string currentSerializedSource = GetSerializedSource(source);
                 serializedSources.Add(currentSerializedSource);
             }
-            File.Delete(file.Path);
-            File.WriteAllLines(file.Path, serializedSources);
+            _fileSystemService.DeleteFile(file);
+            _fileSystemService.CreateFile(file, serializedSources);
         }
     }
 }

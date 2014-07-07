@@ -25,7 +25,7 @@ namespace PerfectMedia.UI
             get
             {
                 string theTvDbBaseUrl = ConfigurationManager.AppSettings["TheTvDbUrl"];
-                return new RestApiService(theTvDbBaseUrl);
+                return new RestApiService(theTvDbBaseUrl, "yyyy-MM-dd");
             }
         }
 

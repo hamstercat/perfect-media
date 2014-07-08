@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PerfectMedia.UI.Images
+namespace PerfectMedia.UI.Images.Selection
 {
     /// <summary>
     /// Interaction logic for DownloadImageWindow.xaml

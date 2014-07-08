@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
-namespace PerfectMedia.UI.Images
+namespace PerfectMedia.UI.Images.Selection
 {
     public class SaveImageCommand : ICommand
     {

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace PerfectMedia.UI.Images
+namespace PerfectMedia.UI.Images.Selection
 {
     [ImplementPropertyChanged]
     public class ChooseImageFileViewModel : INotifyPropertyChanged

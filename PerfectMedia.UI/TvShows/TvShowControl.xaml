@@ -7,6 +7,7 @@
              xmlns:seasons="clr-namespace:PerfectMedia.UI.TvShows.Seasons"
              xmlns:episodes="clr-namespace:PerfectMedia.UI.TvShows.Episodes"
              xmlns:img="clr-namespace:PerfectMedia.UI.Images"
+             xmlns:selectimg="clr-namespace:PerfectMedia.UI.Images.Selection"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="1000">
     <Grid>
@@ -82,7 +83,7 @@
                         </Grid>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type img:ImageViewModel}">
-                        <img:ImageSelection />
+                        <selectimg:ImageSelection />
                     </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>

@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PerfectMedia.UI.Images
+namespace PerfectMedia.UI.Images.Selection
 {
     /// <summary>
     /// Interaction logic for ImageSelection.xaml

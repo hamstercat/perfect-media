@@ -1,4 +1,5 @@
 ﻿using PerfectMedia.TvShows;
+using PerfectMedia.UI.Images.Selection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

@@ -78,22 +78,22 @@
     <Compile Include="Converters\SeasonNumberToNameConverter.cs" />
     <Compile Include="Converters\ShowIfNotEmptyConverter.cs" />
     <Compile Include="Converters\SpecialsSeasonVisibilityConverter.cs" />
-    <Compile Include="Images\ChooseImageFileViewModel.cs" />
-    <Compile Include="Images\ChooseImageFileWindow.xaml.cs">
+    <Compile Include="Images\Selection\ChooseImageFileViewModel.cs" />
+    <Compile Include="Images\Selection\ChooseImageFileWindow.xaml.cs">
       <DependentUpon>ChooseImageFileWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Images\DownloadCommand.cs" />
+    <Compile Include="Images\Selection\DownloadCommand.cs" />
     <Compile Include="Images\ICloseable.cs" />
     <Compile Include="Images\IImageStrategy.cs" />
     <Compile Include="Images\IImageViewModel.cs" />
-    <Compile Include="Images\ImageSelection.xaml.cs">
+    <Compile Include="Images\Selection\ImageSelection.xaml.cs">
       <DependentUpon>ImageSelection.xaml</DependentUpon>
     </Compile>
     <Compile Include="Images\ImageViewModel.cs" />
     <Compile Include="Images\IsClosedAttachedBehavior.cs" />
-    <Compile Include="Images\LoadFileCommand.cs" />
-    <Compile Include="Images\NoImageStrategy.cs" />
-    <Compile Include="Images\SaveImageCommand.cs" />
+    <Compile Include="Images\Selection\LoadFileCommand.cs" />
+    <Compile Include="Images\Selection\NoImageStrategy.cs" />
+    <Compile Include="Images\Selection\SaveImageCommand.cs" />
     <Compile Include="Images\SelectableImage.xaml.cs">
       <DependentUpon>SelectableImage.xaml</DependentUpon>
     </Compile>
@@ -164,11 +164,11 @@
       <DependentUpon>TvShowMetadataControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="TvShows\UpdateAllCommand.cs" />
-    <Page Include="Images\ChooseImageFileWindow.xaml">
+    <Page Include="Images\Selection\ChooseImageFileWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Images\ImageSelection.xaml">
+    <Page Include="Images\Selection\ImageSelection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

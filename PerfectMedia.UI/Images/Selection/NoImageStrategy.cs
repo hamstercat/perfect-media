@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PerfectMedia.UI.Images
+namespace PerfectMedia.UI.Images.Selection
 {
     public class NoImageStrategy : IImageStrategy
     {

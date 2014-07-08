@@ -1,5 +1,6 @@
 ﻿using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Images.Selection;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;

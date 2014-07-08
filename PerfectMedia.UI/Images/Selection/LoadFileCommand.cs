@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
-namespace PerfectMedia.UI.Images
+namespace PerfectMedia.UI.Images.Selection
 {
-    public class DownloadCommand : ICommand
+    public class LoadFileCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
 
@@ -15,7 +15,7 @@ namespace PerfectMedia.UI.Images
         private readonly IImageViewModel _imageViewModel;
         private readonly ChooseImageFileViewModel _chooseImageViewModel;
 
-        public DownloadCommand(IFileSystemService fileSystemService, IImageViewModel imageViewModel, ChooseImageFileViewModel chooseImageViewModel)
+        public LoadFileCommand(IFileSystemService fileSystemService, IImageViewModel imageViewModel, ChooseImageFileViewModel chooseImageViewModel)
         {
             _fileSystemService = fileSystemService;
             _imageViewModel = imageViewModel;
@@ -30,7 +30,7 @@ namespace PerfectMedia.UI.Images
 
         public void Execute(object parameter)
         {
-            _fileSystemService.DownloadFile(_imageViewModel.Path, _chooseImageViewModel.Url);
+            _fileSystemService.CopyFile(_chooseImageViewModel.Url, _imageViewModel.Path);
             _chooseImageViewModel.IsClosed = true;
             _imageViewModel.IsClosed = true;
         }

@@ -271,7 +271,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         {
             if (string.IsNullOrEmpty(Title))
             {
-                return Path;
+                return System.IO.Path.GetFileName(Path);
             }
             return Title;
         }

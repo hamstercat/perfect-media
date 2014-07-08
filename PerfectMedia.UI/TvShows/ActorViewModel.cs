@@ -15,7 +15,7 @@ namespace PerfectMedia.UI.TvShows
         public string ThumbUrl { get; set; }
         public IImageViewModel ThumbPath { get; private set; }
 
-        public ActorViewModel(IViewModelFactory viewModelFactory)
+        public ActorViewModel(ITvShowViewModelFactory viewModelFactory)
         {
             ThumbPath = viewModelFactory.GetImage();
         }

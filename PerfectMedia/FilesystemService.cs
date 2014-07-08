@@ -29,9 +29,9 @@ namespace PerfectMedia
             File.Delete(filePath);
         }
 
-        public void CopyFile(string sourceFile, string destinationFile);
+        public void CopyFile(string sourceFile, string destinationFile)
         {
-            File.Copy(file, copiedFile, true);
+            File.Copy(sourceFile, destinationFile, true);
         }
 
         public void DownloadFile(string filePath, string url)

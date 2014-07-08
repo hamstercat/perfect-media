@@ -9,7 +9,7 @@ namespace PerfectMedia.UI.Images
 {
     public interface IImageViewModel : INotifyPropertyChanged
     {
-        string Path { get; }
+        string Path { get; set; }
         Image SelectedImage { get; }
         object OriginalContent { get; set; }
         bool IsClosed { get; set; }

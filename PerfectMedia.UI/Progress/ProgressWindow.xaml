@@ -12,19 +12,19 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <ProgressBar Grid.Row="0" Grid.Column="0" Minimum="0" Maximum="{Binding TotalNumberOfItems}" Value="{Binding NumberOfCompletedItems}" />
+        <ProgressBar Grid.Row="0" Grid.Column="0" Minimum="0" Maximum="{Binding Total.Count}" Value="{Binding Completed.Count}" />
         <TextBlock Grid.Row="0" Grid.Column="1">
             <TextBlock.Text>
                 <MultiBinding StringFormat="{}{0} / {1}">
-                    <Binding Path="NumberOfCompletedItems" />
-                    <Binding Path="TotalNumberOfItems" />
+                    <Binding Path="Completed.Count" />
+                    <Binding Path="Total.Count" />
                 </MultiBinding>
             </TextBlock.Text>
         </TextBlock>
         <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <TextBlock.Text>
                 <MultiBinding StringFormat="{}Errors: ({0})">
-                    <Binding Path="NumberOfItemsInError" />
+                    <Binding Path="InError.Count" />
                 </MultiBinding>
             </TextBlock.Text>
         </TextBlock>

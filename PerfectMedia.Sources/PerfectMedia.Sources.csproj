@@ -42,7 +42,6 @@
     <Compile Include="SourceRepository.cs" />
     <Compile Include="SourceService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XmlFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PerfectMedia\PerfectMedia.csproj">

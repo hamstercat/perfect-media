@@ -11,6 +11,7 @@ namespace PerfectMedia
     public class RestApiService : IRestApiService
     {
         private readonly IRestClient _restClient;
+        private readonly string _dateFormat;
 
         public RestApiService(string baseUrl, string dateFormat)
         {
@@ -27,6 +28,7 @@ namespace PerfectMedia
         }
 
         private IRestResponse<T> ExecuteRequest<T>(string url)
+            where T : new()
         {
             RestRequest request = new RestRequest(url);
             request.DateFormat = _dateFormat;

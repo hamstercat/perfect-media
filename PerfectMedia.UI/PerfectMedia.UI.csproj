@@ -102,6 +102,7 @@
     <Compile Include="Progress\ProgressIndicatorFactory.cs" />
     <Compile Include="Progress\ProgressItem.cs" />
     <Compile Include="Progress\IProgressManagerViewModel.cs" />
+    <Compile Include="SmartObservableCollection.cs" />
     <Compile Include="Progress\ProgressManagerViewModel.cs" />
     <Compile Include="Progress\ProgressWindow.xaml.cs">
       <DependentUpon>ProgressWindow.xaml</DependentUpon>

@@ -125,7 +125,7 @@ namespace PerfectMedia.UI.TvShows.Shows
                 .Save(_path, Arg.Is<TvShowMetadata>(x => AssertMetadataEqualsViewModel(CreateTvShowMetadata())));
         }
 
-        private static ActorViewModel CreateActorViewModel(int i)
+        private ActorViewModel CreateActorViewModel(int i)
         {
             ActorViewModel actor = new ActorViewModel(_viewModelFactory);
             actor.Name = "ActorName" + i;

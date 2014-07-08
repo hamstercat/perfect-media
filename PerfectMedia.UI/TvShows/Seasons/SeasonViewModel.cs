@@ -49,8 +49,8 @@ namespace PerfectMedia.UI.TvShows.Seasons
             }
         }
 
-        private ImageViewModel _posterUrl;
-        public ImageViewModel PosterUrl
+        private IImageViewModel _posterUrl;
+        public IImageViewModel PosterUrl
         {
             get
             {
@@ -59,8 +59,8 @@ namespace PerfectMedia.UI.TvShows.Seasons
             }
         }
 
-        private ImageViewModel _bannerUrl;
-        public ImageViewModel BannerUrl
+        private IImageViewModel _bannerUrl;
+        public IImageViewModel BannerUrl
         {
             get
             {

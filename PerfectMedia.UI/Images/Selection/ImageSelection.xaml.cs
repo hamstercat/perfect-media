@@ -20,6 +20,14 @@ namespace PerfectMedia.UI.Images.Selection
     /// </summary>
     public partial class ImageSelection : UserControl, ICloseable
     {
+        private IImageSelectionViewModel ImageSelectionViewModel
+        {
+            get
+            {
+                return (IImageSelectionViewModel)MainGrid.DataContext;
+            }
+        }
+
         private IImageViewModel ImageViewModel
         {
             get
@@ -49,7 +57,7 @@ namespace PerfectMedia.UI.Images.Selection
         {
             ChooseImageFileWindow chooseImage = new ChooseImageFileWindow();
             chooseImage.Owner = Window.GetWindow(this);
-            chooseImage.DataContext = ImageViewModel.Download;
+            chooseImage.DataContext = ImageSelectionViewModel.Download;
             chooseImage.ShowDialog();
         }
 

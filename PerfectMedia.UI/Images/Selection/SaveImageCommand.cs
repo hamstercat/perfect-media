@@ -10,12 +10,14 @@ namespace PerfectMedia.UI.Images.Selection
     public class SaveImageCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
-        private IImageViewModel _imageViewModel;
+        private readonly IImageViewModel _imageViewModel;
+        private readonly IImageSelectionViewModel _imageSelectionViewModel;
 
-        public SaveImageCommand(IImageViewModel imageViewModel)
+        public SaveImageCommand(IImageViewModel imageViewModel, IImageSelectionViewModel imageSelectionViewModel)
         {
             _imageViewModel = imageViewModel;
-            _imageViewModel.PropertyChanged += ImageViewModelPropertyChanged;
+            _imageSelectionViewModel = imageSelectionViewModel;
+            _imageSelectionViewModel.PropertyChanged += ImageViewModelPropertyChanged;
         }
 
         private void ImageViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -28,7 +30,7 @@ namespace PerfectMedia.UI.Images.Selection
 
         public bool CanExecute(object parameter)
         {
-            return _imageViewModel.SelectedImage != null && _imageViewModel.SelectedImage.Url != _imageViewModel.Path;
+            return _imageSelectionViewModel.SelectedImage != null && _imageSelectionViewModel.SelectedImage.Url != _imageViewModel.Path;
         }
 
         public void Execute(object parameter)

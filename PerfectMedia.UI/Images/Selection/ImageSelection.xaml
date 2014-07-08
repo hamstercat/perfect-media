@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="800"
              img:IsClosedAttachedBehavior.IsClosedView="{Binding IsClosed}">
-    <Grid>
+    <Grid DataContext="{Binding ImageSelection}" x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />

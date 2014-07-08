@@ -86,11 +86,13 @@
     <Compile Include="Images\ICloseable.cs" />
     <Compile Include="Images\IImageStrategy.cs" />
     <Compile Include="Images\IImageViewModel.cs" />
+    <Compile Include="Images\Selection\IImageSelectionViewModel.cs" />
     <Compile Include="Images\Selection\ImageSelection.xaml.cs">
       <DependentUpon>ImageSelection.xaml</DependentUpon>
     </Compile>
     <Compile Include="Images\ImageViewModel.cs" />
     <Compile Include="Images\IsClosedAttachedBehavior.cs" />
+    <Compile Include="Images\Selection\ImageSelectionViewModel.cs" />
     <Compile Include="Images\Selection\LoadFileCommand.cs" />
     <Compile Include="Images\Selection\NoImageStrategy.cs" />
     <Compile Include="Images\Selection\SaveImageCommand.cs" />

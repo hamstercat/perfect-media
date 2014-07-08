@@ -24,15 +24,7 @@ namespace PerfectMedia.UI.Images.Selection
         {
             get
             {
-                return (IImageSelectionViewModel)MainGrid.DataContext;
-            }
-        }
-
-        private IImageViewModel ImageViewModel
-        {
-            get
-            {
-                return (IImageViewModel)DataContext;
+                return (IImageSelectionViewModel)DataContext;
             }
         }
 
@@ -79,7 +71,7 @@ namespace PerfectMedia.UI.Images.Selection
 
         private Binding FindOriginalContent()
         {
-            return (Binding)ImageViewModel.OriginalContent;
+            return (Binding)ImageSelectionViewModel.OriginalContent;
         }
     }
 }

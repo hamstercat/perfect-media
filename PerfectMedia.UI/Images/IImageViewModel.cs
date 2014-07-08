@@ -8,12 +8,10 @@ using System.Text;
 
 namespace PerfectMedia.UI.Images
 {
-    public interface IImageViewModel : INotifyPropertyChanged
+    public interface IImageViewModel
     {
         string Path { get; set; }
-        bool IsClosed { get; set; }
         object OriginalContent { get; set; }
         void LoadAvailableImages();
-        void SaveSelectedImage();
     }
 }

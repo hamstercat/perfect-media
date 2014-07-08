@@ -20,9 +20,19 @@ namespace PerfectMedia.UI.Images
         private readonly IImageStrategy _imageStrategy;
 
         public string Path { get; set; }
-        public object OriginalContent { get; set; }
-        public bool IsClosed { get; set; }
         public ImageSelectionViewModel ImageSelection { get; private set; }
+
+        public object OriginalContent
+        {
+            get
+            {
+                return ImageSelection.OriginalContent;
+            }
+            set
+            {
+                ImageSelection.OriginalContent = value;
+            }
+        }
 
         public ImageViewModel(IFileSystemService fileSystemService)
             : this(fileSystemService, new NoImageStrategy())
@@ -32,22 +42,17 @@ namespace PerfectMedia.UI.Images
         {
             _fileSystemService = fileSystemService;
             _imageStrategy = imageStrategy;
-            IsClosed = false;
         }
 
         public void LoadAvailableImages()
         {
-            ImageSelection = new ImageSelectionViewModel(_fileSystemService, this, _imageStrategy);
-            // Use the current image by default
-            ImageSelection.SelectedImage = new Image { Url = Path };
-            IsClosed = false;
+            ImageSelection = new ImageSelectionViewModel(_fileSystemService, _imageStrategy, Path);
+            ImageSelection.PropertyChanged += ImageSelectionPropertyChanged;
         }
 
-        public void SaveSelectedImage()
+        private void ImageSelectionPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            _fileSystemService.DownloadFile(Path, ImageSelection.SelectedImage.Url);
             OnPropertyChanged("Path");
-            IsClosed = true;
         }
     }
 }

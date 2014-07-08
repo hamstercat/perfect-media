@@ -10,19 +10,39 @@ using System.Windows.Input;
 namespace PerfectMedia.UI.Images.Selection
 {
     [ImplementPropertyChanged]
-    public class ChooseImageFileViewModel : INotifyPropertyChanged
+    public class ChooseImageFileViewModel : BaseViewModel, IChooseImageFileViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        private IFileSystemService _fileSystemService;
+        private IImageSelectionViewModel _imageSelectionViewModel;
+        private string _path;
 
         public string Url { get; set; }
         public bool IsClosed { get; set; }
         public ICommand DownloadCommand { get; private set; }
         public ICommand LoadFileCommand { get; private set; }
 
-        public ChooseImageFileViewModel(IFileSystemService fileSystemService, IImageViewModel imageViewModel)
+        public ChooseImageFileViewModel(IFileSystemService fileSystemService, IImageSelectionViewModel imageSelectionViewModel, string path)
         {
-            DownloadCommand = new DownloadCommand(fileSystemService, imageViewModel, this);
-            LoadFileCommand = new LoadFileCommand(fileSystemService, imageViewModel, this);
+            _fileSystemService = fileSystemService;
+            _imageSelectionViewModel = imageSelectionViewModel;
+            _path = path;
+
+            DownloadCommand = new DownloadCommand(this);
+            LoadFileCommand = new LoadFileCommand(this);
+        }
+
+        public void SaveLocalFile()
+        {
+            _fileSystemService.CopyFile(Url, _path);
+            IsClosed = true;
+            _imageSelectionViewModel.IsClosed = true;
+        }
+
+        public void DownloadFile()
+        {
+            _fileSystemService.DownloadFile(_path, Url);
+            IsClosed = true;
+            _imageSelectionViewModel.IsClosed = true;
         }
     }
 }

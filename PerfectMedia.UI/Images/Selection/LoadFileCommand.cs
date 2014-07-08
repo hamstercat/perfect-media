@@ -10,15 +10,10 @@ namespace PerfectMedia.UI.Images.Selection
     public class LoadFileCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
+        private readonly IChooseImageFileViewModel _chooseImageViewModel;
 
-        private readonly IFileSystemService _fileSystemService;
-        private readonly IImageViewModel _imageViewModel;
-        private readonly ChooseImageFileViewModel _chooseImageViewModel;
-
-        public LoadFileCommand(IFileSystemService fileSystemService, IImageViewModel imageViewModel, ChooseImageFileViewModel chooseImageViewModel)
+        public LoadFileCommand(IChooseImageFileViewModel chooseImageViewModel)
         {
-            _fileSystemService = fileSystemService;
-            _imageViewModel = imageViewModel;
             _chooseImageViewModel = chooseImageViewModel;
             _chooseImageViewModel.PropertyChanged += ChooseImageViewModelPropertyChanged;
         }
@@ -30,9 +25,7 @@ namespace PerfectMedia.UI.Images.Selection
 
         public void Execute(object parameter)
         {
-            _fileSystemService.CopyFile(_chooseImageViewModel.Url, _imageViewModel.Path);
-            _chooseImageViewModel.IsClosed = true;
-            _imageViewModel.IsClosed = true;
+            _chooseImageViewModel.SaveLocalFile();
         }
 
         private void ChooseImageViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)

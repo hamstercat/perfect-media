@@ -40,6 +40,15 @@ namespace PerfectMedia.UI
             Collection.CollectionChanged += CollectionChanged;
         }
 
+        public void ReplaceWith(IEnumerable<T> items)
+        {
+            Collection.Clear();
+            foreach (T item in items)
+            {
+                Collection.Add(item);
+            }
+        }
+
         private void TransformStringToCollection(string value)
         {
             Collection.Clear();

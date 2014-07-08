@@ -12,8 +12,8 @@ namespace PerfectMedia.UI.TvShows.Seasons
     [ImplementPropertyChanged]
     public class SeasonImagesViewModel
     {
-        public ImageViewModel PosterUrl { get; private set; }
-        public ImageViewModel BannerUrl { get; private set; }
+        public IImageViewModel PosterUrl { get; private set; }
+        public IImageViewModel BannerUrl { get; private set; }
         public int SeasonNumber { get; set; }
 
         public SeasonImagesViewModel(IFileSystemService fileSystemService, ITvShowMetadataService metadataService, string seasonPath)

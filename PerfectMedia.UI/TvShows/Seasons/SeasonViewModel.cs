@@ -104,11 +104,6 @@ namespace PerfectMedia.UI.TvShows.Seasons
             }
         }
 
-        public override string ToString()
-        {
-            return DisplayName;
-        }
-
         private void LoadEpisodes()
         {
             if (!_episodeLoaded)

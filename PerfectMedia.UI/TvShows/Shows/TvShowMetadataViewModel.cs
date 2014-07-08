@@ -16,19 +16,30 @@ using System.Windows.Input;
 namespace PerfectMedia.UI.TvShows.Shows
 {
     [ImplementPropertyChanged]
-    public class TvShowMetadataViewModel : ITvShowMetadataViewModel, IMetadataProvider
+    public class TvShowMetadataViewModel : BaseViewModel, ITvShowMetadataViewModel, IMetadataProvider
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowMetadataService _metadataService;
         private bool _lazyLoaded;
 
-        public event PropertyChangedEventHandler PropertyChanged;
         public string Path { get; private set; }
         public ITvShowImagesViewModel Images { get; private set; }
 
         public ICommand RefreshCommand { get; private set; }
         public ICommand UpdateCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
+
+        public string DisplayName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Title))
+                {
+                    return System.IO.Path.GetFileName(Path);
+                }
+                return Title;
+            }
+        }
 
         #region Metadata
         private ObservableCollection<ActorViewModel> _actors;
@@ -267,15 +278,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             _metadataService.Save(Path, metadata);
         }
 
-        public override string ToString()
-        {
-            if (string.IsNullOrEmpty(Title))
-            {
-                return System.IO.Path.GetFileName(Path);
-            }
-            return Title;
-        }
-
         private void InitialLoadInformation()
         {
             if (!_lazyLoaded)
@@ -299,12 +301,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             Studio = metadata.Studio;
             Language = metadata.Language;
 
-            Genres.Collection.Clear();
-            foreach (string genre in metadata.Genres)
-            {
-                Genres.Collection.Add(genre);
-            }
-
+            Genres.ReplaceWith(metadata.Genres);
             AddActors(metadata.Actors);
         }
 

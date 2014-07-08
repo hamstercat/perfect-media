@@ -300,7 +300,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             EpisodeMetadata metadata = _metadataService.Get(Path);
             if (metadata.FileInformation == null)
             {
-                Lazy<string> displayName = new Lazy<string>(ToString);
+                Lazy<string> displayName = new Lazy<string>(() => DisplayName);
                 yield return new ProgressItem(displayName, UpdateInternal);
             }
         }
@@ -309,11 +309,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
         {
             EpisodeMetadata metadata = CreateMetadata();
             _metadataService.Save(Path, metadata);
-        }
-
-        public override string ToString()
-        {
-            return DisplayName;
         }
 
         private void InitialLoadInformation()
@@ -342,17 +337,8 @@ namespace PerfectMedia.UI.TvShows.Episodes
             DisplayEpisode = metadata.DisplayEpisode;
             EpisodeBookmarks = metadata.EpisodeBookmarks;
 
-            Credits.Collection.Clear();
-            foreach (string credit in metadata.Credits)
-            {
-                Credits.Collection.Add(credit);
-            }
-
-            Directors.Collection.Clear();
-            foreach (string director in metadata.Director)
-            {
-                Directors.Collection.Add(director);
-            }
+            Credits.ReplaceWith(metadata.Credits);
+            Directors.ReplaceWith(metadata.Director);
         }
 
         private EpisodeMetadata CreateMetadata()
@@ -368,8 +354,8 @@ namespace PerfectMedia.UI.TvShows.Episodes
                 ImageUrl = ImageUrl,
                 Playcount = PlayCount,
                 LastPlayed = LastPlayed,
-                Credits = new List<string>(Credits.Collection),
-                Director = new List<string>(Directors.Collection),
+                Credits = Credits.Collection.ToList(),
+                Director = Directors.Collection.ToList(),
                 AiredDate = AiredDate,
                 DisplaySeason = DisplaySeason,
                 DisplayEpisode = DisplayEpisode,

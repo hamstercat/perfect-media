@@ -13,7 +13,7 @@ using System.Text;
 namespace PerfectMedia.UI.TvShows.Shows
 {
     [ImplementPropertyChanged]
-    public class TvShowViewModel : ITvShowViewModel, ITreeViewItemViewModel
+    public class TvShowViewModel : BaseViewModel, ITvShowViewModel, ITreeViewItemViewModel
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowFileService _tvShowFileService;
@@ -35,7 +35,14 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
         }
 
-        public string DisplayName { get; set; }
+        public string DisplayName
+        {
+            get
+            {
+                return Metadata.DisplayName;
+            }
+        }
+
         public string Path { get; private set; }
         public ITvShowMetadataViewModel Metadata { get; private set; }
 
@@ -48,8 +55,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             _tvShowFileService = tvShowFileService;
             Path = path;
             Metadata = viewModelFactory.GetTvShowMetadata(Path);
-            DisplayName = Metadata.ToString();
-            Metadata.PropertyChanged += (s, e) => DisplayName = Metadata.ToString();
+            Metadata.PropertyChanged += (s, e) => OnPropertyChanged("DisplayName");
 
             // We need to set a "dummy" item in the collection for an arrow to appear in the TreeView since we're lazy-loading the items under it
             _seasonLoaded = false;

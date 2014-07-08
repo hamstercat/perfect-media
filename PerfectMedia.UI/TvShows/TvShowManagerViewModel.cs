@@ -36,6 +36,11 @@ namespace PerfectMedia.UI.TvShows
             UpdateAll = new UpdateAllCommand(TvShows, progressManager);
             FindNewEpisodes = new FindNewEpisodesCommand(TvShows, progressManager);
 
+            LoadSources(viewModelFactory);
+        }
+
+        private void LoadSources(ITvShowViewModelFactory viewModelFactory)
+        {
             Sources = viewModelFactory.GetSourceManager(SourceType.TvShow);
             Sources.SpecificFolders.CollectionChanged += SourceFoldersCollectionChanged;
             Sources.Load();

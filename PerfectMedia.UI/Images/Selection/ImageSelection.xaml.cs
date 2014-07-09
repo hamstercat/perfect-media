@@ -35,9 +35,8 @@ namespace PerfectMedia.UI.Images.Selection
 
         public void CloseControl()
         {
-            ContentControl parent = GetParentContentControl(this);
-            Binding originalBinding = FindOriginalContent();
-            BindingOperations.SetBinding(parent, ContentControl.ContentProperty, originalBinding);
+            ContentControl parent = MainContentHelper.GetParentMainContentControl(this);
+            RestoreInitialBinding(parent);
         }
 
         private void CancelClick(object sender, RoutedEventArgs e)
@@ -53,25 +52,10 @@ namespace PerfectMedia.UI.Images.Selection
             chooseImage.ShowDialog();
         }
 
-        private ContentControl GetParentContentControl(DependencyObject dependencyObject)
+        private void RestoreInitialBinding(ContentControl mainContentControl)
         {
-            DependencyObject parent = VisualTreeHelper.GetParent(dependencyObject);
-            if (IsMainContentControl(parent))
-            {
-                return (ContentControl)parent;
-            }
-            return GetParentContentControl(parent);
-        }
-
-        private bool IsMainContentControl(DependencyObject parent)
-        {
-            ContentControl control = parent as ContentControl;
-            return control != null && control.Name == "MainContentControl";
-        }
-
-        private Binding FindOriginalContent()
-        {
-            return (Binding)ImageSelectionViewModel.OriginalContent;
+            Binding originalBinding = (Binding)ImageSelectionViewModel.OriginalContent;
+            BindingOperations.SetBinding(mainContentControl, ContentControl.ContentProperty, originalBinding);
         }
     }
 }

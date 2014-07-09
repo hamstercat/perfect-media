@@ -1,4 +1,6 @@
 ﻿using PerfectMedia.UI.Sources;
+using PerfectMedia.UI.TvShows.Shows;
+using PerfectMedia.UI.TvShows.ShowSelection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +33,20 @@ namespace PerfectMedia.UI.TvShows
             SourcesWindow sourcesWindow = new SourcesWindow();
             sourcesWindow.DataContext = DataContext;
             sourcesWindow.ShowDialog();
+        }
+
+        private void ShowTvShowSelection(object sender, RoutedEventArgs e)
+        {
+            object originalContent = BindingOperations.GetBinding(MainContentControl, ContentControl.ContentProperty);
+            ITvShowViewModel tvShow = GetTvShowViewModel(sender);
+            tvShow.Selection.OriginalContent = originalContent;
+            MainContentControl.Content = tvShow.Selection;
+        }
+
+        private ITvShowViewModel GetTvShowViewModel(object sender)
+        {
+            FrameworkElement frameworkElement = (FrameworkElement)sender;
+            return (ITvShowViewModel)frameworkElement.DataContext;
         }
     }
 }

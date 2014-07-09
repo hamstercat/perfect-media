@@ -4,6 +4,7 @@ using PerfectMedia.UI.Sources;
 using PerfectMedia.UI.TvShows.Episodes;
 using PerfectMedia.UI.TvShows.Seasons;
 using PerfectMedia.UI.TvShows.Shows;
+using PerfectMedia.UI.TvShows.ShowSelection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +23,6 @@ namespace PerfectMedia.UI.TvShows
         IEpisodeViewModel GetEpisode(ITvShowMetadataViewModel tvShowMetadata, string path);
         IImageViewModel GetImage();
         IImageViewModel GetImage(IImageStrategy imageStrategy);
+        ITvShowSelectionViewModel GetTvShowSelection();
     }
 }

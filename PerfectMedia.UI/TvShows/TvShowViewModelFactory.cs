@@ -7,6 +7,7 @@ using PerfectMedia.UI.Sources;
 using PerfectMedia.UI.TvShows.Episodes;
 using PerfectMedia.UI.TvShows.Seasons;
 using PerfectMedia.UI.TvShows.Shows;
+using PerfectMedia.UI.TvShows.ShowSelection;
 
 namespace PerfectMedia.UI.TvShows
 {
@@ -72,6 +73,11 @@ namespace PerfectMedia.UI.TvShows
         public IImageViewModel GetImage(IImageStrategy imageStrategy)
         {
             return new ImageViewModel(_fileSystemService, imageStrategy);
+        }
+
+        public ITvShowSelectionViewModel GetTvShowSelection()
+        {
+            return new TvShowSelectionViewModel(_tvShowMetadataService);
         }
     }
 }

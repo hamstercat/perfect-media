@@ -40,6 +40,14 @@ namespace PerfectMedia.UI
             _items.Add(item);
         }
 
+        public void AddRange(IEnumerable<T> items)
+        {
+            foreach (T item in items)
+            {
+                Add(item);
+            }
+        }
+
         public void Clear()
         {
             _items.Clear();

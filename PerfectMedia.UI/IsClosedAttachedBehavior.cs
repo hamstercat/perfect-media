@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace PerfectMedia.UI.Images
+namespace PerfectMedia.UI
 {
     public class IsClosedAttachedBehavior
     {

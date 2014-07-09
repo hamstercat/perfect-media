@@ -83,7 +83,7 @@
       <DependentUpon>ChooseImageFileWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Images\Selection\DownloadCommand.cs" />
-    <Compile Include="Images\ICloseable.cs" />
+    <Compile Include="ICloseable.cs" />
     <Compile Include="Images\IImageStrategy.cs" />
     <Compile Include="Images\IImageViewModel.cs" />
     <Compile Include="Images\Selection\IChooseImageFileViewModel.cs" />
@@ -92,7 +92,7 @@
       <DependentUpon>ImageSelection.xaml</DependentUpon>
     </Compile>
     <Compile Include="Images\ImageViewModel.cs" />
-    <Compile Include="Images\IsClosedAttachedBehavior.cs" />
+    <Compile Include="IsClosedAttachedBehavior.cs" />
     <Compile Include="Images\Selection\ImageSelectionViewModel.cs" />
     <Compile Include="Images\Selection\LoadFileCommand.cs" />
     <Compile Include="Images\Selection\NoImageStrategy.cs" />
@@ -100,6 +100,7 @@
     <Compile Include="Images\SelectableImage.xaml.cs">
       <DependentUpon>SelectableImage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainContentHelper.cs" />
     <Compile Include="Progress\IProgressIndicator.cs" />
     <Compile Include="Progress\IProgressIndicatorFactory.cs" />
     <Compile Include="Progress\ProgressIndicatorFactory.cs" />
@@ -131,6 +132,12 @@
     <Compile Include="TvShows\Seasons\SeasonPosterImageStrategy.cs" />
     <Compile Include="TvShows\Seasons\SeasonViewModel.cs" />
     <Compile Include="Sources\SourceManagerViewModel.cs" />
+    <Compile Include="TvShows\ShowSelection\ITvShowSelectionViewModel.cs" />
+    <Compile Include="TvShows\ShowSelection\SearchCommand.cs" />
+    <Compile Include="TvShows\ShowSelection\TvShowSelection.xaml.cs">
+      <DependentUpon>TvShowSelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TvShows\ShowSelection\TvShowSelectionViewModel.cs" />
     <Compile Include="TvShows\Shows\BannerImageStrategy.cs" />
     <Compile Include="TvShows\Shows\FanartImageStrategy.cs" />
     <Compile Include="TvShows\Shows\ITvShowImagesViewModel.cs" />
@@ -212,6 +219,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TvShows\Seasons\SeasonMetadata.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TvShows\ShowSelection\TvShowSelection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

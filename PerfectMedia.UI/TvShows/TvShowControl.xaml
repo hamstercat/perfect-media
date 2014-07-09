@@ -8,6 +8,7 @@
              xmlns:episodes="clr-namespace:PerfectMedia.UI.TvShows.Episodes"
              xmlns:img="clr-namespace:PerfectMedia.UI.Images"
              xmlns:selectimg="clr-namespace:PerfectMedia.UI.Images.Selection"
+             xmlns:tvshowselection="clr-namespace:PerfectMedia.UI.TvShows.ShowSelection"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="1000">
     <Grid>
@@ -61,6 +62,7 @@
                                 <Button Content="Refresh" Command="{Binding Metadata.RefreshCommand}" />
                                 <Button Content="Update" Command="{Binding Metadata.UpdateCommand}" />
                                 <Button Content="Save" Command="{Binding Metadata.SaveCommand}" />
+                                <Button Content="Change TV Show" Click="ShowTvShowSelection" />
                             </StackPanel>
                             <shows:TvShowMetadataControl Grid.Row="1" DataContext="{Binding Metadata}" />
                         </Grid>
@@ -84,6 +86,9 @@
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type img:ImageViewModel}">
                         <selectimg:ImageSelection />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type tvshowselection:TvShowSelectionViewModel}">
+                        <tvshowselection:TvShowSelection />
                     </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>

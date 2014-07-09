@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="PerfectMedia.UI.TvShows.ShowSelection.TvShowSelection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:views="clr-namespace:PerfectMedia.UI"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             views:IsClosedAttachedBehavior.IsClosedView="{Binding IsClosed}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Title: " />
+            <TextBox Grid.Column="1" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" />
+            <Button Grid.Column="2" Content="Search" Command="{Binding SearchCommand}" />
+        </Grid>
+        <ListView Grid.Row="1" ItemsSource="{Binding Series}" SelectedItem="{Binding SelectedSerie}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding SeriesName}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</UserControl>

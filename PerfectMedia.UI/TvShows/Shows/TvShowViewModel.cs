@@ -2,6 +2,7 @@
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Seasons;
+using PerfectMedia.UI.TvShows.ShowSelection;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,7 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         public string Path { get; private set; }
         public ITvShowMetadataViewModel Metadata { get; private set; }
+        public ITvShowSelectionViewModel Selection { get; private set; }
 
         private bool _seasonLoaded;
         public ObservableCollection<ISeasonViewModel> Seasons { get; private set; }
@@ -56,6 +58,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             Path = path;
             Metadata = viewModelFactory.GetTvShowMetadata(Path);
             Metadata.PropertyChanged += (s, e) => OnPropertyChanged("DisplayName");
+            Selection = viewModelFactory.GetTvShowSelection();
 
             // We need to set a "dummy" item in the collection for an arrow to appear in the TreeView since we're lazy-loading the items under it
             _seasonLoaded = false;

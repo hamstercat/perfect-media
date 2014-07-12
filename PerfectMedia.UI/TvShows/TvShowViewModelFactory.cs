@@ -75,9 +75,9 @@ namespace PerfectMedia.UI.TvShows
             return new ImageViewModel(_fileSystemService, imageStrategy);
         }
 
-        public ITvShowSelectionViewModel GetTvShowSelection()
+        public ITvShowSelectionViewModel GetTvShowSelection(ITvShowMetadataViewModel tvShowMetadata, string path)
         {
-            return new TvShowSelectionViewModel(_tvShowMetadataService);
+            return new TvShowSelectionViewModel(_tvShowMetadataService, tvShowMetadata, path);
         }
     }
 }

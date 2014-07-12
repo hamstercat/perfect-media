@@ -4,13 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:views="clr-namespace:PerfectMedia.UI"
+             xmlns:showselection="clr-namespace:PerfectMedia.UI.TvShows.ShowSelection"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              views:IsClosedAttachedBehavior.IsClosedView="{Binding IsClosed}">
+    <UserControl.Resources>
+        <showselection:SeriesNameAndYearConverter x:Key="SeriesNameAndYearConverter" />
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="300" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -19,15 +25,30 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Title: " />
-            <TextBox Grid.Column="1" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" />
-            <Button Grid.Column="2" Content="Search" Command="{Binding SearchCommand}" />
+            <TextBox Grid.Column="1" Text="{Binding SearchTitle, UpdateSourceTrigger=PropertyChanged}" />
+            <Button Grid.Column="2" Content="Search" Command="{Binding SearchCommand}" IsDefault="True" />
         </Grid>
         <ListView Grid.Row="1" ItemsSource="{Binding Series}" SelectedItem="{Binding SelectedSerie}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding SeriesName}" />
+                    <TextBlock Text="{Binding Converter={StaticResource SeriesNameAndYearConverter}}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="{Binding SelectedSerie, Converter={StaticResource SeriesNameAndYearConverter}}" />
+            <TextBlock Grid.Row="1" Text="{Binding SelectedSerie.Overview}" TextWrapping="WrapWithOverflow" />
+            <Image Grid.Row="2" Source="{Binding SelectedSerie.Banner, Converter={StaticResource ImagePathConverter}}" />
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Cancel" Click="CancelClick" IsCancel="True" />
+                <Button Content="Save" Command="{Binding ChangeSerieCommand}" />
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

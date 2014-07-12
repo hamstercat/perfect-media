@@ -13,6 +13,6 @@ namespace PerfectMedia.TvShows.Metadata
         public string SeriesName { get; set; }
         public string Banner { get; set; }
         public string Overview { get; set; }
-        public DateTime FirstAired { get; set; }
+        public DateTime? FirstAired { get; set; }
     }
 }

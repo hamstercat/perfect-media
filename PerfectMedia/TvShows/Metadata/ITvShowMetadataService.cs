@@ -15,5 +15,6 @@ namespace PerfectMedia.TvShows.Metadata
         IEnumerable<Series> FindSeries(string name);
         AvailableTvShowImages FindImages(string seriesId);
         AvailableSeasonImages FindSeasonImages(string seasonPath);
+        void DeleteImages(string path);
     }
 }

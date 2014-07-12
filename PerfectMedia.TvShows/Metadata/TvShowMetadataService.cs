@@ -67,6 +67,11 @@ namespace PerfectMedia.TvShows.Metadata
             return images.Seasons[seasonNumber];
         }
 
+        public void DeleteImages(string path)
+        {
+            _imagesService.Delete(path);
+        }
+
         private FullSerie FindFullSerie(string path)
         {
             string seriesId = GetSeriesId(path);

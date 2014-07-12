@@ -19,7 +19,9 @@ namespace PerfectMedia.TvShows.Metadata
         public IEnumerable<Series> FindSeries(string name)
         {
             string url = string.Format("api/GetSeries.php?seriesname={0}&language=en", HttpUtility.UrlEncode(name));
-            return _restApiService.Get<List<Series>>(url);
+            List<Series> series = _restApiService.Get<List<Series>>(url);
+            FixSeriesUrl(series);
+            return series;
         }
 
         public FullSerie GetTvShowMetadata(string serieId)
@@ -48,6 +50,14 @@ namespace PerfectMedia.TvShows.Metadata
             string url = string.Format("api/{0}/series/{1}/default/{2}/{3}/en.xml", TvShowHelper.TheTvDbApiKey, serieId, seasonNumber, episodeNumber);
             Episode episode = _restApiService.Get<Episode>(url);
             return MapEpisodeToMetadata(episode);
+        }
+
+        private void FixSeriesUrl(IEnumerable<Series> series)
+        {
+            foreach (Series serie in series)
+            {
+                serie.Banner = TvShowHelper.ExpandImagesUrl(serie.Banner);
+            }
         }
 
         private void FixSerieUrl(FullSerie serie)

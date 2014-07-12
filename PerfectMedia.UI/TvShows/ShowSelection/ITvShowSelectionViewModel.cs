@@ -9,9 +9,10 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
 {
     public interface ITvShowSelectionViewModel : INotifyPropertyChanged
     {
-        string Title { get; set; }
+        string SearchTitle { get; set; }
         bool IsClosed { get; set; }
         object OriginalContent { get; set; }
+        Series SelectedSerie { get; }
         SmartObservableCollection<Series> Series { get; }
     }
 }

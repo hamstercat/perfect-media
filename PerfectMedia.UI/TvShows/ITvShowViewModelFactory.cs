@@ -23,6 +23,6 @@ namespace PerfectMedia.UI.TvShows
         IEpisodeViewModel GetEpisode(ITvShowMetadataViewModel tvShowMetadata, string path);
         IImageViewModel GetImage();
         IImageViewModel GetImage(IImageStrategy imageStrategy);
-        ITvShowSelectionViewModel GetTvShowSelection();
+        ITvShowSelectionViewModel GetTvShowSelection(ITvShowMetadataViewModel tvShowMetadata, string path);
     }
 }

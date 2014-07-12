@@ -58,7 +58,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             Path = path;
             Metadata = viewModelFactory.GetTvShowMetadata(Path);
             Metadata.PropertyChanged += (s, e) => OnPropertyChanged("DisplayName");
-            Selection = viewModelFactory.GetTvShowSelection();
+            Selection = viewModelFactory.GetTvShowSelection(Metadata, path);
 
             // We need to set a "dummy" item in the collection for an arrow to appear in the TreeView since we're lazy-loading the items under it
             _seasonLoaded = false;

@@ -24,19 +24,19 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
 
         public bool CanExecute(object parameter)
         {
-            return !string.IsNullOrEmpty(_tvShowSelectionViewModel.Title);
+            return !string.IsNullOrEmpty(_tvShowSelectionViewModel.SearchTitle);
         }
 
         public void Execute(object parameter)
         {
-            IEnumerable<Series> series = _metadataService.FindSeries(_tvShowSelectionViewModel.Title);
+            IEnumerable<Series> series = _metadataService.FindSeries(_tvShowSelectionViewModel.SearchTitle);
             _tvShowSelectionViewModel.Series.Clear();
             _tvShowSelectionViewModel.Series.AddRange(series);
         }
 
         private void TvShowSelectionPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Title" && CanExecuteChanged != null)
+            if (e.PropertyName == "SearchTitle" && CanExecuteChanged != null)
             {
                 CanExecuteChanged(this, new EventArgs());
             }

@@ -37,5 +37,10 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
             Binding originalBinding = (Binding)tvShowSelection.OriginalContent;
             BindingOperations.SetBinding(mainContentControl, ContentControl.ContentProperty, originalBinding);
         }
+
+        private void CancelClick(object sender, RoutedEventArgs e)
+        {
+            CloseControl();
+        }
     }
 }

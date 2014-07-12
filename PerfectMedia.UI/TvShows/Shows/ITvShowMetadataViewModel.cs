@@ -13,5 +13,6 @@ namespace PerfectMedia.UI.TvShows.Shows
         string Path { get; }
         string DisplayName { get; }
         IEnumerable<ProgressItem> Update();
+        void Refresh();
     }
 }

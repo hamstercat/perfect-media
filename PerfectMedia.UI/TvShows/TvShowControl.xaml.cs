@@ -40,6 +40,7 @@ namespace PerfectMedia.UI.TvShows
             object originalContent = BindingOperations.GetBinding(MainContentControl, ContentControl.ContentProperty);
             ITvShowViewModel tvShow = GetTvShowViewModel(sender);
             tvShow.Selection.OriginalContent = originalContent;
+            tvShow.Selection.IsClosed = false;
             MainContentControl.Content = tvShow.Selection;
         }
 

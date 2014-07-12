@@ -17,15 +17,15 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Image Grid.Row="0" Grid.Column="0" Source="{Binding SelectedImage.Url, Converter={StaticResource ImagePathConverter}}" />
+        <Image Grid.Row="0" Grid.Column="0" Source="{Binding Selection.SelectedItem.Url, Converter={StaticResource ImagePathConverter}}" />
         <Grid Grid.Row="0" Grid.Column="1">
             <StackPanel>
-                <Button Content="Save" Command="{Binding SaveCommand}" />
+                <Button Content="Save" Command="{Binding Selection.SaveCommand}" />
                 <Button Content="Choose File" Click="ChooseFileClick" DataContext="{Binding Download}" />
                 <Button Content="Cancel" Click="CancelClick" />
             </StackPanel>
         </Grid>
-        <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding AvailableImages}" SelectedItem="{Binding SelectedImage}">
+        <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Selection.AvailableItems}" SelectedItem="{Binding Selection.SelectedItem}">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" />

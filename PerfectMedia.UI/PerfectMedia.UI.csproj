@@ -96,7 +96,6 @@
     <Compile Include="Images\Selection\ImageSelectionViewModel.cs" />
     <Compile Include="Images\Selection\LoadFileCommand.cs" />
     <Compile Include="Images\Selection\NoImageStrategy.cs" />
-    <Compile Include="Images\Selection\SaveImageCommand.cs" />
     <Compile Include="Images\SelectableImage.xaml.cs">
       <DependentUpon>SelectableImage.xaml</DependentUpon>
     </Compile>

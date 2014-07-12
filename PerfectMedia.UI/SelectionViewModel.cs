@@ -33,7 +33,12 @@ namespace PerfectMedia.UI
         public ICommand SaveCommand { get; private set; }
 
         public SelectionViewModel(Action<T> save)
+            : this(default(T), save)
+        { }
+
+        public SelectionViewModel(T defaultItem, Action<T> save)
         {
+            _selectedItem = defaultItem;
             _save = save;
             AvailableItems = new SmartObservableCollection<T>();
             SaveCommand = this;

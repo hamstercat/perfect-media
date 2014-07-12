@@ -9,10 +9,8 @@ namespace PerfectMedia.UI.Images.Selection
 {
     public interface IImageSelectionViewModel : INotifyPropertyChanged
     {
-        Image SelectedImage { get; }
         IChooseImageFileViewModel Download { get; }
         bool IsClosed { get; set; }
         object OriginalContent { get; set; }
-        void SaveSelectedImage();
     }
 }

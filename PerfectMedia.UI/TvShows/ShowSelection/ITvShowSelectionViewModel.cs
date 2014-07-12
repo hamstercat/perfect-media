@@ -12,7 +12,6 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
         string SearchTitle { get; set; }
         bool IsClosed { get; set; }
         object OriginalContent { get; set; }
-        Series SelectedSerie { get; }
-        SmartObservableCollection<Series> Series { get; }
+        void ReplaceSeries(IEnumerable<Series> series);
     }
 }

@@ -28,26 +28,26 @@
             <TextBox Grid.Column="1" Text="{Binding SearchTitle, UpdateSourceTrigger=PropertyChanged}" />
             <Button Grid.Column="2" Content="Search" Command="{Binding SearchCommand}" IsDefault="True" />
         </Grid>
-        <ListView Grid.Row="1" ItemsSource="{Binding Series}" SelectedItem="{Binding SelectedSerie}">
+        <ListView Grid.Row="1" ItemsSource="{Binding Selection.AvailableItems}" SelectedItem="{Binding Selection.SelectedItem}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Converter={StaticResource SeriesNameAndYearConverter}}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" DataContext="{Binding Selection}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="{Binding SelectedSerie, Converter={StaticResource SeriesNameAndYearConverter}}" />
-            <TextBlock Grid.Row="1" Text="{Binding SelectedSerie.Overview}" TextWrapping="WrapWithOverflow" />
-            <Image Grid.Row="2" Source="{Binding SelectedSerie.Banner, Converter={StaticResource ImagePathConverter}}" />
+            <TextBlock Grid.Row="0" Text="{Binding SelectedItem, Converter={StaticResource SeriesNameAndYearConverter}}" />
+            <TextBlock Grid.Row="1" Text="{Binding SelectedItem.Overview}" TextWrapping="WrapWithOverflow" />
+            <Image Grid.Row="2" Source="{Binding SelectedItem.Banner, Converter={StaticResource ImagePathConverter}}" />
             <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Cancel" Click="CancelClick" IsCancel="True" />
-                <Button Content="Save" Command="{Binding ChangeSerieCommand}" />
+                <Button Content="Save" Command="{Binding SaveCommand}" />
             </StackPanel>
         </Grid>
     </Grid>

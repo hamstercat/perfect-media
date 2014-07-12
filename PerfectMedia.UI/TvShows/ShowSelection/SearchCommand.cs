@@ -30,8 +30,7 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
         public void Execute(object parameter)
         {
             IEnumerable<Series> series = _metadataService.FindSeries(_tvShowSelectionViewModel.SearchTitle);
-            _tvShowSelectionViewModel.Series.Clear();
-            _tvShowSelectionViewModel.Series.AddRange(series);
+            _tvShowSelectionViewModel.ReplaceSeries(series);
         }
 
         private void TvShowSelectionPropertyChanged(object sender, PropertyChangedEventArgs e)

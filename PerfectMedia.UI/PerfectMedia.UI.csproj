@@ -106,6 +106,7 @@
     <Compile Include="Progress\ProgressIndicatorFactory.cs" />
     <Compile Include="Progress\ProgressItem.cs" />
     <Compile Include="Progress\IProgressManagerViewModel.cs" />
+    <Compile Include="SelectionViewModel.cs" />
     <Compile Include="SmartObservableCollection.cs" />
     <Compile Include="Progress\ProgressManagerViewModel.cs" />
     <Compile Include="Progress\ProgressWindow.xaml.cs">
@@ -132,7 +133,6 @@
     <Compile Include="TvShows\Seasons\SeasonPosterImageStrategy.cs" />
     <Compile Include="TvShows\Seasons\SeasonViewModel.cs" />
     <Compile Include="Sources\SourceManagerViewModel.cs" />
-    <Compile Include="TvShows\ShowSelection\ChangeSerieCommand.cs" />
     <Compile Include="TvShows\ShowSelection\ITvShowSelectionViewModel.cs" />
     <Compile Include="TvShows\ShowSelection\SearchCommand.cs" />
     <Compile Include="TvShows\ShowSelection\SeriesNameAndYearConverter.cs" />

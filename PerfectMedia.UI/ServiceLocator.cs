@@ -2,6 +2,7 @@
 using Ninject.Extensions.Conventions;
 using PerfectMedia.Movies;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Movies;
 using PerfectMedia.UI.TvShows;
 using System.Configuration;
 using System.IO;
@@ -21,7 +22,15 @@ namespace PerfectMedia.UI
             }
         }
 
-        private IRestApiService TheTvDbRestApi
+        public MovieManagerViewModel MovieManagerViewModel
+        {
+            get
+            {
+                return _kernel.Get<MovieManagerViewModel>();
+            }
+        }
+
+        private IRestApiService ThetvdbRestApi
         {
             get
             {
@@ -57,7 +66,7 @@ namespace PerfectMedia.UI
                 })
                 .SelectAllClasses()
                 .BindAllInterfaces()
-                .ConfigureFor<ThetvdbTvShowMetadataUpdater>(tvShowMetadataUpdater => tvShowMetadataUpdater.WithConstructorArgument(TheTvDbRestApi))
+                .ConfigureFor<ThetvdbTvShowMetadataUpdater>(tvShowMetadataUpdater => tvShowMetadataUpdater.WithConstructorArgument(ThetvdbRestApi))
                 .ConfigureFor<ThemoviedbMovieMetadataUpdater>(movieMetadataUpdater => movieMetadataUpdater.WithConstructorArgument(ThemoviedbRestApi)));
         }
     }

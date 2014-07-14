@@ -4,23 +4,20 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
 
-namespace PerfectMedia.TvShows.Metadata
+namespace PerfectMedia.Movies
 {
-    public class TvShowMetadataRepository : NfoRepository<TvShowMetadata>, ITvShowMetadataRepository
+    public class MovieMetadataRepository : NfoRepository<MovieMetadata>, IMovieMetadataRepository
     {
-        private const string NfoFile = "tvshow.nfo";
         private readonly IFileSystemService _fileSystemService;
 
-        public TvShowMetadataRepository(IFileSystemService fileSystemService)
+        public MovieMetadataRepository(IFileSystemService fileSystemService)
             : base(fileSystemService)
         {
             _fileSystemService = fileSystemService;
         }
 
-        public override void Save(string path, TvShowMetadata metadata)
+        public override void Save(string path, MovieMetadata metadata)
         {
             base.Save(path, metadata);
             SaveActorsThumbnails(path, metadata.Actors);
@@ -28,7 +25,7 @@ namespace PerfectMedia.TvShows.Metadata
 
         protected override string GetNfoFile(string path)
         {
-            return Path.Combine(path, NfoFile);
+            return Path.ChangeExtension(path, ".nfo");
         }
 
         private void SaveActorsThumbnails(string path, IEnumerable<ActorMetadata> actors)

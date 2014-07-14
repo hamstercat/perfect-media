@@ -56,6 +56,16 @@
     <Compile Include="FileSystemService.cs" />
     <Compile Include="IRestApiService.cs" />
     <Compile Include="ItemNotFoundException.cs" />
+    <Compile Include="Movies\AvailableMovieImages.cs" />
+    <Compile Include="Movies\FullMovie.cs" />
+    <Compile Include="Movies\Genre.cs" />
+    <Compile Include="Movies\IMovieImagesService.cs" />
+    <Compile Include="Movies\IMovieMetadataRepository.cs" />
+    <Compile Include="Movies\IMovieMetadataService.cs" />
+    <Compile Include="Movies\IMovieMetadataUpdater.cs" />
+    <Compile Include="Movies\MovieMetadata.cs" />
+    <Compile Include="Movies\Movie.cs" />
+    <Compile Include="Movies\StudioCompany.cs" />
     <Compile Include="NfoRepository.cs" />
     <Compile Include="RestApiService.cs" />
     <Compile Include="ScrapperException.cs" />
@@ -65,9 +75,9 @@
     <Compile Include="Sources\Source.cs" />
     <Compile Include="Sources\SourceType.cs" />
     <Compile Include="TvShows\Episode.cs" />
-    <Compile Include="TvShows\Image.cs" />
+    <Compile Include="Image.cs" />
     <Compile Include="TvShows\ITvShowFileService.cs" />
-    <Compile Include="TvShows\Metadata\ActorMetadata.cs" />
+    <Compile Include="ActorMetadata.cs" />
     <Compile Include="TvShows\Metadata\AvailableSeasonImages.cs" />
     <Compile Include="TvShows\Metadata\AvailableTvShowImages.cs" />
     <Compile Include="TvShows\Metadata\EpisodeMetadata.cs" />
@@ -83,7 +93,7 @@
     <Compile Include="TvShows\Metadata\ITvShowMetadataRepository.cs" />
     <Compile Include="TvShows\Metadata\ITvShowMetadataService.cs" />
     <Compile Include="TvShows\Metadata\ITvShowMetadataUpdater.cs" />
-    <Compile Include="TvShows\Metadata\Actor.cs" />
+    <Compile Include="Actor.cs" />
     <Compile Include="TvShows\Metadata\Banner.cs" />
     <Compile Include="TvShows\Metadata\FullSerie.cs" />
     <Compile Include="TvShows\Metadata\Series.cs" />
@@ -96,6 +106,7 @@
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.1.24.0\build\Fody.targets" Condition="Exists('..\packages\Fody.1.24.0\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -1,5 +1,6 @@
 ﻿using Ninject;
 using Ninject.Extensions.Conventions;
+using PerfectMedia.Movies;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.TvShows;
 using System.Configuration;
@@ -29,6 +30,15 @@ namespace PerfectMedia.UI
             }
         }
 
+        private IRestApiService ThemoviedbRestApi
+        {
+            get
+            {
+                string themoviedbBaseUrl = ConfigurationManager.AppSettings["TheMovieDbUrl"];
+                return new RestApiService(themoviedbBaseUrl, "yyyy-MM-dd");
+            }
+        }
+
         public ServiceLocator()
         {
             _kernel = new StandardKernel();
@@ -47,7 +57,8 @@ namespace PerfectMedia.UI
                 })
                 .SelectAllClasses()
                 .BindAllInterfaces()
-                .ConfigureFor<ThetvdbTvShowMetadataUpdater>(tvShowMetadataUpdater => tvShowMetadataUpdater.WithConstructorArgument(TheTvDbRestApi)));
+                .ConfigureFor<ThetvdbTvShowMetadataUpdater>(tvShowMetadataUpdater => tvShowMetadataUpdater.WithConstructorArgument(TheTvDbRestApi))
+                .ConfigureFor<ThemoviedbMovieMetadataUpdater>(movieMetadataUpdater => movieMetadataUpdater.WithConstructorArgument(ThemoviedbRestApi)));
         }
     }
 }

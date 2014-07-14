@@ -25,7 +25,7 @@ namespace PerfectMedia.TvShows.Metadata
             TvShowMetadata metadata = _metadataRepository.Get(path);
             foreach (ActorMetadata actor in metadata.Actors)
             {
-                actor.ThumbPath = TvShowHelper.GetActorThumbPath(path, actor.Name);
+                actor.ThumbPath = ActorMetadata.GetActorThumbPath(path, actor.Name);
             }
             return metadata;
         }
@@ -148,7 +148,7 @@ namespace PerfectMedia.TvShows.Metadata
                     Name = thetvdbActor.Name,
                     Role = thetvdbActor.Role,
                     Thumb = TvShowHelper.ExpandImagesUrl(thetvdbActor.Image),
-                    ThumbPath = TvShowHelper.GetActorThumbPath(path, thetvdbActor.Name)
+                    ThumbPath = ActorMetadata.GetActorThumbPath(path, thetvdbActor.Name)
                 };
                 metadata.Actors.Add(actor);
             }

@@ -48,6 +48,11 @@ namespace PerfectMedia.UI
             }
         }
 
+        public void Remove(T item)
+        {
+            _items.Remove(item);
+        }
+
         public void Clear()
         {
             _items.Clear();

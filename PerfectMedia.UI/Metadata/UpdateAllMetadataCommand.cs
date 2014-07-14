@@ -8,33 +8,34 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
-namespace PerfectMedia.UI.TvShows
+namespace PerfectMedia.UI.Metadata
 {
-    public class UpdateAllCommand : ICommand
+    public class UpdateAllMetadataCommand<T> : ICommand
+        where T : IMetadataProvider
     {
         public event EventHandler CanExecuteChanged;
-        private readonly ObservableCollection<ITvShowViewModel> _tvShows;
+        private readonly SmartObservableCollection<T> _items;
         private readonly IProgressManagerViewModel _progressManager;
 
-        public UpdateAllCommand(ObservableCollection<ITvShowViewModel> tvShows, IProgressManagerViewModel progressManager)
+        public UpdateAllMetadataCommand(SmartObservableCollection<T> items, IProgressManagerViewModel progressManager)
         {
-            _tvShows = tvShows;
-            _tvShows.CollectionChanged += TvShowsCollectionChanged;
+            _items = items;
+            _items.CollectionChanged += TvShowsCollectionChanged;
             _progressManager = progressManager;
         }
 
         public bool CanExecute(object parameter)
         {
-            return _tvShows.Count != 0;
+            return _items.Count != 0;
         }
 
         public void Execute(object parameter)
         {
-            foreach (ITvShowViewModel tvShow in _tvShows)
+            foreach (IMetadataProvider item in _items)
             {
-                foreach (ProgressItem item in tvShow.Update())
+                foreach (ProgressItem progressItem in item.Update())
                 {
-                    _progressManager.AddItem(item);
+                    _progressManager.AddItem(progressItem);
                 }
             }
             _progressManager.Start();

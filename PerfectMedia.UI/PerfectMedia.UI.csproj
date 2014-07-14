@@ -100,6 +100,8 @@
       <DependentUpon>SelectableImage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainContentHelper.cs" />
+    <Compile Include="Movies\IMovieViewModel.cs" />
+    <Compile Include="Movies\IMovieViewModelFactory.cs" />
     <Compile Include="Movies\MovieControl.xaml.cs">
       <DependentUpon>MovieControl.xaml</DependentUpon>
     </Compile>
@@ -108,6 +110,7 @@
     <Compile Include="Movies\MovieMetadataControl.xaml.cs">
       <DependentUpon>MovieMetadataControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Movies\MovieViewModelFactory.cs" />
     <Compile Include="Progress\IProgressIndicator.cs" />
     <Compile Include="Progress\IProgressIndicatorFactory.cs" />
     <Compile Include="Progress\ProgressIndicatorFactory.cs" />
@@ -182,7 +185,7 @@
     <Compile Include="TvShows\Shows\TvShowMetadataControl.xaml.cs">
       <DependentUpon>TvShowMetadataControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TvShows\UpdateAllCommand.cs" />
+    <Compile Include="Metadata\UpdateAllMetadataCommand.cs" />
     <Page Include="Images\Selection\ChooseImageFileWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

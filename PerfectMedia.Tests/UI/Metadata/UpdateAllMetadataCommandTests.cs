@@ -1,4 +1,6 @@
 ﻿using NSubstitute;
+using PerfectMedia.UI.Metadata;
+using PerfectMedia.UI.Movies;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Shows;
 using System;
@@ -9,19 +11,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace PerfectMedia.UI.TvShows
+namespace PerfectMedia.UI.Metadata
 {
-    public class UpdateAllCommandTests
+    public class UpdateAllMetadataCommandTests
     {
-        private readonly ObservableCollection<ITvShowViewModel> _tvShows;
+        private readonly SmartObservableCollection<IMovieViewModel> _movies;
         private IProgressManagerViewModel _progressManager;
-        private readonly UpdateAllCommand _command;
+        private readonly UpdateAllMetadataCommand<IMovieViewModel> _command;
 
-        public UpdateAllCommandTests()
+        public UpdateAllMetadataCommandTests()
         {
-            _tvShows = new ObservableCollection<ITvShowViewModel>();
+            _movies = new SmartObservableCollection<IMovieViewModel>();
             _progressManager = Substitute.For<IProgressManagerViewModel>();
-            _command = new UpdateAllCommand(_tvShows, _progressManager);
+            _command = new UpdateAllMetadataCommand<IMovieViewModel>(_movies, _progressManager);
         }
 
         [Fact]
@@ -38,7 +40,7 @@ namespace PerfectMedia.UI.TvShows
         public void CanExecute_WithTvShows_ReturnsTrue()
         {
             // Arrange
-            _tvShows.Add(null);
+            _movies.Add(null);
 
             // Act
             bool canExecute = _command.CanExecute(null);
@@ -55,7 +57,7 @@ namespace PerfectMedia.UI.TvShows
             _command.CanExecuteChanged += (s, e) => canExecuteChanged = true;
 
             // Act
-            _tvShows.Add(null);
+            _movies.Add(null);
 
             // Assert
             Assert.True(canExecuteChanged);
@@ -72,8 +74,8 @@ namespace PerfectMedia.UI.TvShows
         public void Execute_WithTvShows_QueuesUpdates()
         {
             // Arrange
-            ITvShowViewModel viewModel1 = Substitute.For<ITvShowViewModel>();
-            _tvShows.Add(viewModel1);
+            IMovieViewModel viewModel1 = Substitute.For<IMovieViewModel>();
+            _movies.Add(viewModel1);
             viewModel1.Update()
                 .Returns(new List<ProgressItem> { CreateProgressItem() });
 

@@ -18,25 +18,20 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TreeView x:Name="MoviesTreeView" ItemsSource="{Binding Movies}">
-                <TreeView.ItemContainerStyle>
-                    <Style TargetType="{x:Type TreeViewItem}">
-                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                    </Style>
-                </TreeView.ItemContainerStyle>
-                <TreeView.ItemTemplate>
+            <ListView x:Name="MoviesListView" ItemsSource="{Binding Movies}">
+                <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="Hello" />
+                        <TextBlock Text="{Binding Path}" />
                     </DataTemplate>
-                </TreeView.ItemTemplate>
-            </TreeView>
+                </ListView.ItemTemplate>
+            </ListView>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <Button Content="Sources" Click="ShowSources" />
                 <Button Content="Update All" Command="{Binding UpdateAll}" />
             </StackPanel>
         </Grid>
         <Grid Grid.Column="1">
-            <ContentControl Content="{Binding SelectedItem, ElementName=MoviesTreeView}" x:Name="MainContentControl">
+            <ContentControl Content="{Binding SelectedItem, ElementName=MoviesListView}" x:Name="MainContentControl">
                 <ContentControl.Resources>
                     <DataTemplate DataType="{x:Type movies:MovieViewModel}">
                         <Grid>
@@ -45,12 +40,12 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                <Button Content="Refresh" Command="{Binding Metadata.RefreshCommand}" />
-                                <Button Content="Update" Command="{Binding Metadata.UpdateCommand}" />
-                                <Button Content="Save" Command="{Binding Metadata.SaveCommand}" />
+                                <Button Content="Refresh" Command="{Binding RefreshCommand}" />
+                                <Button Content="Update" Command="{Binding UpdateCommand}" />
+                                <Button Content="Save" Command="{Binding SaveCommand}" />
                                 <!--<Button Content="Change Movie" Click="ShowTvShowSelection" />-->
                             </StackPanel>
-                            <movies:MovieMetadataControl Grid.Row="1" DataContext="{Binding Metadata}" />
+                            <movies:MovieMetadataControl Grid.Row="1" />
                         </Grid>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type img:ImageViewModel}">

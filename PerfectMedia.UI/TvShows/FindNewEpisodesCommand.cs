@@ -13,10 +13,10 @@ namespace PerfectMedia.UI.TvShows
     public class FindNewEpisodesCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
-        private readonly ObservableCollection<ITvShowViewModel> _tvShows;
+        private readonly SmartObservableCollection<ITvShowViewModel> _tvShows;
         private readonly IProgressManagerViewModel _progressManager;
 
-        public FindNewEpisodesCommand(ObservableCollection<ITvShowViewModel> tvShows, IProgressManagerViewModel progressManager)
+        public FindNewEpisodesCommand(SmartObservableCollection<ITvShowViewModel> tvShows, IProgressManagerViewModel progressManager)
         {
             _tvShows = tvShows;
             _tvShows.CollectionChanged += TvShowsCollectionChanged;

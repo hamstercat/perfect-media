@@ -77,7 +77,7 @@
     <Compile Include="UI\TvShows\Shows\TvShowMetadataViewModelTests.cs" />
     <Compile Include="UI\TvShows\Shows\TvShowViewModelTests.cs" />
     <Compile Include="UI\TvShows\TvShowManagerViewModelTests.cs" />
-    <Compile Include="UI\TvShows\UpdateAllCommandTests.cs" />
+    <Compile Include="UI\Metadata\UpdateAllMetadataCommandTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

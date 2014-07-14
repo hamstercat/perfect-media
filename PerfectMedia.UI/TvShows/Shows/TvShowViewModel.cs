@@ -65,9 +65,19 @@ namespace PerfectMedia.UI.TvShows.Shows
             Seasons = new ObservableCollection<ISeasonViewModel> { _viewModelFactory.GetSeason(Metadata, "dummy") };
         }
 
+        public void Refresh()
+        {
+            Metadata.Refresh();
+        }
+
         public IEnumerable<ProgressItem> Update()
         {
             return Metadata.Update();
+        }
+
+        public void Save()
+        {
+            Metadata.Save();
         }
 
         public IEnumerable<ProgressItem> FindNewEpisodes()

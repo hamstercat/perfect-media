@@ -16,7 +16,7 @@ using System.Windows.Input;
 namespace PerfectMedia.UI.TvShows.Shows
 {
     [ImplementPropertyChanged]
-    public class TvShowMetadataViewModel : BaseViewModel, ITvShowMetadataViewModel, IMetadataProvider
+    public class TvShowMetadataViewModel : BaseViewModel, ITvShowMetadataViewModel
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowMetadataService _metadataService;

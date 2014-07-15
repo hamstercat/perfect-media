@@ -22,7 +22,7 @@ namespace PerfectMedia.TvShows.Metadata
             _metadataRepository = Substitute.For<ITvShowMetadataRepository>();
             _metadataUpdater = Substitute.For<ITvShowMetadataUpdater>();
             _path = @"C:\Folder\TV Shows\Game of Thrones";
-            _service = new TvShowMetadataService(_imageService, _metadataRepository, _metadataUpdater);
+            _service = new TvShowMetadataService(null, _imageService, _metadataRepository, _metadataUpdater);
         }
 
         [Fact]

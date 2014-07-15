@@ -1,4 +1,5 @@
-﻿using PerfectMedia.Sources;
+﻿using PerfectMedia.Movies;
+using PerfectMedia.Sources;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.Sources;
@@ -16,14 +17,16 @@ namespace PerfectMedia.UI.Movies
     [ImplementPropertyChanged]
     public class MovieManagerViewModel : ISourceProvider
     {
+        private readonly IFileSystemService _fileSystemService;
         private readonly IMovieViewModelFactory _viewModelFactory;
 
         public ISourceManagerViewModel Sources { get; set; }
         public SmartObservableCollection<IMovieViewModel> Movies { get; private set; }
         public ICommand UpdateAll { get; private set; }
 
-        public MovieManagerViewModel(IMovieViewModelFactory viewModelFactory, IProgressManagerViewModel progressManager)
+        public MovieManagerViewModel(IFileSystemService fileSystemService, IMovieViewModelFactory viewModelFactory, IProgressManagerViewModel progressManager)
         {
+            _fileSystemService = fileSystemService;
             _viewModelFactory = viewModelFactory;
             Movies = new SmartObservableCollection<IMovieViewModel>();
             UpdateAll = new UpdateAllMetadataCommand<IMovieViewModel>(Movies, progressManager);
@@ -64,8 +67,11 @@ namespace PerfectMedia.UI.Movies
         {
             foreach (string path in movies)
             {
-                IMovieViewModel newMovie = _viewModelFactory.GetMovie(path);
-                Movies.Add(newMovie);
+                foreach (string file in FindMoviesInPath(path))
+                {
+                    IMovieViewModel newMovie = _viewModelFactory.GetMovie(file);
+                    Movies.Add(newMovie);
+                }
             }
         }
 
@@ -76,6 +82,18 @@ namespace PerfectMedia.UI.Movies
                 IMovieViewModel movieToRemove = Movies.First(movie => movie.Path == path);
                 Movies.Remove(movieToRemove);
             }
+        }
+
+        private IEnumerable<string> FindMoviesInPath(string path)
+        {
+            return _fileSystemService.FindVideoFiles(path)
+                .Where(FileIsNotTrailer);
+        }
+
+        private bool FileIsNotTrailer(string videoFile)
+        {
+            string fileName = System.IO.Path.GetFileNameWithoutExtension(videoFile);
+            return !fileName.EndsWith("-trailer");
         }
     }
 }

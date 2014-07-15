@@ -76,7 +76,7 @@ namespace PerfectMedia.TvShows
 
         private IEnumerable<Episode> GetUnorderedEpisodes(string seasonPath)
         {
-            IEnumerable<string> videoFiles = _fileSystemService.FindFiles(seasonPath, TvShowHelper.VideoFileExtensions);
+            IEnumerable<string> videoFiles = _fileSystemService.FindVideoFiles(seasonPath);
             foreach (string episodeFile in videoFiles)
             {
                 yield return CreateEpisode(episodeFile);
@@ -86,7 +86,7 @@ namespace PerfectMedia.TvShows
         private Episode CreateEpisode(string episodeFile)
         {
             Episode episode = new Episode();
-            EpisodeNumber episodeNumber = TvShowHelper.FindEpisodeNumberFromFile(episodeFile);
+            EpisodeNumber episodeNumber = TvShowHelper.FindEpisodeNumberFromFile(_fileSystemService, episodeFile);
             episode.Path = episodeFile;
             episode.SeasonNumber = episodeNumber.SeasonNumber;
             episode.EpisodeNumber = episodeNumber.EpisodeSeasonNumber;

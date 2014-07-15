@@ -115,7 +115,7 @@ namespace PerfectMedia.TvShows
                 @"C:\Folder\Season 1\1x01.mkv",
                 @"C:\Folder\Season 1\1x03.mkv"
             };
-            _fileSystemService.FindFiles(path, Arg.Any<string[]>())
+            _fileSystemService.FindVideoFiles(path)
                 .Returns(episodeFolders);
 
             // Act

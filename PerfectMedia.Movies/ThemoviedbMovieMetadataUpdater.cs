@@ -10,6 +10,7 @@ namespace PerfectMedia.Movies
     public class ThemoviedbMovieMetadataUpdater : IMovieMetadataUpdater
     {
         private readonly IRestApiService _restApiService;
+        private ThemoviedbConfiguration serverConfiguration;
 
         public ThemoviedbMovieMetadataUpdater(IRestApiService restApiService)
         {
@@ -57,7 +58,7 @@ namespace PerfectMedia.Movies
         {
             return new Image
             {
-                Url = MovieHelper.ExpandImageurl(themoviedbImage.FilePath),
+                Url = GetImageBasePath() + "original" + themoviedbImage.FilePath,
                 Size = string.Format("{0}x{1})", themoviedbImage.Width, themoviedbImage.Height),
                 Rating = themoviedbImage.VoteAverage
             };
@@ -69,8 +70,18 @@ namespace PerfectMedia.Movies
             {
                 Name = cast.Name,
                 Role = cast.Character,
-                Image = cast.ProfilePath
+                Image = GetImageBasePath() + "w300" + cast.ProfilePath
             });
+        }
+
+        private string GetImageBasePath()
+        {
+            if (serverConfiguration == null)
+            {
+                string url = "3/configuration?api_key=" + MovieHelper.ThemoviedbApiKey;
+                serverConfiguration = _restApiService.Get<ThemoviedbConfiguration>(url);
+            }
+            return serverConfiguration.Images.SecureBaseUrl;
         }
     }
 }

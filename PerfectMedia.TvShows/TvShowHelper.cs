@@ -11,8 +11,6 @@ namespace PerfectMedia.TvShows
 {
     internal static class TvShowHelper
     {
-        internal static string[] VideoFileExtensions { get; private set; }
-
         internal static string TheTvDbUrl
         {
             get
@@ -27,11 +25,6 @@ namespace PerfectMedia.TvShows
             {
                 return ConfigurationManager.AppSettings["TheTvDbApiKey"];
             }
-        }
-
-        static TvShowHelper()
-        {
-            VideoFileExtensions = ConfigurationManager.AppSettings["VideoFileExtensions"].Split(',');
         }
 
         internal static int FindSeasonNumberFromFolder(string seasonFolder)
@@ -80,7 +73,7 @@ namespace PerfectMedia.TvShows
         }
 
         // TODO: support multi-episode files
-        internal static EpisodeNumber FindEpisodeNumberFromFile(string episodeFile)
+        internal static EpisodeNumber FindEpisodeNumberFromFile(IFileSystemService fileSystemService, string episodeFile)
         {
             string episodeFileName = Path.GetFileNameWithoutExtension(episodeFile);
             Match match = Regex.Match(episodeFileName, @"(\d)x(\d+)");
@@ -88,7 +81,7 @@ namespace PerfectMedia.TvShows
             {
                 int seasonNumber = int.Parse(match.Groups[1].Value);
                 int episodeNumber = int.Parse(match.Groups[2].Value);
-                string tvShowPath = GetParentDirectory(episodeFile, 2);
+                string tvShowPath = fileSystemService.GetParentDirectory(episodeFile, 2);
                 return new EpisodeNumber
                 {
                     SeasonNumber = seasonNumber,
@@ -97,21 +90,6 @@ namespace PerfectMedia.TvShows
                 };
             }
             return null;
-        }
-
-        // This method comes from https://stackoverflow.com/questions/4389775/what-is-a-good-way-to-remove-last-few-directory
-        // TODO: Rewrite it more clearly
-        internal static string GetParentDirectory(string path, int parentCount)
-        {
-            if (string.IsNullOrEmpty(path) || parentCount < 1)
-                return path;
-
-            string parent = System.IO.Path.GetDirectoryName(path);
-
-            if (--parentCount > 0)
-                return GetParentDirectory(parent, parentCount);
-
-            return parent;
         }
     }
 }

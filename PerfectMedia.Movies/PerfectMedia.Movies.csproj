@@ -49,6 +49,7 @@
     <Compile Include="MovieMetadataRepository.cs" />
     <Compile Include="MovieMetadataService.cs" />
     <Compile Include="SearchMovieResult.cs" />
+    <Compile Include="ThemoviedbConfiguration.cs" />
     <Compile Include="ThemoviedbImage.cs" />
     <Compile Include="ThemoviedbMovieMetadataUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

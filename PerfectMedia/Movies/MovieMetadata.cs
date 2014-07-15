@@ -61,6 +61,12 @@ namespace PerfectMedia.Movies
         [XmlElement(ElementName = "actor")]
         public List<ActorMetadata> Actors { get; set; }
 
+        [XmlIgnore]
+        public string ImageFanartPath { get; set; }
+
+        [XmlIgnore]
+        public string ImagePosterPath { get; set; }
+
         public MovieMetadata()
         {
             Genres = new List<string>();

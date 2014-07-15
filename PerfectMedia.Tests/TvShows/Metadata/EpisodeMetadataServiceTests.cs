@@ -23,7 +23,7 @@ namespace PerfectMedia.TvShows.Metadata
             _metadataUpdater = Substitute.For<ITvShowMetadataUpdater>();
             _fileInformationService = Substitute.For<IFileInformationService>();
             _path = @"C:\Folder\TV Shows\Game of Thrones\Season 3\3x09.mkv";
-            _service = new EpisodeMetadataService(_metadataRepository, _metadataUpdater, _fileInformationService);
+            _service = new EpisodeMetadataService(null, _metadataRepository, _metadataUpdater, _fileInformationService);
         }
 
         [Fact]

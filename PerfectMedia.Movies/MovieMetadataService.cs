@@ -9,12 +9,17 @@ namespace PerfectMedia.Movies
 {
     public class MovieMetadataService : IMovieMetadataService
     {
+        private readonly IFileSystemService _fileSystemService;
         private readonly IMovieMetadataRepository _metadataRepository;
         private readonly IMovieMetadataUpdater _metadataUpdater;
         private readonly IMovieImagesService _imagesService;
 
-        public MovieMetadataService(IMovieMetadataRepository metadataRepository, IMovieMetadataUpdater metadataUpdater, IMovieImagesService imagesService)
+        public MovieMetadataService(IFileSystemService fileSystemService,
+            IMovieMetadataRepository metadataRepository,
+            IMovieMetadataUpdater metadataUpdater,
+            IMovieImagesService imagesService)
         {
+            _fileSystemService = fileSystemService;
             _metadataRepository = metadataRepository;
             _metadataUpdater = metadataUpdater;
             _imagesService = imagesService;
@@ -80,7 +85,7 @@ namespace PerfectMedia.Movies
 
         private string FindIdFromPath(string path)
         {
-            string folderName = Path.GetFileName(path);
+            string folderName = Path.GetFileNameWithoutExtension(path);
             IEnumerable<Movie> movies = FindMovies(folderName);
             if (!movies.Any())
             {
@@ -128,6 +133,7 @@ namespace PerfectMedia.Movies
 
         private void UpdateActorsMetadata(string path, MovieMetadata metadata)
         {
+            string movieFolder = _fileSystemService.GetParentDirectory(path, 1);
             IEnumerable<Actor> actors = _metadataUpdater.FindActors(metadata.Id);
             foreach (Actor themoviedbActor in actors)
             {
@@ -135,8 +141,8 @@ namespace PerfectMedia.Movies
                 {
                     Name = themoviedbActor.Name,
                     Role = themoviedbActor.Role,
-                    Thumb = MovieHelper.ExpandImageurl(themoviedbActor.Image),
-                    ThumbPath = ActorMetadata.GetActorThumbPath(path, themoviedbActor.Name)
+                    Thumb = themoviedbActor.Image,
+                    ThumbPath = ActorMetadata.GetActorThumbPath(movieFolder, themoviedbActor.Name)
                 };
                 metadata.Actors.Add(actor);
             }

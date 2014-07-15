@@ -9,14 +9,17 @@ namespace PerfectMedia.TvShows.Metadata
 {
     public class EpisodeMetadataService : IEpisodeMetadataService
     {
+        private readonly IFileSystemService _fileSystemService;
         private readonly IEpisodeMetadataRepository _metadataRepository;
         private readonly ITvShowMetadataUpdater _metadataUpdater;
         private readonly IFileInformationService _fileInformationService;
 
-        public EpisodeMetadataService(IEpisodeMetadataRepository metadataRepository,
+        public EpisodeMetadataService(IFileSystemService fileSystemService,
+            IEpisodeMetadataRepository metadataRepository,
             ITvShowMetadataUpdater metadataUpdater,
             IFileInformationService fileInformationService)
         {
+            _fileSystemService = fileSystemService;
             _metadataRepository = metadataRepository;
             _metadataUpdater = metadataUpdater;
             _fileInformationService = fileInformationService;
@@ -34,7 +37,7 @@ namespace PerfectMedia.TvShows.Metadata
 
         public void Update(string episodeFile, string serieId)
         {
-            EpisodeNumber episode = TvShowHelper.FindEpisodeNumberFromFile(episodeFile);
+            EpisodeNumber episode = TvShowHelper.FindEpisodeNumberFromFile(_fileSystemService, episodeFile);
             EpisodeMetadata metadata = _metadataUpdater.GetEpisodeMetadata(serieId, episode.SeasonNumber, episode.EpisodeSeasonNumber);
             if (metadata == null)
             {

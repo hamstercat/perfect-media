@@ -9,12 +9,14 @@ namespace PerfectMedia.TvShows.Metadata
 {
     public class TvShowMetadataService : ITvShowMetadataService
     {
+        private readonly IFileSystemService _fileSystemService;
         private readonly ITvShowImagesService _imagesService;
         private readonly ITvShowMetadataRepository _metadataRepository;
         private readonly ITvShowMetadataUpdater _metadataUpdater;
 
-        public TvShowMetadataService(ITvShowImagesService imagesService, ITvShowMetadataRepository metadataRepository, ITvShowMetadataUpdater metadataUpdater)
+        public TvShowMetadataService(IFileSystemService fileSystemService, ITvShowImagesService imagesService, ITvShowMetadataRepository metadataRepository, ITvShowMetadataUpdater metadataUpdater)
         {
+            _fileSystemService = fileSystemService;
             _imagesService = imagesService;
             _metadataRepository = metadataRepository;
             _metadataUpdater = metadataUpdater;
@@ -60,7 +62,7 @@ namespace PerfectMedia.TvShows.Metadata
 
         public AvailableSeasonImages FindSeasonImages(string seasonPath)
         {
-            string seriePath = TvShowHelper.GetParentDirectory(seasonPath, 1);
+            string seriePath = _fileSystemService.GetParentDirectory(seasonPath, 1);
             string serieId = GetSeriesId(seriePath);
             AvailableTvShowImages images = FindImages(serieId);
             int seasonNumber = TvShowHelper.FindSeasonNumberFromFolder(seasonPath);

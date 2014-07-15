@@ -102,7 +102,6 @@ namespace PerfectMedia.Movies
             MovieMetadata metadata = new MovieMetadata();
             metadata.Genres = movie.Genres.Select(genre => genre.Name).ToList();
             metadata.Id = movie.ImdbId;
-            metadata.MovieFilePath = path;
             metadata.OriginalTitle = movie.OriginalTitle;
             metadata.Outline = movie.Overview;
             //metadata.Plot = movie.Pl
@@ -136,7 +135,7 @@ namespace PerfectMedia.Movies
                 {
                     Name = themoviedbActor.Name,
                     Role = themoviedbActor.Role,
-                    Thumb = themoviedbActor.Image,
+                    Thumb = MovieHelper.ExpandImageurl(themoviedbActor.Image),
                     ThumbPath = ActorMetadata.GetActorThumbPath(path, themoviedbActor.Name)
                 };
                 metadata.Actors.Add(actor);

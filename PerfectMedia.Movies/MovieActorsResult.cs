@@ -8,6 +8,6 @@ namespace PerfectMedia.Movies
 {
     internal class MovieActorsResult
     {
-        public List<Cast> Casts { get; set; }
+        public List<Cast> Cast { get; set; }
     }
 }

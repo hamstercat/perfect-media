@@ -21,7 +21,7 @@
             <ListView x:Name="MoviesListView" ItemsSource="{Binding Movies}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Path}" />
+                        <TextBlock Text="{Binding DisplayName}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

@@ -1,4 +1,5 @@
-﻿using PerfectMedia.Sources;
+﻿using PerfectMedia.Movies;
+using PerfectMedia.Sources;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.Sources;
 using System;
@@ -13,12 +14,17 @@ namespace PerfectMedia.UI.Movies
     {
         private readonly ISourceService _sourceService;
         private readonly IFileSystemService _fileSystemService;
+        private readonly IMovieMetadataService _metadataService;
         private readonly IProgressManagerViewModel _progressManager;
 
-        public MovieViewModelFactory(ISourceService sourceService, IFileSystemService fileSystemService, IProgressManagerViewModel progressManager)
+        public MovieViewModelFactory(ISourceService sourceService,
+            IMovieMetadataService metadataService,
+            IFileSystemService fileSystemService,
+            IProgressManagerViewModel progressManager)
         {
             _sourceService = sourceService;
             _fileSystemService = fileSystemService;
+            _metadataService = metadataService;
             _progressManager = progressManager;
         }
 
@@ -29,7 +35,7 @@ namespace PerfectMedia.UI.Movies
 
         public IMovieViewModel GetMovie(string path)
         {
-            return new MovieViewModel(_progressManager, path);
+            return new MovieViewModel(_metadataService, _progressManager, path);
         }
     }
 }

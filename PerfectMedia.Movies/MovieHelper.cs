@@ -13,8 +13,21 @@ namespace PerfectMedia.Movies
         {
             get
             {
-                return ConfigurationManager.AppSettings["TheTvDbApiKey"];
+                return ConfigurationManager.AppSettings["ThemoviedbApiKey"];
             }
+        }
+
+        internal static string ThemoviedbUrl
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ThemoviedbUrl"];
+            }
+        }
+
+        internal static string ExpandImageurl(string relativePath)
+        {
+            return string.Format("{0}/{1}", ThemoviedbUrl.TrimEnd('/'), relativePath.TrimStart('/'));
         }
     }
 }

@@ -49,9 +49,6 @@ namespace PerfectMedia.Movies
         [XmlElement(ElementName = "id")]
         public string Id { get; set; }
 
-        [XmlElement(ElementName = "filenameandpath")]
-        public string MovieFilePath { get; set; }
-
         [XmlElement(ElementName = "genre")]
         public List<string> Genres { get; set; }
 

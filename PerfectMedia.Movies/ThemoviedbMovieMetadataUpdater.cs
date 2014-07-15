@@ -42,7 +42,7 @@ namespace PerfectMedia.Movies
         {
             string url = string.Format("3/movie/{0}/credits?api_key={1}", movieId, MovieHelper.ThemoviedbApiKey);
             MovieActorsResult result = _restApiService.Get<MovieActorsResult>(url);
-            return ConvertActorsResult(result.Casts);
+            return ConvertActorsResult(result.Cast);
         }
 
         private AvailableMovieImages ConvertImagesResult(MovieImagesResult movieImagesResult)
@@ -57,7 +57,7 @@ namespace PerfectMedia.Movies
         {
             return new Image
             {
-                Url = themoviedbImage.FilePath,
+                Url = MovieHelper.ExpandImageurl(themoviedbImage.FilePath),
                 Size = string.Format("{0}x{1})", themoviedbImage.Width, themoviedbImage.Height),
                 Rating = themoviedbImage.VoteAverage
             };

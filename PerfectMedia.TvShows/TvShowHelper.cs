@@ -81,7 +81,7 @@ namespace PerfectMedia.TvShows
             {
                 int seasonNumber = int.Parse(match.Groups[1].Value);
                 int episodeNumber = int.Parse(match.Groups[2].Value);
-                string tvShowPath = fileSystemService.GetParentDirectory(episodeFile, 2);
+                string tvShowPath = fileSystemService.GetParentFolder(episodeFile, 2);
                 return new EpisodeNumber
                 {
                     SeasonNumber = seasonNumber,

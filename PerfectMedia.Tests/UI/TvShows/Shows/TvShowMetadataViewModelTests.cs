@@ -127,7 +127,7 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         private ActorViewModel CreateActorViewModel(int i)
         {
-            ActorViewModel actor = new ActorViewModel(_viewModelFactory);
+            ActorViewModel actor = new ActorViewModel(null);
             actor.Name = "ActorName" + i;
             actor.Role = "ActorRole" + i;
             actor.ThumbUrl = "ActorThumb" + i;

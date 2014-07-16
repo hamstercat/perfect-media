@@ -1,5 +1,6 @@
 ﻿using PerfectMedia.Movies;
 using PerfectMedia.Sources;
+using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.Sources;
 using System;
@@ -35,7 +36,12 @@ namespace PerfectMedia.UI.Movies
 
         public IMovieViewModel GetMovie(string path)
         {
-            return new MovieViewModel(_metadataService, _progressManager, path);
+            return new MovieViewModel(_metadataService, this, _progressManager, path);
+        }
+
+        public IImageViewModel GetImage()
+        {
+            return new ImageViewModel(_fileSystemService);
         }
     }
 }

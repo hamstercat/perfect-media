@@ -9,7 +9,7 @@ namespace PerfectMedia.Movies
     public class FullMovie
     {
         public string BackdropPath { get; set; }
-        public string BelongsToCollection { get; set; }
+        public CollectionSet BelongsToCollection { get; set; }
         public List<Genre> Genres { get; set; }
         public string ImdbId { get; set; }
         public string OriginalTitle { get; set; }

@@ -67,7 +67,7 @@ namespace PerfectMedia
 
         // This method comes from https://stackoverflow.com/questions/4389775/what-is-a-good-way-to-remove-last-few-directory
         // TODO: Rewrite it more clearly
-        public string GetParentDirectory(string path, int parentCount)
+        public string GetParentFolder(string path, int parentCount)
         {
             if (string.IsNullOrEmpty(path) || parentCount < 1)
                 return path;
@@ -75,7 +75,7 @@ namespace PerfectMedia
             string parent = System.IO.Path.GetDirectoryName(path);
 
             if (--parentCount > 0)
-                return GetParentDirectory(parent, parentCount);
+                return GetParentFolder(parent, parentCount);
 
             return parent;
         }

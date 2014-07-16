@@ -310,7 +310,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             Actors.Clear();
             foreach (ActorMetadata actor in actors)
             {
-                ActorViewModel actorViewModel = new ActorViewModel(_viewModelFactory);
+                ActorViewModel actorViewModel = new ActorViewModel(_viewModelFactory.GetImage());
                 actorViewModel.Name = actor.Name;
                 actorViewModel.Role = actor.Role;
                 actorViewModel.ThumbUrl = actor.Thumb;

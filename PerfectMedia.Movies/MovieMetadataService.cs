@@ -28,10 +28,8 @@ namespace PerfectMedia.Movies
         public MovieMetadata Get(string path)
         {
             MovieMetadata metadata = _metadataRepository.Get(path);
-            foreach (ActorMetadata actor in metadata.Actors)
-            {
-                actor.ThumbPath = ActorMetadata.GetActorThumbPath(path, actor.Name);
-            }
+            SetActorsThumbPath(path, metadata);
+            SetImagesPath(path, metadata);
             return metadata;
         }
 
@@ -60,6 +58,21 @@ namespace PerfectMedia.Movies
         public AvailableMovieImages FindImages(string movieId)
         {
             return _metadataUpdater.FindImages(movieId);
+        }
+
+        private void SetActorsThumbPath(string path, MovieMetadata metadata)
+        {
+            string movieFolder = _fileSystemService.GetParentFolder(path, 1);
+            foreach (ActorMetadata actor in metadata.Actors)
+            {
+                actor.ThumbPath = ActorMetadata.GetActorThumbPath(movieFolder, actor.Name);
+            }
+        }
+
+        private void SetImagesPath(string path, MovieMetadata metadata)
+        {
+            metadata.ImageFanartPath = MovieHelper.GetMovieFanartPath(path);
+            metadata.ImagePosterPath = MovieHelper.GetMoviePosterPath(path);
         }
 
         private FullMovie FindFullMovie(string path)
@@ -112,9 +125,13 @@ namespace PerfectMedia.Movies
             //metadata.Plot = movie.Pl
             metadata.Rating = movie.VoteAverage;
             metadata.RuntimeInMinutes = movie.Runtime;
-            metadata.SetName = movie.BelongsToCollection;
             metadata.Tagline = movie.Tagline;
             metadata.Title = movie.Title;
+
+            if (movie.BelongsToCollection != null)
+            {
+                metadata.SetName = movie.BelongsToCollection.Name;
+            }
 
             if (movie.ReleaseDate.HasValue)
             {
@@ -133,7 +150,7 @@ namespace PerfectMedia.Movies
 
         private void UpdateActorsMetadata(string path, MovieMetadata metadata)
         {
-            string movieFolder = _fileSystemService.GetParentDirectory(path, 1);
+            string movieFolder = _fileSystemService.GetParentFolder(path, 1);
             IEnumerable<Actor> actors = _metadataUpdater.FindActors(metadata.Id);
             foreach (Actor themoviedbActor in actors)
             {

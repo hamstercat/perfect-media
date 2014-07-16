@@ -30,7 +30,7 @@ namespace PerfectMedia.Movies
 
         private void SaveActorsThumbnails(string path, IEnumerable<ActorMetadata> actors)
         {
-            string movieFolder = _fileSystemService.GetParentDirectory(path, 1);
+            string movieFolder = _fileSystemService.GetParentFolder(path, 1);
             string actorFolder = ActorMetadata.GetActorsFolder(movieFolder);
             if (!_fileSystemService.FolderExists(actorFolder))
             {

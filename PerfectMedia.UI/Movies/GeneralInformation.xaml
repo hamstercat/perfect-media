@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="PerfectMedia.UI.Movies.GeneralInformation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Background="White" Grid.IsSharedSizeScope="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="Title" />
+        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title}" />
+        <Label Grid.Row="1" Grid.Column="0" Content="Tagline" />
+        <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Tagline}" TextWrapping="Wrap" />
+        <Label Grid.Row="2" Grid.Column="0" Content="Outline" />
+        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Outline}" TextWrapping="Wrap" />
+        <Label Grid.Row="3" Grid.Column="0" Content="Plot" />
+        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Plot}" TextWrapping="Wrap" />
+        <Label Grid.Row="4" Grid.Column="0" Content="Genre" />
+        <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Genres.String}" />
+
+        <Label Grid.Row="5" Grid.Column="0" Content="Runtime (in minutes)" />
+        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding RuntimeInMinutes}" />
+        <Label Grid.Row="6" Grid.Column="0" Content="Rating" />
+        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Rating}" />
+        <Label Grid.Row="7" Grid.Column="0" Content="Premiered Date" />
+        <DatePicker Grid.Row="7" Grid.Column="1" SelectedDate="{Binding PremieredDate}" />
+        <Label Grid.Row="8" Grid.Column="0" Content="Playcount" />
+        <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding PlayCount}" />
+
+        <Label Grid.Row="5" Grid.Column="2" Content="Studio" />
+        <TextBox Grid.Row="5" Grid.Column="3" Text="{Binding Studio}" />
+        <Label Grid.Row="6" Grid.Column="2" Content="Original Title" />
+        <TextBox Grid.Row="6" Grid.Column="3" Text="{Binding OriginalTitle}" />
+        <Label Grid.Row="7" Grid.Column="2" Content="Year" />
+        <TextBox Grid.Row="7" Grid.Column="3" Text="{Binding Year}" />
+        <Label Grid.Row="8" Grid.Column="2" Content="SetName" />
+        <TextBox Grid.Row="8" Grid.Column="3" Text="{Binding SetName}" />
+    </Grid>
+</UserControl>

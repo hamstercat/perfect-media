@@ -1,7 +1,9 @@
 ﻿using PerfectMedia.FileInformation;
 using PerfectMedia.Movies;
+using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Progress;
+using PerfectMedia.UI.TvShows;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,7 @@ namespace PerfectMedia.UI.Movies
     public class MovieViewModel : IMovieViewModel
     {
         private readonly IMovieMetadataService _metadataService;
+        private readonly IMovieViewModelFactory _viewModelFactory;
         private bool _lazyLoaded;
 
         #region Metadata
@@ -94,18 +97,18 @@ namespace PerfectMedia.UI.Movies
             }
         }
 
-        private DateTime? _premiered;
-        public DateTime? Premiered
+        private DateTime? _premieredDate;
+        public DateTime? PremieredDate
         {
             get
             {
                 InitialLoadInformation();
-                return _premiered;
+                return _premieredDate;
             }
             set
             {
                 InitialLoadInformation();
-                _premiered = value;
+                _premieredDate = value;
             }
         }
 
@@ -244,8 +247,8 @@ namespace PerfectMedia.UI.Movies
             }
         }
 
-        private SmartObservableCollection<ActorMetadata> _actors;
-        public SmartObservableCollection<ActorMetadata> Actors
+        private SmartObservableCollection<ActorViewModel> _actors;
+        public SmartObservableCollection<ActorViewModel> Actors
         {
             get
             {
@@ -258,6 +261,9 @@ namespace PerfectMedia.UI.Movies
                 _actors = value;
             }
         }
+
+        public IImageViewModel Poster { get; private set; }
+        public IImageViewModel Fanart { get; private set; }
         #endregion
 
         public string DisplayName
@@ -277,16 +283,20 @@ namespace PerfectMedia.UI.Movies
         public ICommand UpdateCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
 
-        public MovieViewModel(IMovieMetadataService metadataService, IProgressManagerViewModel progressManager, string path)
+        public MovieViewModel(IMovieMetadataService metadataService, IMovieViewModelFactory viewModelFactory, IProgressManagerViewModel progressManager, string path)
         {
             _metadataService = metadataService;
+            _viewModelFactory = viewModelFactory;
             Path = path;
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this, progressManager);
             SaveCommand = new SaveMetadataCommand(this);
 
+            Poster = viewModelFactory.GetImage();
+            Fanart = viewModelFactory.GetImage();
+
             _genres = new DashDelimitedCollectionViewModel<string>(s => s);
-            _actors = new SmartObservableCollection<ActorMetadata>();
+            _actors = new SmartObservableCollection<ActorViewModel>();
         }
 
         public void Refresh()
@@ -333,7 +343,7 @@ namespace PerfectMedia.UI.Movies
             Outline = metadata.Outline;
             PlayCount = metadata.PlayCount;
             Plot = metadata.Plot;
-            Premiered = metadata.Premiered;
+            PremieredDate = metadata.Premiered;
             Rating = metadata.Rating;
             RuntimeInMinutes = metadata.RuntimeInMinutes;
             SetName = metadata.SetName;
@@ -341,19 +351,31 @@ namespace PerfectMedia.UI.Movies
             Tagline = metadata.Tagline;
             Title = metadata.Title;
             Year = metadata.Year;
+            Poster.Path = metadata.ImagePosterPath;
+            Fanart.Path = metadata.ImageFanartPath;
 
+            Genres.ReplaceWith(metadata.Genres);
+            AddActors(metadata.Actors);
+        }
+
+        private void AddActors(List<ActorMetadata> actors)
+        {
             Actors.Clear();
-            Actors.AddRange(metadata.Actors);
-
-            Genres.Collection.Clear();
-            Genres.Collection.AddRange(metadata.Genres);
+            foreach (ActorMetadata actor in actors)
+            {
+                ActorViewModel actorViewModel = new ActorViewModel(_viewModelFactory.GetImage());
+                actorViewModel.Name = actor.Name;
+                actorViewModel.Role = actor.Role;
+                actorViewModel.ThumbUrl = actor.Thumb;
+                actorViewModel.ThumbPath.Path = actor.ThumbPath;
+                Actors.Add(actorViewModel);
+            }
         }
 
         private MovieMetadata CreateMetadata()
         {
-            return new MovieMetadata
+            MovieMetadata metadata = new MovieMetadata
             {
-                Actors = Actors.ToList(),
                 FileInformation = FileInformation,
                 Genres = Genres.Collection.ToList(),
                 Id = Id,
@@ -361,7 +383,7 @@ namespace PerfectMedia.UI.Movies
                 Outline = Outline,
                 PlayCount = PlayCount,
                 Plot = Plot,
-                Premiered = Premiered,
+                Premiered = PremieredDate,
                 Rating = Rating,
                 RuntimeInMinutes = RuntimeInMinutes,
                 SetName = SetName,
@@ -370,6 +392,21 @@ namespace PerfectMedia.UI.Movies
                 Title = Title,
                 Year = Year
             };
+
+            metadata.Actors = new List<ActorMetadata>();
+            foreach (ActorViewModel actorViewModel in Actors)
+            {
+                ActorMetadata actor = new ActorMetadata
+                {
+                    Name = actorViewModel.Name,
+                    Role = actorViewModel.Role,
+                    Thumb = actorViewModel.ThumbUrl,
+                    ThumbPath = actorViewModel.ThumbPath.Path
+                };
+                metadata.Actors.Add(actor);
+            }
+
+            return metadata;
         }
 
         private Task UpdateInternal()

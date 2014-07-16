@@ -100,6 +100,12 @@
       <DependentUpon>SelectableImage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainContentHelper.cs" />
+    <Compile Include="Movies\Fanart.xaml.cs">
+      <DependentUpon>Fanart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Movies\GeneralInformation.xaml.cs">
+      <DependentUpon>GeneralInformation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Movies\IMovieViewModel.cs" />
     <Compile Include="Movies\IMovieViewModelFactory.cs" />
     <Compile Include="Movies\MovieControl.xaml.cs">
@@ -210,6 +216,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Movies\Fanart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Movies\GeneralInformation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Movies\MovieControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -15,27 +15,29 @@ namespace PerfectMedia.Movies
             _fileSystemService = fileSystemService;
         }
 
-        public void Update(string path, AvailableMovieImages images)
+        public void Update(string path, FullMovie movie)
         {
-            // UpdateImageIfNeeded(tvShowImages.Fanart, images.Fanarts);
-            throw new NotImplementedException();
+            string posterPath = MovieHelper.GetMoviePosterPath(path);
+            UpdateImageIfNeeded(posterPath, movie.PosterPath);
+
+            string fanartPath = MovieHelper.GetMovieFanartPath(path);
+            UpdateImageIfNeeded(fanartPath, movie.BackdropPath);
         }
 
         public void Delete(string path)
         {
-            // _fileSystemService.DeleteFile(tvShowImages.Fanart);
-            throw new NotImplementedException();
+            string posterPath = MovieHelper.GetMoviePosterPath(path);
+            _fileSystemService.DeleteFile(posterPath);
+
+            string fanartPath = MovieHelper.GetMovieFanartPath(path);
+            _fileSystemService.DeleteFile(fanartPath);
         }
 
-        private void UpdateImageIfNeeded(string imagePath, IEnumerable<Image> imageUrls)
+        private void UpdateImageIfNeeded(string imagePath, string imageUrl)
         {
-            if (!_fileSystemService.FileExists(imagePath))
+            if (!_fileSystemService.FileExists(imagePath) && !string.IsNullOrEmpty(imageUrl))
             {
-                Image defaultImage = imageUrls.FirstOrDefault();
-                if (defaultImage != null)
-                {
-                    _fileSystemService.DownloadFile(imagePath, defaultImage.Url);
-                }
+                _fileSystemService.DownloadFile(imagePath, imageUrl);
             }
         }
     }

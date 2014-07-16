@@ -29,7 +29,9 @@ namespace PerfectMedia.Movies
         public FullMovie GetMovieMetadata(string movieId)
         {
             string url = string.Format("3/movie/{0}?api_key={1}", movieId, MovieHelper.ThemoviedbApiKey);
-            return _restApiService.Get<FullMovie>(url);
+            FullMovie fullMovie = _restApiService.Get<FullMovie>(url);
+            FixImagesUrl(fullMovie);
+            return fullMovie;
         }
 
         public AvailableMovieImages FindImages(string movieId)
@@ -59,7 +61,7 @@ namespace PerfectMedia.Movies
             return new Image
             {
                 Url = GetImageBasePath() + "original" + themoviedbImage.FilePath,
-                Size = string.Format("{0}x{1})", themoviedbImage.Width, themoviedbImage.Height),
+                Size = string.Format("{0}x{1}", themoviedbImage.Width, themoviedbImage.Height),
                 Rating = themoviedbImage.VoteAverage
             };
         }
@@ -72,6 +74,12 @@ namespace PerfectMedia.Movies
                 Role = cast.Character,
                 Image = GetImageBasePath() + "w300" + cast.ProfilePath
             });
+        }
+
+        private void FixImagesUrl(FullMovie fullMovie)
+        {
+            fullMovie.BackdropPath = GetImageBasePath() + "original" + fullMovie.BackdropPath;
+            fullMovie.PosterPath = GetImageBasePath() + "original" + fullMovie.PosterPath;
         }
 
         private string GetImageBasePath()

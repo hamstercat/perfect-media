@@ -264,7 +264,11 @@ namespace PerfectMedia.UI.Movies
         {
             get
             {
-                return System.IO.Path.GetFileName(Path);
+                if (string.IsNullOrEmpty(Title))
+                {
+                    return System.IO.Path.GetFileNameWithoutExtension(Path);
+                }
+                return Title;
             }
         }
 

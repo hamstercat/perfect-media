@@ -62,7 +62,10 @@ namespace PerfectMedia.UI
         {
             if (CollectionChanged != null)
             {
-                CollectionChanged(this, e);
+                App.Current.Dispatcher.InvokeAsync(()=>
+                {
+                    CollectionChanged(this, e);
+                });
             }
             Count = _items.Count;
         }

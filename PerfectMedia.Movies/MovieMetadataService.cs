@@ -44,7 +44,7 @@ namespace PerfectMedia.Movies
         {
             FullMovie movie = FindFullMovie(path);
             UpdateInformationMetadata(path, movie);
-            UpdateImages(path, movie.ImdbId);
+            _imagesService.Update(path, movie);
         }
 
         public void Delete(string path)
@@ -146,12 +146,6 @@ namespace PerfectMedia.Movies
                 };
                 metadata.Actors.Add(actor);
             }
-        }
-
-        private void UpdateImages(string path, string movieId)
-        {
-            AvailableMovieImages images = _metadataUpdater.FindImages(movieId);
-            _imagesService.Update(path, images);
         }
     }
 }

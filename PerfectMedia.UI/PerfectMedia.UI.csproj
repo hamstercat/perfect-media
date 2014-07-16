@@ -103,6 +103,8 @@
     <Compile Include="Movies\Fanart.xaml.cs">
       <DependentUpon>Fanart.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Movies\PosterImageStrategy.cs" />
+    <Compile Include="Movies\FanartImageStrategy.cs" />
     <Compile Include="Movies\GeneralInformation.xaml.cs">
       <DependentUpon>GeneralInformation.xaml</DependentUpon>
     </Compile>

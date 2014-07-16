@@ -292,8 +292,8 @@ namespace PerfectMedia.UI.Movies
             UpdateCommand = new UpdateMetadataCommand(this, progressManager);
             SaveCommand = new SaveMetadataCommand(this);
 
-            Poster = viewModelFactory.GetImage();
-            Fanart = viewModelFactory.GetImage();
+            Poster = viewModelFactory.GetImage(new PosterImageStrategy(metadataService, this));
+            Fanart = viewModelFactory.GetImage(new FanartImageStrategy(metadataService, this));
 
             _genres = new DashDelimitedCollectionViewModel<string>(s => s);
             _actors = new SmartObservableCollection<ActorViewModel>();

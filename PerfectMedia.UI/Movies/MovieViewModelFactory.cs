@@ -43,5 +43,10 @@ namespace PerfectMedia.UI.Movies
         {
             return new ImageViewModel(_fileSystemService);
         }
+
+        public IImageViewModel GetImage(IImageStrategy imageStrategy)
+        {
+            return new ImageViewModel(_fileSystemService, imageStrategy);
+        }
     }
 }

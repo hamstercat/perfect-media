@@ -9,5 +9,6 @@ namespace PerfectMedia.UI.Movies
     public interface IMovieViewModel : IMetadataProvider
     {
         string Path { get; }
+        string Id { get; }
     }
 }

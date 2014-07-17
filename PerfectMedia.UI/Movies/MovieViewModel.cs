@@ -8,6 +8,7 @@ using PerfectMedia.UI.TvShows;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -248,8 +249,8 @@ namespace PerfectMedia.UI.Movies
             }
         }
 
-        private SmartObservableCollection<ActorViewModel> _actors;
-        public SmartObservableCollection<ActorViewModel> Actors
+        private ObservableCollection<ActorViewModel> _actors;
+        public ObservableCollection<ActorViewModel> Actors
         {
             get
             {
@@ -299,7 +300,7 @@ namespace PerfectMedia.UI.Movies
             Fanart = viewModelFactory.GetImage(new FanartImageStrategy(metadataService, this));
 
             _genres = new DashDelimitedCollectionViewModel<string>(s => s);
-            _actors = new SmartObservableCollection<ActorViewModel>();
+            _actors = new ObservableCollection<ActorViewModel>();
         }
 
         public void Refresh()

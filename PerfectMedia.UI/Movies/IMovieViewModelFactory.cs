@@ -1,5 +1,6 @@
 ﻿using PerfectMedia.Sources;
 using PerfectMedia.UI.Images;
+using PerfectMedia.UI.Movies.Selection;
 using PerfectMedia.UI.Sources;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,6 @@ namespace PerfectMedia.UI.Movies
         IMovieViewModel GetMovie(string path);
         IImageViewModel GetImage();
         IImageViewModel GetImage(IImageStrategy imageStrategy);
+        IMovieSelectionViewModel GetSelection(IMovieViewModel movieViewModel);
     }
 }

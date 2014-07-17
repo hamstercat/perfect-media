@@ -1,6 +1,7 @@
 ﻿using PerfectMedia.Movies;
 using PerfectMedia.Sources;
 using PerfectMedia.UI.Images;
+using PerfectMedia.UI.Movies.Selection;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.Sources;
 using System;
@@ -47,6 +48,11 @@ namespace PerfectMedia.UI.Movies
         public IImageViewModel GetImage(IImageStrategy imageStrategy)
         {
             return new ImageViewModel(_fileSystemService, imageStrategy);
+        }
+
+        public IMovieSelectionViewModel GetSelection(IMovieViewModel movieViewModel)
+        {
+            return new MovieSelectionViewModel(_metadataService, movieViewModel);
         }
     }
 }

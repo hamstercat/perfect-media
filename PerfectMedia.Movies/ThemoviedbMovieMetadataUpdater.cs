@@ -23,6 +23,7 @@ namespace PerfectMedia.Movies
                 MovieHelper.ThemoviedbApiKey,
                 HttpUtility.UrlEncode(name));
             SearchMovieResult result = _restApiService.Get<SearchMovieResult>(url);
+            FixImagesUrl(result.Results);
             return result.Results;
         }
 
@@ -68,12 +69,25 @@ namespace PerfectMedia.Movies
 
         private IEnumerable<Actor> ConvertActorsResult(IEnumerable<Cast> list)
         {
-            return list.Select(cast => new Actor
+            foreach (Cast cast in list)
             {
-                Name = cast.Name,
-                Role = cast.Character,
-                Image = GetImageBasePath() + "w300" + cast.ProfilePath
-            });
+                string actorImageUrl = string.IsNullOrEmpty(cast.ProfilePath) ? null : GetImageBasePath() + "w300" + cast.ProfilePath;
+                yield return new Actor
+                {
+                    Name = cast.Name,
+                    Role = cast.Character,
+                    Image = actorImageUrl
+                };
+            }
+        }
+
+        private void FixImagesUrl(IEnumerable<Movie> movies)
+        {
+            foreach (Movie movie in movies)
+            {
+                movie.BackdropPath = GetImageBasePath() + "original" + movie.BackdropPath;
+                movie.PosterPath = GetImageBasePath() + "original" + movie.PosterPath;
+            }
         }
 
         private void FixImagesUrl(FullMovie fullMovie)

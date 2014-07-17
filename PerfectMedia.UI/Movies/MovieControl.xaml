@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:movies="clr-namespace:PerfectMedia.UI.Movies"
+             xmlns:movieselection="clr-namespace:PerfectMedia.UI.Movies.Selection"
              xmlns:img="clr-namespace:PerfectMedia.UI.Images"
              xmlns:selectimg="clr-namespace:PerfectMedia.UI.Images.Selection"
              mc:Ignorable="d"
@@ -43,7 +44,7 @@
                                 <Button Content="Refresh" Command="{Binding RefreshCommand}" />
                                 <Button Content="Update" Command="{Binding UpdateCommand}" />
                                 <Button Content="Save" Command="{Binding SaveCommand}" />
-                                <!--<Button Content="Change Movie" Click="ShowTvShowSelection" />-->
+                                <Button Content="Change Movie" Click="ShowMovieSelection" />
                             </StackPanel>
                             <movies:MovieMetadataControl Grid.Row="1" />
                         </Grid>
@@ -51,9 +52,9 @@
                     <DataTemplate DataType="{x:Type img:ImageViewModel}">
                         <selectimg:ImageSelection />
                     </DataTemplate>
-                    <!--<DataTemplate DataType="{x:Type tvshowselection:TvShowSelectionViewModel}">
-                        <tvshowselection:TvShowSelection />
-                    </DataTemplate>-->
+                    <DataTemplate DataType="{x:Type movieselection:MovieSelectionViewModel}">
+                        <movieselection:MovieSelection />
+                    </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>
         </Grid>

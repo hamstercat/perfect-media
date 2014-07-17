@@ -12,6 +12,7 @@ namespace PerfectMedia.Movies
         void Save(string path, MovieMetadata metadata);
         void Update(string path);
         void Delete(string path);
+        void DeleteImages(string path);
         IEnumerable<Movie> FindMovies(string name);
         AvailableMovieImages FindImages(string movieId);
     }

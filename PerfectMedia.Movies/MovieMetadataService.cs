@@ -50,6 +50,11 @@ namespace PerfectMedia.Movies
             _metadataRepository.Delete(path);
         }
 
+        public void DeleteImages(string path)
+        {
+            _imagesService.Delete(path);
+        }
+
         public IEnumerable<Movie> FindMovies(string name)
         {
             return _metadataUpdater.FindMovies(name);

@@ -2,6 +2,7 @@
 using PerfectMedia.Movies;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Metadata;
+using PerfectMedia.UI.Movies.Selection;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows;
 using PropertyChanged;
@@ -279,6 +280,7 @@ namespace PerfectMedia.UI.Movies
         }
 
         public string Path { get; private set; }
+        public IMovieSelectionViewModel Selection { get; private set; }
         public ICommand RefreshCommand { get; private set; }
         public ICommand UpdateCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
@@ -288,6 +290,7 @@ namespace PerfectMedia.UI.Movies
             _metadataService = metadataService;
             _viewModelFactory = viewModelFactory;
             Path = path;
+            Selection = viewModelFactory.GetSelection(this);
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this, progressManager);
             SaveCommand = new SaveMetadataCommand(this);

@@ -119,6 +119,13 @@
       <DependentUpon>MovieMetadataControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Movies\MovieViewModelFactory.cs" />
+    <Compile Include="Movies\Selection\IMovieSelectionViewModel.cs" />
+    <Compile Include="Movies\Selection\MovieSelectionViewModel.cs" />
+    <Compile Include="Movies\Selection\SearchCommand.cs" />
+    <Compile Include="Movies\Selection\MovieTitleAndYearConverter.cs" />
+    <Compile Include="Movies\Selection\MovieSelection.xaml.cs">
+      <DependentUpon>MovieSelection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Progress\IProgressIndicator.cs" />
     <Compile Include="Progress\IProgressIndicatorFactory.cs" />
     <Compile Include="Progress\ProgressIndicatorFactory.cs" />
@@ -231,6 +238,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Movies\MovieMetadataControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Movies\Selection\MovieSelection.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

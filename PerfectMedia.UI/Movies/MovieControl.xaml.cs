@@ -33,19 +33,19 @@ namespace PerfectMedia.UI.Movies
             sourcesWindow.ShowDialog();
         }
 
-        /*private void ShowTvShowSelection(object sender, RoutedEventArgs e)
+        private void ShowMovieSelection(object sender, RoutedEventArgs e)
         {
             object originalContent = BindingOperations.GetBinding(MainContentControl, ContentControl.ContentProperty);
-            ITvShowViewModel tvShow = GetTvShowViewModel(sender);
-            tvShow.Selection.OriginalContent = originalContent;
-            tvShow.Selection.IsClosed = false;
-            MainContentControl.Content = tvShow.Selection;
+            IMovieViewModel movie = GetMovieViewModel(sender);
+            movie.Selection.OriginalContent = originalContent;
+            movie.Selection.IsClosed = false;
+            MainContentControl.Content = movie.Selection;
         }
 
-        private ITvShowViewModel GetTvShowViewModel(object sender)
+        private IMovieViewModel GetMovieViewModel(object sender)
         {
             FrameworkElement frameworkElement = (FrameworkElement)sender;
-            return (ITvShowViewModel)frameworkElement.DataContext;
-        }*/
+            return (IMovieViewModel)frameworkElement.DataContext;
+        }
     }
 }

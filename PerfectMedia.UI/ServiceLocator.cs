@@ -48,6 +48,15 @@ namespace PerfectMedia.UI
             }
         }
 
+        private IRestApiService ImdbRestApi
+        {
+            get
+            {
+                string imdbBaseUrl = ConfigurationManager.AppSettings["ImdbUrl"];
+                return new RestApiService(imdbBaseUrl, "yyy-MM-dd");
+            }
+        }
+
         public ServiceLocator()
         {
             _kernel = new StandardKernel();
@@ -67,7 +76,8 @@ namespace PerfectMedia.UI
                 .SelectAllClasses()
                 .BindAllInterfaces()
                 .ConfigureFor<ThetvdbTvShowMetadataUpdater>(tvShowMetadataUpdater => tvShowMetadataUpdater.WithConstructorArgument(ThetvdbRestApi))
-                .ConfigureFor<ThemoviedbMovieMetadataUpdater>(movieMetadataUpdater => movieMetadataUpdater.WithConstructorArgument(ThemoviedbRestApi)));
+                .ConfigureFor<ThemoviedbMovieMetadataUpdater>(movieMetadataUpdater => movieMetadataUpdater.WithConstructorArgument(ThemoviedbRestApi))
+                .ConfigureFor<ImdbMovieSynopsisService>(movieSynopsisService => movieSynopsisService.WithConstructorArgument(ImdbRestApi)));
         }
     }
 }

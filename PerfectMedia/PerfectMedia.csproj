@@ -65,8 +65,10 @@
     <Compile Include="Movies\IMovieMetadataRepository.cs" />
     <Compile Include="Movies\IMovieMetadataService.cs" />
     <Compile Include="Movies\IMovieMetadataUpdater.cs" />
+    <Compile Include="Movies\IMovieSynopsisService.cs" />
     <Compile Include="Movies\MovieMetadata.cs" />
     <Compile Include="Movies\Movie.cs" />
+    <Compile Include="Movies\MovieSynopsis.cs" />
     <Compile Include="Movies\StudioCompany.cs" />
     <Compile Include="NfoRepository.cs" />
     <Compile Include="RestApiService.cs" />

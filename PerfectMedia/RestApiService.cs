@@ -19,12 +19,26 @@ namespace PerfectMedia
             _dateFormat = dateFormat;
         }
 
+        public string Get(string url)
+        {
+            IRestResponse response = ExecuteRequest(url);
+            ValidateStatusCode(response);
+            return response.Content;
+        }
+
         public T Get<T>(string url)
             where T : new()
         {
             IRestResponse<T> response = ExecuteRequest<T>(url);
             ValidateStatusCode(response);
             return response.Data;
+        }
+
+        private IRestResponse ExecuteRequest(string url)
+        {
+            RestRequest request = new RestRequest(url);
+            request.DateFormat = _dateFormat;
+            return _restClient.Execute(request);
         }
 
         private IRestResponse<T> ExecuteRequest<T>(string url)

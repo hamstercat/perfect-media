@@ -12,16 +12,19 @@ namespace PerfectMedia.Movies
         private readonly IFileSystemService _fileSystemService;
         private readonly IMovieMetadataRepository _metadataRepository;
         private readonly IMovieMetadataUpdater _metadataUpdater;
+        private readonly IMovieSynopsisService _synopsisService;
         private readonly IMovieImagesService _imagesService;
 
         public MovieMetadataService(IFileSystemService fileSystemService,
             IMovieMetadataRepository metadataRepository,
             IMovieMetadataUpdater metadataUpdater,
+            IMovieSynopsisService synopsisService,
             IMovieImagesService imagesService)
         {
             _fileSystemService = fileSystemService;
             _metadataRepository = metadataRepository;
             _metadataUpdater = metadataUpdater;
+            _synopsisService = synopsisService;
             _imagesService = imagesService;
         }
 
@@ -41,6 +44,7 @@ namespace PerfectMedia.Movies
         public void Update(string path)
         {
             FullMovie movie = FindFullMovie(path);
+            SetFullMovieSynopsis(movie);
             UpdateInformationMetadata(path, movie);
             _imagesService.Update(path, movie);
         }
@@ -113,6 +117,23 @@ namespace PerfectMedia.Movies
             return movies.First().Id;
         }
 
+        private void SetFullMovieSynopsis(FullMovie movie)
+        {
+            MovieSynopsis synopsis = _synopsisService.GetSynopsis(movie.ImdbId);
+            if (string.IsNullOrEmpty(movie.Tagline))
+            {
+                movie.Tagline = synopsis.Tagline;
+            }
+            if (!string.IsNullOrEmpty(synopsis.Outline))
+            {
+                movie.Overview = synopsis.Outline;
+            }
+            if (!string.IsNullOrEmpty(synopsis.Plot))
+            {
+                movie.Plot = synopsis.Plot;
+            }
+        }
+
         private void UpdateInformationMetadata(string path, FullMovie movie)
         {
             MovieMetadata metadata = MapFullMovieToMetadata(movie, path);
@@ -127,7 +148,7 @@ namespace PerfectMedia.Movies
             metadata.Id = movie.ImdbId;
             metadata.OriginalTitle = movie.OriginalTitle;
             metadata.Outline = movie.Overview;
-            //metadata.Plot = movie.Pl
+            metadata.Plot = movie.Plot;
             metadata.Rating = movie.VoteAverage;
             metadata.RuntimeInMinutes = movie.Runtime;
             metadata.Tagline = movie.Tagline;

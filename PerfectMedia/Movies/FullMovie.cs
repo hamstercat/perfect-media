@@ -21,5 +21,7 @@ namespace PerfectMedia.Movies
         public int Runtime { get; set; }
         public string Tagline { get; set; }
         public double? VoteAverage { get; set; }
+
+        public string Plot { get; set; }
     }
 }

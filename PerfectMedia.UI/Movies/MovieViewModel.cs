@@ -345,7 +345,7 @@ namespace PerfectMedia.UI.Movies
 
         public override string ToString()
         {
-            return base.ToString();
+            return DisplayName;
         }
 
         private void InitialLoadInformation()

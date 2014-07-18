@@ -44,6 +44,10 @@ namespace PerfectMedia.Movies
         public void Update(string path)
         {
             FullMovie movie = FindFullMovie(path);
+            if (string.IsNullOrEmpty(movie.ImdbId))
+            {
+                throw new ItemNotFoundException("No movie found for " + path);
+            }
             SetFullMovieSynopsis(movie);
             UpdateInformationMetadata(path, movie);
             _imagesService.Update(path, movie);
@@ -114,7 +118,9 @@ namespace PerfectMedia.Movies
                 string message = string.Format("Couldn't find any movie corresponding to \"{0}\"", folderName);
                 throw new ItemNotFoundException(message);
             }
-            return movies.First().Id;
+            return movies
+                .OrderByDescending(m => m.VoteAverage)
+                .First().Id;
         }
 
         private void SetFullMovieSynopsis(FullMovie movie)

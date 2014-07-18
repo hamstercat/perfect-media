@@ -40,9 +40,9 @@ namespace PerfectMedia.UI.Movies
             Children.Remove(movie);
         }
 
-        public IMovieViewModel FindMovie(string path)
+        public IEnumerable<IMovieViewModel> FindMovie(string path)
         {
-            return Children.FirstOrDefault(movie => MovieIsInPath(movie, path));
+            return Children.Where(movie => MovieIsInPath(movie, path));
         }
 
         private bool MovieIsInPath(IMovieViewModel movie, string path)

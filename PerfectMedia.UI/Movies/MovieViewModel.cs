@@ -312,14 +312,13 @@ namespace PerfectMedia.UI.Movies
             _actors = new ObservableCollection<ActorViewModel>();
         }
 
-        public IMovieViewModel FindMovie(string path)
+        public IEnumerable<IMovieViewModel> FindMovie(string path)
         {
             string movieFolder = _fileSystemService.GetParentFolder(Path, 1);
             if (movieFolder == path)
             {
-                return this;
+                yield return this;
             }
-            return null;
         }
 
         public void Refresh()

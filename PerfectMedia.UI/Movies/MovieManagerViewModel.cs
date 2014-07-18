@@ -104,29 +104,30 @@ namespace PerfectMedia.UI.Movies
         {
             foreach (string path in movies)
             {
-                IMovieViewModel movieToRemove = FindMovieInMovies(path);
-                RemoveMovie(movieToRemove);
-                movieToRemove.PropertyChanged -= MoviePropertyChanged;
+                foreach (IMovieViewModel movieToRemove in FindMovieInMovies(path))
+                {
+                    RemoveMovie(movieToRemove);
+                    movieToRemove.PropertyChanged -= MoviePropertyChanged;
+                }
             }
         }
 
-        private IMovieViewModel FindMovieInMovies(string path)
+        private IEnumerable<IMovieViewModel> FindMovieInMovies(string path)
         {
             foreach (IMovieItem movieItem in Movies)
             {
-                IMovieViewModel movie = movieItem.FindMovie(path);
-                if (movie != null)
+                IEnumerable<IMovieViewModel> movies = movieItem.FindMovie(path);
+                foreach (IMovieViewModel movie in movies)
                 {
-                    return movie;
+                    yield return movie;
                 }
             }
-            throw new Exception("Movie not found");
         }
 
         private void RemoveMovie(IMovieViewModel movie)
         {
             Movies.Remove(movie);
-            foreach(IMovieSetViewModel movieSet in Movies.OfType<IMovieSetViewModel>().ToList())
+            foreach (IMovieSetViewModel movieSet in Movies.OfType<IMovieSetViewModel>().ToList())
             {
                 movieSet.RemoveMovie(movie);
                 if (movieSet.IsEmpty)

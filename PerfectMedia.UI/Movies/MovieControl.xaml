@@ -19,20 +19,25 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <ListView x:Name="MoviesListView" ItemsSource="{Binding Movies}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
+            <TreeView x:Name="MoviesTreeView" ItemsSource="{Binding Movies}">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                         <TextBlock Text="{Binding DisplayName}" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                        <HierarchicalDataTemplate.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayName}" />
+                            </DataTemplate>
+                        </HierarchicalDataTemplate.ItemTemplate>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <Button Content="Sources" Click="ShowSources" />
                 <Button Content="Update All" Command="{Binding UpdateAll}" />
             </StackPanel>
         </Grid>
         <Grid Grid.Column="1">
-            <ContentControl Content="{Binding SelectedItem, ElementName=MoviesListView}" x:Name="MainContentControl">
+            <ContentControl Content="{Binding SelectedItem, ElementName=MoviesTreeView}" x:Name="MainContentControl">
                 <ContentControl.Resources>
                     <DataTemplate DataType="{x:Type movies:MovieViewModel}">
                         <Grid>
@@ -54,6 +59,9 @@
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type movieselection:MovieSelectionViewModel}">
                         <movieselection:MovieSelection />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type movies:MovieSetViewModel}">
+                        <TextBlock Text="I'm a banana!" />
                     </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>

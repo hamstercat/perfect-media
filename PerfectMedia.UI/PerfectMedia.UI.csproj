@@ -100,6 +100,9 @@
       <DependentUpon>SelectableImage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainContentHelper.cs" />
+    <Compile Include="Movies\IMovieItem.cs" />
+    <Compile Include="Movies\IMovieSetViewModel.cs" />
+    <Compile Include="Movies\MovieSetViewModel.cs" />
     <Compile Include="Movies\Fanart.xaml.cs">
       <DependentUpon>Fanart.xaml</DependentUpon>
     </Compile>

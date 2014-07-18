@@ -54,5 +54,10 @@ namespace PerfectMedia.UI.Movies
         {
             return new MovieSelectionViewModel(_metadataService, movieViewModel);
         }
+
+        public IMovieSetViewModel GetMovieSet(string setName)
+        {
+            return new MovieSetViewModel { DisplayName = setName };
+        }
     }
 }

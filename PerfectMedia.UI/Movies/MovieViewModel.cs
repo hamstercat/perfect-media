@@ -17,7 +17,7 @@ using System.Windows.Input;
 namespace PerfectMedia.UI.Movies
 {
     [ImplementPropertyChanged]
-    public class MovieViewModel : IMovieViewModel
+    public class MovieViewModel : BaseViewModel, IMovieViewModel
     {
         private readonly IMovieMetadataService _metadataService;
         private readonly IMovieViewModelFactory _viewModelFactory;
@@ -281,6 +281,7 @@ namespace PerfectMedia.UI.Movies
         }
 
         public string Path { get; private set; }
+        public ObservableCollection<IMovieViewModel> Children { get; private set; }
         public IMovieSelectionViewModel Selection { get; private set; }
         public ICommand RefreshCommand { get; private set; }
         public ICommand UpdateCommand { get; private set; }
@@ -291,6 +292,8 @@ namespace PerfectMedia.UI.Movies
             _metadataService = metadataService;
             _viewModelFactory = viewModelFactory;
             Path = path;
+            // Only used by collections
+            Children = new ObservableCollection<IMovieViewModel>();
             Selection = viewModelFactory.GetSelection(this);
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this, progressManager);
@@ -301,6 +304,15 @@ namespace PerfectMedia.UI.Movies
 
             _genres = new DashDelimitedCollectionViewModel<string>(s => s);
             _actors = new ObservableCollection<ActorViewModel>();
+        }
+
+        public IMovieViewModel FindMovie(string path)
+        {
+            if (Path == path)
+            {
+                return this;
+            }
+            return null;
         }
 
         public void Refresh()

@@ -85,15 +85,27 @@ namespace PerfectMedia.Movies
         {
             foreach (Movie movie in movies)
             {
-                movie.BackdropPath = GetImageBasePath() + "original" + movie.BackdropPath;
-                movie.PosterPath = GetImageBasePath() + "original" + movie.PosterPath;
+                if (!string.IsNullOrEmpty(movie.BackdropPath))
+                {
+                    movie.BackdropPath = GetImageBasePath() + "original" + movie.BackdropPath;
+                }
+                if (!string.IsNullOrEmpty(movie.PosterPath))
+                {
+                    movie.PosterPath = GetImageBasePath() + "original" + movie.PosterPath;
+                }
             }
         }
 
         private void FixImagesUrl(FullMovie fullMovie)
         {
-            fullMovie.BackdropPath = GetImageBasePath() + "original" + fullMovie.BackdropPath;
-            fullMovie.PosterPath = GetImageBasePath() + "original" + fullMovie.PosterPath;
+            if (!string.IsNullOrEmpty(fullMovie.BackdropPath))
+            {
+                fullMovie.BackdropPath = GetImageBasePath() + "original" + fullMovie.BackdropPath;
+            }
+            if (!string.IsNullOrEmpty(fullMovie.PosterPath))
+            {
+                fullMovie.PosterPath = GetImageBasePath() + "original" + fullMovie.PosterPath;
+            }
         }
 
         private string GetImageBasePath()

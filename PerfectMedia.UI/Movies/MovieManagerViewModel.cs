@@ -114,10 +114,10 @@ namespace PerfectMedia.UI.Movies
 
         private IEnumerable<IMovieViewModel> FindMovieInMovies(string path)
         {
-            foreach (IMovieItem movieItem in Movies)
+            foreach (IMovieItem movieItem in Movies.ToList())
             {
                 IEnumerable<IMovieViewModel> movies = movieItem.FindMovie(path);
-                foreach (IMovieViewModel movie in movies)
+                foreach (IMovieViewModel movie in movies.ToList())
                 {
                     yield return movie;
                 }

@@ -45,7 +45,10 @@ namespace PerfectMedia.UI.Metadata
         {
             if (CanExecuteChanged != null)
             {
-                CanExecuteChanged(this, new EventArgs());
+                App.Current.Dispatcher.InvokeAsync(()=>
+                {
+                    CanExecuteChanged(this, new EventArgs());
+                });
             }
         }
     }

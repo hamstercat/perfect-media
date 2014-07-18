@@ -37,7 +37,7 @@ namespace PerfectMedia.UI.Movies
 
         public IMovieViewModel GetMovie(string path)
         {
-            return new MovieViewModel(_metadataService, this, _progressManager, path);
+            return new MovieViewModel(_metadataService, this, _fileSystemService, _progressManager, path);
         }
 
         public IImageViewModel GetImage()
@@ -57,7 +57,7 @@ namespace PerfectMedia.UI.Movies
 
         public IMovieSetViewModel GetMovieSet(string setName)
         {
-            return new MovieSetViewModel { DisplayName = setName };
+            return new MovieSetViewModel(_fileSystemService, setName);
         }
     }
 }

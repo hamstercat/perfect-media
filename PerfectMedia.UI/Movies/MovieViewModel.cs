@@ -21,6 +21,7 @@ namespace PerfectMedia.UI.Movies
     {
         private readonly IMovieMetadataService _metadataService;
         private readonly IMovieViewModelFactory _viewModelFactory;
+        private readonly IFileSystemService _fileSystemService;
         private bool _lazyLoaded;
 
         #region Metadata
@@ -287,10 +288,15 @@ namespace PerfectMedia.UI.Movies
         public ICommand UpdateCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
 
-        public MovieViewModel(IMovieMetadataService metadataService, IMovieViewModelFactory viewModelFactory, IProgressManagerViewModel progressManager, string path)
+        public MovieViewModel(IMovieMetadataService metadataService,
+            IMovieViewModelFactory viewModelFactory,
+            IFileSystemService fileSystemService,
+            IProgressManagerViewModel progressManager,
+            string path)
         {
             _metadataService = metadataService;
             _viewModelFactory = viewModelFactory;
+            _fileSystemService = fileSystemService;
             Path = path;
             // Only used by collections
             Children = new ObservableCollection<IMovieViewModel>();
@@ -308,7 +314,8 @@ namespace PerfectMedia.UI.Movies
 
         public IMovieViewModel FindMovie(string path)
         {
-            if (Path == path)
+            string movieFolder = _fileSystemService.GetParentFolder(Path, 1);
+            if (movieFolder == path)
             {
                 return this;
             }

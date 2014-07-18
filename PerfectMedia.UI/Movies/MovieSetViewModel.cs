@@ -10,8 +10,10 @@ namespace PerfectMedia.UI.Movies
 {
     public class MovieSetViewModel : IMovieSetViewModel
     {
+        private readonly IFileSystemService _fileSystemService;
+
         public string DisplayName { get; set; }
-        public ObservableCollection<IMovieViewModel> Children { get; private set; }
+        public SmartObservableCollection<IMovieViewModel> Children { get; private set; }
 
         public bool IsEmpty
         {
@@ -21,9 +23,11 @@ namespace PerfectMedia.UI.Movies
             }
         }
 
-        public MovieSetViewModel()
+        public MovieSetViewModel(IFileSystemService fileSystemService, string setName)
         {
-            Children = new ObservableCollection<IMovieViewModel>();
+            _fileSystemService = fileSystemService;
+            DisplayName = setName;
+            Children = new SmartObservableCollection<IMovieViewModel>();
         }
 
         public void AddMovie(IMovieViewModel movie)
@@ -38,7 +42,13 @@ namespace PerfectMedia.UI.Movies
 
         public IMovieViewModel FindMovie(string path)
         {
-            return Children.FirstOrDefault(movie => movie.Path == path);
+            return Children.FirstOrDefault(movie => MovieIsInPath(movie, path));
+        }
+
+        private bool MovieIsInPath(IMovieViewModel movie, string path)
+        {
+            string movieFolder = _fileSystemService.GetParentFolder(movie.Path, 1);
+            return movieFolder == path;
         }
 
         public void Refresh()

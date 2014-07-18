@@ -15,5 +15,6 @@ namespace PerfectMedia.Movies
         void DeleteImages(string path);
         IEnumerable<Movie> FindMovies(string name);
         AvailableMovieImages FindImages(string movieId);
+        AvailableMovieImages FindSetImages(string setName);
     }
 }

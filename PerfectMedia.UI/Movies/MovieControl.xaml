@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:movies="clr-namespace:PerfectMedia.UI.Movies"
              xmlns:movieselection="clr-namespace:PerfectMedia.UI.Movies.Selection"
+             xmlns:set="clr-namespace:PerfectMedia.UI.Movies.Set"
              xmlns:img="clr-namespace:PerfectMedia.UI.Images"
              xmlns:selectimg="clr-namespace:PerfectMedia.UI.Images.Selection"
              mc:Ignorable="d"
@@ -60,8 +61,19 @@
                     <DataTemplate DataType="{x:Type movieselection:MovieSelectionViewModel}">
                         <movieselection:MovieSelection />
                     </DataTemplate>
-                    <DataTemplate DataType="{x:Type movies:MovieSetViewModel}">
-                        <TextBlock Text="I'm a banana!" />
+                    <DataTemplate DataType="{x:Type set:MovieSetViewModel}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <Button Content="Refresh" Command="{Binding RefreshCommand}" />
+                                <Button Content="Update" Command="{Binding UpdateCommand}" />
+                                <Button Content="Save" Command="{Binding SaveCommand}" />
+                            </StackPanel>
+                            <set:MovieSetControl Grid.Row="1" />
+                        </Grid>
                     </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>

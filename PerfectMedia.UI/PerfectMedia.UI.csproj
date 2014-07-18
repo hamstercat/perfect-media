@@ -101,8 +101,11 @@
     </Compile>
     <Compile Include="MainContentHelper.cs" />
     <Compile Include="Movies\IMovieItem.cs" />
-    <Compile Include="Movies\IMovieSetViewModel.cs" />
-    <Compile Include="Movies\MovieSetViewModel.cs" />
+    <Compile Include="Movies\Set\IMovieSetViewModel.cs" />
+    <Compile Include="Movies\Set\MovieSetControl.xaml.cs">
+      <DependentUpon>MovieSetControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Movies\Set\MovieSetViewModel.cs" />
     <Compile Include="Movies\Fanart.xaml.cs">
       <DependentUpon>Fanart.xaml</DependentUpon>
     </Compile>
@@ -129,6 +132,8 @@
     <Compile Include="Movies\Selection\MovieSelection.xaml.cs">
       <DependentUpon>MovieSelection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Movies\Set\SetFanartImageStrategy.cs" />
+    <Compile Include="Movies\Set\SetPosterImageStrategy.cs" />
     <Compile Include="Progress\IProgressIndicator.cs" />
     <Compile Include="Progress\IProgressIndicatorFactory.cs" />
     <Compile Include="Progress\ProgressIndicatorFactory.cs" />
@@ -247,6 +252,10 @@
     <Page Include="Movies\Selection\MovieSelection.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Movies\Set\MovieSetControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Progress\ProgressWindow.xaml">
       <SubType>Designer</SubType>

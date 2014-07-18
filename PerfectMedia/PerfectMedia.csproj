@@ -58,7 +58,7 @@
     <Compile Include="IRestApiService.cs" />
     <Compile Include="ItemNotFoundException.cs" />
     <Compile Include="Movies\AvailableMovieImages.cs" />
-    <Compile Include="Movies\CollectionSet.cs" />
+    <Compile Include="Movies\MovieSet.cs" />
     <Compile Include="Movies\FullMovie.cs" />
     <Compile Include="Movies\Genre.cs" />
     <Compile Include="Movies\IMovieImagesService.cs" />

@@ -42,6 +42,21 @@ namespace PerfectMedia.Movies
             return ConvertImagesResult(result);
         }
 
+        public AvailableMovieImages FindSetImages(string setName)
+        {
+            // TODO: refactor
+            string searchCollectionUrl = string.Format("3/search/collection?query={0}&api_key={1}", setName, MovieHelper.ThemoviedbApiKey);
+            SearchCollectionResult searchResult = _restApiService.Get<SearchCollectionResult>(searchCollectionUrl);
+            MovieSet set = searchResult.Results.FirstOrDefault();
+            if (set != null)
+            {
+                string getCollectionImagesUrl = string.Format("3/collection/{0}/images?api_key={1}", set.Id, MovieHelper.ThemoviedbApiKey);
+                MovieImagesResult getImagesResult = _restApiService.Get<MovieImagesResult>(getCollectionImagesUrl);
+                return ConvertImagesResult(getImagesResult);
+            }
+            return new AvailableMovieImages();
+        }
+
         public IEnumerable<Actor> FindActors(string movieId)
         {
             string url = string.Format("3/movie/{0}/credits?api_key={1}", movieId, MovieHelper.ThemoviedbApiKey);

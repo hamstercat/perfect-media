@@ -73,6 +73,11 @@ namespace PerfectMedia.Movies
             return _metadataUpdater.FindImages(movieId);
         }
 
+        public AvailableMovieImages FindSetImages(string setName)
+        {
+            return _metadataUpdater.FindSetImages(setName);
+        }
+
         private void SetActorsThumbPath(string path, MovieMetadata metadata)
         {
             string movieFolder = _fileSystemService.GetParentFolder(path, 1);

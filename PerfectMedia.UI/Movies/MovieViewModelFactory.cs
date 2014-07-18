@@ -2,6 +2,7 @@
 using PerfectMedia.Sources;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Movies.Selection;
+using PerfectMedia.UI.Movies.Set;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.Sources;
 using System;
@@ -57,7 +58,7 @@ namespace PerfectMedia.UI.Movies
 
         public IMovieSetViewModel GetMovieSet(string setName)
         {
-            return new MovieSetViewModel(_fileSystemService, setName);
+            return new MovieSetViewModel(_fileSystemService, this, _metadataService, setName);
         }
     }
 }

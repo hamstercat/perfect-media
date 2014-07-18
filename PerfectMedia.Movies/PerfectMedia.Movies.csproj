@@ -52,6 +52,7 @@
     <Compile Include="MovieImagesService.cs" />
     <Compile Include="MovieMetadataRepository.cs" />
     <Compile Include="MovieMetadataService.cs" />
+    <Compile Include="SearchCollectionResult.cs" />
     <Compile Include="SearchMovieResult.cs" />
     <Compile Include="ThemoviedbConfiguration.cs" />
     <Compile Include="ThemoviedbImage.cs" />

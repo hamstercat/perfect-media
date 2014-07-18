@@ -11,6 +11,7 @@ namespace PerfectMedia.Movies
         IEnumerable<Movie> FindMovies(string name);
         FullMovie GetMovieMetadata(string movieId);
         AvailableMovieImages FindImages(string movieId);
+        AvailableMovieImages FindSetImages(string setName);
         IEnumerable<Actor> FindActors(string movieId);
     }
 }

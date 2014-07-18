@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PerfectMedia.UI.Movies
+namespace PerfectMedia.UI.Movies.Set
 {
     public interface IMovieSetViewModel : IMovieItem
     {

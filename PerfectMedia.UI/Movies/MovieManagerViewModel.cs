@@ -1,6 +1,7 @@
 ﻿using PerfectMedia.Movies;
 using PerfectMedia.Sources;
 using PerfectMedia.UI.Metadata;
+using PerfectMedia.UI.Movies.Set;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.Sources;
 using PropertyChanged;

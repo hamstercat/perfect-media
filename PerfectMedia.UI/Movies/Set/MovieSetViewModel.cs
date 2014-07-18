@@ -1,4 +1,6 @@
-﻿using PerfectMedia.UI.Progress;
+﻿using PerfectMedia.Movies;
+using PerfectMedia.UI.Images;
+using PerfectMedia.UI.Progress;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,13 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PerfectMedia.UI.Movies
+namespace PerfectMedia.UI.Movies.Set
 {
     public class MovieSetViewModel : IMovieSetViewModel
     {
         private readonly IFileSystemService _fileSystemService;
 
         public string DisplayName { get; set; }
+        public IImageViewModel Fanart { get; private set; }
+        public IImageViewModel Poster { get; private set; }
         public SmartObservableCollection<IMovieViewModel> Children { get; private set; }
 
         public bool IsEmpty
@@ -23,10 +27,12 @@ namespace PerfectMedia.UI.Movies
             }
         }
 
-        public MovieSetViewModel(IFileSystemService fileSystemService, string setName)
+        public MovieSetViewModel(IFileSystemService fileSystemService, IMovieViewModelFactory viewModelFactory, IMovieMetadataService metadataService, string setName)
         {
             _fileSystemService = fileSystemService;
             DisplayName = setName;
+            Fanart = viewModelFactory.GetImage(new SetFanartImageStrategy(metadataService, this));
+            Poster = viewModelFactory.GetImage(new SetPosterImageStrategy(metadataService, this));
             Children = new SmartObservableCollection<IMovieViewModel>();
         }
 

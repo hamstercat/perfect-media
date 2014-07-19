@@ -32,8 +32,10 @@ namespace PerfectMedia.UI.Images.Selection
         private void LoadAvailableImages(IImageStrategy imageStrategy)
         {
             Selection.AvailableItems.Clear();
-            IEnumerable<Image> images = imageStrategy.FindImages();
-            Selection.AvailableItems.AddRange(images);
+            foreach (Image image in imageStrategy.FindImages())
+            {
+                Selection.AvailableItems.Add(image);
+            }
         }
     }
 }

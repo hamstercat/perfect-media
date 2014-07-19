@@ -7,6 +7,7 @@ using PerfectMedia.UI.Sources;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -23,14 +24,14 @@ namespace PerfectMedia.UI.Movies
         private readonly IMovieViewModelFactory _viewModelFactory;
 
         public ISourceManagerViewModel Sources { get; set; }
-        public SmartObservableCollection<IMovieItem> Movies { get; private set; }
+        public ObservableCollection<IMovieItem> Movies { get; private set; }
         public ICommand UpdateAll { get; private set; }
 
         public MovieManagerViewModel(IFileSystemService fileSystemService, IMovieViewModelFactory viewModelFactory, IProgressManagerViewModel progressManager)
         {
             _fileSystemService = fileSystemService;
             _viewModelFactory = viewModelFactory;
-            Movies = new SmartObservableCollection<IMovieItem>();
+            Movies = new ObservableCollection<IMovieItem>();
             UpdateAll = new UpdateAllMetadataCommand<IMovieItem>(Movies, progressManager);
             LoadSources();
         }

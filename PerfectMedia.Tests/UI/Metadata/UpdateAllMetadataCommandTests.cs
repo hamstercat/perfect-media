@@ -15,13 +15,13 @@ namespace PerfectMedia.UI.Metadata
 {
     public class UpdateAllMetadataCommandTests
     {
-        private readonly SmartObservableCollection<IMovieViewModel> _movies;
+        private readonly ObservableCollection<IMovieViewModel> _movies;
         private IProgressManagerViewModel _progressManager;
         private readonly UpdateAllMetadataCommand<IMovieViewModel> _command;
 
         public UpdateAllMetadataCommandTests()
         {
-            _movies = new SmartObservableCollection<IMovieViewModel>();
+            _movies = new ObservableCollection<IMovieViewModel>();
             _progressManager = Substitute.For<IProgressManagerViewModel>();
             _command = new UpdateAllMetadataCommand<IMovieViewModel>(_movies, _progressManager);
         }

@@ -70,7 +70,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters\ImagePathConverter.cs" />
     <Compile Include="Converters\IsEmptyToBooleanConverter.cs" />
     <Compile Include="Converters\NotZeroConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
@@ -78,6 +77,7 @@
     <Compile Include="Converters\SeasonNumberToNameConverter.cs" />
     <Compile Include="Converters\ShowIfNotEmptyConverter.cs" />
     <Compile Include="Converters\SpecialsSeasonVisibilityConverter.cs" />
+    <Compile Include="Images\ImageLoader.cs" />
     <Compile Include="Images\Selection\ChooseImageFileViewModel.cs" />
     <Compile Include="Images\Selection\ChooseImageFileWindow.xaml.cs">
       <DependentUpon>ChooseImageFileWindow.xaml</DependentUpon>
@@ -140,7 +140,6 @@
     <Compile Include="Progress\ProgressItem.cs" />
     <Compile Include="Progress\IProgressManagerViewModel.cs" />
     <Compile Include="SelectionViewModel.cs" />
-    <Compile Include="SmartObservableCollection.cs" />
     <Compile Include="Progress\ProgressManagerViewModel.cs" />
     <Compile Include="Progress\ProgressWindow.xaml.cs">
       <DependentUpon>ProgressWindow.xaml</DependentUpon>
@@ -355,7 +354,9 @@
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Blank.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.1.24.0\build\Fody.targets" Condition="Exists('..\packages\Fody.1.24.0\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

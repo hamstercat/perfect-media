@@ -1,6 +1,7 @@
 ﻿using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace PerfectMedia.UI
             }
         }
 
-        public SmartObservableCollection<T> AvailableItems { get; private set; }
+        public ObservableCollection<T> AvailableItems { get; private set; }
         public ICommand SaveCommand { get; private set; }
 
         public SelectionViewModel(Action<T> save)
@@ -40,7 +41,7 @@ namespace PerfectMedia.UI
         {
             _selectedItem = defaultItem;
             _save = save;
-            AvailableItems = new SmartObservableCollection<T>();
+            AvailableItems = new ObservableCollection<T>();
             SaveCommand = this;
         }
 

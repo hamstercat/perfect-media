@@ -8,7 +8,7 @@ using System.Linq;
 namespace PerfectMedia.UI.Sources
 {
     [ImplementPropertyChanged]
-    public class SourceManagerViewModel : ISourceManagerViewModel
+    public class SourceManagerViewModel : BaseViewModel, ISourceManagerViewModel
     {
         private readonly ISourceService _sourceService;
         private readonly IFileSystemService _fileSystemService;
@@ -84,6 +84,7 @@ namespace PerfectMedia.UI.Sources
 
         private void RootFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            OnPropertyChanged("RootFolders");
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:

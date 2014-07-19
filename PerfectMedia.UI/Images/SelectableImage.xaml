@@ -3,11 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:img="clr-namespace:PerfectMedia.UI.Images"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Hyperlink TextDecorations="{x:Null}" MouseEnter="GridMouseEnter" MouseLeave="GridMouseLeave" Click="HyperlinkClick">
         <Grid>
-            <Image Source="{Binding Path, Converter={StaticResource ImagePathConverter}}" />
+            <img:ImageLoader ImageUri="{Binding Path}" InitialImage="/PerfectMedia.UI;component/Images/Blank.png" />
             <Grid x:Name="MouseOverOverlay" Visibility="Hidden">
                 <Rectangle Fill="LightBlue" Opacity="0.55" />
                 <TextBlock Text="Change" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Foreground="Black" Padding="5" />

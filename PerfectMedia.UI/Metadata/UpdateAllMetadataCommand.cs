@@ -14,10 +14,10 @@ namespace PerfectMedia.UI.Metadata
         where T : IMetadataProvider
     {
         public event EventHandler CanExecuteChanged;
-        private readonly SmartObservableCollection<T> _items;
+        private readonly ObservableCollection<T> _items;
         private readonly IProgressManagerViewModel _progressManager;
 
-        public UpdateAllMetadataCommand(SmartObservableCollection<T> items, IProgressManagerViewModel progressManager)
+        public UpdateAllMetadataCommand(ObservableCollection<T> items, IProgressManagerViewModel progressManager)
         {
             _items = items;
             _items.CollectionChanged += TvShowsCollectionChanged;

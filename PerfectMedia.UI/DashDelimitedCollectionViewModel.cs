@@ -12,7 +12,7 @@ namespace PerfectMedia.UI
     {
         private readonly Func<string, T> _mapStringToItem;
 
-        public SmartObservableCollection<T> Collection { get; private set; }
+        public ObservableCollection<T> Collection { get; private set; }
 
         public string String
         {
@@ -36,7 +36,7 @@ namespace PerfectMedia.UI
         public DashDelimitedCollectionViewModel(Func<string,T> mapStringToItem)
         {
             _mapStringToItem = mapStringToItem;
-            Collection = new SmartObservableCollection<T>();
+            Collection = new ObservableCollection<T>();
             Collection.CollectionChanged += CollectionChanged;
         }
 

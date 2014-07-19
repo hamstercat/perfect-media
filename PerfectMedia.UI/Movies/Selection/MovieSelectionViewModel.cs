@@ -34,7 +34,10 @@ namespace PerfectMedia.UI.Movies.Selection
         public void ReplaceMovies(IEnumerable<Movie> movies)
         {
             Selection.AvailableItems.Clear();
-            Selection.AvailableItems.AddRange(movies);
+            foreach (Movie movie in movies)
+            {
+                Selection.AvailableItems.Add(movie);
+            }
         }
 
         private void SaveNewId(IMovieMetadataService metadataService, string movieId, string path)

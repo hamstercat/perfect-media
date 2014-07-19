@@ -11,22 +11,22 @@ using System.Threading.Tasks;
 namespace PerfectMedia.UI.Progress
 {
     [ImplementPropertyChanged]
-    public class ProgressManagerViewModel : IProgressManagerViewModel
+    public class ProgressManagerViewModel : BaseViewModel, IProgressManagerViewModel
     {
         private readonly IProgressIndicatorFactory _progressIndicatorFactory;
         private bool _collecting;
 
-        public SmartObservableCollection<ProgressItem> Total { get; private set; }
-        public SmartObservableCollection<ProgressItem> Completed { get; private set; }
-        public SmartObservableCollection<ProgressItem> InError { get; private set; }
+        public ObservableCollection<ProgressItem> Total { get; private set; }
+        public ObservableCollection<ProgressItem> Completed { get; private set; }
+        public ObservableCollection<ProgressItem> InError { get; private set; }
 
         public ProgressManagerViewModel(IProgressIndicatorFactory progressIndicatorFactory)
         {
             _progressIndicatorFactory = progressIndicatorFactory;
 
-            Total = new SmartObservableCollection<ProgressItem>();
-            Completed = new SmartObservableCollection<ProgressItem>();
-            InError = new SmartObservableCollection<ProgressItem>();
+            Total = CreateProgressItemCollection("Total");
+            Completed = CreateProgressItemCollection("Completed");
+            InError = CreateProgressItemCollection("InError");
         }
 
         public void AddItem(ProgressItem item)
@@ -47,6 +47,13 @@ namespace PerfectMedia.UI.Progress
             {
                 await ExecuteItem(item);
             }
+        }
+
+        private ObservableCollection<ProgressItem> CreateProgressItemCollection(string propertyName)
+        {
+            var collection = new ObservableCollection<ProgressItem>();
+            collection.CollectionChanged += (s, e) => OnPropertyChanged(propertyName);
+            return collection;
         }
 
         private void ClearItems()

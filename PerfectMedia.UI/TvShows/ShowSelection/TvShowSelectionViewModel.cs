@@ -33,7 +33,10 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
         public void ReplaceSeries(IEnumerable<Series> series)
         {
             Selection.AvailableItems.Clear();
-            Selection.AvailableItems.AddRange(series);
+            foreach (Series serie in series)
+            {
+                Selection.AvailableItems.Add(serie);
+            }
         }
 
         private void SaveNewId(ITvShowMetadataService metadataService, string serieId, string path)

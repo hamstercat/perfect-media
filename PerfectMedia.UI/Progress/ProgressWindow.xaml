@@ -12,7 +12,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <ProgressBar Grid.Row="0" Grid.Column="0" Minimum="0" Maximum="{Binding Total.Count}" Value="{Binding Completed.Count}" />
+        <ProgressBar Grid.Row="0" Grid.Column="0" Minimum="0" Maximum="{Binding Total.Count, Mode=OneWay}" Value="{Binding Completed.Count, Mode=OneWay}" />
         <TextBlock Grid.Row="0" Grid.Column="1">
             <TextBlock.Text>
                 <MultiBinding StringFormat="{}{0} / {1}">
@@ -24,7 +24,7 @@
         <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <TextBlock.Text>
                 <MultiBinding StringFormat="{}Errors: ({0})">
-                    <Binding Path="InError.Count" />
+                    <Binding Path="InError.Count" Mode="OneWay" />
                 </MultiBinding>
             </TextBlock.Text>
         </TextBlock>

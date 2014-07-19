@@ -17,7 +17,7 @@ namespace PerfectMedia.UI.Movies.Set
         public string DisplayName { get; set; }
         public IImageViewModel Fanart { get; private set; }
         public IImageViewModel Poster { get; private set; }
-        public SmartObservableCollection<IMovieViewModel> Children { get; private set; }
+        public ObservableCollection<IMovieViewModel> Children { get; private set; }
 
         public bool IsEmpty
         {
@@ -33,7 +33,7 @@ namespace PerfectMedia.UI.Movies.Set
             DisplayName = setName;
             Fanart = viewModelFactory.GetImage(new SetFanartImageStrategy(metadataService, this));
             Poster = viewModelFactory.GetImage(new SetPosterImageStrategy(metadataService, this));
-            Children = new SmartObservableCollection<IMovieViewModel>();
+            Children = new ObservableCollection<IMovieViewModel>();
         }
 
         public void AddMovie(IMovieViewModel movie)

@@ -23,7 +23,7 @@ namespace PerfectMedia.UI.TvShows
         private readonly ITvShowMetadataService _metadataService;
 
         public ISourceManagerViewModel Sources { get; private set; }
-        public SmartObservableCollection<ITvShowViewModel> TvShows { get; private set; }
+        public ObservableCollection<ITvShowViewModel> TvShows { get; private set; }
         public ICommand UpdateAll { get; private set; }
         public ICommand FindNewEpisodes { get; private set; }
 
@@ -32,7 +32,7 @@ namespace PerfectMedia.UI.TvShows
             _viewModelFactory = viewModelFactory;
             _tvShowFileService = tvShowFileService;
             _metadataService = metadataService;
-            TvShows = new SmartObservableCollection<ITvShowViewModel>();
+            TvShows = new ObservableCollection<ITvShowViewModel>();
 
             UpdateAll = new UpdateAllMetadataCommand<ITvShowViewModel>(TvShows, progressManager);
             FindNewEpisodes = new FindNewEpisodesCommand(TvShows, progressManager);

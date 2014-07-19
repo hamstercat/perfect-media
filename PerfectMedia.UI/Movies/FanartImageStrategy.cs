@@ -21,8 +21,12 @@ namespace PerfectMedia.UI.Movies
 
         public IEnumerable<Image> FindImages()
         {
-            AvailableMovieImages images = _metadataService.FindImages(_movieViewModel.Id);
-            return images.Fanarts;
+            if (!string.IsNullOrEmpty(_movieViewModel.Id))
+            {
+                AvailableMovieImages images = _metadataService.FindImages(_movieViewModel.Id);
+                return images.Fanarts;
+            }
+            return Enumerable.Empty<Image>();
         }
     }
 }

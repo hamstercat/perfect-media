@@ -50,9 +50,14 @@ namespace PerfectMedia.UI.Images
             ImageSelection.PropertyChanged += ImageSelectionPropertyChanged;
         }
 
-        private void ImageSelectionPropertyChanged(object sender, PropertyChangedEventArgs e)
+        public void RefreshImage()
         {
             OnPropertyChanged("Path");
+        }
+
+        private void ImageSelectionPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            RefreshImage();
         }
     }
 }

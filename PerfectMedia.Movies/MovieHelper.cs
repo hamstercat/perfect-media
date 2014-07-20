@@ -18,6 +18,14 @@ namespace PerfectMedia.Movies
             }
         }
 
+        private static string MovieSetFolder
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["MovieSetArtworkFolder"];
+            }
+        }
+
         internal static string GetMoviePosterPath(string path)
         {
             return GetMovieImagePath(path, "poster");
@@ -26,6 +34,16 @@ namespace PerfectMedia.Movies
         internal static string GetMovieFanartPath(string path)
         {
             return GetMovieImagePath(path, "fanart");
+        }
+
+        internal static string GetMovieSetFanartPath(string setName)
+        {
+            return Path.Combine(MovieSetFolder, setName + "-fanart.jpg");
+        }
+
+        internal static string GetMovieSetPosterPath(string setName)
+        {
+            return Path.Combine(MovieSetFolder, setName + "-poster.jpg");
         }
 
         private static string GetMovieImagePath(string path, string imageType)

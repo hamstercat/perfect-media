@@ -433,11 +433,13 @@ namespace PerfectMedia.UI.Movies
 
         private Task UpdateInternal()
         {
-            return Task.Run(() =>
-            {
-                _metadataService.Update(Path);
-                Refresh();
-            });
+            return Task.Run((Action)UpdateInternal2);
+        }
+
+        private async void UpdateInternal2()
+        {
+            _metadataService.Update(Path);
+            await App.Current.Dispatcher.InvokeAsync(() => Refresh());
         }
     }
 }

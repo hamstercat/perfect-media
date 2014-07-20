@@ -144,8 +144,11 @@ namespace PerfectMedia.UI.Movies
             if (e.PropertyName == "SetName")
             {
                 IMovieViewModel movie = (IMovieViewModel)sender;
-                RemoveMovie(movie);
-                AddMovie(movie);
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    RemoveMovie(movie);
+                    AddMovie(movie);
+                });
             }
         }
 

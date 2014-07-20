@@ -13,5 +13,6 @@ namespace PerfectMedia.UI.Images
         string Path { get; set; }
         object OriginalContent { get; set; }
         void LoadAvailableImages();
+        void RefreshImage();
     }
 }

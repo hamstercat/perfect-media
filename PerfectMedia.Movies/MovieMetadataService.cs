@@ -36,6 +36,15 @@ namespace PerfectMedia.Movies
             return metadata;
         }
 
+        public MovieSet GetMovieSet(string setName)
+        {
+            MovieSet set = new MovieSet();
+            set.Name = setName;
+            set.BackdropPath = MovieHelper.GetMovieSetFanartPath(setName);
+            set.PosterPath = MovieHelper.GetMovieSetPosterPath(setName);
+            return set;
+        }
+
         public void Save(string path, MovieMetadata metadata)
         {
             _metadataRepository.Save(path, metadata);

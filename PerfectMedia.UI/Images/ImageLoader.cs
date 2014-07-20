@@ -64,10 +64,11 @@ namespace PerfectMedia.UI.Images
         /// <summary>
         /// The ImageUri dependency property.
         /// </summary>
-        public static readonly DependencyProperty ImageUriProperty = DependencyProperty.Register("ImageUri", typeof(Uri), typeof(ImageLoader), new PropertyMetadata(null, OnImageUriChanged));
+        public static readonly DependencyProperty ImageUriProperty = DependencyProperty.Register("ImageUri", typeof(string), typeof(ImageLoader), new PropertyMetadata(null, OnImageUriChanged));
         private static void OnImageUriChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ImageLoader imageLoader = (ImageLoader)d;
+            imageLoader.RetryCount = 0;
             imageLoader.Refresh();
         }
 
@@ -77,24 +78,11 @@ namespace PerfectMedia.UI.Images
         private BitmapImage _loadedImage;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ImageLoader"/> class.
-        /// </summary>
-        public ImageLoader()
-        {
-            Loaded += OnLoaded;
-        }
-
-        /// <summary>
-        /// Gets or sets the load failed image path string.
-        /// </summary>
-        public string LoadFailedImage { get; set; }
-
-        /// <summary>
         /// Gets or sets the ImageUri property.
         /// </summary>
-        public Uri ImageUri
+        public string ImageUri
         {
-            get { return GetValue(ImageUriProperty) as Uri; }
+            get { return GetValue(ImageUriProperty) as string; }
             set { SetValue(ImageUriProperty, value); }
         }
 
@@ -115,15 +103,9 @@ namespace PerfectMedia.UI.Images
         }
 
         /// <summary>
-        /// Handles the Loaded event for the ImageLoader class.
+        /// Gets or sets the number of times an image has failed to load in a refresh.
         /// </summary>
-        /// <param name="sender">The sender object.</param>
-        /// <param name="e">The event arguments.</param>
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            Refresh();
-            e.Handled = true;
-        }
+        public int RetryCount { get; set; }
 
         /// <summary>
         /// Handles the download failure event.
@@ -132,16 +114,9 @@ namespace PerfectMedia.UI.Images
         /// <param name="e">The event arguments.</param>
         private void OnDownloadFailed(object sender, ExceptionEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(LoadFailedImage))
+            if (RetryCount < 2)
             {
-                BitmapImage failedImage = new BitmapImage();
-
-                // Load the initial bitmap from the local resource
-                failedImage.BeginInit();
-                failedImage.UriSource = new Uri(LoadFailedImage, UriKind.Relative);
-                failedImage.DecodePixelWidth = (int)ActualWidth;
-                failedImage.EndInit();
-                Source = failedImage;
+                Refresh();
             }
         }
 
@@ -159,6 +134,7 @@ namespace PerfectMedia.UI.Images
         {
             if (ImageUri != null && PathIsValid(ImageUri))
             {
+                RetryCount++;
                 LoadImage();
 
                 // The image may be cached, in which case we will not use the initial image
@@ -177,9 +153,9 @@ namespace PerfectMedia.UI.Images
             }
         }
 
-        private bool PathIsValid(Uri imagePath)
+        private bool PathIsValid(string imagePath)
         {
-            return (IsPathAnUrl(imagePath.AbsoluteUri) || File.Exists(imagePath.LocalPath));
+            return (IsPathAnUrl(imagePath) || File.Exists(imagePath));
         }
 
         private bool IsPathAnUrl(string path)
@@ -195,7 +171,7 @@ namespace PerfectMedia.UI.Images
             _loadedImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
             _loadedImage.DownloadCompleted += OnDownloadCompleted;
             _loadedImage.DownloadFailed += OnDownloadFailed;
-            _loadedImage.UriSource = ImageUri;
+            _loadedImage.UriSource = new Uri(ImageUri);
             _loadedImage.EndInit();
         }
 

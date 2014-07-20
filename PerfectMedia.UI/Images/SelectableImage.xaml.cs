@@ -20,8 +20,6 @@ namespace PerfectMedia.UI.Images
     /// </summary>
     public partial class SelectableImage : UserControl
     {
-        private Control _oldContent;
-
         public SelectableImage()
         {
             InitializeComponent();

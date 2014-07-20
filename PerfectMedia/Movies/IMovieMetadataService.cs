@@ -9,6 +9,7 @@ namespace PerfectMedia.Movies
     public interface IMovieMetadataService
     {
         MovieMetadata Get(string path);
+        MovieSet GetMovieSet(string setName);
         void Save(string path, MovieMetadata metadata);
         void Update(string path);
         void Delete(string path);

@@ -1,23 +1,32 @@
 ﻿using PerfectMedia.Movies;
 using PerfectMedia.UI.Images;
+using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Progress;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace PerfectMedia.UI.Movies.Set
 {
+    [ImplementPropertyChanged]
     public class MovieSetViewModel : IMovieSetViewModel
     {
         private readonly IFileSystemService _fileSystemService;
+        private readonly IMovieMetadataService _metadataService;
 
-        public string DisplayName { get; set; }
+        public string SetName { get; set; }
+        public string DisplayName { get; private set; }
         public IImageViewModel Fanart { get; private set; }
         public IImageViewModel Poster { get; private set; }
         public ObservableCollection<IMovieViewModel> Children { get; private set; }
+        public ICommand RefreshCommand { get; private set; }
+        public ICommand UpdateCommand { get; private set; }
+        public ICommand SaveCommand { get; private set; }
 
         public bool IsEmpty
         {
@@ -27,13 +36,24 @@ namespace PerfectMedia.UI.Movies.Set
             }
         }
 
-        public MovieSetViewModel(IFileSystemService fileSystemService, IMovieViewModelFactory viewModelFactory, IMovieMetadataService metadataService, string setName)
+        public MovieSetViewModel(IFileSystemService fileSystemService,
+            IMovieViewModelFactory viewModelFactory,
+            IMovieMetadataService metadataService,
+            IProgressManagerViewModel progressManager,
+            string setName)
         {
             _fileSystemService = fileSystemService;
-            DisplayName = setName;
+            _metadataService = metadataService;
+            SetName = DisplayName = setName;
             Fanart = viewModelFactory.GetImage(new SetFanartImageStrategy(metadataService, this));
             Poster = viewModelFactory.GetImage(new SetPosterImageStrategy(metadataService, this));
             Children = new ObservableCollection<IMovieViewModel>();
+
+            RefreshCommand = new RefreshMetadataCommand(this);
+            UpdateCommand = new UpdateMetadataCommand(this, progressManager);
+            SaveCommand = new SaveMetadataCommand(this);
+
+            Refresh();
         }
 
         public void AddMovie(IMovieViewModel movie)
@@ -51,22 +71,21 @@ namespace PerfectMedia.UI.Movies.Set
             return Children.Where(movie => MovieIsInPath(movie, path));
         }
 
-        private bool MovieIsInPath(IMovieViewModel movie, string path)
-        {
-            string movieFolder = _fileSystemService.GetParentFolder(movie.Path, 1);
-            return movieFolder == path;
-        }
-
         public void Refresh()
         {
-            foreach (IMovieViewModel movie in Children)
-            {
-                movie.Refresh();
-            }
+            MovieSet set = _metadataService.GetMovieSet(DisplayName);
+            Fanart.Path = set.BackdropPath;
+            Poster.Path = set.PosterPath;
+            Fanart.RefreshImage();
+            Poster.RefreshImage();
         }
 
         public IEnumerable<ProgressItem> Update()
         {
+            if (!_fileSystemService.FileExists(Fanart.Path) || _fileSystemService.FileExists(Poster.Path))
+            {
+                yield return UpdateImages();
+            }
             foreach (IMovieViewModel movie in Children)
             {
                 foreach (ProgressItem item in movie.Update())
@@ -78,9 +97,52 @@ namespace PerfectMedia.UI.Movies.Set
 
         public void Save()
         {
-            foreach (IMovieViewModel movie in Children)
+            // TODO: move image
+            IMovieViewModel anyMovie = Children.FirstOrDefault();
+            if (anyMovie != null && anyMovie.SetName != DisplayName)
             {
-                movie.Save();
+                foreach (IMovieViewModel movie in Children.ToList())
+                {
+                    movie.SetName = DisplayName;
+                    movie.Save();
+                }
+            }
+        }
+
+        public override string ToString()
+        {
+            return DisplayName;
+        }
+
+        private bool MovieIsInPath(IMovieViewModel movie, string path)
+        {
+            string movieFolder = _fileSystemService.GetParentFolder(movie.Path, 1);
+            return movieFolder == path;
+        }
+
+        private ProgressItem UpdateImages()
+        {
+            Lazy<string> displayName = new Lazy<string>(ToString);
+            return new ProgressItem(displayName, LoadImagesInternal);
+        }
+
+        private Task LoadImagesInternal()
+        {
+            return Task.Run(() =>
+            {
+                AvailableMovieImages images = _metadataService.FindSetImages(DisplayName);
+                SetImagePathIfNeeded(images.Fanarts, Fanart);
+                SetImagePathIfNeeded(images.Posters, Poster);
+                Refresh();
+            });
+        }
+
+        private void SetImagePathIfNeeded(IEnumerable<Image> images, IImageViewModel imageViewModel)
+        {
+            Image image = images.FirstOrDefault();
+            if (image != null && !_fileSystemService.FileExists(imageViewModel.Path))
+            {
+                _fileSystemService.DownloadFile(imageViewModel.Path, image.Url);
             }
         }
     }

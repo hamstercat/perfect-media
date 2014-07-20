@@ -55,6 +55,36 @@ namespace PerfectMedia.UI.Movies
             }
         }
 
+        private DashDelimitedCollectionViewModel<string> _credits;
+        public DashDelimitedCollectionViewModel<string> Credits
+        {
+            get
+            {
+                InitialLoadInformation();
+                return _credits;
+            }
+            set
+            {
+                InitialLoadInformation();
+                _credits = value;
+            }
+        }
+
+        private DashDelimitedCollectionViewModel<string> _directors;
+        public DashDelimitedCollectionViewModel<string> Directors
+        {
+            get
+            {
+                InitialLoadInformation();
+                return _directors;
+            }
+            set
+            {
+                InitialLoadInformation();
+                _directors = value;
+            }
+        }
+
         private string _setName;
         public string SetName
         {
@@ -175,6 +205,21 @@ namespace PerfectMedia.UI.Movies
             }
         }
 
+        private string _certification;
+        public string Certification
+        {
+            get
+            {
+                InitialLoadInformation();
+                return _certification;
+            }
+            set
+            {
+                InitialLoadInformation();
+                _certification = value;
+            }
+        }
+
         private int _playCount;
         public int PlayCount
         {
@@ -217,6 +262,21 @@ namespace PerfectMedia.UI.Movies
             {
                 InitialLoadInformation();
                 _genres = value;
+            }
+        }
+
+        private string _country;
+        public string Country
+        {
+            get
+            {
+                InitialLoadInformation();
+                return _country;
+            }
+            set
+            {
+                InitialLoadInformation();
+                _country = value;
             }
         }
 
@@ -308,6 +368,8 @@ namespace PerfectMedia.UI.Movies
             Poster = viewModelFactory.GetImage(new PosterImageStrategy(metadataService, this));
             Fanart = viewModelFactory.GetImage(new FanartImageStrategy(metadataService, this));
 
+            _credits = new DashDelimitedCollectionViewModel<string>(s => s);
+            _directors = new DashDelimitedCollectionViewModel<string>(s => s);
             _genres = new DashDelimitedCollectionViewModel<string>(s => s);
             _actors = new ObservableCollection<ActorViewModel>();
         }
@@ -359,6 +421,7 @@ namespace PerfectMedia.UI.Movies
 
         private void RefreshFromMetadata(MovieMetadata metadata)
         {
+            Certification = metadata.Certification;
             FileInformation = metadata.FileInformation;
             Id = metadata.Id;
             OriginalTitle = metadata.OriginalTitle;
@@ -368,6 +431,7 @@ namespace PerfectMedia.UI.Movies
             PremieredDate = metadata.Premiered;
             Rating = metadata.Rating;
             RuntimeInMinutes = metadata.RuntimeInMinutes;
+            Country = metadata.Country;
             SetName = metadata.SetName;
             Studio = metadata.Studio;
             Tagline = metadata.Tagline;
@@ -376,6 +440,8 @@ namespace PerfectMedia.UI.Movies
             Poster.Path = metadata.ImagePosterPath;
             Fanart.Path = metadata.ImageFanartPath;
 
+            Credits.ReplaceWith(metadata.Credits);
+            Directors.ReplaceWith(metadata.Directors);
             Genres.ReplaceWith(metadata.Genres);
             AddActors(metadata.Actors);
         }
@@ -398,6 +464,9 @@ namespace PerfectMedia.UI.Movies
         {
             MovieMetadata metadata = new MovieMetadata
             {
+                Certification = Certification,
+                Credits = Credits.Collection.ToList(),
+                Directors = Directors.Collection.ToList(),
                 FileInformation = FileInformation,
                 Genres = Genres.Collection.ToList(),
                 Id = Id,
@@ -408,6 +477,7 @@ namespace PerfectMedia.UI.Movies
                 Premiered = PremieredDate,
                 Rating = Rating,
                 RuntimeInMinutes = RuntimeInMinutes,
+                Country = Country,
                 SetName = SetName,
                 Studio = Studio,
                 Tagline = Tagline,

@@ -5,10 +5,10 @@ using System.Text;
 
 namespace PerfectMedia.Movies
 {
-    internal class Cast
+    public class Crew
     {
-        public string Character { get; set; }
+        public string Department { get; set; }
+        public string Job { get; set; }
         public string Name { get; set; }
-        public string ProfilePath { get; set; }
     }
 }

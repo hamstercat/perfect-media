@@ -44,9 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cast.cs" />
+    <Compile Include="CountryCertification.cs" />
     <Compile Include="ImdbMovieSynopsisService.cs" />
-    <Compile Include="MovieActorsResult.cs" />
+    <Compile Include="MovieCertificationResult.cs" />
     <Compile Include="MovieHelper.cs" />
     <Compile Include="MovieImagesResult.cs" />
     <Compile Include="MovieImagesService.cs" />

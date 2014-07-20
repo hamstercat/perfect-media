@@ -16,6 +16,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
@@ -34,22 +36,30 @@
         <Label Grid.Row="4" Grid.Column="0" Content="Genre" />
         <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Genres.String}" />
 
-        <Label Grid.Row="5" Grid.Column="0" Content="Runtime (in minutes)" />
-        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding RuntimeInMinutes}" />
-        <Label Grid.Row="6" Grid.Column="0" Content="Rating" />
-        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Rating}" />
-        <Label Grid.Row="7" Grid.Column="0" Content="Premiered Date" />
-        <DatePicker Grid.Row="7" Grid.Column="1" SelectedDate="{Binding PremieredDate}" />
-        <Label Grid.Row="8" Grid.Column="0" Content="Playcount" />
-        <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding PlayCount}" />
+        <Label Grid.Row="5" Grid.Column="0" Content="Original Title" />
+        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding OriginalTitle}" />
+        <Label Grid.Row="6" Grid.Column="0" Content="SetName" />
+        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding SetName}" />
+        <Label Grid.Row="7" Grid.Column="0" Content="Rating" />
+        <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Rating}" />
+        <Label Grid.Row="8" Grid.Column="0" Content="Premiered Date" />
+        <DatePicker Grid.Row="8" Grid.Column="1" SelectedDate="{Binding PremieredDate}" />
+        <Label Grid.Row="9" Grid.Column="0" Content="Year" />
+        <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding Year}" />
+        <Label Grid.Row="10" Grid.Column="0" Content="Playcount" />
+        <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding PlayCount}" />
 
-        <Label Grid.Row="5" Grid.Column="2" Content="Studio" />
-        <TextBox Grid.Row="5" Grid.Column="3" Text="{Binding Studio}" />
-        <Label Grid.Row="6" Grid.Column="2" Content="Original Title" />
-        <TextBox Grid.Row="6" Grid.Column="3" Text="{Binding OriginalTitle}" />
-        <Label Grid.Row="7" Grid.Column="2" Content="Year" />
-        <TextBox Grid.Row="7" Grid.Column="3" Text="{Binding Year}" />
-        <Label Grid.Row="8" Grid.Column="2" Content="SetName" />
-        <TextBox Grid.Row="8" Grid.Column="3" Text="{Binding SetName}" />
+        <Label Grid.Row="5" Grid.Column="2" Content="Certification" />
+        <TextBox Grid.Row="5" Grid.Column="3" Text="{Binding Certification}" />
+        <Label Grid.Row="6" Grid.Column="2" Content="Studio" />
+        <TextBox Grid.Row="6" Grid.Column="3" Text="{Binding Studio}" />
+        <Label Grid.Row="7" Grid.Column="2" Content="Credits" />
+        <TextBox Grid.Row="7" Grid.Column="3" Text="{Binding Credits.String}" />
+        <Label Grid.Row="8" Grid.Column="2" Content="Directors" />
+        <TextBox Grid.Row="8" Grid.Column="3" Text="{Binding Directors.String}" />
+        <Label Grid.Row="9" Grid.Column="2" Content="Country" />
+        <TextBox Grid.Row="9" Grid.Column="3" Text="{Binding Country}" />
+        <Label Grid.Row="10" Grid.Column="2" Content="Runtime (in minutes)" />
+        <TextBox Grid.Row="10" Grid.Column="3" Text="{Binding RuntimeInMinutes}" />
     </Grid>
 </UserControl>

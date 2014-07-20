@@ -5,8 +5,9 @@ using System.Text;
 
 namespace PerfectMedia.Movies
 {
-    public class StudioCompany
+    public class CountryCertification
     {
-        public string Name { get; set; }
+        public string Iso_3166_1 { get; set; }
+        public string Certification { get; set; }
     }
 }

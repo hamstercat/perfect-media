@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace PerfectMedia.Movies
 {
-    internal class MovieActorsResult
+    public class MovieActorsResult
     {
         public List<Cast> Cast { get; set; }
+        public List<Crew> Crew { get; set; }
     }
 }

@@ -19,17 +19,11 @@ namespace PerfectMedia.Movies
         [XmlElement(ElementName = "originaltitle")]
         public string OriginalTitle { get; set; }
 
-        [XmlElement(ElementName = "set")]
-        public string SetName { get; set; }
-
         [XmlElement(ElementName = "rating")]
         public double? Rating { get; set; }
 
         [XmlElement(ElementName = "year")]
         public int? Year { get; set; }
-
-        [XmlElement(ElementName = "premiered", DataType = "date")]
-        public DateTime? Premiered { get; set; }
 
         [XmlElement(ElementName = "outline")]
         public string Outline { get; set; }
@@ -43,6 +37,9 @@ namespace PerfectMedia.Movies
         [XmlElement(ElementName = "runtime")]
         public int RuntimeInMinutes { get; set; }
 
+        [XmlElement(ElementName = "mpaa")]
+        public string Certification { get; set; }
+
         [XmlElement(ElementName = "playcount")]
         public int PlayCount { get; set; }
 
@@ -51,6 +48,21 @@ namespace PerfectMedia.Movies
 
         [XmlElement(ElementName = "genre")]
         public List<string> Genres { get; set; }
+
+        [XmlElement(ElementName = "country")]
+        public string Country { get; set; }
+
+        [XmlElement(ElementName = "set")]
+        public string SetName { get; set; }
+
+        [XmlElement(ElementName = "credits")]
+        public List<string> Credits { get; set; }
+
+        [XmlElement(ElementName = "director")]
+        public List<string> Directors { get; set; }
+
+        [XmlElement(ElementName = "premiered", DataType = "date")]
+        public DateTime? Premiered { get; set; }
 
         [XmlElement(ElementName = "fileinfo")]
         public VideoFileInformation FileInformation { get; set; }
@@ -69,6 +81,8 @@ namespace PerfectMedia.Movies
 
         public MovieMetadata()
         {
+            Credits = new List<string>();
+            Directors = new List<string>();
             Genres = new List<string>();
             Actors = new List<ActorMetadata>();
         }

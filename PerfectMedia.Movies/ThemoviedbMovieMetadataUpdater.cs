@@ -57,11 +57,33 @@ namespace PerfectMedia.Movies
             return new AvailableMovieImages();
         }
 
-        public IEnumerable<Actor> FindActors(string movieId)
+        public MovieActorsResult FindCast(string movieId)
         {
             string url = string.Format("3/movie/{0}/credits?api_key={1}", movieId, MovieHelper.ThemoviedbApiKey);
-            MovieActorsResult result = _restApiService.Get<MovieActorsResult>(url);
-            return ConvertActorsResult(result.Cast);
+            MovieActorsResult actorsResult = _restApiService.Get<MovieActorsResult>(url);
+            FixImagesUrl(actorsResult.Cast);
+            return actorsResult;
+        }
+
+        public string FindCertification(string movieId)
+        {
+            string url = string.Format("3/movie/{0}/releases?api_key={1}", movieId, MovieHelper.ThemoviedbApiKey);
+            MovieCertificationResult result = _restApiService.Get<MovieCertificationResult>(url);
+            return ConvertCertificationResult(result);
+        }
+
+        private string ConvertCertificationResult(MovieCertificationResult result)
+        {
+            CountryCertification certification = result.Countries.FirstOrDefault(cert => cert.Iso_3166_1 == "US");
+            if(certification == null)
+            {
+                certification = result.Countries.FirstOrDefault();
+                if (certification == null)
+                {
+                    return null;
+                }
+            }
+            return "Rated " + certification.Certification;
         }
 
         private AvailableMovieImages ConvertImagesResult(MovieImagesResult movieImagesResult)
@@ -80,20 +102,6 @@ namespace PerfectMedia.Movies
                 Size = string.Format("{0}x{1}", themoviedbImage.Width, themoviedbImage.Height),
                 Rating = themoviedbImage.VoteAverage
             };
-        }
-
-        private IEnumerable<Actor> ConvertActorsResult(IEnumerable<Cast> list)
-        {
-            foreach (Cast cast in list)
-            {
-                string actorImageUrl = string.IsNullOrEmpty(cast.ProfilePath) ? null : GetImageBasePath() + "w300" + cast.ProfilePath;
-                yield return new Actor
-                {
-                    Name = cast.Name,
-                    Role = cast.Character,
-                    Image = actorImageUrl
-                };
-            }
         }
 
         private void FixImagesUrl(IEnumerable<Movie> movies)
@@ -120,6 +128,14 @@ namespace PerfectMedia.Movies
             if (!string.IsNullOrEmpty(fullMovie.PosterPath))
             {
                 fullMovie.PosterPath = GetImageBasePath() + "original" + fullMovie.PosterPath;
+            }
+        }
+
+        private void FixImagesUrl(IEnumerable<Cast> actors)
+        {
+            foreach (Cast actor in actors)
+            {
+                actor.ProfilePath = string.IsNullOrEmpty(actor.ProfilePath) ? null : GetImageBasePath() + "w300" + actor.ProfilePath;
             }
         }
 

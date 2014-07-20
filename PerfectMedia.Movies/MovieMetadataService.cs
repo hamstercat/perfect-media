@@ -57,9 +57,7 @@ namespace PerfectMedia.Movies
             {
                 throw new ItemNotFoundException("No movie found for " + path);
             }
-            SetFullMovieSynopsis(movie);
-            UpdateInformationMetadata(path, movie);
-            _imagesService.Update(path, movie);
+            UpdateFromMovie(path, movie);
         }
 
         public void Delete(string path)
@@ -137,6 +135,14 @@ namespace PerfectMedia.Movies
                 .First().Id;
         }
 
+        private void UpdateFromMovie(string path, FullMovie movie)
+        {
+            SetFullMovieSynopsis(movie);
+            SetRating(movie);
+            UpdateInformationMetadata(path, movie);
+            _imagesService.Update(path, movie);
+        }
+
         private void SetFullMovieSynopsis(FullMovie movie)
         {
             MovieSynopsis synopsis = _synopsisService.GetSynopsis(movie.ImdbId);
@@ -154,6 +160,11 @@ namespace PerfectMedia.Movies
             }
         }
 
+        private void SetRating(FullMovie movie)
+        {
+            movie.Certification = _metadataUpdater.FindCertification(movie.ImdbId);
+        }
+
         private void UpdateInformationMetadata(string path, FullMovie movie)
         {
             MovieMetadata metadata = MapFullMovieToMetadata(movie, path);
@@ -164,6 +175,7 @@ namespace PerfectMedia.Movies
         private MovieMetadata MapFullMovieToMetadata(FullMovie movie, string path)
         {
             MovieMetadata metadata = new MovieMetadata();
+            metadata.Certification = movie.Certification;
             metadata.Genres = movie.Genres.Select(genre => genre.Name).ToList();
             metadata.Id = movie.ImdbId;
             metadata.OriginalTitle = movie.OriginalTitle;
@@ -185,10 +197,16 @@ namespace PerfectMedia.Movies
                 metadata.Year = movie.ReleaseDate.Value.Year;
             }
 
-            StudioCompany productionCompany = movie.ProductionCompanies.FirstOrDefault();
+            Reference productionCompany = movie.ProductionCompanies.FirstOrDefault();
             if (productionCompany != null)
             {
                 metadata.Studio = productionCompany.Name;
+            }
+
+            Reference productionCountry = movie.ProductionCountries.FirstOrDefault();
+            if (productionCountry != null)
+            {
+                metadata.Country = productionCountry.Name;
             }
 
             return metadata;
@@ -197,17 +215,38 @@ namespace PerfectMedia.Movies
         private void UpdateActorsMetadata(string path, MovieMetadata metadata)
         {
             string movieFolder = _fileSystemService.GetParentFolder(path, 1);
-            IEnumerable<Actor> actors = _metadataUpdater.FindActors(metadata.Id);
-            foreach (Actor themoviedbActor in actors)
+            MovieActorsResult actorsResult = _metadataUpdater.FindCast(metadata.Id);
+            UpdateActors(metadata, movieFolder, actorsResult.Cast);
+            UpdateCrews(metadata, actorsResult.Crew);
+        }
+
+        private static void UpdateActors(MovieMetadata metadata, string movieFolder, IEnumerable<Cast> actors)
+        {
+            foreach (Cast themoviedbActor in actors)
             {
                 ActorMetadata actor = new ActorMetadata
                 {
                     Name = themoviedbActor.Name,
-                    Role = themoviedbActor.Role,
-                    Thumb = themoviedbActor.Image,
+                    Role = themoviedbActor.Character,
+                    Thumb = themoviedbActor.ProfilePath,
                     ThumbPath = ActorMetadata.GetActorThumbPath(movieFolder, themoviedbActor.Name)
                 };
                 metadata.Actors.Add(actor);
+            }
+        }
+
+        private void UpdateCrews(MovieMetadata metadata, IEnumerable<Crew> crews)
+        {
+            foreach (Crew crew in crews)
+            {
+                if (crew.Department == "Directing" && crew.Job == "Director")
+                {
+                    metadata.Directors.Add(crew.Name);
+                }
+                if (crew.Department == "Writing" && crew.Job != "Novel")
+                {
+                    metadata.Credits.Add(crew.Name);
+                }
             }
         }
     }

@@ -58,9 +58,12 @@
     <Compile Include="IRestApiService.cs" />
     <Compile Include="ItemNotFoundException.cs" />
     <Compile Include="Movies\AvailableMovieImages.cs" />
+    <Compile Include="Movies\Cast.cs" />
+    <Compile Include="Movies\Crew.cs" />
+    <Compile Include="Movies\MovieActorsResult.cs" />
     <Compile Include="Movies\MovieSet.cs" />
     <Compile Include="Movies\FullMovie.cs" />
-    <Compile Include="Movies\Genre.cs" />
+    <Compile Include="Movies\Reference.cs" />
     <Compile Include="Movies\IMovieImagesService.cs" />
     <Compile Include="Movies\IMovieMetadataRepository.cs" />
     <Compile Include="Movies\IMovieMetadataService.cs" />
@@ -69,7 +72,6 @@
     <Compile Include="Movies\MovieMetadata.cs" />
     <Compile Include="Movies\Movie.cs" />
     <Compile Include="Movies\MovieSynopsis.cs" />
-    <Compile Include="Movies\StudioCompany.cs" />
     <Compile Include="NfoRepository.cs" />
     <Compile Include="RestApiService.cs" />
     <Compile Include="ScrapperException.cs" />

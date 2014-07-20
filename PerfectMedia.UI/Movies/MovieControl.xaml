@@ -8,8 +8,18 @@
              xmlns:set="clr-namespace:PerfectMedia.UI.Movies.Set"
              xmlns:img="clr-namespace:PerfectMedia.UI.Images"
              xmlns:selectimg="clr-namespace:PerfectMedia.UI.Images.Selection"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="1000">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <CollectionViewSource x:Key="SortedMovies" Source="{Binding Movies}">
+                <CollectionViewSource.SortDescriptions>
+                    <scm:SortDescription PropertyName="DisplayName" />
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400" />
@@ -20,7 +30,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TreeView x:Name="MoviesTreeView" ItemsSource="{Binding Movies}">
+            <TreeView x:Name="MoviesTreeView" ItemsSource="{Binding Source={StaticResource SortedMovies}}">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                         <TextBlock Text="{Binding DisplayName}" />

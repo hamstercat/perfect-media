@@ -101,6 +101,7 @@ namespace PerfectMedia.UI.Movies.Set
             if (SetName != DisplayName)
             {
                 MoveImages();
+                DisplayName = SetName;
                 foreach (IMovieViewModel movie in Children.ToList())
                 {
                     movie.SetName = SetName;
@@ -115,6 +116,8 @@ namespace PerfectMedia.UI.Movies.Set
             MovieSet newSet = _metadataService.GetMovieSet(SetName);
             _fileSystemService.MoveFile(oldSet.BackdropPath, newSet.BackdropPath);
             _fileSystemService.MoveFile(oldSet.PosterPath, newSet.PosterPath);
+            Fanart.Path = newSet.BackdropPath;
+            Poster.Path = newSet.PosterPath;
         }
 
         public override string ToString()

@@ -71,11 +71,13 @@ namespace PerfectMedia.TvShows.Metadata
             image.Size = banner.BannerType2;
             if (banner.Season.HasValue)
             {
+                image.Description = TvShowHelper.GetSeasonName(banner.Season.Value);
                 AvailableSeasonImages seasonImages = GetAvailableSeasonImages(banner.Season.Value);
                 seasonImages.Posters.Add(image);
             }
             else
             {
+                image.Description = "TV Show";
                 _posters.Add(image);
             }
         }
@@ -85,11 +87,13 @@ namespace PerfectMedia.TvShows.Metadata
             Image image = CreateImage(banner);
             if (banner.Season.HasValue)
             {
+                image.Description = TvShowHelper.GetSeasonName(banner.Season.Value);
                 AvailableSeasonImages seasonImages = GetAvailableSeasonImages(banner.Season.Value);
                 seasonImages.Banners.Add(image);
             }
             else
             {
+                image.Description = "TV Show";
                 _banners.Add(image);
             }
         }

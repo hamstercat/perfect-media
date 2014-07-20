@@ -22,7 +22,9 @@ namespace PerfectMedia.UI.TvShows.Shows
         public IEnumerable<Image> FindImages()
         {
             AvailableTvShowImages images = _metadataService.FindImages(_metadataViewModel.Id);
-            return images.Banners;
+            IEnumerable<Image> allSeasonsImages = images.Seasons.SelectMany(s => s.Value.Banners);
+            return images.Banners
+                .Union(allSeasonsImages);
         }
     }
 }

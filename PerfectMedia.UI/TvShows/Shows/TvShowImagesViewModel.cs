@@ -121,7 +121,7 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         private void LoadSeason(Season season)
         {
-            SeasonImagesViewModel viewModel = new SeasonImagesViewModel(_fileSystemService, _metadataService, season.Path);
+            SeasonImagesViewModel viewModel = new SeasonImagesViewModel(_fileSystemService, _metadataService, _path, season.Path);
             viewModel.BannerUrl.Path = season.BannerUrl;
             viewModel.PosterUrl.Path = season.PosterUrl;
             viewModel.SeasonNumber = season.SeasonNumber;

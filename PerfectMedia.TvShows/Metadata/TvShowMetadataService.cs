@@ -60,6 +60,12 @@ namespace PerfectMedia.TvShows.Metadata
             return _metadataUpdater.FindImages(seriesId);
         }
 
+        public AvailableTvShowImages FindImagesFromPath(string path)
+        {
+            string seriesId = FindIdFromPath(path);
+            return FindImages(seriesId);
+        }
+
         public AvailableSeasonImages FindSeasonImages(string seasonPath)
         {
             string seriePath = _fileSystemService.GetParentFolder(seasonPath, 1);

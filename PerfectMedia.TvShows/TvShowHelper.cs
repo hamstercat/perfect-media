@@ -91,5 +91,14 @@ namespace PerfectMedia.TvShows
             }
             return null;
         }
+
+        internal static string GetSeasonName(int seasonNumber)
+        {
+            if (seasonNumber == 0)
+            {
+                return "Specials";
+            }
+            return "Season " + seasonNumber;
+        }
     }
 }

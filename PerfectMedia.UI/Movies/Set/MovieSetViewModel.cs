@@ -74,6 +74,7 @@ namespace PerfectMedia.UI.Movies.Set
         public void Refresh()
         {
             MovieSet set = _metadataService.GetMovieSet(DisplayName);
+            SetName = DisplayName = set.Name;
             Fanart.Path = set.BackdropPath;
             Poster.Path = set.PosterPath;
             Fanart.RefreshImage();
@@ -97,16 +98,23 @@ namespace PerfectMedia.UI.Movies.Set
 
         public void Save()
         {
-            // TODO: move image
-            IMovieViewModel anyMovie = Children.FirstOrDefault();
-            if (anyMovie != null && anyMovie.SetName != DisplayName)
+            if (SetName != DisplayName)
             {
+                MoveImages();
                 foreach (IMovieViewModel movie in Children.ToList())
                 {
-                    movie.SetName = DisplayName;
+                    movie.SetName = SetName;
                     movie.Save();
                 }
             }
+        }
+
+        private void MoveImages()
+        {
+            MovieSet oldSet = _metadataService.GetMovieSet(DisplayName);
+            MovieSet newSet = _metadataService.GetMovieSet(SetName);
+            _fileSystemService.MoveFile(oldSet.BackdropPath, newSet.BackdropPath);
+            _fileSystemService.MoveFile(oldSet.PosterPath, newSet.PosterPath);
         }
 
         public override string ToString()

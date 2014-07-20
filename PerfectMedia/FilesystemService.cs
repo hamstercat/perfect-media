@@ -37,6 +37,14 @@ namespace PerfectMedia
             File.Copy(sourceFile, destinationFile, true);
         }
 
+        public void MoveFile(string sourceFile, string destinationFile)
+        {
+            if (FileExists(sourceFile))
+            {
+                File.Move(sourceFile, destinationFile);
+            }
+        }
+
         public void DownloadFile(string filePath, string url)
         {
             using (WebClient client = new WebClient())

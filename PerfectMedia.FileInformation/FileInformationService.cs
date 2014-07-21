@@ -19,6 +19,7 @@ namespace PerfectMedia.FileInformation
             {
                 videoFileInformation.StreamDetails.Audios = GetAudioTracks(mediaFile.Audio).ToList();
                 videoFileInformation.StreamDetails.Videos = GetVideoTracks(mediaFile.Video).ToList();
+                videoFileInformation.StreamDetails.Subtitles = GetSubtitleTracks(mediaFile.Text).ToList();
             }
             return videoFileInformation;
         }
@@ -69,6 +70,23 @@ namespace PerfectMedia.FileInformation
                 video.Aspect = "Unknown";
             }
             return video;
+        }
+
+        private static IEnumerable<Subtitle> GetSubtitleTracks(IDictionary<int, TextStream> subtitleTracks)
+        {
+            foreach (var subtitleTrack in subtitleTracks)
+            {
+                yield return ConvertSubtitleStream(subtitleTrack.Value);
+            }
+        }
+
+        private static Subtitle ConvertSubtitleStream(TextStream stream)
+        {
+            string longLanguage = stream.miGetString("Language/String");
+            return new Subtitle
+            {
+                Language = LanguageHelper.GetLanguageCode(longLanguage)
+            };
         }
     }
 }

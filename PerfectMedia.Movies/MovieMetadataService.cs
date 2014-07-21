@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PerfectMedia.FileInformation;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,18 +15,21 @@ namespace PerfectMedia.Movies
         private readonly IMovieMetadataUpdater _metadataUpdater;
         private readonly IMovieSynopsisService _synopsisService;
         private readonly IMovieImagesService _imagesService;
+        private readonly IFileInformationService _fileInformationService;
 
         public MovieMetadataService(IFileSystemService fileSystemService,
             IMovieMetadataRepository metadataRepository,
             IMovieMetadataUpdater metadataUpdater,
             IMovieSynopsisService synopsisService,
-            IMovieImagesService imagesService)
+            IMovieImagesService imagesService,
+            IFileInformationService fileInformationService)
         {
             _fileSystemService = fileSystemService;
             _metadataRepository = metadataRepository;
             _metadataUpdater = metadataUpdater;
             _synopsisService = synopsisService;
             _imagesService = imagesService;
+            _fileInformationService = fileInformationService;
         }
 
         public MovieMetadata Get(string path)
@@ -169,6 +173,7 @@ namespace PerfectMedia.Movies
         {
             MovieMetadata metadata = MapFullMovieToMetadata(movie, path);
             UpdateActorsMetadata(path, metadata);
+            metadata.FileInformation = _fileInformationService.GetVideoFileInformation(path);
             Save(path, metadata);
         }
 

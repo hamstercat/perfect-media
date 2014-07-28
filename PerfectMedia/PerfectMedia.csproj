@@ -54,7 +54,6 @@
   <ItemGroup>
     <Compile Include="FileInformation\IFileInformationService.cs" />
     <Compile Include="FileInformation\Subtitle.cs" />
-    <Compile Include="FileInformation\UnknownCodecException.cs" />
     <Compile Include="FileSystemService.cs" />
     <Compile Include="IRestApiService.cs" />
     <Compile Include="ItemNotFoundException.cs" />

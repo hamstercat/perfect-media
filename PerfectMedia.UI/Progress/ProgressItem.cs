@@ -33,11 +33,6 @@ namespace PerfectMedia.UI.Progress
             {
                 await _action();
             }
-            catch (UnknownCodecException ex)
-            {
-                // TODO: show something else than the error message
-                Error = ex.Message;
-            }
             catch (ItemNotFoundException ex)
             {
                 Error = "No metadata could be found";

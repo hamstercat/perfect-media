@@ -96,25 +96,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
         }
 
         [Fact]
-        public async void Update_WithAnUnknownCodec_DoesntRefreshMetadata()
-        {
-            _metadataService.Get(_path)
-                .Returns(new EpisodeMetadata());
-            _metadataService.When(svc => svc.Update(_path, Arg.Any<string>()))
-                .Do(x => { throw new UnknownCodecException("", "456", "MP7"); });
-            _tvShowMetadata.Id
-                .Returns("123");
-
-            // Act
-            ProgressItem item = _viewModel.Update().First();
-            await item.Execute();
-
-            // Assert
-            Assert.NotEmpty(item.Error);
-            Assert.NotEqual(9, _viewModel.EpisodeNumber);
-        }
-
-        [Fact]
         public void Save_Always_SavesMetadataLocally()
         {
             // Arrange

@@ -42,7 +42,7 @@ namespace PerfectMedia.TvShows.Metadata
                 Image defaultImage = imageUrls.FirstOrDefault();
                 if (defaultImage != null)
                 {
-                    _fileSystemService.DownloadFile(imagePath, defaultImage.Url);
+                    _fileSystemService.DownloadImage(imagePath, defaultImage.Url);
                 }
             }
         }

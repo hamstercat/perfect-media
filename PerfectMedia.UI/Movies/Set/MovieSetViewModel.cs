@@ -153,7 +153,7 @@ namespace PerfectMedia.UI.Movies.Set
             Image image = images.FirstOrDefault();
             if (image != null && !_fileSystemService.FileExists(imageViewModel.Path))
             {
-                _fileSystemService.DownloadFile(imageViewModel.Path, image.Url);
+                _fileSystemService.DownloadImage(imageViewModel.Path, image.Url);
             }
         }
     }

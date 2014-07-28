@@ -49,7 +49,7 @@ namespace PerfectMedia.TvShows.Metadata
         {
             if (!_fileSystemService.FileExists(actor.ThumbPath) && !string.IsNullOrEmpty(actor.Thumb))
             {
-                _fileSystemService.DownloadFile(actor.ThumbPath, actor.Thumb);
+                _fileSystemService.DownloadImage(actor.ThumbPath, actor.Thumb);
             }
         }
     }

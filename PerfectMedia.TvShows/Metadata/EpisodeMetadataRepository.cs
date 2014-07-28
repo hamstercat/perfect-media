@@ -33,7 +33,7 @@ namespace PerfectMedia.TvShows.Metadata
             if (!string.IsNullOrEmpty(metadata.ImageUrl))
             {
                 string imageFile = GetImageFile(path);
-                _fileSystemService.SaveImageAsPng(imageFile, metadata.ImageUrl);
+                _fileSystemService.DownloadImage(imageFile, metadata.ImageUrl);
             }
         }
 

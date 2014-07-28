@@ -37,7 +37,7 @@ namespace PerfectMedia.Movies
         {
             if (!_fileSystemService.FileExists(imagePath) && !string.IsNullOrEmpty(imageUrl))
             {
-                _fileSystemService.DownloadFile(imagePath, imageUrl);
+                _fileSystemService.DownloadImage(imagePath, imageUrl);
             }
         }
     }

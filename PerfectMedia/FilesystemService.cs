@@ -45,15 +45,7 @@ namespace PerfectMedia
             }
         }
 
-        public void DownloadFile(string filePath, string url)
-        {
-            using (WebClient client = new WebClient())
-            {
-                client.DownloadFile(url, filePath);
-            }
-        }
-
-        public void SaveImageAsPng(string filePath, string url)
+        public void DownloadImage(string filePath, string url)
         {
             using (WebClient client = new WebClient())
             using (Stream stream = client.OpenRead(url))

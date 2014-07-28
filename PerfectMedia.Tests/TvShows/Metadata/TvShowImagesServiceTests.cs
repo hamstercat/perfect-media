@@ -58,9 +58,9 @@ namespace PerfectMedia.TvShows.Metadata
 
             // Assert
             _fileSystemService.DidNotReceive()
-                .DownloadFile(Arg.Any<string>(), Arg.Any<string>());
+                .DownloadImage(Arg.Any<string>(), Arg.Any<string>());
             _fileSystemService.DidNotReceive()
-                .SaveImageAsPng(Arg.Any<string>(), Arg.Any<string>());
+                .DownloadImage(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -76,9 +76,9 @@ namespace PerfectMedia.TvShows.Metadata
 
             // Assert
             _fileSystemService.DidNotReceive()
-                .DownloadFile(Arg.Any<string>(), Arg.Any<string>());
+                .DownloadImage(Arg.Any<string>(), Arg.Any<string>());
             _fileSystemService.DidNotReceive()
-                .SaveImageAsPng(Arg.Any<string>(), Arg.Any<string>());
+                .DownloadImage(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -92,19 +92,19 @@ namespace PerfectMedia.TvShows.Metadata
 
             // Assert
             _fileSystemService.Received()
-                .DownloadFile(@"C:\Folder\TV Shows\Game of Thrones\fanart.jpg", "http://thetvdb.com/fanart1.jpg");
+                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\fanart.jpg", "http://thetvdb.com/fanart1.jpg");
             _fileSystemService.Received()
-                .DownloadFile(@"C:\Folder\TV Shows\Game of Thrones\poster.jpg", "http://thetvdb.com/poster1.jpg");
+                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\poster.jpg", "http://thetvdb.com/poster1.jpg");
             _fileSystemService.Received()
-                .DownloadFile(@"C:\Folder\TV Shows\Game of Thrones\banner.jpg", "http://thetvdb.com/banner1.jpg");
+                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\banner.jpg", "http://thetvdb.com/banner1.jpg");
             _fileSystemService.Received()
-                .DownloadFile(@"C:\Folder\TV Shows\Game of Thrones\season-specials-poster.jpg", "http://thetvdb.com/specials-poster.jpg");
+                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\season-specials-poster.jpg", "http://thetvdb.com/specials-poster.jpg");
             _fileSystemService.Received()
-                .DownloadFile(@"C:\Folder\TV Shows\Game of Thrones\season-specials-banner.jpg", "http://thetvdb.com/specials-banner.jpg");
+                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\season-specials-banner.jpg", "http://thetvdb.com/specials-banner.jpg");
             _fileSystemService.Received()
-                .DownloadFile(@"C:\Folder\TV Shows\Game of Thrones\season01-poster.jpg", "http://thetvdb.com/season01-poster.jpg");
+                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\season01-poster.jpg", "http://thetvdb.com/season01-poster.jpg");
             _fileSystemService.Received()
-                .DownloadFile(@"C:\Folder\TV Shows\Game of Thrones\season01-banner.jpg", "http://thetvdb.com/season01-banner.jpg");
+                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\season01-banner.jpg", "http://thetvdb.com/season01-banner.jpg");
         }
 
         [Fact]

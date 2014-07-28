@@ -40,7 +40,7 @@ namespace PerfectMedia.UI.Images.Selection
 
         public void DownloadFile()
         {
-            _fileSystemService.DownloadFile(_path, Url);
+            _fileSystemService.DownloadImage(_path, Url);
             IsClosed = true;
             _imageSelectionViewModel.IsClosed = true;
         }

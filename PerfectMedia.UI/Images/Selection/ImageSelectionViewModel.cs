@@ -22,7 +22,7 @@ namespace PerfectMedia.UI.Images.Selection
             Image defaultImage = new Image { Url = path };
             Selection = new SelectionViewModel<Image>(defaultImage, image =>
             {
-                fileSystemService.DownloadFile(path, image.Url);
+                fileSystemService.DownloadImage(path, image.Url);
                 IsClosed = true;
             });
             Download = new ChooseImageFileViewModel(fileSystemService, this, path);

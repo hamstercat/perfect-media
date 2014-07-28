@@ -13,8 +13,7 @@ namespace PerfectMedia
         void DeleteFile(string filePath);
         void CopyFile(string sourceFile, string destinationFile);
         void MoveFile(string sourceFile, string destinationFile);
-        void DownloadFile(string filePath, string url);
-        void SaveImageAsPng(string filePath, string url);
+        void DownloadImage(string filePath, string url);
 
         bool FolderExists(string folderName);
         void CreateFolder(string folderName);

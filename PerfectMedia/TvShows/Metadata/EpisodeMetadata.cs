@@ -63,7 +63,25 @@ namespace PerfectMedia.TvShows.Metadata
         [XmlElement(ElementName = "director")]
         public List<string> Director { get; set; }
 
-        [XmlElement(ElementName = "aired", DataType = "date")]
+        [XmlElement(ElementName = "aired")]
+        public string AiredDateString
+        {
+            get
+            {
+                if (AiredDate.HasValue)
+                    return AiredDate.Value.ToString("yyyy-MM-dd");
+                return null;
+            }
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                    AiredDate = null;
+                else
+                    AiredDate = DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            }
+        }
+
+        [XmlIgnore]
         public DateTime? AiredDate { get; set; }
 
         // For media files containing multiple episodes, where value is the time where the next episode begins in seconds
@@ -85,16 +103,6 @@ namespace PerfectMedia.TvShows.Metadata
         {
             Credits = new List<string>();
             Director = new List<string>();
-        }
-
-        public bool ShouldSerializeLastPlayed()
-        {
-            return LastPlayed.HasValue;
-        }
-
-        public bool ShouldSerializeAiredDate()
-        {
-            return AiredDate.HasValue;
         }
 
         public bool ShouldSerializeEpisodeBookmarks()

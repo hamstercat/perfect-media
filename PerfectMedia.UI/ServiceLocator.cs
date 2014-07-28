@@ -1,4 +1,5 @@
-﻿using Ninject;
+﻿using log4net.Config;
+using Ninject;
 using Ninject.Extensions.Conventions;
 using PerfectMedia.Movies;
 using PerfectMedia.TvShows.Metadata;
@@ -60,6 +61,7 @@ namespace PerfectMedia.UI
         public ServiceLocator()
         {
             _kernel = new StandardKernel();
+            XmlConfigurator.Configure();
             BindDependencies();
         }
 

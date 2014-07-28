@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Anotar.Log4Net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,7 @@ namespace PerfectMedia.Movies
             _restApiService = restApiService;
         }
 
+        [LogToErrorOnException]
         public IEnumerable<Movie> FindMovies(string name)
         {
             string url = string.Format("3/search/movie?api_key={0}&query={1}",
@@ -27,6 +29,7 @@ namespace PerfectMedia.Movies
             return result.Results;
         }
 
+        [LogToErrorOnException]
         public FullMovie GetMovieMetadata(string movieId)
         {
             string url = string.Format("3/movie/{0}?api_key={1}", movieId, MovieHelper.ThemoviedbApiKey);
@@ -35,6 +38,7 @@ namespace PerfectMedia.Movies
             return fullMovie;
         }
 
+        [LogToErrorOnException]
         public AvailableMovieImages FindImages(string movieId)
         {
             string url = string.Format("3/movie/{0}/images?api_key={1}", movieId, MovieHelper.ThemoviedbApiKey);
@@ -42,6 +46,7 @@ namespace PerfectMedia.Movies
             return ConvertImagesResult(result);
         }
 
+        [LogToErrorOnException]
         public AvailableMovieImages FindSetImages(string setName)
         {
             // TODO: refactor
@@ -57,6 +62,7 @@ namespace PerfectMedia.Movies
             return new AvailableMovieImages();
         }
 
+        [LogToErrorOnException]
         public MovieActorsResult FindCast(string movieId)
         {
             string url = string.Format("3/movie/{0}/credits?api_key={1}", movieId, MovieHelper.ThemoviedbApiKey);
@@ -65,6 +71,7 @@ namespace PerfectMedia.Movies
             return actorsResult;
         }
 
+        [LogToErrorOnException]
         public string FindCertification(string movieId)
         {
             string url = string.Format("3/movie/{0}/releases?api_key={1}", movieId, MovieHelper.ThemoviedbApiKey);

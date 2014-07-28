@@ -22,14 +22,14 @@ namespace PerfectMedia.FileInformation
         internal static string GetVideoCodecName(string codecCommonName, string codecId, string format)
         {
             string codec = DetermineVideoCodec(codecCommonName.ToLower(), codecId.ToLower(), format.ToLower());
-            LogUnknownCodec(_knownVideoCodecs, codec, codecCommonName, codecId, format);
+            LogUnknownCodec(_knownVideoCodecs, "video", codec, codecCommonName, codecId, format);
             return codec.ToUpper();
         }
 
         internal static string GetAudioCodecName(string codecCommonName, string codecId, string format)
         {
             string codec = DetermineAudioCodec(codecCommonName, codecId, format);
-            LogUnknownCodec(_knownAudioCodecs, codec, codecCommonName, codecId, format);
+            LogUnknownCodec(_knownAudioCodecs, "audio", codec, codecCommonName, codecId, format);
             return codec.ToUpper();
         }
 
@@ -73,11 +73,11 @@ namespace PerfectMedia.FileInformation
             return codecCommonName;
         }
 
-        private static void LogUnknownCodec(IEnumerable<string> knownCodecs, string codec, string codecCommonName, string codecId, string format)
+        private static void LogUnknownCodec(IEnumerable<string> knownCodecs, string codecType, string codec, string codecCommonName, string codecId, string format)
         {
             if (!_knownVideoCodecs.Contains(codec.ToLower()))
             {
-                LogTo.Warn("Unknown codec was found: " + codec); ;
+                LogTo.Warn("Unknown codec was found for codec type {0}: {1}", codecType, codec); ;
                 LogTo.Warn("    -codecCommonName: " + codecCommonName);
                 LogTo.Warn("    -codecId: " + codecId);
                 LogTo.Warn("    -format: " + format);

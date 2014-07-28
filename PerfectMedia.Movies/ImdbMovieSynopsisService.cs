@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿using Anotar.Log4Net;
+using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace PerfectMedia.Movies
             _restApiService = restApiService;
         }
 
+        [LogToErrorOnException]
         public MovieSynopsis GetSynopsis(string movieId)
         {
             string url = string.Format("title/{0}/", movieId);

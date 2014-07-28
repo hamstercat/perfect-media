@@ -81,8 +81,8 @@ namespace PerfectMedia.TvShows.Metadata
             return new EpisodeMetadata
             {
                 AiredDate = episode.FirstAired,
-                Credits = episode.Writer.Split('|').ToList(),
-                Director = episode.Director.Split('|').ToList(),
+                Credits = SplitStringList(episode.Writer).ToList(),
+                Director = SplitStringList(episode.Director).ToList(),
                 // TODO: check the 2 following properties
                 DisplayEpisode = episode.AirsBeforeEpisode,
                 DisplaySeason = episode.AirsBeforeSeason,
@@ -93,6 +93,18 @@ namespace PerfectMedia.TvShows.Metadata
                 SeasonNumber = episode.SeasonNumber,
                 Title = episode.EpisodeName,
             };
+        }
+
+        private static IEnumerable<string> SplitStringList(string pipeDelimitedString)
+        {
+            foreach(string str in pipeDelimitedString.Split('|'))
+            {
+                string trimmedString = str.Trim();
+                if (!string.IsNullOrEmpty(trimmedString))
+                {
+                    yield return trimmedString;
+                }
+            }
         }
     }
 }

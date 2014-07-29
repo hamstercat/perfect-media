@@ -54,8 +54,8 @@ namespace PerfectMedia.TvShows.Metadata
                 .Save(_path, metadata);
         }
 
-        [Fact(Skip = "Not implemented")]
-        public void Update_WhenSerieAlreadyHasMetadata_UpdatesMetadata()
+        [Fact]
+        public void Update_WhenSerieAlreadyHasMetadata_UpdatesImages()
         {
             // Arrange
             _metadataRepository.Get(_path)
@@ -69,41 +69,8 @@ namespace PerfectMedia.TvShows.Metadata
             _service.Update(_path);
 
             // Assert
-        }
-
-        [Fact(Skip = "Not implemented")]
-        public void Update_WhenSerieAlreadyHasMetadata_UpdatesImages()
-        {
-            // Arrange
-            _metadataRepository.Get(_path)
-                .Returns(new TvShowMetadata { Id = "456" });
-
-            // Act
-            _service.Update(_path);
-
-            // Assert
-        }
-
-        [Fact(Skip = "Not implemented")]
-        public void Update_WhenSerieDoesntHaveMetadata_UpdatesMetadata()
-        {
-            // Arrange
-
-            // Act
-            _service.Update(_path);
-
-            // Assert
-        }
-
-        [Fact(Skip = "Not implemented")]
-        public void Update_WhenSerieDoesntHaveMetadata_UpdatesImages()
-        {
-            // Arrange
-
-            // Act
-            _service.Update(_path);
-
-            // Assert
+            _imageService.Received()
+                .Update(_path, Arg.Any<AvailableTvShowImages>());
         }
 
         [Fact]
@@ -197,7 +164,10 @@ namespace PerfectMedia.TvShows.Metadata
 
         private FullSerie CreateFullSerie(string serieId)
         {
-            throw new NotImplementedException();
+            return new FullSerie
+            {
+                Genre = ""
+            };
         }
     }
 }

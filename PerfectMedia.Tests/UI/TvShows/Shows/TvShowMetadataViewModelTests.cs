@@ -1,5 +1,6 @@
 ﻿using NSubstitute;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Progress;
 using System;
 using System.Collections.Generic;
@@ -127,7 +128,8 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         private ActorViewModel CreateActorViewModel(int i)
         {
-            ActorViewModel actor = new ActorViewModel(null);
+            IImageViewModel image = Substitute.For<IImageViewModel>();
+            ActorViewModel actor = new ActorViewModel(image);
             actor.Name = "ActorName" + i;
             actor.Role = "ActorRole" + i;
             actor.ThumbUrl = "ActorThumb" + i;

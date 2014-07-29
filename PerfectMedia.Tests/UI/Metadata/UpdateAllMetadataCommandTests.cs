@@ -50,20 +50,6 @@ namespace PerfectMedia.UI.Metadata
         }
 
         [Fact]
-        public void CanExecuteChanged_WhenAddingTvShow_Triggers()
-        {
-            // Arrange
-            bool canExecuteChanged = false;
-            _command.CanExecuteChanged += (s, e) => canExecuteChanged = true;
-
-            // Act
-            _movies.Add(null);
-
-            // Assert
-            Assert.True(canExecuteChanged);
-        }
-
-        [Fact]
         public void Execute_WithoutTvShows_DoesNothing()
         {
             // Act

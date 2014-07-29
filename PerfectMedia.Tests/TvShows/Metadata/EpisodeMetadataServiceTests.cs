@@ -11,6 +11,7 @@ namespace PerfectMedia.TvShows.Metadata
 {
     public class EpisodeMetadataServiceTests
     {
+        private readonly IFileSystemService _fileSystemService;
         private readonly IEpisodeMetadataRepository _metadataRepository;
         private readonly ITvShowMetadataUpdater _metadataUpdater;
         private readonly IFileInformationService _fileInformationService;
@@ -19,11 +20,12 @@ namespace PerfectMedia.TvShows.Metadata
 
         public EpisodeMetadataServiceTests()
         {
+            _fileSystemService = Substitute.For<IFileSystemService>();
             _metadataRepository = Substitute.For<IEpisodeMetadataRepository>();
             _metadataUpdater = Substitute.For<ITvShowMetadataUpdater>();
             _fileInformationService = Substitute.For<IFileInformationService>();
             _path = @"C:\Folder\TV Shows\Game of Thrones\Season 3\3x09.mkv";
-            _service = new EpisodeMetadataService(null, _metadataRepository, _metadataUpdater, _fileInformationService);
+            _service = new EpisodeMetadataService(_fileSystemService, _metadataRepository, _metadataUpdater, _fileInformationService);
         }
 
         [Fact]

@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Anotar.Log4Net;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace PerfectMedia
         public string Get(string url)
         {
             IRestResponse response = ExecuteRequest(url);
-            ValidateStatusCode(response);
+            ValidateStatusCode(response, url);
             return response.Content;
         }
 
@@ -30,7 +31,7 @@ namespace PerfectMedia
             where T : new()
         {
             IRestResponse<T> response = ExecuteRequest<T>(url);
-            ValidateStatusCode(response);
+            ValidateStatusCode(response, url);
             return response.Data;
         }
 
@@ -49,11 +50,13 @@ namespace PerfectMedia
             return _restClient.Execute<T>(request);
         }
 
-        private void ValidateStatusCode(IRestResponse response)
+        private void ValidateStatusCode(IRestResponse response, string url)
         {
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 string message = string.Format("Response code {0}: {1}", (int)response.StatusCode, response.ErrorMessage);
+                LogTo.Warn("API with base \"{0}\" on URL \"{1}\":", _restClient.BaseUrl, url);
+                LogTo.Warn("    {0}", message);
                 throw new ScrapperException(message);
             }
         }

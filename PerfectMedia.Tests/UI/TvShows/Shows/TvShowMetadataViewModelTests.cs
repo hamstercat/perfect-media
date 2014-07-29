@@ -149,7 +149,7 @@ namespace PerfectMedia.UI.TvShows.Shows
                 Language = "fr",
                 MpaaRating = "G",
                 Plot = "The best plot ever",
-                PremieredDate = new DateTime(2012, 12, 21),
+                Premiered = new DateTime(2012, 12, 21),
                 Rating = 9,
                 RuntimeInMinutes = 23,
                 State = 1,
@@ -172,7 +172,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             Assert.Equal(metadata.Language, _viewModel.Language);
             Assert.Equal(metadata.MpaaRating, _viewModel.MpaaRating);
             Assert.Equal(metadata.Plot, _viewModel.Plot);
-            Assert.Equal(metadata.PremieredDate, _viewModel.PremieredDate);
+            Assert.Equal(metadata.Premiered, _viewModel.PremieredDate);
             Assert.Equal(metadata.Rating, _viewModel.Rating);
             Assert.Equal(metadata.RuntimeInMinutes, _viewModel.RuntimeInMinutes);
             Assert.Equal(metadata.State, _viewModel.State);

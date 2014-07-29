@@ -61,7 +61,14 @@ namespace PerfectMedia.Movies
         [XmlElement(ElementName = "director")]
         public List<string> Directors { get; set; }
 
-        [XmlElement(ElementName = "premiered", DataType = "date")]
+        [XmlElement(ElementName = "premiered")]
+        public string PremieredString
+        {
+            get { return NfoRepository.GetStringFromDateTime(Premiered); }
+            set { Premiered = NfoRepository.GetDateTimeFromString(value); }
+        }
+
+        [XmlIgnore]
         public DateTime? Premiered { get; set; }
 
         [XmlElement(ElementName = "fileinfo")]
@@ -90,11 +97,6 @@ namespace PerfectMedia.Movies
         public bool ShouldSerializeRating()
         {
             return Rating.HasValue;
-        }
-
-        public bool ShouldSerializePremiered()
-        {
-            return Premiered.HasValue;
         }
 
         public bool ShouldSerializeYear()

@@ -129,7 +129,7 @@ namespace PerfectMedia.TvShows.Metadata
             metadata.Language = serie.Language;
             metadata.MpaaRating = serie.ContentRating;
             metadata.Plot = serie.Overview;
-            metadata.PremieredDate = serie.FirstAired;
+            metadata.Premiered = serie.FirstAired;
             metadata.Rating = serie.Rating;
             metadata.RuntimeInMinutes = serie.Runtime;
             //metadata.State = serie.Status;

@@ -37,8 +37,15 @@ namespace PerfectMedia.TvShows.Metadata
         [XmlElement(ElementName = "rating")]
         public double? Rating { get; set; }
 
-        [XmlElement(ElementName = "premiered", DataType = "date")]
-        public DateTime? PremieredDate { get; set; }
+        [XmlElement(ElementName = "premiered")]
+        public string PremieredString
+        {
+            get { return NfoRepository.GetStringFromDateTime(Premiered); }
+            set { Premiered = NfoRepository.GetDateTimeFromString(value); }
+        }
+
+        [XmlIgnore]
+        public DateTime? Premiered { get; set; }
 
         [XmlElement(ElementName = "studio")]
         public string Studio { get; set; }
@@ -63,11 +70,6 @@ namespace PerfectMedia.TvShows.Metadata
         public bool ShouldSerializeRating()
         {
             return Rating.HasValue;
-        }
-
-        public bool ShouldSerializePremieredDate()
-        {
-            return PremieredDate.HasValue;
         }
 
         public bool ShouldSerializeActors()

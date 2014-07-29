@@ -39,19 +39,8 @@ namespace PerfectMedia.TvShows.Metadata
         [XmlElement(ElementName = "lastplayed")]
         public string LastPlayedString
         {
-            get
-            {
-                if (LastPlayed.HasValue)
-                    return LastPlayed.Value.ToString("yyyy-MM-dd");
-                return null;
-            }
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                    LastPlayed = null;
-                else
-                    LastPlayed = DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            }
+            get { return NfoRepository.GetStringFromDateTime(LastPlayed); }
+            set { LastPlayed = NfoRepository.GetDateTimeFromString(value); }
         }
 
         [XmlIgnore]
@@ -66,19 +55,8 @@ namespace PerfectMedia.TvShows.Metadata
         [XmlElement(ElementName = "aired")]
         public string AiredDateString
         {
-            get
-            {
-                if (AiredDate.HasValue)
-                    return AiredDate.Value.ToString("yyyy-MM-dd");
-                return null;
-            }
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                    AiredDate = null;
-                else
-                    AiredDate = DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            }
+            get { return NfoRepository.GetStringFromDateTime(AiredDate); }
+            set { AiredDate = NfoRepository.GetDateTimeFromString(value); }
         }
 
         [XmlIgnore]

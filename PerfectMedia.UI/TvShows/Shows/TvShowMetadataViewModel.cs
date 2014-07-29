@@ -297,7 +297,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             Plot = metadata.Plot;
             RuntimeInMinutes = metadata.RuntimeInMinutes;
             Rating = metadata.Rating;
-            PremieredDate = metadata.PremieredDate;
+            PremieredDate = metadata.Premiered;
             Studio = metadata.Studio;
             Language = metadata.Language;
 
@@ -331,7 +331,7 @@ namespace PerfectMedia.UI.TvShows.Shows
                 Plot = Plot,
                 RuntimeInMinutes = RuntimeInMinutes,
                 Rating = Rating,
-                PremieredDate = PremieredDate,
+                Premiered = PremieredDate,
                 Studio = Studio,
                 Language = Language,
                 Genres = new List<string>(Genres.Collection)

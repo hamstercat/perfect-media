@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,25 @@ using System.Xml.Serialization;
 
 namespace PerfectMedia
 {
-    public abstract class NfoRepository<TMetadata>
+    public abstract class NfoRepository
+    {
+        public static string GetStringFromDateTime(DateTime? dateTime)
+        {
+            if (dateTime.HasValue)
+                return dateTime.Value.ToString("yyyy-MM-dd");
+            return null;
+        }
+
+        public static DateTime? GetDateTimeFromString(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return null;
+            else
+                return DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+        }
+    }
+
+    public abstract class NfoRepository<TMetadata> : NfoRepository
         where TMetadata : new()
     {
         protected abstract string GetNfoFile(string path);

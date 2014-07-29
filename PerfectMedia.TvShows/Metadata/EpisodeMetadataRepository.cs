@@ -53,7 +53,7 @@ namespace PerfectMedia.TvShows.Metadata
         {
             string folder = Path.GetDirectoryName(path);
             string fileName = Path.GetFileNameWithoutExtension(path);
-            return Path.Combine(folder, fileName + "-thumb.png");
+            return Path.Combine(folder, fileName + "-thumb.jpg");
         }
     }
 }

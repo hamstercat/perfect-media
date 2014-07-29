@@ -51,6 +51,7 @@ namespace PerfectMedia
             using (Stream stream = client.OpenRead(url))
             using (MagickImage image = new MagickImage(stream))
             {
+                image.Quality = 80;
                 image.Write(filePath);
             }
         }

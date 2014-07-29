@@ -46,9 +46,10 @@ namespace PerfectMedia.FileInformation
                 case "xvid":
                     return "xvid";
             }
+
             if (codecCommonName.StartsWith("divx"))
                 return "divx";
-            return codecCommonName;
+            return codecCommonName.ToLower();
         }
 
         private static string DetermineAudioCodec(string codecCommonName, string codecId, string format)
@@ -69,13 +70,13 @@ namespace PerfectMedia.FileInformation
             }
 
             if (string.IsNullOrEmpty(codecCommonName))
-                return format;
-            return codecCommonName;
+                return format.ToLower();
+            return codecCommonName.ToLower();
         }
 
         private static void LogUnknownCodec(IEnumerable<string> knownCodecs, string codecType, string codec, string codecCommonName, string codecId, string format)
         {
-            if (!_knownVideoCodecs.Contains(codec.ToLower()))
+            if (!knownCodecs.Contains(codec.ToLower()))
             {
                 LogTo.Warn("Unknown codec was found for codec type {0}: {1}", codecType, codec); ;
                 LogTo.Warn("    -codecCommonName: " + codecCommonName);

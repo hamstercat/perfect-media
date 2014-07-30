@@ -59,8 +59,6 @@ namespace PerfectMedia.FileInformation
             {
                 case "wma":
                     return "wmav2";
-                case "mpeg audio":
-                    return "mp2";
                 case "pcm":
                     if (codecId == "sowt")
                         return "pcm_s16le";

@@ -39,6 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ProjectAssemblyInfo.cs">
+      <Link>Properties\ProjectAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="SourceRepository.cs" />
     <Compile Include="SourceService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

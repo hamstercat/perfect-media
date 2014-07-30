@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ProjectAssemblyInfo.cs">
+      <Link>Properties\ProjectAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="CountryCertification.cs" />
     <Compile Include="ImdbMovieSynopsisService.cs" />
     <Compile Include="MovieCertificationResult.cs" />

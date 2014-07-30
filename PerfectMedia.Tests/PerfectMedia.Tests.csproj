@@ -50,6 +50,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ProjectAssemblyInfo.cs">
+      <Link>Properties\ProjectAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="FileInformation\CodecHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sources\SourceServiceTests.cs" />
     <Compile Include="TvShows\Metadata\EpisodeMetadataServiceTests.cs" />
@@ -84,6 +88,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PerfectMedia.FileInformation\PerfectMedia.FileInformation.csproj">
+      <Project>{f2149ff4-5fe2-4bc5-ac07-6e8703d131a4}</Project>
+      <Name>PerfectMedia.FileInformation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PerfectMedia.Movies\PerfectMedia.Movies.csproj">
+      <Project>{1386d6e4-c4dd-4aa1-b5bd-dde9e5a91911}</Project>
+      <Name>PerfectMedia.Movies</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PerfectMedia.Sources\PerfectMedia.Sources.csproj">
       <Project>{77409bbd-9696-4912-8a3f-9a0ca28d5cfc}</Project>
       <Name>PerfectMedia.Sources</Name>

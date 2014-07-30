@@ -59,6 +59,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ProjectAssemblyInfo.cs">
+      <Link>Properties\ProjectAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="FileInformation\IFileInformationService.cs" />
     <Compile Include="FileInformation\Subtitle.cs" />
     <Compile Include="FileSystemService.cs" />

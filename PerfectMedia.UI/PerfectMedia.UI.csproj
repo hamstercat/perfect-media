@@ -78,6 +78,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\ProjectAssemblyInfo.cs">
+      <Link>Properties\ProjectAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Converters\IsEmptyToBooleanConverter.cs" />
     <Compile Include="Converters\NotZeroConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />

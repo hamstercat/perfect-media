@@ -49,6 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ProjectAssemblyInfo.cs">
+      <Link>Properties\ProjectAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Metadata\AvailableTvShowImagesMapper.cs" />
     <Compile Include="Metadata\Episode.cs" />
     <Compile Include="Metadata\EpisodeMetadataRepository.cs" />

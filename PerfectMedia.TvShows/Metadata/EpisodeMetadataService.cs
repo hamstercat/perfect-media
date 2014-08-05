@@ -38,11 +38,7 @@ namespace PerfectMedia.TvShows.Metadata
         public void Update(string episodeFile, string serieId)
         {
             EpisodeNumber episode = TvShowHelper.FindEpisodeNumberFromFile(_fileSystemService, episodeFile);
-            EpisodeMetadata metadata = _metadataUpdater.GetEpisodeMetadata(serieId, episode.SeasonNumber, episode.EpisodeSeasonNumber);
-            if (metadata == null)
-            {
-                throw new ItemNotFoundException(episodeFile);
-            }
+            EpisodeMetadata metadata = GetMetadata(episodeFile, serieId, episode);
             metadata.FileInformation = _fileInformationService.GetVideoFileInformation(episodeFile);
             Save(episodeFile, metadata);
         }
@@ -50,6 +46,18 @@ namespace PerfectMedia.TvShows.Metadata
         public void Delete(string episodeFile)
         {
             _metadataRepository.Delete(episodeFile);
+        }
+
+        private EpisodeMetadata GetMetadata(string episodeFile, string serieId, EpisodeNumber episode)
+        {
+            try
+            {
+                return _metadataUpdater.GetEpisodeMetadata(serieId, episode.SeasonNumber, episode.EpisodeSeasonNumber);
+            }
+            catch (ScrapperException)
+            {
+                throw new ItemNotFoundException(episodeFile);
+            }
         }
     }
 }

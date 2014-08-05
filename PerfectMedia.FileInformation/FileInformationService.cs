@@ -1,4 +1,5 @@
-﻿using MediaInfoDotNet;
+﻿using Anotar.Log4Net;
+using MediaInfoDotNet;
 using MediaInfoDotNet.Models;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace PerfectMedia.FileInformation
     {
         public VideoFileInformation GetVideoFileInformation(string file)
         {
+            LogTo.Debug("Determining codec for file {0}...", file);
             VideoFileInformation videoFileInformation = new VideoFileInformation { StreamDetails = new StreamDetails() };
             using (MediaFile mediaFile = new MediaFile(file))
             {

@@ -39,7 +39,13 @@ namespace PerfectMedia.FileInformation
             switch (format)
             {
                 case "avc":
-                    return "H264";
+                    switch (codecId)
+	                {
+                        case "avc1":
+                            return "avc1";
+                        default:
+                            return "h264";
+	                }
             }
             switch (codecCommonName)
             {
@@ -74,6 +80,7 @@ namespace PerfectMedia.FileInformation
 
         private static void LogUnknownCodec(IEnumerable<string> knownCodecs, string codecType, string codec, string codecCommonName, string codecId, string format)
         {
+            LogTo.Debug("    -> codecCommonName = {0}, codecId = {1}, format = {2}", codecCommonName, codecId, format);
             if (!knownCodecs.Contains(codec.ToLower()))
             {
                 LogTo.Warn("Unknown codec was found for codec type {0}: {1}", codecType, codec); ;

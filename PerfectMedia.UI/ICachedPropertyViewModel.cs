@@ -6,8 +6,8 @@ using System.Text;
 
 namespace PerfectMedia.UI
 {
-    public interface ICachedPropertyViewModel : INotifyPropertyChanged
+    public interface ICachedPropertyViewModel<T> : INotifyPropertyChanged
     {
-        string Value { get; set; }
+        T Value { get; set; }
     }
 }

@@ -42,7 +42,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         }
 
         #region Metadata
-        public ICachedPropertyViewModel Title { get; private set; }
+        public ICachedPropertyViewModel<string> Title { get; private set; }
 
         private ObservableCollection<ActorViewModel> _actors;
         public ObservableCollection<ActorViewModel> Actors
@@ -232,7 +232,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             Path = path;
             _lazyLoaded = false;
 
-            Title = viewModelFactory.GetCachedProperty(path);
+            Title = viewModelFactory.GetCachedProperty(path, s => s, s => s);
             Title.PropertyChanged += TitleValueChanged;
 
             Images = viewModelFactory.GetTvShowImages(this, path);

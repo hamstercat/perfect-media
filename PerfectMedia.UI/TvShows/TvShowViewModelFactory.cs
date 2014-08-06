@@ -8,6 +8,7 @@ using PerfectMedia.UI.TvShows.Episodes;
 using PerfectMedia.UI.TvShows.Seasons;
 using PerfectMedia.UI.TvShows.Shows;
 using PerfectMedia.UI.TvShows.ShowSelection;
+using System;
 
 namespace PerfectMedia.UI.TvShows
 {
@@ -65,7 +66,7 @@ namespace PerfectMedia.UI.TvShows
 
         public IEpisodeViewModel GetEpisode(ITvShowMetadataViewModel tvShowMetadata, string path)
         {
-            return new EpisodeViewModel(_episodeMetadataService, tvShowMetadata, _progressManagerViewModel, _fileSystemService, path);
+            return new EpisodeViewModel(this, _episodeMetadataService, tvShowMetadata, _progressManagerViewModel, _fileSystemService, path);
         }
 
         public IImageViewModel GetImage()
@@ -83,9 +84,9 @@ namespace PerfectMedia.UI.TvShows
             return new TvShowSelectionViewModel(_tvShowMetadataService, tvShowMetadata, path);
         }
 
-        public ICachedPropertyViewModel GetCachedProperty(string key)
+        public ICachedPropertyViewModel<T> GetCachedProperty<T>(string key, Func<T, string> converter, Func<string, T> otherConverter)
         {
-            return new CachedPropertyViewModel(_keyDataStore, key);
+            return new CachedPropertyViewModel<T>(_keyDataStore, key, converter, otherConverter);
         }
     }
 }

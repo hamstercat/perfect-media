@@ -28,14 +28,14 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="Title" />
-        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title}" />
+        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title.Value}" />
         <Label Grid.Row="1" Grid.Column="0" Content="Plot" />
         <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Plot}" TextWrapping="Wrap" />
 
         <Label Grid.Row="2" Grid.Column="0" Content="Season" />
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SeasonNumber}" />
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SeasonNumber.Value}" />
         <Label Grid.Row="3" Grid.Column="0" Content="Episode" />
-        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding EpisodeNumber}" />
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding EpisodeNumber.Value}" />
         <Label Grid.Row="4" Grid.Column="0" Content="Rating" />
         <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Rating}" />
         <Label Grid.Row="5" Grid.Column="0" Content="Aired Date" />
@@ -49,10 +49,10 @@
         <Label Grid.Row="9" Grid.Column="0" Content="Last Played" />
         <DatePicker Grid.Row="9" Grid.Column="1" SelectedDate="{Binding LastPlayed}" />
 
-        <Label Grid.Row="10" Grid.Column="0" Content="Display Season" Visibility="{Binding SeasonNumber, Converter={StaticResource SpecialsSeasonVisibilityConverter}}" />
-        <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding DisplaySeason}" Visibility="{Binding SeasonNumber, Converter={StaticResource SpecialsSeasonVisibilityConverter}}" />
-        <Label Grid.Row="10" Grid.Column="2" Content="Display Episode" Visibility="{Binding SeasonNumber, Converter={StaticResource SpecialsSeasonVisibilityConverter}}" />
-        <TextBox Grid.Row="10" Grid.Column="3" Text="{Binding DisplayEpisode}" Visibility="{Binding SeasonNumber, Converter={StaticResource SpecialsSeasonVisibilityConverter}}" />
+        <Label Grid.Row="10" Grid.Column="0" Content="Display Season" Visibility="{Binding SeasonNumber.Value, Converter={StaticResource SpecialsSeasonVisibilityConverter}}" />
+        <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding DisplaySeason}" Visibility="{Binding SeasonNumber.Value, Converter={StaticResource SpecialsSeasonVisibilityConverter}}" />
+        <Label Grid.Row="10" Grid.Column="2" Content="Display Episode" Visibility="{Binding SeasonNumber.Value, Converter={StaticResource SpecialsSeasonVisibilityConverter}}" />
+        <TextBox Grid.Row="10" Grid.Column="3" Text="{Binding DisplayEpisode}" Visibility="{Binding SeasonNumber.Value, Converter={StaticResource SpecialsSeasonVisibilityConverter}}" />
         <!-- TODO: EpisodeBookmarks when multi-episode file is supported -->
 
         <img:SelectableImage Grid.Row="2" Grid.RowSpan="7" Grid.Column="2" Grid.ColumnSpan="2" MaxWidth="400" DataContext="{Binding ImagePath}" />

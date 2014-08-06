@@ -23,8 +23,9 @@ namespace PerfectMedia.UI.TvShows.Episodes
         {
             _metadataService = Substitute.For<IEpisodeMetadataService>();
             _tvShowMetadata = Substitute.For<ITvShowMetadataViewModel>();
+            ITvShowViewModelFactory viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
             _path = @"C:\Folder\TV Shows\Game of Thrones\Season 2\3x09.mkv";
-            _viewModel = new EpisodeViewModel(_metadataService, _tvShowMetadata, null, null, _path);
+            _viewModel = new EpisodeViewModel(viewModelFactory, _metadataService, _tvShowMetadata, null, null, _path);
         }
 
         [Fact]
@@ -110,15 +111,15 @@ namespace PerfectMedia.UI.TvShows.Episodes
             _viewModel.DisplayEpisode = 1;
             _viewModel.DisplaySeason = 1;
             _viewModel.EpisodeBookmarks = 3.2;
-            _viewModel.EpisodeNumber = 9;
+            _viewModel.EpisodeNumber.Value = 9;
             _viewModel.ImagePath.Path = @"C:\Folder\TV Shows\Game of Thrones\Season 2\3x09-thumb.png";
             _viewModel.ImageUrl = "http://thetvdb.com/banners/seasons/79481-0.jpg";
             _viewModel.LastPlayed = new DateTime(2013, 01, 13);
             _viewModel.PlayCount = 4;
             _viewModel.Plot = "The best plot ever written in the history of men";
             _viewModel.Rating = 9.5;
-            _viewModel.SeasonNumber = 3;
-            _viewModel.Title = "The Red Wedding";
+            _viewModel.SeasonNumber.Value = 3;
+            _viewModel.Title.Value = "The Red Wedding";
 
             // Act
             _viewModel.Save();
@@ -159,15 +160,15 @@ namespace PerfectMedia.UI.TvShows.Episodes
             Assert.Equal(metadata.DisplayEpisode, _viewModel.DisplayEpisode);
             Assert.Equal(metadata.DisplaySeason, _viewModel.DisplaySeason);
             Assert.Equal(metadata.EpisodeBookmarks, _viewModel.EpisodeBookmarks);
-            Assert.Equal(metadata.EpisodeNumber, _viewModel.EpisodeNumber);
+            Assert.Equal(metadata.EpisodeNumber, _viewModel.EpisodeNumber.Value);
             Assert.Equal(metadata.ImagePath, _viewModel.ImagePath.Path);
             Assert.Equal(metadata.ImageUrl, _viewModel.ImageUrl);
             Assert.Equal(metadata.LastPlayed, _viewModel.LastPlayed);
             Assert.Equal(metadata.Playcount, _viewModel.PlayCount);
             Assert.Equal(metadata.Plot, _viewModel.Plot);
             Assert.Equal(metadata.Rating, _viewModel.Rating);
-            Assert.Equal(metadata.SeasonNumber, _viewModel.SeasonNumber);
-            Assert.Equal(metadata.Title, _viewModel.Title);
+            Assert.Equal(metadata.SeasonNumber, _viewModel.SeasonNumber.Value);
+            Assert.Equal(metadata.Title, _viewModel.Title.Value);
             return true;
         }
     }

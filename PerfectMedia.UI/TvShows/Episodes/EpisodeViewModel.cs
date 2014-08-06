@@ -8,6 +8,7 @@ using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,27 +17,16 @@ using System.Windows.Input;
 namespace PerfectMedia.UI.TvShows.Episodes
 {
     [ImplementPropertyChanged]
-    public class EpisodeViewModel : IEpisodeViewModel, ITreeViewItemViewModel, IMetadataProvider
+    public class EpisodeViewModel : BaseViewModel, IEpisodeViewModel, ITreeViewItemViewModel, IMetadataProvider
     {
         private readonly IEpisodeMetadataService _metadataService;
         private readonly ITvShowMetadataViewModel _tvShowMetadata;
         private bool _lazyLoaded;
 
         #region Metadata
-        private string _title;
-        public string Title
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _title;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _title = value;
-            }
-        }
+        public ICachedPropertyViewModel<string> Title { get; private set; }
+        public ICachedPropertyViewModel<int> SeasonNumber { get; private set; }
+        public ICachedPropertyViewModel<int> EpisodeNumber { get; private set; }
 
         private double _rating;
         public double Rating
@@ -50,36 +40,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 InitialLoadInformation();
                 _rating = value;
-            }
-        }
-
-        private int _seasonNumber;
-        public int SeasonNumber
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _seasonNumber;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _seasonNumber = value;
-            }
-        }
-
-        private int _episodeNumber;
-        public int EpisodeNumber
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _episodeNumber;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _episodeNumber = value;
             }
         }
 
@@ -251,14 +211,14 @@ namespace PerfectMedia.UI.TvShows.Episodes
         {
             get
             {
-                if (string.IsNullOrEmpty(Title))
+                if (string.IsNullOrEmpty(Title.Value))
                 {
                     return System.IO.Path.GetFileName(Path);
                 }
                 return string.Format("{0}x{1:d2}: {2}",
-                    SeasonNumber,
-                    EpisodeNumber,
-                    Title);
+                    SeasonNumber.Value,
+                    EpisodeNumber.Value,
+                    Title.Value);
             }
         }
 
@@ -267,12 +227,19 @@ namespace PerfectMedia.UI.TvShows.Episodes
         public ICommand UpdateCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
 
-        public EpisodeViewModel(IEpisodeMetadataService metadataService, ITvShowMetadataViewModel tvShowMetadata, IProgressManagerViewModel progressManager, IFileSystemService fileSystemService, string path)
+        public EpisodeViewModel(ITvShowViewModelFactory viewModelFactory, IEpisodeMetadataService metadataService, ITvShowMetadataViewModel tvShowMetadata, IProgressManagerViewModel progressManager, IFileSystemService fileSystemService, string path)
         {
             _metadataService = metadataService;
             _tvShowMetadata = tvShowMetadata;
             Path = path;
             _lazyLoaded = false;
+
+            Title = viewModelFactory.GetCachedProperty(path + "?title", s => s, s => s);
+            Title.PropertyChanged += CachedPropertyChanged;
+            SeasonNumber = viewModelFactory.GetCachedProperty(path + "?seasonNumber", i => i.ToString(), int.Parse);
+            SeasonNumber.PropertyChanged += CachedPropertyChanged;
+            EpisodeNumber = viewModelFactory.GetCachedProperty(path + "?episodeNumber", i => i.ToString(), int.Parse);
+            EpisodeNumber.PropertyChanged += CachedPropertyChanged;
 
             // We don't want to trigger the InitialLoadInformation by setting the properties
             _credits = new DashDelimitedCollectionViewModel<string>(s => s);
@@ -282,6 +249,14 @@ namespace PerfectMedia.UI.TvShows.Episodes
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this, progressManager);
             SaveCommand = new SaveMetadataCommand(this);
+        }
+
+        private void CachedPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged("Title");
+            OnPropertyChanged("SeasonNumber");
+            OnPropertyChanged("EpisodeNumber");
+            OnPropertyChanged("DisplayName");
         }
 
         public void Refresh()
@@ -322,10 +297,10 @@ namespace PerfectMedia.UI.TvShows.Episodes
 
         private void RefreshFromMetadata(EpisodeMetadata metadata)
         {
-            Title = metadata.Title;
+            Title.Value = metadata.Title;
             Rating = metadata.Rating;
-            SeasonNumber = metadata.SeasonNumber;
-            EpisodeNumber = metadata.EpisodeNumber;
+            SeasonNumber.Value = metadata.SeasonNumber;
+            EpisodeNumber.Value = metadata.EpisodeNumber;
             Plot = metadata.Plot;
             ImagePath.Path = null;
             ImagePath.Path = metadata.ImagePath;
@@ -345,10 +320,10 @@ namespace PerfectMedia.UI.TvShows.Episodes
         {
             return new EpisodeMetadata
             {
-                Title = Title,
+                Title = Title.Value,
                 Rating = Rating,
-                SeasonNumber = SeasonNumber,
-                EpisodeNumber = EpisodeNumber,
+                SeasonNumber = SeasonNumber.Value,
+                EpisodeNumber = EpisodeNumber.Value,
                 Plot = Plot,
                 ImagePath = ImagePath.Path,
                 ImageUrl = ImageUrl,

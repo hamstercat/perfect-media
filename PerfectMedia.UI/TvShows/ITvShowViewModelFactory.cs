@@ -24,6 +24,6 @@ namespace PerfectMedia.UI.TvShows
         IImageViewModel GetImage();
         IImageViewModel GetImage(IImageStrategy imageStrategy);
         ITvShowSelectionViewModel GetTvShowSelection(ITvShowMetadataViewModel tvShowMetadata, string path);
-        ICachedPropertyViewModel GetCachedProperty(string key);
+        ICachedPropertyViewModel<T> GetCachedProperty<T>(string key, Func<T, string> converter, Func<string, T> otherConverter);
     }
 }

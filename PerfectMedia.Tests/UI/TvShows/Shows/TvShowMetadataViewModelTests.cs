@@ -20,9 +20,9 @@ namespace PerfectMedia.UI.TvShows.Shows
         public TvShowMetadataViewModelTests()
         {
             _path = @"C:\Folder\TV Shows";
-            ICachedPropertyViewModel cachedProperty = Substitute.For<ICachedPropertyViewModel>();
+            ICachedPropertyViewModel<string> cachedProperty = Substitute.For<ICachedPropertyViewModel<string>>();
             _viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
-            _viewModelFactory.GetCachedProperty(_path)
+            _viewModelFactory.GetCachedProperty<string>(_path, Arg.Any<Func<string, string>>(), Arg.Any<Func<string, string>>())
                 .Returns(cachedProperty);
 
             _metadataService = Substitute.For<ITvShowMetadataService>();

@@ -17,5 +17,11 @@ namespace PerfectMedia.UI
         {
             base.OnStartup(e);
         }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            ServiceLocator.DisposeInstances();
+            base.OnExit(e);
+        }
     }
 }

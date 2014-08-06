@@ -62,11 +62,15 @@
     <Compile Include="..\ProjectAssemblyInfo.cs">
       <Link>Properties\ProjectAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="FileBackedRepository.cs" />
     <Compile Include="FileInformation\IFileInformationService.cs" />
     <Compile Include="FileInformation\Subtitle.cs" />
     <Compile Include="FileSystemService.cs" />
+    <Compile Include="IFileBackedRepository.cs" />
+    <Compile Include="IKeyDataStore.cs" />
     <Compile Include="IRestApiService.cs" />
     <Compile Include="ItemNotFoundException.cs" />
+    <Compile Include="KeyDataStore.cs" />
     <Compile Include="Movies\AvailableMovieImages.cs" />
     <Compile Include="Movies\Cast.cs" />
     <Compile Include="Movies\Crew.cs" />

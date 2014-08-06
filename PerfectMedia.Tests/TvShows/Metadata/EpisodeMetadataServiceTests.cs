@@ -104,6 +104,10 @@ namespace PerfectMedia.TvShows.Metadata
         [Fact]
         public void Update_WhenNoMetadataIsFound_ThrowsException()
         {
+            // Arrange
+            _metadataUpdater.GetEpisodeMetadata("234", 3, 9)
+                .Returns(x => { throw new ScrapperException(); });
+
             Assert.Throws<ItemNotFoundException>(() =>
             {
                 // Act

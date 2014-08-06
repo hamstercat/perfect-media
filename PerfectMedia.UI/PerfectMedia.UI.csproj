@@ -81,6 +81,7 @@
     <Compile Include="..\ProjectAssemblyInfo.cs">
       <Link>Properties\ProjectAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="CachedPropertyViewModel.cs" />
     <Compile Include="Converters\IsEmptyToBooleanConverter.cs" />
     <Compile Include="Converters\NotZeroConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Converters\SeasonNumberToNameConverter.cs" />
     <Compile Include="Converters\ShowIfNotEmptyConverter.cs" />
     <Compile Include="Converters\SpecialsSeasonVisibilityConverter.cs" />
+    <Compile Include="ICachedPropertyViewModel.cs" />
     <Compile Include="Images\ImageLoader.cs" />
     <Compile Include="Images\Selection\ChooseImageFileViewModel.cs" />
     <Compile Include="Images\Selection\ChooseImageFileWindow.xaml.cs">

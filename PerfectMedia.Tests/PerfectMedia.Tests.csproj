@@ -53,6 +53,8 @@
     <Compile Include="..\ProjectAssemblyInfo.cs">
       <Link>Properties\ProjectAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="KeyDataStoreTests.cs" />
+    <Compile Include="UI\CachedPropertyViewModelTests.cs" />
     <Compile Include="FileInformation\CodecHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sources\SourceServiceTests.cs" />
@@ -60,7 +62,7 @@
     <Compile Include="TvShows\Metadata\TvShowImagesServiceTests.cs" />
     <Compile Include="TvShows\Metadata\TvShowMetadataServiceTests.cs" />
     <Compile Include="TvShows\TvShowFileServiceTests.cs" />
-    <Compile Include="BaseViewModelTests.cs" />
+    <Compile Include="UI\BaseViewModelTests.cs" />
     <Compile Include="UI\Converters\NotZeroConverterTests.cs" />
     <Compile Include="UI\Converters\ShowIfNotEmptyConverterTests.cs" />
     <Compile Include="UI\Converters\SpecialsSeasonVisibilityConverterTests.cs" />

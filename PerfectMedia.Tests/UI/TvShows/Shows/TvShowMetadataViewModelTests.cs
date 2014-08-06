@@ -19,10 +19,14 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         public TvShowMetadataViewModelTests()
         {
+            _path = @"C:\Folder\TV Shows";
+            ICachedPropertyViewModel cachedProperty = Substitute.For<ICachedPropertyViewModel>();
             _viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
+            _viewModelFactory.GetCachedProperty(_path)
+                .Returns(cachedProperty);
+
             _metadataService = Substitute.For<ITvShowMetadataService>();
             _progressManager = Substitute.For<IProgressManagerViewModel>();
-            _path = @"C:\Folder\TV Shows";
             _viewModel = new TvShowMetadataViewModel(_viewModelFactory, _metadataService, _progressManager, _path);
         }
 
@@ -116,7 +120,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             _viewModel.RuntimeInMinutes = 23;
             _viewModel.State = 1;
             _viewModel.Studio = "HBO";
-            _viewModel.Title = "A good title";
+            _viewModel.Title.Value = "A good title";
 
             // Act
             _viewModel.Save();
@@ -179,7 +183,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             Assert.Equal(metadata.RuntimeInMinutes, _viewModel.RuntimeInMinutes);
             Assert.Equal(metadata.State, _viewModel.State);
             Assert.Equal(metadata.Studio, _viewModel.Studio);
-            Assert.Equal(metadata.Title, _viewModel.Title);
+            Assert.Equal(metadata.Title, _viewModel.Title.Value);
 
             return true;
         }

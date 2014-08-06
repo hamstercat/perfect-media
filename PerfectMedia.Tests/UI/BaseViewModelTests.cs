@@ -1,5 +1,4 @@
 ﻿using NSubstitute;
-using PerfectMedia.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace PerfectMedia.Tests.UI.ViewModels
+namespace PerfectMedia.UI
 {
-    // We're testing protected methods here, but they are used by all ViewModels so they better work
+    // We're testing protected methods here, but they are used by the UI so they better work
     public class BaseViewModelTests
     {
         private readonly BaseViewModelExtended _viewModel;

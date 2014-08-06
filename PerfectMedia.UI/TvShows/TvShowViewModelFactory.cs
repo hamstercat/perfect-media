@@ -19,13 +19,15 @@ namespace PerfectMedia.UI.TvShows
         private readonly ITvShowMetadataService _tvShowMetadataService;
         private readonly IEpisodeMetadataService _episodeMetadataService;
         private readonly IProgressManagerViewModel _progressManagerViewModel;
+        private readonly IKeyDataStore _keyDataStore;
 
         public TvShowViewModelFactory(ISourceService sourceService,
             IFileSystemService fileSystemService,
             ITvShowFileService tvShowFileService,
             ITvShowMetadataService tvShowMetadataService,
             IEpisodeMetadataService episodeMetadataService,
-            IProgressManagerViewModel progressManagerViewModel)
+            IProgressManagerViewModel progressManagerViewModel,
+            IKeyDataStore keyDataStore)
         {
             _sourceService = sourceService;
             _fileSystemService = fileSystemService;
@@ -33,6 +35,7 @@ namespace PerfectMedia.UI.TvShows
             _tvShowMetadataService = tvShowMetadataService;
             _episodeMetadataService = episodeMetadataService;
             _progressManagerViewModel = progressManagerViewModel;
+            _keyDataStore = keyDataStore;
         }
 
         public ISourceManagerViewModel GetSourceManager(SourceType sourceType)
@@ -78,6 +81,11 @@ namespace PerfectMedia.UI.TvShows
         public ITvShowSelectionViewModel GetTvShowSelection(ITvShowMetadataViewModel tvShowMetadata, string path)
         {
             return new TvShowSelectionViewModel(_tvShowMetadataService, tvShowMetadata, path);
+        }
+
+        public ICachedPropertyViewModel GetCachedProperty(string key)
+        {
+            return new CachedPropertyViewModel(_keyDataStore, key);
         }
     }
 }

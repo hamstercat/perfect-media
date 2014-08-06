@@ -33,15 +33,17 @@ namespace PerfectMedia.UI.TvShows.Shows
         {
             get
             {
-                if (string.IsNullOrEmpty(Title))
+                if (string.IsNullOrEmpty(Title.Value))
                 {
                     return System.IO.Path.GetFileName(Path);
                 }
-                return Title;
+                return Title.Value;
             }
         }
 
         #region Metadata
+        public ICachedPropertyViewModel Title { get; private set; }
+
         private ObservableCollection<ActorViewModel> _actors;
         public ObservableCollection<ActorViewModel> Actors
         {
@@ -69,21 +71,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             {
                 InitialLoadInformation();
                 _state = value;
-            }
-        }
-
-        private string _title;
-        public string Title
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _title;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _title = value;
             }
         }
 
@@ -245,6 +232,9 @@ namespace PerfectMedia.UI.TvShows.Shows
             Path = path;
             _lazyLoaded = false;
 
+            Title = viewModelFactory.GetCachedProperty(path);
+            Title.PropertyChanged += TitleValueChanged;
+
             Images = viewModelFactory.GetTvShowImages(this, path);
             // We don't want to trigger the InitialLoadInformation by setting the properties
             _actors = new ObservableCollection<ActorViewModel>();
@@ -278,6 +268,12 @@ namespace PerfectMedia.UI.TvShows.Shows
             _metadataService.Save(Path, metadata);
         }
 
+        private void TitleValueChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged("Title");
+            OnPropertyChanged("DisplayName");
+        }
+
         private void InitialLoadInformation()
         {
             if (!_lazyLoaded)
@@ -290,7 +286,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         private void RefreshFromMetadata(TvShowMetadata metadata)
         {
             State = metadata.State;
-            Title = metadata.Title;
+            Title.Value = metadata.Title;
             Id = metadata.Id;
             MpaaRating = metadata.MpaaRating;
             ImdbId = metadata.ImdbId;
@@ -324,7 +320,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             TvShowMetadata metadata = new TvShowMetadata
             {
                 State = State,
-                Title = Title,
+                Title = Title.Value,
                 Id = Id,
                 MpaaRating = MpaaRating,
                 ImdbId = ImdbId,

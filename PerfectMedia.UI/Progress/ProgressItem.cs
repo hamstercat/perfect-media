@@ -1,4 +1,5 @@
 ﻿using PerfectMedia.FileInformation;
+using PerfectMedia.TvShows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,11 +34,15 @@ namespace PerfectMedia.UI.Progress
             {
                 await _action();
             }
-            catch (ItemNotFoundException ex)
+            catch (EpisodeNotFoundException)
+            {
+                Error = "Episode metadata could not be found";
+            }
+            catch (ItemNotFoundException)
             {
                 Error = "No metadata could be found";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Error = "Unhandled exception";
             }

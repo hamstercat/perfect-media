@@ -57,7 +57,7 @@ namespace PerfectMedia
                 string message = string.Format("Response code {0}: {1}", (int)response.StatusCode, response.ErrorMessage);
                 LogTo.Warn("API with base \"{0}\" on URL \"{1}\":", _restClient.BaseUrl, url);
                 LogTo.Warn("    {0}", message);
-                throw new ScrapperException(message);
+                throw new ApiException(message);
             }
         }
     }

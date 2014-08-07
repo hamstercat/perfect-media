@@ -106,7 +106,7 @@ namespace PerfectMedia.TvShows.Metadata
         {
             // Arrange
             _metadataUpdater.GetEpisodeMetadata("234", 3, 9)
-                .Returns(x => { throw new ScrapperException(); });
+                .Returns(x => { throw new ApiException(); });
 
             Assert.Throws<ItemNotFoundException>(() =>
             {

@@ -54,9 +54,9 @@ namespace PerfectMedia.TvShows.Metadata
             {
                 return _metadataUpdater.GetEpisodeMetadata(serieId, episode.SeasonNumber, episode.EpisodeSeasonNumber);
             }
-            catch (ScrapperException)
+            catch (ApiException)
             {
-                throw new ItemNotFoundException(episodeFile);
+                throw new EpisodeNotFoundException(episodeFile);
             }
         }
     }

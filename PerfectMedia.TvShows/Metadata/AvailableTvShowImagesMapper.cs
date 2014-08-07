@@ -120,13 +120,28 @@ namespace PerfectMedia.TvShows.Metadata
 
         private AvailableTvShowImages CreateAvailableTvShowImages()
         {
-            return new AvailableTvShowImages
+            AvailableTvShowImages images = new AvailableTvShowImages
             {
-                Fanarts = _fanarts.OrderByDescending(img => img.Rating),
-                Posters = _posters.OrderByDescending(img => img.Rating),
-                Banners = _banners.OrderByDescending(img => img.Rating),
-                Seasons = _seasons
+                Fanarts = OrderImages(_fanarts),
+                Posters = OrderImages(_posters),
+                Banners = OrderImages(_banners),
             };
+            foreach (var season in _seasons.OrderBy(s => s.Key))
+            {
+                images.Seasons[season.Key] = new AvailableSeasonImages
+                {
+                    Banners = OrderImages(season.Value.Banners).ToList(),
+                    Posters = OrderImages(season.Value.Posters).ToList()
+                };
+            }
+            return images;
+        }
+
+        private IEnumerable<Image> OrderImages(IEnumerable<Image> images)
+        {
+            return images
+                .OrderByDescending(img => img.Description)
+                .ThenByDescending(img => img.Rating);
         }
     }
 }

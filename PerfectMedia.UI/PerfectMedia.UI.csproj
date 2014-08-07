@@ -101,10 +101,13 @@
     <Compile Include="Images\IImageViewModel.cs" />
     <Compile Include="Images\Selection\IChooseImageFileViewModel.cs" />
     <Compile Include="Images\Selection\IImageSelectionViewModel.cs" />
+    <Compile Include="Images\ImageViewModel.cs" />
     <Compile Include="Images\Selection\ImageSelection.xaml.cs">
       <DependentUpon>ImageSelection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Images\ImageViewModel.cs" />
+    <Compile Include="Images\Selection\ImageSelectionItem.xaml.cs">
+      <DependentUpon>ImageSelectionItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IsClosedAttachedBehavior.cs" />
     <Compile Include="Images\Selection\ImageSelectionViewModel.cs" />
     <Compile Include="Images\Selection\LoadFileCommand.cs" />
@@ -225,11 +228,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Images\SelectableImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Images\Selection\ImageSelection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Images\SelectableImage.xaml">
+    <Page Include="Images\Selection\ImageSelectionItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

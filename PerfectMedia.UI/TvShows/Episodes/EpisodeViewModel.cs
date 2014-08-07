@@ -244,7 +244,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             // We don't want to trigger the InitialLoadInformation by setting the properties
             _credits = new DashDelimitedCollectionViewModel<string>(s => s);
             _directors = new DashDelimitedCollectionViewModel<string>(s => s);
-            _imagePath = new ImageViewModel(fileSystemService);
+            _imagePath = new ImageViewModel(fileSystemService, true);
 
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this, progressManager);

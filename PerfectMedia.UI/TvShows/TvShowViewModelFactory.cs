@@ -69,14 +69,14 @@ namespace PerfectMedia.UI.TvShows
             return new EpisodeViewModel(this, _episodeMetadataService, tvShowMetadata, _progressManagerViewModel, _fileSystemService, path);
         }
 
-        public IImageViewModel GetImage()
+        public IImageViewModel GetImage(bool horizontalAlignement)
         {
-            return new ImageViewModel(_fileSystemService);
+            return new ImageViewModel(_fileSystemService, horizontalAlignement);
         }
 
-        public IImageViewModel GetImage(IImageStrategy imageStrategy)
+        public IImageViewModel GetImage(bool horizontalAlignement, IImageStrategy imageStrategy)
         {
-            return new ImageViewModel(_fileSystemService, imageStrategy);
+            return new ImageViewModel(_fileSystemService, horizontalAlignement, imageStrategy);
         }
 
         public ITvShowSelectionViewModel GetTvShowSelection(ITvShowMetadataViewModel tvShowMetadata, string path)

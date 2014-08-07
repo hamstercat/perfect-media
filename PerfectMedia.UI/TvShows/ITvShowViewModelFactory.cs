@@ -21,8 +21,8 @@ namespace PerfectMedia.UI.TvShows
         ITvShowImagesViewModel GetTvShowImages(ITvShowMetadataViewModel metadataViewModel, string path);
         ISeasonViewModel GetSeason(ITvShowMetadataViewModel tvShowMetadata, string path);
         IEpisodeViewModel GetEpisode(ITvShowMetadataViewModel tvShowMetadata, string path);
-        IImageViewModel GetImage();
-        IImageViewModel GetImage(IImageStrategy imageStrategy);
+        IImageViewModel GetImage(bool horizontalAlignement);
+        IImageViewModel GetImage(bool horizontalAlignement, IImageStrategy imageStrategy);
         ITvShowSelectionViewModel GetTvShowSelection(ITvShowMetadataViewModel tvShowMetadata, string path);
         ICachedPropertyViewModel<T> GetCachedProperty<T>(string key, Func<T, string> converter, Func<string, T> otherConverter);
     }

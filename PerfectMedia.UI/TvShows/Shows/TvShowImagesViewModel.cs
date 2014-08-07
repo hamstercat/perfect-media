@@ -78,9 +78,9 @@ namespace PerfectMedia.UI.TvShows.Shows
             _path = path;
             _tvShowImagesLoaded = false;
 
-            _fanartUrl = new ImageViewModel(fileSystemService, new FanartImageStrategy(metadataService, metadataViewModel));
-            _posterUrl = new ImageViewModel(fileSystemService, new PosterImageStrategy(metadataService, metadataViewModel));
-            _bannerUrl = new ImageViewModel(fileSystemService, new BannerImageStrategy(metadataService, metadataViewModel));
+            _fanartUrl = new ImageViewModel(fileSystemService, true, new FanartImageStrategy(metadataService, metadataViewModel));
+            _posterUrl = new ImageViewModel(fileSystemService, true, new PosterImageStrategy(metadataService, metadataViewModel));
+            _bannerUrl = new ImageViewModel(fileSystemService, false, new BannerImageStrategy(metadataService, metadataViewModel));
         }
 
         public void Refresh()

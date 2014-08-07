@@ -18,6 +18,7 @@ namespace PerfectMedia.UI.Images
     {
         private readonly IFileSystemService _fileSystemService;
         private readonly IImageStrategy _imageStrategy;
+        private readonly bool _horizontalAlignement;
 
         public string Path { get; set; }
         public ImageSelectionViewModel ImageSelection { get; private set; }
@@ -34,19 +35,20 @@ namespace PerfectMedia.UI.Images
             }
         }
 
-        public ImageViewModel(IFileSystemService fileSystemService)
-            : this(fileSystemService, new NoImageStrategy())
+        public ImageViewModel(IFileSystemService fileSystemService, bool horizontalAlignement)
+            : this(fileSystemService, horizontalAlignement, new NoImageStrategy())
         { }
 
-        public ImageViewModel(IFileSystemService fileSystemService, IImageStrategy imageStrategy)
+        public ImageViewModel(IFileSystemService fileSystemService, bool horizontalAlignement, IImageStrategy imageStrategy)
         {
             _fileSystemService = fileSystemService;
             _imageStrategy = imageStrategy;
+            _horizontalAlignement = horizontalAlignement;
         }
 
         public void LoadAvailableImages()
         {
-            ImageSelection = new ImageSelectionViewModel(_fileSystemService, _imageStrategy, Path);
+            ImageSelection = new ImageSelectionViewModel(_fileSystemService, _imageStrategy, Path, _horizontalAlignement);
             ImageSelection.PropertyChanged += ImageSelectionPropertyChanged;
         }
 

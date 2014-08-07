@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:views="clr-namespace:PerfectMedia.UI"
              xmlns:img="clr-namespace:PerfectMedia.UI.Images"
+             xmlns:select="clr-namespace:PerfectMedia.UI.Images.Selection"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="800"
              DataContext="{Binding ImageSelection}"
@@ -34,16 +35,7 @@
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid MaxHeight="150">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <img:ImageLoader Grid.Row="0" ImageUri="{Binding Url}" InitialImage="/PerfectMedia.UI;component/Images/Blank.png" />
-                        <TextBlock Grid.Row="1" Text="{Binding Size}" />
-                        <TextBlock Grid.Row="2" Text="{Binding Description}" />
-                    </Grid>
+                    <select:ImageSelectionItem />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

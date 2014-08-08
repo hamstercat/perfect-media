@@ -3,41 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:views="clr-namespace:PerfectMedia.UI"
-             xmlns:img="clr-namespace:PerfectMedia.UI.Images"
              xmlns:select="clr-namespace:PerfectMedia.UI.Images.Selection"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="800"
-             DataContext="{Binding ImageSelection}"
-             views:IsClosedAttachedBehavior.IsClosedView="{Binding IsClosed}">
+             DataContext="{Binding ImageSelection}">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <img:ImageLoader Grid.Row="0" Grid.Column="0" ImageUri="{Binding Selection.SelectedItem.Url}" InitialImage="/PerfectMedia.UI;component/Images/Blank.png" />
-        <Grid Grid.Row="0" Grid.Column="1">
-            <StackPanel>
-                <Button Content="Save" Command="{Binding Selection.SaveCommand}" />
-                <Button Content="Choose File" Click="ChooseFileClick" DataContext="{Binding Download}" />
-                <Button Content="Cancel" Click="CancelClick" />
-            </StackPanel>
-        </Grid>
-        <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Selection.AvailableItems}" SelectedItem="{Binding Selection.SelectedItem}">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <select:ImageSelectionItem />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <select:HorizontalImageSelection Visibility="{Binding HorizontalAlignement, Converter={StaticResource VisibleIfTrueConverter}}" />
+        <select:VerticalImageSelection Visibility="{Binding HorizontalAlignement, Converter={StaticResource VisibleIfFalseConverter}}" />
     </Grid>
 </UserControl>

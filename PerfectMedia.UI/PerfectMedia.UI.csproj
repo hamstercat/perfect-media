@@ -89,6 +89,8 @@
     <Compile Include="Converters\SeasonNumberToNameConverter.cs" />
     <Compile Include="Converters\ShowIfNotEmptyConverter.cs" />
     <Compile Include="Converters\SpecialsSeasonVisibilityConverter.cs" />
+    <Compile Include="Converters\VisibleIfFalseConverter.cs" />
+    <Compile Include="Converters\VisibleIfTrueConverter.cs" />
     <Compile Include="ICachedPropertyViewModel.cs" />
     <Compile Include="Images\ImageLoader.cs" />
     <Compile Include="Images\Selection\ChooseImageFileViewModel.cs" />
@@ -99,14 +101,17 @@
     <Compile Include="ICloseable.cs" />
     <Compile Include="Images\IImageStrategy.cs" />
     <Compile Include="Images\IImageViewModel.cs" />
+    <Compile Include="Images\Selection\HorizontalImageSelection.xaml.cs">
+      <DependentUpon>HorizontalImageSelection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Images\Selection\IChooseImageFileViewModel.cs" />
     <Compile Include="Images\Selection\IImageSelectionViewModel.cs" />
     <Compile Include="Images\ImageViewModel.cs" />
     <Compile Include="Images\Selection\ImageSelection.xaml.cs">
       <DependentUpon>ImageSelection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Images\Selection\ImageSelectionItem.xaml.cs">
-      <DependentUpon>ImageSelectionItem.xaml</DependentUpon>
+    <Compile Include="Images\Selection\VerticalImageSelection.xaml.cs">
+      <DependentUpon>VerticalImageSelection.xaml</DependentUpon>
     </Compile>
     <Compile Include="IsClosedAttachedBehavior.cs" />
     <Compile Include="Images\Selection\ImageSelectionViewModel.cs" />
@@ -232,11 +237,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Images\Selection\HorizontalImageSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Images\Selection\ImageSelection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Images\Selection\ImageSelectionItem.xaml">
+    <Page Include="Images\Selection\VerticalImageSelection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

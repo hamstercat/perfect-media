@@ -17,6 +17,8 @@
             <conv:SpecialsSeasonVisibilityConverter x:Key="SpecialsSeasonVisibilityConverter" />
             <conv:ShowIfNotEmptyConverter x:Key="ShowIfNotEmptyConverter" />
             <conv:NotZeroConverter x:Key="NotZeroConverter" />
+            <conv:VisibleIfTrueConverter x:Key="VisibleIfTrueConverter" />
+            <conv:VisibleIfFalseConverter x:Key="VisibleIfFalseConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

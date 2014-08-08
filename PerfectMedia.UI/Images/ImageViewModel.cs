@@ -1,15 +1,6 @@
-﻿using PerfectMedia.TvShows;
-using PerfectMedia.TvShows.Metadata;
+﻿using System.ComponentModel;
 using PerfectMedia.UI.Images.Selection;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace PerfectMedia.UI.Images
 {

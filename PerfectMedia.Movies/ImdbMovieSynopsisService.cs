@@ -1,11 +1,6 @@
-﻿using Anotar.Log4Net;
+﻿using System.Text.RegularExpressions;
+using Anotar.Log4Net;
 using HtmlAgilityPack;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace PerfectMedia.Movies
 {

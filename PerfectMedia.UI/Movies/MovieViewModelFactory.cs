@@ -5,11 +5,6 @@ using PerfectMedia.UI.Movies.Selection;
 using PerfectMedia.UI.Movies.Set;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.Sources;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PerfectMedia.UI.Movies
 {

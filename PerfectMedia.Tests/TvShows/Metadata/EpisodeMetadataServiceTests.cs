@@ -1,10 +1,7 @@
-﻿using NSubstitute;
-using PerfectMedia.FileInformation;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NSubstitute;
+using PerfectMedia.FileInformation;
 using Xunit;
 
 namespace PerfectMedia.TvShows.Metadata
@@ -61,7 +58,7 @@ namespace PerfectMedia.TvShows.Metadata
         public void Update_SpecialEpisode_ShouldSaveMetadata()
         {
             // Arrange
-            string path = @"C:\Folder\TV Shows\Game of Thrones\Specials\0x02.mkv";
+            const string path = @"C:\Folder\TV Shows\Game of Thrones\Specials\0x02.mkv";
             EpisodeMetadata metadata = CreateEpisodeMetadata(0, "Specials");
 
             _metadataUpdater.GetEpisodeMetadata("123", 0, 2)
@@ -83,7 +80,7 @@ namespace PerfectMedia.TvShows.Metadata
         public void Update_EpisodeFromSeason3_ShouldSaveMetadata()
         {
             // Arrange
-            string path = @"C:\Folder\TV Shows\Game of Thrones\Specials\3x02.mkv";
+            const string path = @"C:\Folder\TV Shows\Game of Thrones\Specials\3x02.mkv";
             EpisodeMetadata metadata = CreateEpisodeMetadata(3, "Season 3");
 
             _metadataUpdater.GetEpisodeMetadata("123", 3, 2)
@@ -108,11 +105,8 @@ namespace PerfectMedia.TvShows.Metadata
             _metadataUpdater.GetEpisodeMetadata("234", 3, 9)
                 .Returns(x => { throw new ApiException(); });
 
-            Assert.Throws<EpisodeNotFoundException>(() =>
-            {
-                // Act
-                _service.Update(_path, "234");
-            });
+            // Act + Assert
+            Assert.Throws<EpisodeNotFoundException>(() => _service.Update(_path, "234"));
         }
 
         [Fact]

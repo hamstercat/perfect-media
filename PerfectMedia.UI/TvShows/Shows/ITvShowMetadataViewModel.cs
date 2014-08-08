@@ -1,10 +1,5 @@
-﻿using PerfectMedia.UI.Metadata;
-using PerfectMedia.UI.Progress;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
+using PerfectMedia.UI.Metadata;
 
 namespace PerfectMedia.UI.TvShows.Shows
 {

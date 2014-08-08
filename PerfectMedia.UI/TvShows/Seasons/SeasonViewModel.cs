@@ -1,16 +1,13 @@
-﻿using PerfectMedia.TvShows;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Episodes;
 using PerfectMedia.UI.TvShows.Shows;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
 
 namespace PerfectMedia.UI.TvShows.Seasons
 {
@@ -49,7 +46,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
             }
         }
 
-        private IImageViewModel _posterUrl;
+        private readonly IImageViewModel _posterUrl;
         public IImageViewModel PosterUrl
         {
             get
@@ -59,7 +56,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
             }
         }
 
-        private IImageViewModel _bannerUrl;
+        private readonly IImageViewModel _bannerUrl;
         public IImageViewModel BannerUrl
         {
             get
@@ -95,13 +92,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
         public IEnumerable<ProgressItem> FindNewEpisodes()
         {
             LoadEpisodes();
-            foreach (IEpisodeViewModel episode in Episodes)
-            {
-                foreach (ProgressItem item in episode.Update())
-                {
-                    yield return item;
-                }
-            }
+            return Episodes.SelectMany(episode => episode.Update());
         }
 
         private void LoadEpisodes()

@@ -1,19 +1,15 @@
-﻿using PerfectMedia.Movies;
-using PerfectMedia.Sources;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Movies.Set;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.Sources;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace PerfectMedia.UI.Movies
 {
@@ -59,9 +55,6 @@ namespace PerfectMedia.UI.Movies
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     Movies.Clear();
-                    break;
-                case NotifyCollectionChangedAction.Move:
-                default:
                     break;
             }
         }
@@ -144,7 +137,7 @@ namespace PerfectMedia.UI.Movies
             if (e.PropertyName == "SetName")
             {
                 IMovieViewModel movie = (IMovieViewModel)sender;
-                App.Current.Dispatcher.Invoke(() =>
+                Application.Current.Dispatcher.Invoke(() =>
                 {
                     RemoveMovie(movie);
                     AddMovie(movie);

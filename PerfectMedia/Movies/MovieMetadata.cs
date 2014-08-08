@@ -1,10 +1,8 @@
-﻿using PerfectMedia.FileInformation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
+using PerfectMedia.FileInformation;
 
 namespace PerfectMedia.Movies
 {

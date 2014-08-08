@@ -1,13 +1,9 @@
-﻿using Anotar.Log4Net;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using Anotar.Log4Net;
 using MediaInfoDotNet;
 using MediaInfoDotNet.Models;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PerfectMedia.FileInformation
 {
@@ -26,7 +22,7 @@ namespace PerfectMedia.FileInformation
             return videoFileInformation;
         }
 
-        private IEnumerable<Audio> GetAudioTracks(IDictionary<int, AudioStream> audioTracks)
+        private IEnumerable<Audio> GetAudioTracks(IEnumerable<KeyValuePair<int, AudioStream>> audioTracks)
         {
             foreach (var audioTrack in audioTracks)
             {
@@ -45,7 +41,7 @@ namespace PerfectMedia.FileInformation
             return audio;
         }
 
-        private IEnumerable<Video> GetVideoTracks(IDictionary<int, VideoStream> videoTracks)
+        private IEnumerable<Video> GetVideoTracks(IEnumerable<KeyValuePair<int, VideoStream>> videoTracks)
         {
             foreach (var videoTrack in videoTracks)
             {
@@ -74,7 +70,7 @@ namespace PerfectMedia.FileInformation
             return video;
         }
 
-        private static IEnumerable<Subtitle> GetSubtitleTracks(IDictionary<int, TextStream> subtitleTracks)
+        private static IEnumerable<Subtitle> GetSubtitleTracks(IEnumerable<KeyValuePair<int, TextStream>> subtitleTracks)
         {
             foreach (var subtitleTrack in subtitleTracks)
             {

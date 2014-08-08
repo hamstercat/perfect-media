@@ -1,17 +1,14 @@
-﻿using PerfectMedia.TvShows;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Progress;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace PerfectMedia.UI.TvShows.Shows
 {
@@ -301,7 +298,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             AddActors(metadata.Actors);
         }
 
-        private void AddActors(List<ActorMetadata> actors)
+        private void AddActors(IEnumerable<ActorMetadata> actors)
         {
             Actors.Clear();
             foreach (ActorMetadata actor in actors)
@@ -351,13 +348,13 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         private Task UpdateInternal()
         {
-            return Task.Run((Action)UpdateInternal2);
+            return Task.Run((Func<Task>)UpdateInternal2);
         }
 
-        private async void UpdateInternal2()
+        private async Task UpdateInternal2()
         {
             _metadataService.Update(Path);
-            await App.Current.Dispatcher.InvokeAsync(() => Refresh());
+            await Application.Current.Dispatcher.InvokeAsync(Refresh);
         }
     }
 }

@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PerfectMedia.UI.Movies.Selection
 {
@@ -35,7 +24,7 @@ namespace PerfectMedia.UI.Movies.Selection
         {
             IMovieSelectionViewModel movieSelection = (IMovieSelectionViewModel)DataContext;
             Binding originalBinding = (Binding)movieSelection.OriginalContent;
-            BindingOperations.SetBinding(mainContentControl, ContentControl.ContentProperty, originalBinding);
+            BindingOperations.SetBinding(mainContentControl, ContentProperty, originalBinding);
         }
 
         private void CancelClick(object sender, RoutedEventArgs e)

@@ -1,29 +1,25 @@
-﻿using PerfectMedia.TvShows;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.TvShows.Seasons;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace PerfectMedia.UI.TvShows.Shows
 {
     [ImplementPropertyChanged]
     public class TvShowImagesViewModel : ITvShowImagesViewModel
     {
-        private ITvShowFileService _tvShowFileService;
+        private readonly ITvShowFileService _tvShowFileService;
         private readonly ITvShowMetadataService _metadataService;
         private readonly IFileSystemService _fileSystemService;
         private readonly string _path;
 
         private bool _tvShowImagesLoaded;
 
-        private ImageViewModel _fanartUrl;
+        private readonly ImageViewModel _fanartUrl;
         public ImageViewModel FanartUrl
         {
             get
@@ -33,7 +29,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
         }
 
-        private ImageViewModel _posterUrl;
+        private readonly ImageViewModel _posterUrl;
         public ImageViewModel PosterUrl
         {
             get
@@ -43,7 +39,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
         }
 
-        private ImageViewModel _bannerUrl;
+        private readonly ImageViewModel _bannerUrl;
         public ImageViewModel BannerUrl
         {
             get

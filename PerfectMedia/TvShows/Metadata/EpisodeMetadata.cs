@@ -1,10 +1,7 @@
-﻿using PerfectMedia.FileInformation;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
+using PerfectMedia.FileInformation;
 
 namespace PerfectMedia.TvShows.Metadata
 {

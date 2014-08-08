@@ -1,16 +1,16 @@
-﻿using PerfectMedia.UI.Progress;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Input;
+using PerfectMedia.UI.Progress;
 
 namespace PerfectMedia.UI.Metadata
 {
     public class UpdateMetadataCommand : ICommand
     {
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add { }
+            remove { }
+        }
 
         private readonly IMetadataProvider _metadataProvider;
         private readonly IProgressManagerViewModel _progressManager;

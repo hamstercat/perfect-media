@@ -1,9 +1,4 @@
-﻿using PerfectMedia.TvShows;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
 
 namespace PerfectMedia.UI.Images.Selection
 {

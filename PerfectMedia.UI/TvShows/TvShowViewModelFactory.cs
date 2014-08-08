@@ -1,4 +1,5 @@
-﻿using PerfectMedia.Sources;
+﻿using System;
+using PerfectMedia.Sources;
 using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Images;
@@ -8,7 +9,6 @@ using PerfectMedia.UI.TvShows.Episodes;
 using PerfectMedia.UI.TvShows.Seasons;
 using PerfectMedia.UI.TvShows.Shows;
 using PerfectMedia.UI.TvShows.ShowSelection;
-using System;
 
 namespace PerfectMedia.UI.TvShows
 {

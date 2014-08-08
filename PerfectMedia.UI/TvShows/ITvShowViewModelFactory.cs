@@ -1,15 +1,11 @@
-﻿using PerfectMedia.Sources;
+﻿using System;
+using PerfectMedia.Sources;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Sources;
 using PerfectMedia.UI.TvShows.Episodes;
 using PerfectMedia.UI.TvShows.Seasons;
 using PerfectMedia.UI.TvShows.Shows;
 using PerfectMedia.UI.TvShows.ShowSelection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PerfectMedia.UI.TvShows
 {

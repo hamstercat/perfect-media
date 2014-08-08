@@ -1,20 +1,14 @@
-﻿using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using PropertyChanged;
 
 namespace PerfectMedia.UI.Images.Selection
 {
     [ImplementPropertyChanged]
     public class ChooseImageFileViewModel : BaseViewModel, IChooseImageFileViewModel
     {
-        private IFileSystemService _fileSystemService;
-        private IImageSelectionViewModel _imageSelectionViewModel;
-        private string _path;
+        private readonly IFileSystemService _fileSystemService;
+        private readonly IImageSelectionViewModel _imageSelectionViewModel;
+        private readonly string _path;
 
         public string Url { get; set; }
         public bool IsClosed { get; set; }

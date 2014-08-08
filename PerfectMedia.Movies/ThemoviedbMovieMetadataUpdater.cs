@@ -1,17 +1,14 @@
-﻿using Anotar.Log4Net;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
+using Anotar.Log4Net;
 
 namespace PerfectMedia.Movies
 {
     public class ThemoviedbMovieMetadataUpdater : IMovieMetadataUpdater
     {
         private readonly IRestApiService _restApiService;
-        private ThemoviedbConfiguration serverConfiguration;
+        private ThemoviedbConfiguration _serverConfiguration;
 
         public ThemoviedbMovieMetadataUpdater(IRestApiService restApiService)
         {
@@ -148,12 +145,12 @@ namespace PerfectMedia.Movies
 
         private string GetImageBasePath()
         {
-            if (serverConfiguration == null)
+            if (_serverConfiguration == null)
             {
                 string url = "3/configuration?api_key=" + MovieHelper.ThemoviedbApiKey;
-                serverConfiguration = _restApiService.Get<ThemoviedbConfiguration>(url);
+                _serverConfiguration = _restApiService.Get<ThemoviedbConfiguration>(url);
             }
-            return serverConfiguration.Images.SecureBaseUrl;
+            return _serverConfiguration.Images.SecureBaseUrl;
         }
     }
 }

@@ -1,10 +1,7 @@
-﻿using Anotar.Log4Net;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
+using Anotar.Log4Net;
 
 namespace PerfectMedia.TvShows.Metadata
 {
@@ -30,7 +27,7 @@ namespace PerfectMedia.TvShows.Metadata
         public FullSerie GetTvShowMetadata(string serieId)
         {
             string url = string.Format("api/{0}/series/{1}/en.xml", TvShowHelper.TheTvDbApiKey, serieId);
-            FullSerie fullSerie =  _restApiService.Get<FullSerie>(url);
+            FullSerie fullSerie = _restApiService.Get<FullSerie>(url);
             FixSerieUrl(fullSerie);
             return fullSerie;
         }
@@ -103,14 +100,9 @@ namespace PerfectMedia.TvShows.Metadata
 
         private static IEnumerable<string> SplitStringList(string pipeDelimitedString)
         {
-            foreach(string str in pipeDelimitedString.Split('|'))
-            {
-                string trimmedString = str.Trim();
-                if (!string.IsNullOrEmpty(trimmedString))
-                {
-                    yield return trimmedString;
-                }
-            }
+            return pipeDelimitedString.Split('|')
+                .Select(str => str.Trim())
+                .Where(trimmedString => !string.IsNullOrEmpty(trimmedString));
         }
     }
 }

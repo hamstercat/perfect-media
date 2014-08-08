@@ -1,12 +1,8 @@
-﻿using NSubstitute;
+﻿using System.Collections.Generic;
+using System.Linq;
+using NSubstitute;
 using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
-using PerfectMedia.UI.TvShows.Seasons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace PerfectMedia.UI.TvShows.Shows

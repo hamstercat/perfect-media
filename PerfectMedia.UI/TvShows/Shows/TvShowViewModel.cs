@@ -1,15 +1,11 @@
-﻿using PerfectMedia.TvShows;
-using PerfectMedia.TvShows.Metadata;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using PerfectMedia.TvShows;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Seasons;
 using PerfectMedia.UI.TvShows.ShowSelection;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
 
 namespace PerfectMedia.UI.TvShows.Shows
 {
@@ -83,13 +79,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         public IEnumerable<ProgressItem> FindNewEpisodes()
         {
             LoadSeasons();
-            foreach (ISeasonViewModel season in Seasons)
-            {
-                foreach (ProgressItem item in season.FindNewEpisodes())
-                {
-                    yield return item;
-                }
-            }
+            return Seasons.SelectMany(season => season.FindNewEpisodes());
         }
 
         private void LoadSeasons()

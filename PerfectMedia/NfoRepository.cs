@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -22,8 +18,7 @@ namespace PerfectMedia
         {
             if (string.IsNullOrEmpty(value))
                 return null;
-            else
-                return DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            return DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
         }
     }
 

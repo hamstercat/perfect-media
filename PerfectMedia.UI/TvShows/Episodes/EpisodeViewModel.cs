@@ -1,18 +1,16 @@
-﻿using PerfectMedia.FileInformation;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Shows;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace PerfectMedia.UI.TvShows.Episodes
 {
@@ -58,7 +56,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             }
         }
 
-        private ImageViewModel _imagePath;
+        private readonly ImageViewModel _imagePath;
         public ImageViewModel ImagePath
         {
             get
@@ -236,9 +234,9 @@ namespace PerfectMedia.UI.TvShows.Episodes
 
             Title = viewModelFactory.GetCachedProperty(path + "?title", s => s, s => s);
             Title.PropertyChanged += CachedPropertyChanged;
-            SeasonNumber = viewModelFactory.GetCachedProperty(path + "?seasonNumber", i => i.ToString(), int.Parse);
+            SeasonNumber = viewModelFactory.GetCachedProperty(path + "?seasonNumber", i => i.ToString(CultureInfo.InvariantCulture), int.Parse);
             SeasonNumber.PropertyChanged += CachedPropertyChanged;
-            EpisodeNumber = viewModelFactory.GetCachedProperty(path + "?episodeNumber", i => i.ToString(), int.Parse);
+            EpisodeNumber = viewModelFactory.GetCachedProperty(path + "?episodeNumber", i => i.ToString(CultureInfo.InvariantCulture), int.Parse);
             EpisodeNumber.PropertyChanged += CachedPropertyChanged;
 
             // We don't want to trigger the InitialLoadInformation by setting the properties

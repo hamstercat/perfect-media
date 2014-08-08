@@ -1,15 +1,9 @@
-﻿using ImageMagick;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using ImageMagick;
 
 namespace PerfectMedia
 {
@@ -73,7 +67,7 @@ namespace PerfectMedia
             if (string.IsNullOrEmpty(path) || parentCount < 1)
                 return path;
 
-            string parent = System.IO.Path.GetDirectoryName(path);
+            string parent = Path.GetDirectoryName(path);
 
             if (--parentCount > 0)
                 return GetParentFolder(parent, parentCount);

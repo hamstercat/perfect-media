@@ -1,9 +1,6 @@
-﻿using NSubstitute;
+﻿using System.Collections.Generic;
+using NSubstitute;
 using PerfectMedia.UI.Progress;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace PerfectMedia.UI.Metadata
@@ -50,11 +47,6 @@ namespace PerfectMedia.UI.Metadata
 
         private ProgressItem CreateProgressItem()
         {
-            Lazy<string> displayName = new Lazy<string>(() => "Dinosaur");
-            Task task = new Task(() =>
-            {
-                throw new Exception();
-            });
             return new ProgressItem(null, null);
         }
     }

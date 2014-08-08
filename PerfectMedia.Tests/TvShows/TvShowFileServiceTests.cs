@@ -1,10 +1,7 @@
-﻿using NSubstitute;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NSubstitute;
 using Xunit;
 using Xunit.Extensions;
 
@@ -25,7 +22,7 @@ namespace PerfectMedia.TvShows
         public void GetShowImages_Always_CalculatesTheShowMainImagePaths()
         {
             // Arrange
-            string path = @"C:\Folder\TV Shows\Game of Thrones";
+            const string path = @"C:\Folder\TV Shows\Game of Thrones";
 
             // Act
             TvShowImages images = _service.GetShowImages(path);
@@ -43,7 +40,7 @@ namespace PerfectMedia.TvShows
         public void GetSeason_WithValidFolderName_ExtractsTheCorrectSeasonNumber(string seasonFolder, int expectedSeasonNumber, string imagePath)
         {
             // Arrange
-            string path = @"C:\Folder\TV Shows\Game of Thrones";
+            const string path = @"C:\Folder\TV Shows\Game of Thrones";
 
             // Act
             Season season = _service.GetSeason(path, seasonFolder);
@@ -58,7 +55,7 @@ namespace PerfectMedia.TvShows
         public void GetSeasons_WithFolders_ReturnsSeasons()
         {
             // Arrange
-            string path = @"C:\Folder";
+            const string path = @"C:\Folder";
             List<string> seasonFolders = new List<string>
             {
                 @"C:\Folder\Season 1",
@@ -108,7 +105,7 @@ namespace PerfectMedia.TvShows
         public void GetEpisodes_WithFolders_ReturnsEpisodes()
         {
             // Arrange
-            string path = @"C:\Folder\Season 1";
+            const string path = @"C:\Folder\Season 1";
             List<string> episodeFolders = new List<string>
             {
                 @"C:\Folder\Season 1\1x02.mkv",

@@ -10,7 +10,8 @@
              xmlns:selectimg="clr-namespace:PerfectMedia.UI.Images.Selection"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="1000">
+             d:DesignHeight="300" d:DesignWidth="1000"
+             d:DataContext="{d:DesignInstance Type=movies:MovieManagerViewModel}">
     <UserControl.Resources>
         <ResourceDictionary>
             <CollectionViewSource x:Key="SortedMovies" Source="{Binding Movies}">

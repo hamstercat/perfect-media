@@ -1,10 +1,6 @@
-﻿using PerfectMedia.FileInformation;
-using PerfectMedia.TvShows;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
+using PerfectMedia.TvShows;
 
 namespace PerfectMedia.UI.Progress
 {

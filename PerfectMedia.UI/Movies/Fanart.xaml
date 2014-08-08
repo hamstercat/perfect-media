@@ -4,14 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:img="clr-namespace:PerfectMedia.UI.Images"
+             xmlns:movies="clr-namespace:PerfectMedia.UI.Movies"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance Type=movies:MovieViewModel}">
     <Grid MinWidth="650">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <img:SelectableImage Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" DataContext="{Binding Fanart}" />
+        <img:SelectableImage Grid.Row="0" Grid.Column="0" DataContext="{Binding Fanart}" />
         <img:SelectableImage Grid.Row="0" Grid.Column="1" DataContext="{Binding Poster}" MaxWidth="300" />
     </Grid>
 </UserControl>

@@ -173,7 +173,7 @@
     <Compile Include="DashDelimitedCollectionViewModel.cs" />
     <Compile Include="Metadata\IMetadataProvider.cs" />
     <Compile Include="Sources\ISourceManagerViewModel.cs" />
-    <Compile Include="TvShows\ActorViewModel.cs" />
+    <Compile Include="ActorViewModel.cs" />
     <Compile Include="TvShows\Episodes\EpisodeViewModel.cs" />
     <Compile Include="Sources\ISourceProvider.cs" />
     <Compile Include="ITreeViewItemViewModel.cs" />

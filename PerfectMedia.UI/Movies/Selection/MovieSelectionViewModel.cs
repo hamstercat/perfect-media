@@ -1,13 +1,7 @@
-﻿using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Input;
-using PerfectMedia.UI.Movies.Selection;
 using PerfectMedia.Movies;
-using PerfectMedia.UI.Movies;
+using PropertyChanged;
 
 namespace PerfectMedia.UI.Movies.Selection
 {

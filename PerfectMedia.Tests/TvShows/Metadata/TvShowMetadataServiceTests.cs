@@ -1,9 +1,5 @@
-﻿using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using NSubstitute;
 using Xunit;
 
 namespace PerfectMedia.TvShows.Metadata
@@ -61,7 +57,7 @@ namespace PerfectMedia.TvShows.Metadata
             _metadataRepository.Get(_path)
                 .Returns(new TvShowMetadata { Id = "456" });
 
-            FullSerie fullSerie = CreateFullSerie("456");
+            FullSerie fullSerie = CreateFullSerie();
             _metadataUpdater.GetTvShowMetadata("456")
                 .Returns(fullSerie);
 
@@ -80,11 +76,8 @@ namespace PerfectMedia.TvShows.Metadata
             _metadataRepository.Get(_path)
                 .Returns(new TvShowMetadata());
 
-            Assert.Throws<ItemNotFoundException>(() =>
-            {
-                // Act
-                _service.Update(_path);
-            });
+            // Act + Assert
+            Assert.Throws<ItemNotFoundException>(() => _service.Update(_path));
         }
 
         [Fact]
@@ -113,7 +106,7 @@ namespace PerfectMedia.TvShows.Metadata
         public void FindSeries_Always_ReturnsSeries()
         {
             // Arrange
-            string serieName = "Supernatural";
+            const string serieName = "Supernatural";
 
             List<Series> expectedSeries = new List<Series>
             {
@@ -135,7 +128,7 @@ namespace PerfectMedia.TvShows.Metadata
         public void FindImages_Always_ReturnsSeries()
         {
             // Arrange
-            string serieId = "78901";
+            const string serieId = "78901";
 
             AvailableTvShowImages expectedImages = new AvailableTvShowImages
             {
@@ -162,7 +155,7 @@ namespace PerfectMedia.TvShows.Metadata
             Assert.Equal(expectedImages, images);
         }
 
-        private FullSerie CreateFullSerie(string serieId)
+        private FullSerie CreateFullSerie()
         {
             return new FullSerie
             {

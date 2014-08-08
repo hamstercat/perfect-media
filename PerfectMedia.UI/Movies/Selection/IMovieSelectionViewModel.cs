@@ -1,9 +1,6 @@
-﻿using PerfectMedia.Movies;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
+using PerfectMedia.Movies;
 
 namespace PerfectMedia.UI.Movies.Selection
 {

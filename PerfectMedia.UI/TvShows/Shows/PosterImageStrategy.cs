@@ -1,10 +1,7 @@
-﻿using PerfectMedia.TvShows;
+﻿using System.Collections.Generic;
+using System.Linq;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Images;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace PerfectMedia.UI.TvShows.Shows
 {

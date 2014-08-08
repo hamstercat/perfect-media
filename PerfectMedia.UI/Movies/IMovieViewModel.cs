@@ -1,10 +1,5 @@
-﻿using PerfectMedia.UI.Metadata;
+﻿using System.ComponentModel;
 using PerfectMedia.UI.Movies.Selection;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
 
 namespace PerfectMedia.UI.Movies
 {

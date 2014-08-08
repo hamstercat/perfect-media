@@ -1,13 +1,12 @@
-﻿using NSubstitute;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using NSubstitute;
 using PerfectMedia.FileInformation;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Shows;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace PerfectMedia.UI.TvShows.Episodes
@@ -54,7 +53,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
                 .Returns("123");
 
             // Act
-            _viewModel.Update();
+            _viewModel.Update().ToList();
 
             // Assert
             _metadataService.DidNotReceiveWithAnyArgs()
@@ -62,7 +61,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
         }
 
         [Fact]
-        public async void Update_WhenNoMetadataAlreadyExists_RetrievesFreshMetadata()
+        public async Task Update_WhenNoMetadataAlreadyExists_RetrievesFreshMetadata()
         {
             // Arrange
             EpisodeMetadata metadata = CreateEpisodeMetadata();

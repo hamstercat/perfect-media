@@ -1,12 +1,8 @@
-﻿using NSubstitute;
-using PerfectMedia.TvShows;
-using PerfectMedia.UI.Progress;
-using PerfectMedia.UI.TvShows.Seasons;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NSubstitute;
+using PerfectMedia.TvShows;
+using PerfectMedia.UI.TvShows.Seasons;
 using Xunit;
 
 namespace PerfectMedia.UI.TvShows.Shows
@@ -52,11 +48,11 @@ namespace PerfectMedia.UI.TvShows.Shows
             // Assert
             Assert.Equal(3, _viewModel.Seasons.Count);
             _viewModelFactory.Received()
-                .GetSeason(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is<string>(seasonPaths[0].Path));
+                .GetSeason(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is(seasonPaths[0].Path));
             _viewModelFactory.Received()
-                .GetSeason(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is<string>(seasonPaths[1].Path));
+                .GetSeason(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is(seasonPaths[1].Path));
             _viewModelFactory.Received()
-                .GetSeason(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is<string>(seasonPaths[2].Path));
+                .GetSeason(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is(seasonPaths[2].Path));
         }
 
         [Fact]
@@ -90,7 +86,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         public void FindNewEpisodes_WithoutSeasons_DoesNothing()
         {
             // Act
-            _viewModel.FindNewEpisodes();
+            _viewModel.FindNewEpisodes().ToList();
         }
 
         [Fact]

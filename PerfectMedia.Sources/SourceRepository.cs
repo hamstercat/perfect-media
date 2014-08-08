@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace PerfectMedia.Sources
@@ -88,7 +85,7 @@ namespace PerfectMedia.Sources
             }
         }
 
-        private string GetSerializedSource(Source source)
+        private static string GetSerializedSource(Source source)
         {
             StringBuilder str = new StringBuilder();
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings { OmitXmlDeclaration = true, Indent = true };
@@ -103,12 +100,7 @@ namespace PerfectMedia.Sources
         private void ReplaceSources(IEnumerable<Source> newSources, SourceType sourceType)
         {
             string file = GetSourceTypeFile(sourceType);
-            List<string> serializedSources = new List<string>();
-            foreach (Source source in newSources)
-            {
-                string currentSerializedSource = GetSerializedSource(source);
-                serializedSources.Add(currentSerializedSource);
-            }
+            IEnumerable<string> serializedSources = newSources.Select(GetSerializedSource);
             _fileSystemService.DeleteFile(file);
             _fileSystemService.CreateFile(file, serializedSources);
         }

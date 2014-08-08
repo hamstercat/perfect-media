@@ -1,18 +1,17 @@
-﻿using PerfectMedia.FileInformation;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using PerfectMedia.FileInformation;
 using PerfectMedia.Movies;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Movies.Selection;
 using PerfectMedia.UI.Progress;
-using PerfectMedia.UI.TvShows;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace PerfectMedia.UI.Movies
 {
@@ -446,7 +445,7 @@ namespace PerfectMedia.UI.Movies
             AddActors(metadata.Actors);
         }
 
-        private void AddActors(List<ActorMetadata> actors)
+        private void AddActors(IEnumerable<ActorMetadata> actors)
         {
             Actors.Clear();
             foreach (ActorMetadata actor in actors)
@@ -503,13 +502,13 @@ namespace PerfectMedia.UI.Movies
 
         private Task UpdateInternal()
         {
-            return Task.Run((Action)UpdateInternal2);
+            return Task.Run((Func<Task>)UpdateInternal2);
         }
 
-        private async void UpdateInternal2()
+        private async Task UpdateInternal2()
         {
             _metadataService.Update(Path);
-            await App.Current.Dispatcher.InvokeAsync(() => Refresh());
+            await Application.Current.Dispatcher.InvokeAsync(Refresh);
         }
     }
 }

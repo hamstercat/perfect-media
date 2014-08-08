@@ -1,10 +1,6 @@
-﻿using NSubstitute;
+﻿using System.Collections.Generic;
+using NSubstitute;
 using PerfectMedia.Sources;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace PerfectMedia.UI.Sources
@@ -65,7 +61,7 @@ namespace PerfectMedia.UI.Sources
         public void AddRootFolder_NewFolder_AddsRootFolder()
         {
             // Arrange
-            string folder = @"C:\Folder\Music";
+            const string folder = @"C:\Folder\Music";
 
             // Act
             _viewModel.AddRootFolder(folder);
@@ -79,7 +75,7 @@ namespace PerfectMedia.UI.Sources
         public void AddRootFolder_NewFolder_SavesThatFolder()
         {
             // Arrange
-            string folder = @"C:\Folder\Music";
+            const string folder = @"C:\Folder\Music";
 
             // Act
             _viewModel.AddRootFolder(folder);
@@ -93,7 +89,7 @@ namespace PerfectMedia.UI.Sources
         public void AddRootFolder_ExistingFolder_DoesNothing()
         {
             // Arrange
-            string folder = @"C:\Folder\Music";
+            const string folder = @"C:\Folder\Music";
             _viewModel.RootFolders.Add(folder);
 
             // Act
@@ -107,7 +103,7 @@ namespace PerfectMedia.UI.Sources
         public void AddSpecificFolder_NewFolder_AddsSpecificFolder()
         {
             // Arrange
-            string folder = @"C:\Folder\Music\Artist";
+            const string folder = @"C:\Folder\Music\Artist";
 
             // Act
             _viewModel.AddSpecificFolder(folder);
@@ -121,7 +117,7 @@ namespace PerfectMedia.UI.Sources
         public void AddSpecificFolder_NewFolder_SavesThatFolder()
         {
             // Arrange
-            string folder = @"C:\Folder\Music";
+            const string folder = @"C:\Folder\Music";
 
             // Act
             _viewModel.AddSpecificFolder(folder);
@@ -135,7 +131,7 @@ namespace PerfectMedia.UI.Sources
         public void AddSpecificFolder_ExistingFolder_DoesNothing()
         {
             // Arrange
-            string folder = @"C:\Folder\Music\Artist";
+            const string folder = @"C:\Folder\Music\Artist";
             _viewModel.SpecificFolders.Add(folder);
 
             // Act
@@ -149,7 +145,7 @@ namespace PerfectMedia.UI.Sources
         public void RemoveRootFolder_Always_RemoveTheFolder()
         {
             // Arrange
-            string folder = @"C:\Folder\Music";
+            const string folder = @"C:\Folder\Music";
             _viewModel.RootFolders.Add(folder);
 
             // Act
@@ -163,7 +159,7 @@ namespace PerfectMedia.UI.Sources
         public void RemoveRootFolder_Always_RemovesTheSavedFolder()
         {
             // Arrange
-            string folder = @"C:\Folder\Music";
+            const string folder = @"C:\Folder\Music";
             _viewModel.RootFolders.Add(folder);
 
             // Act
@@ -178,7 +174,7 @@ namespace PerfectMedia.UI.Sources
         public void RemoveSpecificFolder_Always_RemoveTheFolder()
         {
             // Arrange
-            string folder = @"C:\Folder\Music\Artist";
+            const string folder = @"C:\Folder\Music\Artist";
             _viewModel.SpecificFolders.Add(folder);
 
             // Act
@@ -192,7 +188,7 @@ namespace PerfectMedia.UI.Sources
         public void RemoveSpecificFolder_Always_RemovesTheSavedFolder()
         {
             // Arrange
-            string folder = @"C:\Folder\Music";
+            const string folder = @"C:\Folder\Music";
             _viewModel.SpecificFolders.Add(folder);
 
             // Act
@@ -207,7 +203,7 @@ namespace PerfectMedia.UI.Sources
         public void RefreshSpecificFolders_WithRootFolder_AddsSpecificFolders()
         {
             // Arrange
-            string folder = @"C:\Folder\Music\";
+            const string folder = @"C:\Folder\Music\";
             _viewModel.RootFolders.Add(folder);
 
             List<string> artistFolders = new List<string>

@@ -1,12 +1,6 @@
-﻿using PerfectMedia.FileInformation;
-using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using PropertyChanged;
 
 namespace PerfectMedia.UI.Progress
 {
@@ -40,7 +34,7 @@ namespace PerfectMedia.UI.Progress
             Total.Add(item);
         }
 
-        public async void Start()
+        public async Task Start()
         {
             _collecting = false;
             foreach (ProgressItem item in Total)

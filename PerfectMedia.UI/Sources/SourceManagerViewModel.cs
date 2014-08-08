@@ -1,9 +1,9 @@
-﻿using PerfectMedia.Sources;
-using PropertyChanged;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using PerfectMedia.Sources;
+using PropertyChanged;
 
 namespace PerfectMedia.UI.Sources
 {
@@ -100,9 +100,6 @@ namespace PerfectMedia.UI.Sources
                 case NotifyCollectionChangedAction.Reset:
                     RemoveFolders(RootFolders, true);
                     break;
-                case NotifyCollectionChangedAction.Move:
-                default:
-                    break;
             }
         }
 
@@ -122,9 +119,6 @@ namespace PerfectMedia.UI.Sources
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     RemoveFolders(SpecificFolders, false);
-                    break;
-                case NotifyCollectionChangedAction.Move:
-                default:
                     break;
             }
         }

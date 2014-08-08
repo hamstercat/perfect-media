@@ -1,9 +1,6 @@
-﻿using PerfectMedia.Movies;
+﻿using System.Collections.Generic;
+using PerfectMedia.Movies;
 using PerfectMedia.UI.Images;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace PerfectMedia.UI.Movies.Set
 {

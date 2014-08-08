@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Xml.Serialization;
 
 namespace PerfectMedia
@@ -34,7 +29,7 @@ namespace PerfectMedia
             return Path.Combine(tvShowPath, ".actors");
         }
 
-        public static string GetActorThumnbnailFileName(string actorName)
+        private static string GetActorThumnbnailFileName(string actorName)
         {
             string fileName = actorName
                 .Replace(" ", "_")

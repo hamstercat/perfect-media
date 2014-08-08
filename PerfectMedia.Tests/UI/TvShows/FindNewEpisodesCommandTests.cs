@@ -1,12 +1,8 @@
-﻿using NSubstitute;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using NSubstitute;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Shows;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace PerfectMedia.UI.TvShows
@@ -14,7 +10,7 @@ namespace PerfectMedia.UI.TvShows
     public class FindNewEpisodesCommandTests
     {
         private readonly ObservableCollection<ITvShowViewModel> _tvShows;
-        private IProgressManagerViewModel _progressManager;
+        private readonly IProgressManagerViewModel _progressManager;
         private readonly FindNewEpisodesCommand _command;
 
         public FindNewEpisodesCommandTests()

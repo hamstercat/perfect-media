@@ -1,21 +1,21 @@
-﻿using log4net.Config;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
+using System.Reflection;
+using log4net.Config;
 using Ninject;
 using Ninject.Extensions.Conventions;
 using PerfectMedia.Movies;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Movies;
 using PerfectMedia.UI.TvShows;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
-using System.Reflection;
 
 namespace PerfectMedia.UI
 {
     public class ServiceLocator : IDisposable
     {
-        private static readonly List<ServiceLocator> _instances = new List<ServiceLocator>();
+        private static readonly List<ServiceLocator> Instances = new List<ServiceLocator>();
         private readonly IKernel _kernel;
 
         public TvShowManagerViewModel TvShowManagerViewModel
@@ -66,12 +66,12 @@ namespace PerfectMedia.UI
             _kernel = new StandardKernel();
             XmlConfigurator.Configure();
             BindDependencies();
-            _instances.Add(this);
+            Instances.Add(this);
         }
 
         public static void DisposeInstances()
         {
-            foreach (ServiceLocator instance in _instances)
+            foreach (ServiceLocator instance in Instances)
             {
                 instance.Dispose();
             }

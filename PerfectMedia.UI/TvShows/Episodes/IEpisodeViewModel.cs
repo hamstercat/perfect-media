@@ -1,8 +1,5 @@
-﻿using PerfectMedia.UI.Progress;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using PerfectMedia.UI.Progress;
 
 namespace PerfectMedia.UI.TvShows.Episodes
 {

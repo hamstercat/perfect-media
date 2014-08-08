@@ -1,9 +1,5 @@
-﻿using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using NSubstitute;
 using Xunit;
 
 namespace PerfectMedia.TvShows.Metadata
@@ -19,7 +15,7 @@ namespace PerfectMedia.TvShows.Metadata
         {
             _fileSystemService = Substitute.For<IFileSystemService>();
             _path = @"C:\Folder\TV Shows\Game of Thrones";
-            
+
             _tvShowFileService = Substitute.For<ITvShowFileService>();
             TvShowImages images = new TvShowImages
             {

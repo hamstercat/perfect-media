@@ -1,9 +1,4 @@
-﻿using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using Xunit;
 
 namespace PerfectMedia.UI
@@ -36,11 +31,8 @@ namespace PerfectMedia.UI
         public void OnPropertyChanged_InDebugWithUnknownProperty_ThrowsArgumentException()
         {
 #if DEBUG
-            Assert.Throws<ArgumentException>(() =>
-            {
-                // Act
-                _viewModel.CallOnPropertyChanged("Banana");
-            });
+            // Act + Assert
+            Assert.Throws<ArgumentException>(() => _viewModel.CallOnPropertyChanged("Banana"));
 #endif
         }
 

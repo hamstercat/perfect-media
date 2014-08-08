@@ -1,9 +1,6 @@
-﻿using NSubstitute;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NSubstitute;
 using Xunit;
 using Xunit.Extensions;
 
@@ -98,11 +95,8 @@ namespace PerfectMedia
         [InlineData("")]
         public void SetValue_WithNullOrEmptyKey_ThrowsException(string str)
         {
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                // Act
-                _keyDataStore.SetValue(str, "whatever");
-            });
+            // Act + Assert
+            Assert.Throws<ArgumentNullException>(() => _keyDataStore.SetValue(str, "whatever"));
         }
     }
 }

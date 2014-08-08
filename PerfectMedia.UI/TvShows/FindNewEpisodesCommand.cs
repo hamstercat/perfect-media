@@ -1,12 +1,9 @@
-﻿using PerfectMedia.UI.Progress;
-using PerfectMedia.UI.TvShows.Shows;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
 using System.Windows.Input;
+using PerfectMedia.UI.Progress;
+using PerfectMedia.UI.TvShows.Shows;
 
 namespace PerfectMedia.UI.TvShows
 {

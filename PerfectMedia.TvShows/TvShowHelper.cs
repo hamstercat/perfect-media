@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace PerfectMedia.TvShows
 {
@@ -58,7 +54,7 @@ namespace PerfectMedia.TvShows
                 imageRelativePath += "/";
             }
             imageRelativePath += relativePath;
-            return new Uri(new Uri(TvShowHelper.TheTvDbUrl), imageRelativePath).ToString();
+            return new Uri(new Uri(TheTvDbUrl), imageRelativePath).ToString();
         }
 
         internal static string GetSeasonImageFileName(string folder, int seasonNumber, string imageType)

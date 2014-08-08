@@ -1,12 +1,9 @@
-﻿using PerfectMedia.UI.Progress;
-using PerfectMedia.UI.TvShows.Shows;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
+using System.Windows;
 using System.Windows.Input;
+using PerfectMedia.UI.Progress;
 
 namespace PerfectMedia.UI.Metadata
 {
@@ -31,7 +28,7 @@ namespace PerfectMedia.UI.Metadata
 
         public void Execute(object parameter)
         {
-            foreach (IMetadataProvider item in _items)
+            foreach (T item in _items)
             {
                 foreach (ProgressItem progressItem in item.Update())
                 {
@@ -45,10 +42,7 @@ namespace PerfectMedia.UI.Metadata
         {
             if (CanExecuteChanged != null)
             {
-                App.Current.Dispatcher.InvokeAsync(()=>
-                {
-                    CanExecuteChanged(this, new EventArgs());
-                });
+                Application.Current.Dispatcher.InvokeAsync(()=> CanExecuteChanged(this, new EventArgs()));
             }
         }
     }

@@ -1,9 +1,6 @@
-﻿using PerfectMedia.TvShows.Metadata;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
+using PerfectMedia.TvShows.Metadata;
 
 namespace PerfectMedia.UI.TvShows.ShowSelection
 {

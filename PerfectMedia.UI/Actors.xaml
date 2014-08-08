@@ -4,13 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:img="clr-namespace:PerfectMedia.UI.Images"
+             xmlns:ui="clr-namespace:PerfectMedia.UI"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <ItemsControl ItemsSource="{Binding}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Width="100">
+                    <StackPanel Width="100" d:DataContext="{d:DesignInstance Type=ui:ActorViewModel}">
                         <img:SelectableImage DataContext="{Binding ThumbPath}" MaxWidth="60" MaxHeight="90" />
                         <TextBox Text="{Binding Name}" />
                         <TextBox Text="{Binding Role}" />

@@ -1,35 +1,32 @@
-﻿using Anotar.Log4Net;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Anotar.Log4Net;
 
 namespace PerfectMedia.FileInformation
 {
     internal static class CodecHelper
     {
-        private static readonly string[] _knownVideoCodecs;
-        private static readonly string[] _knownAudioCodecs;
+        private static readonly string[] KnownVideoCodecs;
+        private static readonly string[] KnownAudioCodecs;
 
         static CodecHelper()
         {
-            _knownVideoCodecs = ConfigurationManager.AppSettings["KnownVideoCodecs"].Split(',');
-            _knownAudioCodecs = ConfigurationManager.AppSettings["KnownAudioCodecs"].Split(',');
+            KnownVideoCodecs = ConfigurationManager.AppSettings["KnownVideoCodecs"].Split(',');
+            KnownAudioCodecs = ConfigurationManager.AppSettings["KnownAudioCodecs"].Split(',');
         }
 
         internal static string GetVideoCodecName(string codecCommonName, string codecId, string format)
         {
             string codec = DetermineVideoCodec(codecCommonName.ToLower(), codecId.ToLower(), format.ToLower());
-            LogUnknownCodec(_knownVideoCodecs, "video", codec, codecCommonName, codecId, format);
+            LogUnknownCodec(KnownVideoCodecs, "video", codec, codecCommonName, codecId, format);
             return codec.ToUpper();
         }
 
         internal static string GetAudioCodecName(string codecCommonName, string codecId, string format)
         {
             string codec = DetermineAudioCodec(codecCommonName, codecId, format);
-            LogUnknownCodec(_knownAudioCodecs, "audio", codec, codecCommonName, codecId, format);
+            LogUnknownCodec(KnownAudioCodecs, "audio", codec, codecCommonName, codecId, format);
             return codec.ToUpper();
         }
 
@@ -83,7 +80,7 @@ namespace PerfectMedia.FileInformation
             LogTo.Debug("    -> codecCommonName = {0}, codecId = {1}, format = {2}", codecCommonName, codecId, format);
             if (!knownCodecs.Contains(codec.ToLower()))
             {
-                LogTo.Warn("Unknown codec was found for codec type {0}: {1}", codecType, codec); ;
+                LogTo.Warn("Unknown codec was found for codec type {0}: {1}", codecType, codec);
                 LogTo.Warn("    -codecCommonName: " + codecCommonName);
                 LogTo.Warn("    -codecId: " + codecId);
                 LogTo.Warn("    -format: " + format);

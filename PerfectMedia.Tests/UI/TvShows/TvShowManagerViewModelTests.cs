@@ -1,15 +1,8 @@
-﻿using NSubstitute;
+﻿using System.Collections.ObjectModel;
+using NSubstitute;
 using PerfectMedia.Sources;
-using PerfectMedia.TvShows;
-using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Sources;
 using PerfectMedia.UI.TvShows.Shows;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace PerfectMedia.UI.TvShows
@@ -18,8 +11,6 @@ namespace PerfectMedia.UI.TvShows
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ISourceManagerViewModel _sourceManagerViewModel;
-        private readonly ITvShowFileService _tvShowFileService;
-        private readonly ITvShowMetadataService _metadataService;
         private readonly TvShowManagerViewModel _viewModel;
 
         public TvShowManagerViewModelTests()
@@ -32,9 +23,7 @@ namespace PerfectMedia.UI.TvShows
             _viewModelFactory.GetSourceManager(SourceType.TvShow)
                 .Returns(_sourceManagerViewModel);
 
-            _tvShowFileService = Substitute.For<ITvShowFileService>();
-            _metadataService = Substitute.For<ITvShowMetadataService>();
-            _viewModel = new TvShowManagerViewModel(_viewModelFactory, _tvShowFileService, _metadataService, null);
+            _viewModel = new TvShowManagerViewModel(_viewModelFactory, null);
         }
 
         [Fact]
@@ -59,7 +48,7 @@ namespace PerfectMedia.UI.TvShows
         public void Sources_RemovesSpecificFolder_RemovesTvShow()
         {
             // Arrange
-            string folder = @"C:\Folder\TV Shows\Game of Thrones";
+            const string folder = @"C:\Folder\TV Shows\Game of Thrones";
 
             ITvShowViewModel tvShowViewModel = Substitute.For<ITvShowViewModel>();
             tvShowViewModel.Path.Returns(folder);

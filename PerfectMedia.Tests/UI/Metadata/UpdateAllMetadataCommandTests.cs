@@ -1,14 +1,8 @@
-﻿using NSubstitute;
-using PerfectMedia.UI.Metadata;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using NSubstitute;
 using PerfectMedia.UI.Movies;
 using PerfectMedia.UI.Progress;
-using PerfectMedia.UI.TvShows.Shows;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace PerfectMedia.UI.Metadata
@@ -16,7 +10,7 @@ namespace PerfectMedia.UI.Metadata
     public class UpdateAllMetadataCommandTests
     {
         private readonly ObservableCollection<IMovieViewModel> _movies;
-        private IProgressManagerViewModel _progressManager;
+        private readonly IProgressManagerViewModel _progressManager;
         private readonly UpdateAllMetadataCommand<IMovieViewModel> _command;
 
         public UpdateAllMetadataCommandTests()
@@ -77,11 +71,6 @@ namespace PerfectMedia.UI.Metadata
 
         private ProgressItem CreateProgressItem()
         {
-            Lazy<string> displayName = new Lazy<string>(() => "Dinosaur");
-            Task task = new Task(() =>
-            {
-                throw new Exception();
-            });
             return new ProgressItem(null, null);
         }
     }

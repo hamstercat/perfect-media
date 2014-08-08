@@ -1,11 +1,7 @@
 ﻿using PerfectMedia.UI.Images;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace PerfectMedia.UI.TvShows
+namespace PerfectMedia.UI
 {
     [ImplementPropertyChanged]
     public class ActorViewModel

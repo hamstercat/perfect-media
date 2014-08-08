@@ -1,37 +1,28 @@
-﻿using PerfectMedia.Sources;
-using PerfectMedia.TvShows;
-using PerfectMedia.TvShows.Metadata;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Windows.Input;
+using PerfectMedia.Sources;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.Sources;
 using PerfectMedia.UI.TvShows.Shows;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace PerfectMedia.UI.TvShows
 {
     public class TvShowManagerViewModel : ISourceProvider
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
-        private readonly ITvShowFileService _tvShowFileService;
-        private readonly ITvShowMetadataService _metadataService;
 
         public ISourceManagerViewModel Sources { get; private set; }
         public ObservableCollection<ITvShowViewModel> TvShows { get; private set; }
         public ICommand UpdateAll { get; private set; }
         public ICommand FindNewEpisodes { get; private set; }
 
-        public TvShowManagerViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowFileService tvShowFileService, ITvShowMetadataService metadataService, IProgressManagerViewModel progressManager)
+        public TvShowManagerViewModel(ITvShowViewModelFactory viewModelFactory, IProgressManagerViewModel progressManager)
         {
             _viewModelFactory = viewModelFactory;
-            _tvShowFileService = tvShowFileService;
-            _metadataService = metadataService;
             TvShows = new ObservableCollection<ITvShowViewModel>();
 
             UpdateAll = new UpdateAllMetadataCommand<ITvShowViewModel>(TvShows, progressManager);
@@ -63,9 +54,6 @@ namespace PerfectMedia.UI.TvShows
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     TvShows.Clear();
-                    break;
-                case NotifyCollectionChangedAction.Move:
-                default:
                     break;
             }
         }

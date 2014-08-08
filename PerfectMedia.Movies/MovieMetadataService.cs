@@ -1,10 +1,7 @@
-﻿using PerfectMedia.FileInformation;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PerfectMedia.FileInformation;
 
 namespace PerfectMedia.Movies
 {
@@ -171,13 +168,13 @@ namespace PerfectMedia.Movies
 
         private void UpdateInformationMetadata(string path, FullMovie movie)
         {
-            MovieMetadata metadata = MapFullMovieToMetadata(movie, path);
+            MovieMetadata metadata = MapFullMovieToMetadata(movie);
             UpdateActorsMetadata(path, metadata);
             metadata.FileInformation = _fileInformationService.GetVideoFileInformation(path);
             Save(path, metadata);
         }
 
-        private MovieMetadata MapFullMovieToMetadata(FullMovie movie, string path)
+        private MovieMetadata MapFullMovieToMetadata(FullMovie movie)
         {
             MovieMetadata metadata = new MovieMetadata();
             metadata.Certification = movie.Certification;

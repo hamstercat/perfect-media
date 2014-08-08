@@ -53,7 +53,9 @@
     <Compile Include="..\ProjectAssemblyInfo.cs">
       <Link>Properties\ProjectAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ActorMetadataTests.cs" />
     <Compile Include="KeyDataStoreTests.cs" />
+    <Compile Include="NfoRepositoryTests.cs" />
     <Compile Include="UI\CachedPropertyViewModelTests.cs" />
     <Compile Include="FileInformation\CodecHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:tv="clr-namespace:PerfectMedia.UI.TvShows"
              xmlns:shows="clr-namespace:PerfectMedia.UI.TvShows.Shows"
              xmlns:views="clr-namespace:PerfectMedia.UI"
              mc:Ignorable="d"

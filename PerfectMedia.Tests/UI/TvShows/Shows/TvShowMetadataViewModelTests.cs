@@ -1,10 +1,11 @@
-﻿using NSubstitute;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using NSubstitute;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Progress;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace PerfectMedia.UI.TvShows.Shows
@@ -22,7 +23,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             _path = @"C:\Folder\TV Shows";
             ICachedPropertyViewModel<string> cachedProperty = Substitute.For<ICachedPropertyViewModel<string>>();
             _viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
-            _viewModelFactory.GetCachedProperty<string>(_path, Arg.Any<Func<string, string>>(), Arg.Any<Func<string, string>>())
+            _viewModelFactory.GetCachedProperty(_path, Arg.Any<Func<string, string>>(), Arg.Any<Func<string, string>>())
                 .Returns(cachedProperty);
 
             _metadataService = Substitute.For<ITvShowMetadataService>();
@@ -74,7 +75,7 @@ namespace PerfectMedia.UI.TvShows.Shows
                 .Returns(metadata);
 
             // Act
-            _viewModel.Update();
+            _viewModel.Update().ToList();
 
             // Assert
             _metadataService.DidNotReceiveWithAnyArgs()
@@ -82,7 +83,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         }
 
         [Fact]
-        public async void Update_WhenNoMetadataAlreadyExists_RetrievesFreshMetadata()
+        public async Task Update_WhenNoMetadataAlreadyExists_RetrievesFreshMetadata()
         {
             // Arrange
             TvShowMetadata metadata = CreateTvShowMetadata();

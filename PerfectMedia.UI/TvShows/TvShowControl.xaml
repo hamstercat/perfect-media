@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:tvShows="clr-namespace:PerfectMedia.UI.TvShows"
              xmlns:shows="clr-namespace:PerfectMedia.UI.TvShows.Shows"
              xmlns:seasons="clr-namespace:PerfectMedia.UI.TvShows.Seasons"
              xmlns:episodes="clr-namespace:PerfectMedia.UI.TvShows.Episodes"
@@ -11,7 +12,8 @@
              xmlns:tvshowselection="clr-namespace:PerfectMedia.UI.TvShows.ShowSelection"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="1000">
+             d:DesignHeight="300" d:DesignWidth="1000"
+             d:DataContext="{d:DesignInstance Type=tvShows:TvShowManagerViewModel}">
     <UserControl.Resources>
         <ResourceDictionary>
             <CollectionViewSource x:Key="SortedTvShows" Source="{Binding TvShows}">
@@ -34,7 +36,7 @@
             <TreeView x:Name="TvShowsTreeView" ItemsSource="{Binding Source={StaticResource SortedTvShows}}">
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
-                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                        <Setter Property="IsExpanded" Value="{Binding (shows:TvShowViewModel.IsExpanded), Mode=TwoWay}" />
                     </Style>
                 </TreeView.ItemContainerStyle>
                 <TreeView.ItemTemplate>
@@ -69,9 +71,9 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                <Button Content="Refresh" Command="{Binding Metadata.RefreshCommand}" />
-                                <Button Content="Update" Command="{Binding Metadata.UpdateCommand}" />
-                                <Button Content="Save" Command="{Binding Metadata.SaveCommand}" />
+                                <Button Content="Refresh" Command="{Binding Metadata.(shows:TvShowMetadataViewModel.RefreshCommand)}" />
+                                <Button Content="Update" Command="{Binding Metadata.(shows:TvShowMetadataViewModel.UpdateCommand)}" />
+                                <Button Content="Save" Command="{Binding Metadata.(shows:TvShowMetadataViewModel.SaveCommand)}" />
                                 <Button Content="Change TV Show" Click="ShowTvShowSelection" />
                             </StackPanel>
                             <shows:TvShowMetadataControl Grid.Row="1" DataContext="{Binding Metadata}" />

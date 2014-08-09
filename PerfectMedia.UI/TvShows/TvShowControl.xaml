@@ -36,7 +36,7 @@
             <TreeView x:Name="TvShowsTreeView" ItemsSource="{Binding Source={StaticResource SortedTvShows}}">
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
-                        <Setter Property="IsExpanded" Value="{Binding (shows:TvShowViewModel.IsExpanded), Mode=TwoWay}" />
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                     </Style>
                 </TreeView.ItemContainerStyle>
                 <TreeView.ItemTemplate>
@@ -71,9 +71,9 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                <Button Content="Refresh" Command="{Binding Metadata.(shows:TvShowMetadataViewModel.RefreshCommand)}" />
-                                <Button Content="Update" Command="{Binding Metadata.(shows:TvShowMetadataViewModel.UpdateCommand)}" />
-                                <Button Content="Save" Command="{Binding Metadata.(shows:TvShowMetadataViewModel.SaveCommand)}" />
+                                <Button Content="Refresh" Command="{Binding Metadata.RefreshCommand}" />
+                                <Button Content="Update" Command="{Binding Metadata.UpdateCommand}" />
+                                <Button Content="Save" Command="{Binding Metadata.SaveCommand}" />
                                 <Button Content="Change TV Show" Click="ShowTvShowSelection" />
                             </StackPanel>
                             <shows:TvShowMetadataControl Grid.Row="1" DataContext="{Binding Metadata}" />

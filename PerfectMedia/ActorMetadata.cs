@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
 namespace PerfectMedia
@@ -33,7 +34,8 @@ namespace PerfectMedia
         {
             string fileName = actorName
                 .Replace(" ", "_")
-                .Replace("\t", "");
+                .Replace("\t", "_");
+            //fileName = Regex.Replace(fileName, " +", " ");
             return fileName + ".jpg";
         }
     }

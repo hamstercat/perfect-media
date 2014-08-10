@@ -83,7 +83,7 @@ namespace PerfectMedia.TvShows.Metadata
             FullSerie fullSerie = _metadataUpdater.GetTvShowMetadata(seriesId);
             if (fullSerie == null)
             {
-                throw new ItemNotFoundException(path);
+                throw new TvShowNotFoundException(path);
             }
             return fullSerie;
         }
@@ -105,7 +105,7 @@ namespace PerfectMedia.TvShows.Metadata
             if (!series.Any())
             {
                 string message = string.Format("Couldn't find any series corresponding to \"{0}\"", folderName);
-                throw new ItemNotFoundException(message);
+                throw new TvShowNotFoundException(message);
             }
             return series.First().SeriesId;
         }

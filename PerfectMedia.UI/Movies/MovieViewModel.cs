@@ -393,7 +393,7 @@ namespace PerfectMedia.UI.Movies
             MovieMetadata metadata = _metadataService.Get(Path);
             if (string.IsNullOrEmpty(metadata.Id))
             {
-                Lazy<string> displayName = new Lazy<string>(ToString);
+                Lazy<string> displayName = new Lazy<string>(() => DisplayName);
                 yield return new ProgressItem(displayName, UpdateInternal);
             }
         }

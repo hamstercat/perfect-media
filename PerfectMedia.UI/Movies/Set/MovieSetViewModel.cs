@@ -132,7 +132,7 @@ namespace PerfectMedia.UI.Movies.Set
 
         private ProgressItem UpdateImages()
         {
-            Lazy<string> displayName = new Lazy<string>(ToString);
+            Lazy<string> displayName = new Lazy<string>(() => DisplayName);
             return new ProgressItem(displayName, LoadImagesInternal);
         }
 

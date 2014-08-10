@@ -69,12 +69,12 @@
     <Compile Include="IFileBackedRepository.cs" />
     <Compile Include="IKeyDataStore.cs" />
     <Compile Include="IRestApiService.cs" />
-    <Compile Include="ItemNotFoundException.cs" />
     <Compile Include="KeyDataStore.cs" />
     <Compile Include="Movies\AvailableMovieImages.cs" />
     <Compile Include="Movies\Cast.cs" />
     <Compile Include="Movies\Crew.cs" />
     <Compile Include="Movies\MovieActorsResult.cs" />
+    <Compile Include="Movies\MovieNotFoundException.cs" />
     <Compile Include="Movies\MovieSet.cs" />
     <Compile Include="Movies\FullMovie.cs" />
     <Compile Include="Movies\Reference.cs" />
@@ -120,6 +120,7 @@
     <Compile Include="TvShows\Metadata\Series.cs" />
     <Compile Include="TvShows\Season.cs" />
     <Compile Include="IFileSystemService.cs" />
+    <Compile Include="TvShows\TvShowNotFoundException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

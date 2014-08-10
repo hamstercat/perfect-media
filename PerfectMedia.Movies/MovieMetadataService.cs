@@ -56,7 +56,7 @@ namespace PerfectMedia.Movies
             FullMovie movie = FindFullMovie(path);
             if (string.IsNullOrEmpty(movie.ImdbId))
             {
-                throw new ItemNotFoundException("No movie found for " + path);
+                throw new MovieNotFoundException("No movie found for " + path);
             }
             UpdateFromMovie(path, movie);
         }
@@ -107,7 +107,7 @@ namespace PerfectMedia.Movies
             FullMovie fullMovie = _metadataUpdater.GetMovieMetadata(movieId);
             if (fullMovie == null)
             {
-                throw new ItemNotFoundException(path);
+                throw new MovieNotFoundException(path);
             }
             return fullMovie;
         }
@@ -129,7 +129,7 @@ namespace PerfectMedia.Movies
             if (!movies.Any())
             {
                 string message = string.Format("Couldn't find any movie corresponding to \"{0}\"", folderName);
-                throw new ItemNotFoundException(message);
+                throw new MovieNotFoundException(message);
             }
             return movies
                 .OrderByDescending(m => m.VoteAverage)

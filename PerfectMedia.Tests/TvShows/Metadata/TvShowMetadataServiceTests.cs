@@ -77,7 +77,7 @@ namespace PerfectMedia.TvShows.Metadata
                 .Returns(new TvShowMetadata());
 
             // Act + Assert
-            Assert.Throws<ItemNotFoundException>(() => _service.Update(_path));
+            Assert.Throws<TvShowNotFoundException>(() => _service.Update(_path));
         }
 
         [Fact]

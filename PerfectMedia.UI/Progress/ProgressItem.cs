@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using PerfectMedia.TvShows;
+using PerfectMedia.Movies;
 
 namespace PerfectMedia.UI.Progress
 {
@@ -32,15 +33,19 @@ namespace PerfectMedia.UI.Progress
             }
             catch (EpisodeNotFoundException)
             {
-                Error = "Episode metadata could not be found";
+                Error = "Episode could not be located";
             }
-            catch (ItemNotFoundException)
+            catch (TvShowNotFoundException)
             {
-                Error = "No metadata could be found";
+                Error = "TV Show could not be located";
+            }
+            catch(MovieNotFoundException)
+            {
+                Error = "Movie could not be located";
             }
             catch (Exception)
             {
-                Error = "Unhandled exception";
+                Error = "Unhandled exception (check the log for more information)";
             }
         }
     }

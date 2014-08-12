@@ -5,16 +5,28 @@ using Anotar.Log4Net;
 
 namespace PerfectMedia.Movies
 {
+    /// <summary>
+    /// /// Retrieves movie metadata from themoviedb.org.
+    /// </summary>
     public class ThemoviedbMovieMetadataUpdater : IMovieMetadataUpdater
     {
         private readonly IRestApiService _restApiService;
         private ThemoviedbConfiguration _serverConfiguration;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ThemoviedbMovieMetadataUpdater"/> class.
+        /// </summary>
+        /// <param name="restApiService">The rest API service.</param>
         public ThemoviedbMovieMetadataUpdater(IRestApiService restApiService)
         {
             _restApiService = restApiService;
         }
 
+        /// <summary>
+        /// Finds the movies.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
         [LogToErrorOnException]
         public IEnumerable<Movie> FindMovies(string name)
         {
@@ -26,6 +38,11 @@ namespace PerfectMedia.Movies
             return result.Results;
         }
 
+        /// <summary>
+        /// Gets the movie metadata.
+        /// </summary>
+        /// <param name="movieId">The movie identifier.</param>
+        /// <returns></returns>
         [LogToErrorOnException]
         public FullMovie GetMovieMetadata(string movieId)
         {
@@ -35,6 +52,11 @@ namespace PerfectMedia.Movies
             return fullMovie;
         }
 
+        /// <summary>
+        /// Finds the images.
+        /// </summary>
+        /// <param name="movieId">The movie identifier.</param>
+        /// <returns></returns>
         [LogToErrorOnException]
         public AvailableMovieImages FindImages(string movieId)
         {
@@ -43,6 +65,11 @@ namespace PerfectMedia.Movies
             return ConvertImagesResult(result);
         }
 
+        /// <summary>
+        /// Finds the set images.
+        /// </summary>
+        /// <param name="setName">Name of the set.</param>
+        /// <returns></returns>
         [LogToErrorOnException]
         public AvailableMovieImages FindSetImages(string setName)
         {
@@ -59,6 +86,11 @@ namespace PerfectMedia.Movies
             return new AvailableMovieImages();
         }
 
+        /// <summary>
+        /// Finds the cast.
+        /// </summary>
+        /// <param name="movieId">The movie identifier.</param>
+        /// <returns></returns>
         [LogToErrorOnException]
         public MovieActorsResult FindCast(string movieId)
         {
@@ -68,6 +100,11 @@ namespace PerfectMedia.Movies
             return actorsResult;
         }
 
+        /// <summary>
+        /// Finds the certification.
+        /// </summary>
+        /// <param name="movieId">The movie identifier.</param>
+        /// <returns></returns>
         [LogToErrorOnException]
         public string FindCertification(string movieId)
         {

@@ -5,6 +5,9 @@ using PerfectMedia.FileInformation;
 
 namespace PerfectMedia.Movies
 {
+    /// <summary>
+    /// Finds metadata about movies.
+    /// </summary>
     public class MovieMetadataService : IMovieMetadataService
     {
         private readonly IFileSystemService _fileSystemService;
@@ -14,6 +17,15 @@ namespace PerfectMedia.Movies
         private readonly IMovieImagesService _imagesService;
         private readonly IFileInformationService _fileInformationService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MovieMetadataService"/> class.
+        /// </summary>
+        /// <param name="fileSystemService">The file system service.</param>
+        /// <param name="metadataRepository">The metadata repository.</param>
+        /// <param name="metadataUpdater">The metadata updater.</param>
+        /// <param name="synopsisService">The synopsis service.</param>
+        /// <param name="imagesService">The images service.</param>
+        /// <param name="fileInformationService">The file information service.</param>
         public MovieMetadataService(IFileSystemService fileSystemService,
             IMovieMetadataRepository metadataRepository,
             IMovieMetadataUpdater metadataUpdater,
@@ -29,6 +41,11 @@ namespace PerfectMedia.Movies
             _fileInformationService = fileInformationService;
         }
 
+        /// <summary>
+        /// Gets metadata about the movie located at the specified path.
+        /// </summary>
+        /// <param name="path">The movie file path.</param>
+        /// <returns></returns>
         public MovieMetadata Get(string path)
         {
             MovieMetadata metadata = _metadataRepository.Get(path);
@@ -37,6 +54,11 @@ namespace PerfectMedia.Movies
             return metadata;
         }
 
+        /// <summary>
+        /// Gets the movie set.
+        /// </summary>
+        /// <param name="setName">Name of the set.</param>
+        /// <returns></returns>
         public MovieSet GetMovieSet(string setName)
         {
             MovieSet set = new MovieSet();
@@ -46,11 +68,21 @@ namespace PerfectMedia.Movies
             return set;
         }
 
+        /// <summary>
+        /// Saves the metadata to the movie located at the specified path.
+        /// </summary>
+        /// <param name="path">The movie file path.</param>
+        /// <param name="metadata">The metadata.</param>
         public void Save(string path, MovieMetadata metadata)
         {
             _metadataRepository.Save(path, metadata);
         }
 
+        /// <summary>
+        /// Updates the movie located at the specified path.
+        /// </summary>
+        /// <param name="path">The movie file path.</param>
+        /// <exception cref="MovieNotFoundException">No movie found</exception>
         public void Update(string path)
         {
             FullMovie movie = FindFullMovie(path);
@@ -61,26 +93,49 @@ namespace PerfectMedia.Movies
             UpdateFromMovie(path, movie);
         }
 
+        /// <summary>
+        /// Deletes the metadata from the movie located at the specified path.
+        /// </summary>
+        /// <param name="path">The movie file path.</param>
         public void Delete(string path)
         {
             _metadataRepository.Delete(path);
         }
 
+        /// <summary>
+        /// Deletes the images associated with the movie located at the specified path.
+        /// </summary>
+        /// <param name="path">The movie file path.</param>
         public void DeleteImages(string path)
         {
             _imagesService.Delete(path);
         }
 
+        /// <summary>
+        /// Finds the movis summary that match the given name.
+        /// </summary>
+        /// <param name="name">The movie name.</param>
+        /// <returns></returns>
         public IEnumerable<Movie> FindMovies(string name)
         {
             return _metadataUpdater.FindMovies(name);
         }
 
+        /// <summary>
+        /// Finds the images about a movie.
+        /// </summary>
+        /// <param name="movieId">The movie identifier.</param>
+        /// <returns></returns>
         public AvailableMovieImages FindImages(string movieId)
         {
             return _metadataUpdater.FindImages(movieId);
         }
 
+        /// <summary>
+        /// Finds the set images.
+        /// </summary>
+        /// <param name="setName">Name of the set.</param>
+        /// <returns></returns>
         public AvailableMovieImages FindSetImages(string setName)
         {
             return _metadataUpdater.FindSetImages(setName);

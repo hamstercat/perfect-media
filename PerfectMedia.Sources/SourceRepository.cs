@@ -8,11 +8,18 @@ using System.Xml.Serialization;
 
 namespace PerfectMedia.Sources
 {
+    /// <summary>
+    /// Repository that allows the persistance of sources to XML files located around the .exe file.
+    /// </summary>
     public class SourceRepository : ISourceRepository
     {
         private readonly IFileSystemService _fileSystemService;
         private readonly string _basePath;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SourceRepository"/> class.
+        /// </summary>
+        /// <param name="fileSystemService">The file system service.</param>
         public SourceRepository(IFileSystemService fileSystemService)
         {
             _fileSystemService = fileSystemService;
@@ -21,6 +28,11 @@ namespace PerfectMedia.Sources
             _basePath = Path.GetDirectoryName(assemblyFolder);
         }
 
+        /// <summary>
+        /// Gets all the sources.
+        /// </summary>
+        /// <param name="sourceType">Type of the source.</param>
+        /// <returns></returns>
         public IEnumerable<Source> GetSources(SourceType sourceType)
         {
             string file = GetSourceTypeFile(sourceType);
@@ -31,6 +43,10 @@ namespace PerfectMedia.Sources
             return Enumerable.Empty<Source>();
         }
 
+        /// <summary>
+        /// Saves the specified source.
+        /// </summary>
+        /// <param name="source">The source.</param>
         public void Save(Source source)
         {
             string file = GetSourceTypeFile(source.SourceType);
@@ -38,6 +54,10 @@ namespace PerfectMedia.Sources
             File.AppendAllLines(file, new List<string> { serializedSource });
         }
 
+        /// <summary>
+        /// Deletes the specified source.
+        /// </summary>
+        /// <param name="source">The source.</param>
         public void Delete(Source source)
         {
             IEnumerable<Source> sources = GetSources(source.SourceType);

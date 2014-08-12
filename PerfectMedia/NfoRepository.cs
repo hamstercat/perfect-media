@@ -5,8 +5,16 @@ using System.Xml.Serialization;
 
 namespace PerfectMedia
 {
+    /// <summary>
+    /// Provides utility methods when working with .nfo files.
+    /// </summary>
     public abstract class NfoRepository
     {
+        /// <summary>
+        /// Gets the string from date time.
+        /// </summary>
+        /// <param name="dateTime">The date time.</param>
+        /// <returns></returns>
         public static string GetStringFromDateTime(DateTime? dateTime)
         {
             if (dateTime.HasValue)
@@ -14,6 +22,11 @@ namespace PerfectMedia
             return null;
         }
 
+        /// <summary>
+        /// Gets the date time from string.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
         public static DateTime? GetDateTimeFromString(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -22,9 +35,17 @@ namespace PerfectMedia
         }
     }
 
+    /// <summary>
+    /// Base class for repositories based on XBMC's .nfo files.
+    /// </summary>
     public abstract class NfoRepository<TMetadata> : NfoRepository
         where TMetadata : new()
     {
+        /// <summary>
+        /// Gets the path to the .nfo file.
+        /// </summary>
+        /// <param name="path">The path to the media.</param>
+        /// <returns></returns>
         protected abstract string GetNfoFile(string path);
 
         private readonly IFileSystemService _fileSystemService;
@@ -44,6 +65,11 @@ namespace PerfectMedia
             _fileSystemService = fileSystemService;
         }
 
+        /// <summary>
+        /// Gets the metadata associated with the media located at the specified path.
+        /// </summary>
+        /// <param name="path">The path of the media.</param>
+        /// <returns></returns>
         public virtual TMetadata Get(string path)
         {
             string nfoFileFullPath = GetNfoFile(path);
@@ -54,6 +80,11 @@ namespace PerfectMedia
             return Deserialize(nfoFileFullPath);
         }
 
+        /// <summary>
+        /// Saves the metadata associated with the media located at the specified path.
+        /// </summary>
+        /// <param name="path">The path of the media.</param>
+        /// <param name="metadata">The metadata.</param>
         public virtual void Save(string path, TMetadata metadata)
         {
             string nfoFileFullPath = GetNfoFile(path);
@@ -64,6 +95,10 @@ namespace PerfectMedia
             }
         }
 
+        /// <summary>
+        /// Deletes the metadata associated with the media located at the specified path.
+        /// </summary>
+        /// <param name="path">The path of the media.</param>
         public virtual void Delete(string path)
         {
             string nfoFileFullPath = GetNfoFile(path);

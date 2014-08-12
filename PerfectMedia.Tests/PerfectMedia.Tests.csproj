@@ -55,6 +55,8 @@
     </Compile>
     <Compile Include="ActorMetadataTests.cs" />
     <Compile Include="KeyDataStoreTests.cs" />
+    <Compile Include="Movies\MovieImagesServiceTests.cs" />
+    <Compile Include="Movies\MovieMetadataServiceTests.cs" />
     <Compile Include="NfoRepositoryTests.cs" />
     <Compile Include="UI\CachedPropertyViewModelTests.cs" />
     <Compile Include="FileInformation\CodecHelperTests.cs" />

@@ -4,15 +4,27 @@ using HtmlAgilityPack;
 
 namespace PerfectMedia.Movies
 {
+    /// <summary>
+    /// Finds synopsis information for a movie on imdb.com.
+    /// </summary>
     public class ImdbMovieSynopsisService : IMovieSynopsisService
     {
         private readonly IRestApiService _restApiService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ImdbMovieSynopsisService"/> class.
+        /// </summary>
+        /// <param name="restApiService">IMDB API service.</param>
         public ImdbMovieSynopsisService(IRestApiService restApiService)
         {
             _restApiService = restApiService;
         }
 
+        /// <summary>
+        /// Gets the synopsis.
+        /// </summary>
+        /// <param name="movieId">The movie identifier.</param>
+        /// <returns></returns>
         [LogToErrorOnException]
         public MovieSynopsis GetSynopsis(string movieId)
         {
@@ -29,7 +41,6 @@ namespace PerfectMedia.Movies
 
             synopsis.Outline = ExtractOutline(htmlDocument);
             synopsis.Plot = ExtractPlot(htmlDocument);
-
             synopsis.Tagline = ExtractTagline(moviePageContent);
             return synopsis;
         }

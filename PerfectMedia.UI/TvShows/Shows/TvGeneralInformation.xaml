@@ -3,42 +3,71 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:img="clr-namespace:PerfectMedia.UI.Images"
+             xmlns:shows="clr-namespace:PerfectMedia.UI.TvShows.Shows"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Background="White" Grid.IsSharedSizeScope="True">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance Type=shows:TvShowMetadataViewModel}">
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" MinWidth="700" />
+            <ColumnDefinition Width="*" MaxWidth="300" />
         </Grid.ColumnDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Content="Title" />
-        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title.Value}" />
-        <Label Grid.Row="1" Grid.Column="0" Content="Plot" />
-        <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Plot}" TextWrapping="Wrap" />
-        <Label Grid.Row="2" Grid.Column="0" Content="Genre" />
-        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Genres.String}" />
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" MinWidth="100" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Path" />
+            <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Path}" IsReadOnly="True" />
+            <Label Grid.Row="1" Grid.Column="0" Content="Title" />
+            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title.Value}" />
+            <Label Grid.Row="2" Grid.Column="0" Content="Genre" />
+            <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Genres.String}" />
 
-        <Label Grid.Row="3" Grid.Column="0" Content="Runtime (in minutes)" />
-        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding RuntimeInMinutes}" />
-        <Label Grid.Row="4" Grid.Column="0" Content="Rating" />
-        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Rating}" />
-        <Label Grid.Row="5" Grid.Column="0" Content="Premiered Date" />
-        <DatePicker Grid.Row="5" Grid.Column="1" SelectedDate="{Binding PremieredDate}" />
+            <Label Grid.Row="3" Grid.Column="0" Content="Rating" />
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Rating}" />
+            <Label Grid.Row="3" Grid.Column="2" Content="Runtime (in minutes)" />
+            <TextBox Grid.Row="3" Grid.Column="3" Text="{Binding RuntimeInMinutes}" />
 
-        <Label Grid.Row="3" Grid.Column="2" Content="Studio" />
-        <TextBox Grid.Row="3" Grid.Column="3" Text="{Binding Studio}" />
-        <Label Grid.Row="4" Grid.Column="2" Content="MPAA Rating" />
-        <TextBox Grid.Row="4" Grid.Column="3" Text="{Binding MpaaRating}" />
+            <Label Grid.Row="4" Grid.Column="0" Content="MPAA Rating" />
+            <ComboBox Grid.Row="4" Grid.Column="1" SelectedValue="{Binding MpaaRating, Mode=TwoWay}" SelectedValuePath="Tag">
+                <ComboBoxItem Tag="TV-Y">TV-Y</ComboBoxItem>
+                <ComboBoxItem Tag="TV-Y7">TV-Y7</ComboBoxItem>
+                <ComboBoxItem Tag="TV-G">TV-G</ComboBoxItem>
+                <ComboBoxItem Tag="TV-PG">TV-PG</ComboBoxItem>
+                <ComboBoxItem Tag="TV-14">TV-14</ComboBoxItem>
+                <ComboBoxItem Tag="TV-MA">TV-MA</ComboBoxItem>
+            </ComboBox>
+            <Label Grid.Row="4" Grid.Column="2" Content="Premiered Date" />
+            <DatePicker Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3" SelectedDate="{Binding PremieredDate}" />
+
+            <Label Grid.Row="5" Grid.Column="0" Content="Studio" />
+            <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Studio}" />
+            <Label Grid.Row="6" Grid.Column="0" Content="Plot" />
+            <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Plot}" TextWrapping="Wrap" />
+
+            <img:SelectableImage Grid.Row="7" Grid.ColumnSpan="4" DataContext="{Binding Images.FanartUrl}" />
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <img:SelectableImage Grid.Row="0" DataContext="{Binding Images.PosterUrl}" />
+            <img:SelectableImage Grid.Row="1" DataContext="{Binding Images.BannerUrl}" />
+        </Grid>
     </Grid>
 </UserControl>

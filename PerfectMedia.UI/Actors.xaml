@@ -7,22 +7,47 @@
              xmlns:ui="clr-namespace:PerfectMedia.UI"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}" x:Key="GridBlockStyle">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Visibility" Value="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource VisibleIfFalseConverter}}" />
+        </Style>
+        <Style TargetType="{x:Type FrameworkElement}" x:Key="GridEditStyle">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Visibility" Value="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource VisibleIfTrueConverter}}" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
-        <ItemsControl ItemsSource="{Binding}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Width="100" d:DataContext="{d:DesignInstance Type=ui:ActorViewModel}">
-                        <img:SelectableImage DataContext="{Binding ThumbPath}" MaxWidth="60" MaxHeight="90" />
-                        <TextBox Text="{Binding Name}" />
-                        <TextBox Text="{Binding Role}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="300" />
+        </Grid.ColumnDefinitions>
+        <ListView Grid.Column="0" ItemsSource="{Binding}" x:Name="ActorsList">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock Text="{Binding Name}" Style="{StaticResource GridBlockStyle}" />
+                                    <TextBox Text="{Binding Name}" Style="{StaticResource GridEditStyle}" />
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Role">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock Text="{Binding Role}" Style="{StaticResource GridBlockStyle}" />
+                                    <TextBox Text="{Binding Role}" Style="{StaticResource GridEditStyle}" />
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <img:SelectableImage Grid.Column="1" DataContext="{Binding SelectedItem.ThumbPath, ElementName=ActorsList}" MaxWidth="300" MaxHeight="450" />
     </Grid>
 </UserControl>

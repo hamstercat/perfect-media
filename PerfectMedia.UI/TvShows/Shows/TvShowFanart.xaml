@@ -31,7 +31,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Width="250">
-                            <TextBox Text="{Binding SeasonNumber, Converter={StaticResource SeasonNumberToNameConverter}}" />
+                            <TextBlock Text="{Binding SeasonNumber, Converter={StaticResource SeasonNumberToNameConverter}}" />
                             <img:SelectableImage  DataContext="{Binding PosterUrl}" MaxWidth="250" />
                             <img:SelectableImage  DataContext="{Binding BannerUrl}" MaxWidth="250" />
                         </StackPanel>

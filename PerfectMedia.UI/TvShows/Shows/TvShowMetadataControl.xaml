@@ -7,22 +7,15 @@
              xmlns:views="clr-namespace:PerfectMedia.UI"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Expander Grid.Row="0" Header="General Information" IsExpanded="True">
-                <shows:TvGeneralInformation  />
-            </Expander>
-            <Expander Grid.Row="1" Header="Fanart">
-                <shows:TvShowFanart DataContext="{Binding Images}" />
-            </Expander>
-            <Expander Grid.Row="2" Header="Actors">
-                <views:Actors DataContext="{Binding Actors}" />
-            </Expander>
-        </Grid>
-    </ScrollViewer>
+    <TabControl>
+        <TabItem Header="Information">
+            <shows:TvGeneralInformation  />
+        </TabItem>
+        <TabItem Header="Actors">
+            <views:Actors DataContext="{Binding Actors}" />
+        </TabItem>
+        <TabItem Header="Posters">
+            <shows:TvShowFanart DataContext="{Binding Images}" />
+        </TabItem>
+    </TabControl>
 </UserControl>

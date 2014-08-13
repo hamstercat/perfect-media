@@ -136,23 +136,20 @@ namespace PerfectMedia.UI.Movies.Set
             return new ProgressItem(displayName, LoadImagesInternal);
         }
 
-        private Task LoadImagesInternal()
+        private async Task LoadImagesInternal()
         {
-            return Task.Run(() =>
-            {
-                AvailableMovieImages images = _metadataService.FindSetImages(DisplayName);
-                SetImagePathIfNeeded(images.Fanarts, Fanart);
-                SetImagePathIfNeeded(images.Posters, Poster);
-                Refresh();
-            });
+            AvailableMovieImages images = _metadataService.FindSetImages(DisplayName);
+            await SetImagePathIfNeeded(images.Fanarts, Fanart);
+            await SetImagePathIfNeeded(images.Posters, Poster);
+            Refresh();
         }
 
-        private void SetImagePathIfNeeded(IEnumerable<Image> images, IImageViewModel imageViewModel)
+        private async Task SetImagePathIfNeeded(IEnumerable<Image> images, IImageViewModel imageViewModel)
         {
             Image image = images.FirstOrDefault();
             if (image != null && !_fileSystemService.FileExists(imageViewModel.Path))
             {
-                _fileSystemService.DownloadImage(imageViewModel.Path, image.Url);
+                await _fileSystemService.DownloadImage(imageViewModel.Path, image.Url);
             }
         }
     }

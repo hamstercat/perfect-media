@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.Movies
 {
@@ -25,10 +26,10 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="path">The movie file path.</param>
         /// <param name="metadata">The metadata.</param>
-        public override void Save(string path, MovieMetadata metadata)
+        public override async Task Save(string path, MovieMetadata metadata)
         {
-            base.Save(path, metadata);
-            SaveActorsThumbnails(path, metadata.Actors);
+            await base.Save(path, metadata);
+            await SaveActorsThumbnails(path, metadata.Actors);
         }
 
         protected override string GetNfoFile(string path)
@@ -36,7 +37,7 @@ namespace PerfectMedia.Movies
             return Path.ChangeExtension(path, ".nfo");
         }
 
-        private void SaveActorsThumbnails(string path, IEnumerable<ActorMetadata> actors)
+        private async Task SaveActorsThumbnails(string path, IEnumerable<ActorMetadata> actors)
         {
             string movieFolder = _fileSystemService.GetParentFolder(path, 1);
             string actorFolder = ActorMetadata.GetActorsFolder(movieFolder);
@@ -47,15 +48,15 @@ namespace PerfectMedia.Movies
 
             foreach (ActorMetadata actor in actors)
             {
-                SaveActorMetadata(actor);
+                await SaveActorMetadata(actor);
             }
         }
 
-        private void SaveActorMetadata(ActorMetadata actor)
+        private async Task SaveActorMetadata(ActorMetadata actor)
         {
             if (!_fileSystemService.FileExists(actor.ThumbPath) && !string.IsNullOrEmpty(actor.Thumb))
             {
-                _fileSystemService.DownloadImage(actor.ThumbPath, actor.Thumb);
+                await _fileSystemService.DownloadImage(actor.ThumbPath, actor.Thumb);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.TvShows.Metadata
 {
@@ -14,13 +15,13 @@ namespace PerfectMedia.TvShows.Metadata
             _tvShowFileService = tvShowFileService;
         }
 
-        public void Update(string path, AvailableTvShowImages images)
+        public async Task Update(string path, AvailableTvShowImages images)
         {
             TvShowImages tvShowImages = _tvShowFileService.GetShowImages(path);
-            UpdateImageIfNeeded(tvShowImages.Fanart, images.Fanarts);
-            UpdateImageIfNeeded(tvShowImages.Poster, images.Posters);
-            UpdateImageIfNeeded(tvShowImages.Banner, images.Banners);
-            UpdateSeasonImages(tvShowImages.Seasons, images.Seasons);
+            await UpdateImageIfNeeded(tvShowImages.Fanart, images.Fanarts);
+            await UpdateImageIfNeeded(tvShowImages.Poster, images.Posters);
+            await UpdateImageIfNeeded(tvShowImages.Banner, images.Banners);
+            await UpdateSeasonImages(tvShowImages.Seasons, images.Seasons);
         }
 
         public void Delete(string path)
@@ -32,27 +33,27 @@ namespace PerfectMedia.TvShows.Metadata
             DeleteSeasonImages(tvShowImages.Seasons);
         }
 
-        private void UpdateImageIfNeeded(string imagePath, IEnumerable<Image> imageUrls)
+        private async Task UpdateImageIfNeeded(string imagePath, IEnumerable<Image> imageUrls)
         {
             if (!_fileSystemService.FileExists(imagePath))
             {
                 Image defaultImage = imageUrls.FirstOrDefault();
                 if (defaultImage != null)
                 {
-                    _fileSystemService.DownloadImage(imagePath, defaultImage.Url);
+                    await _fileSystemService.DownloadImage(imagePath, defaultImage.Url);
                 }
             }
         }
 
-        private void UpdateSeasonImages(IEnumerable<Season> seasons, IDictionary<int, AvailableSeasonImages> imagesBySeason)
+        private async Task UpdateSeasonImages(IEnumerable<Season> seasons, IDictionary<int, AvailableSeasonImages> imagesBySeason)
         {
             foreach (Season season in seasons)
             {
                 AvailableSeasonImages imageUrls;
                 if (imagesBySeason.TryGetValue(season.SeasonNumber, out imageUrls))
                 {
-                    UpdateImageIfNeeded(season.PosterUrl, imageUrls.Posters);
-                    UpdateImageIfNeeded(season.BannerUrl, imageUrls.Banners);
+                    await UpdateImageIfNeeded(season.PosterUrl, imageUrls.Posters);
+                    await UpdateImageIfNeeded(season.BannerUrl, imageUrls.Banners);
                 }
             }
         }

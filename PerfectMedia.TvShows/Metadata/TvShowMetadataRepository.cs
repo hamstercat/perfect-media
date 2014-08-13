@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.TvShows.Metadata
 {
@@ -26,10 +27,10 @@ namespace PerfectMedia.TvShows.Metadata
         /// </summary>
         /// <param name="path">The TV show folder path.</param>
         /// <param name="metadata">The metadata.</param>
-        public override void Save(string path, TvShowMetadata metadata)
+        public override async Task Save(string path, TvShowMetadata metadata)
         {
-            base.Save(path, metadata);
-            SaveActorsThumbnails(path, metadata.Actors);
+            await base.Save(path, metadata);
+            await SaveActorsThumbnails(path, metadata.Actors);
         }
 
         protected override string GetNfoFile(string path)
@@ -37,7 +38,7 @@ namespace PerfectMedia.TvShows.Metadata
             return Path.Combine(path, NfoFile);
         }
 
-        private void SaveActorsThumbnails(string path, IEnumerable<ActorMetadata> actors)
+        private async Task SaveActorsThumbnails(string path, IEnumerable<ActorMetadata> actors)
         {
             string actorFolder = ActorMetadata.GetActorsFolder(path);
             if (!_fileSystemService.FolderExists(actorFolder))
@@ -47,15 +48,15 @@ namespace PerfectMedia.TvShows.Metadata
 
             foreach (ActorMetadata actor in actors)
             {
-                SaveActorMetadata(actor);
+                await SaveActorMetadata(actor);
             }
         }
 
-        private void SaveActorMetadata(ActorMetadata actor)
+        private async Task SaveActorMetadata(ActorMetadata actor)
         {
             if (!_fileSystemService.FileExists(actor.ThumbPath) && !string.IsNullOrEmpty(actor.Thumb))
             {
-                _fileSystemService.DownloadImage(actor.ThumbPath, actor.Thumb);
+                await _fileSystemService.DownloadImage(actor.ThumbPath, actor.Thumb);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.TvShows.Metadata
 {
@@ -6,7 +7,7 @@ namespace PerfectMedia.TvShows.Metadata
     {
         TvShowMetadata Get(string path);
         void Save(string path, TvShowMetadata metadata);
-        void Update(string path);
+        Task Update(string path);
         void Delete(string path);
         IEnumerable<Series> FindSeries(string name);
         AvailableTvShowImages FindImages(string seriesId);

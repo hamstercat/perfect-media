@@ -6,7 +6,7 @@ namespace PerfectMedia.UI.Sources
     /// <summary>
     /// Interaction logic for SourcesWindow.xaml
     /// </summary>
-    public partial class SourcesWindow : Window
+    public partial class SourcesWindow
     {
         private ISourceManagerViewModel Sources
         {

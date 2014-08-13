@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PerfectMedia
 {
@@ -9,7 +10,7 @@ namespace PerfectMedia
         void DeleteFile(string filePath);
         void CopyFile(string sourceFile, string destinationFile);
         void MoveFile(string sourceFile, string destinationFile);
-        void DownloadImage(string filePath, string url);
+        Task DownloadImage(string filePath, string url);
 
         bool FolderExists(string folderName);
         void CreateFolder(string folderName);

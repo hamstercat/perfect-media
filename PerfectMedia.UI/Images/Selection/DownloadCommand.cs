@@ -20,9 +20,9 @@ namespace PerfectMedia.UI.Images.Selection
             return !string.IsNullOrEmpty(_chooseImageViewModel.Url);
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
-            _chooseImageViewModel.DownloadFile();
+            await _chooseImageViewModel.DownloadFile();
         }
 
         private void ChooseImageViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)

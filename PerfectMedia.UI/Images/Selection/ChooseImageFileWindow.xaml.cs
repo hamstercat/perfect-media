@@ -6,7 +6,7 @@ namespace PerfectMedia.UI.Images.Selection
     /// <summary>
     /// Interaction logic for DownloadImageWindow.xaml
     /// </summary>
-    public partial class ChooseImageFileWindow : Window, ICloseable
+    public partial class ChooseImageFileWindow : ICloseable
     {
         public ChooseImageFileWindow()
         {

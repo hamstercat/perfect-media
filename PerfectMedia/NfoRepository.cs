@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -85,14 +86,17 @@ namespace PerfectMedia
         /// </summary>
         /// <param name="path">The path of the media.</param>
         /// <param name="metadata">The metadata.</param>
-        public virtual void Save(string path, TMetadata metadata)
+        public virtual Task Save(string path, TMetadata metadata)
         {
-            string nfoFileFullPath = GetNfoFile(path);
-            XmlWriterSettings xmlWriterSettings = new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true };
-            using (XmlWriter writer = XmlWriter.Create(nfoFileFullPath, xmlWriterSettings))
+            return Task.Run(() =>
             {
-                Serialize(writer, metadata);
-            }
+                string nfoFileFullPath = GetNfoFile(path);
+                XmlWriterSettings xmlWriterSettings = new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true };
+                using (XmlWriter writer = XmlWriter.Create(nfoFileFullPath, xmlWriterSettings))
+                {
+                    Serialize(writer, metadata);
+                }
+            });
         }
 
         /// <summary>

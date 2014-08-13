@@ -353,7 +353,7 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         private async Task UpdateInternal2()
         {
-            _metadataService.Update(Path);
+            await _metadataService.Update(Path);
             await Application.Current.Dispatcher.InvokeAsync(Refresh);
         }
     }

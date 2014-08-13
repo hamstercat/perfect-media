@@ -3,6 +3,7 @@ using System.Windows.Input;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.TvShows.Shows;
 using PropertyChanged;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.UI.TvShows.ShowSelection
 {
@@ -18,10 +19,10 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
         public TvShowSelectionViewModel(ITvShowMetadataService metadataService, ITvShowMetadataViewModel tvShowMetadata, string path)
         {
             SearchCommand = new SearchCommand(metadataService, this);
-            Selection = new SelectionViewModel<Series>(serie =>
+            Selection = new SelectionViewModel<Series>(async serie =>
             {
                 SaveNewId(metadataService, serie.SeriesId, path);
-                Update(metadataService, tvShowMetadata, path);
+                await Update(metadataService, tvShowMetadata, path);
                 IsClosed = true;
             });
         }
@@ -42,10 +43,10 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
             metadataService.Save(path, metadata);
         }
 
-        private void Update(ITvShowMetadataService metadataService, ITvShowMetadataViewModel tvShowMetadata, string path)
+        private async Task Update(ITvShowMetadataService metadataService, ITvShowMetadataViewModel tvShowMetadata, string path)
         {
             metadataService.DeleteImages(path);
-            metadataService.Update(path);
+            await metadataService.Update(path);
             tvShowMetadata.Refresh();
         }
     }

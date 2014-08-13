@@ -25,69 +25,69 @@ namespace PerfectMedia.Movies
         }
 
         [Fact]
-        public void Update_FanartExistsAndIsFound_DoesNothing()
+        public async Task Update_FanartExistsAndIsFound_DoesNothing()
         {
             // Act
-            UpdateMovieFanart(true, true);
+            await UpdateMovieFanart(true, true);
 
             // Assert
             _fileSystemService.DidNotReceive()
-                .DownloadImage(Arg.Any<string>(), Arg.Any<string>());
+                .DownloadImage(Arg.Any<string>(), Arg.Any<string>()).Async();
         }
 
         [Fact]
-        public void Update_PosterExistsAndIsFound_DoesNothing()
+        public async Task Update_PosterExistsAndIsFound_DoesNothing()
         {
             // Act
-            UpdateMoviePoster(true, true);
+            await UpdateMoviePoster(true, true);
 
             // Assert
             _fileSystemService.DidNotReceive()
-                .DownloadImage(Arg.Any<string>(), Arg.Any<string>());
+                .DownloadImage(Arg.Any<string>(), Arg.Any<string>()).Async();
         }
 
         [Fact]
-        public void Update_FanartDoesntExistAndIsFound_DownloadsIt()
+        public async Task Update_FanartDoesntExistAndIsFound_DownloadsIt()
         {
             // Act
-            UpdateMovieFanart(false, true);
+            await UpdateMovieFanart(false, true);
 
             // Assert
             _fileSystemService.Received()
-                .DownloadImage(FanartPath, ImageUrl);
+                .DownloadImage(FanartPath, ImageUrl).Async();
         }
 
         [Fact]
-        public void Update_PosterDoesntExistAndIsFound_DownloadsIt()
+        public async Task Update_PosterDoesntExistAndIsFound_DownloadsIt()
         {
             // Act
-            UpdateMoviePoster(false, true);
+            await UpdateMoviePoster(false, true);
 
             // Assert
             _fileSystemService.Received()
-                .DownloadImage(PosterPath, ImageUrl);
+                .DownloadImage(PosterPath, ImageUrl).Async();
         }
 
         [Fact]
-        public void Update_FanartDoesntExistAndIsNotFound_DoesNothing()
+        public async Task Update_FanartDoesntExistAndIsNotFound_DoesNothing()
         {
             // Act
-            UpdateMovieFanart(false, false);
+            await UpdateMovieFanart(false, false);
 
             // Assert
             _fileSystemService.DidNotReceive()
-                .DownloadImage(Arg.Any<string>(), Arg.Any<string>());
+                .DownloadImage(Arg.Any<string>(), Arg.Any<string>()).Async();
         }
 
         [Fact]
-        public void Update_PosterDoesntExistAndIsNotFound_DoesNothing()
+        public async Task Update_PosterDoesntExistAndIsNotFound_DoesNothing()
         {
             // Act
-            UpdateMoviePoster(false, false);
+            await UpdateMoviePoster(false, false);
 
             // Assert
             _fileSystemService.DidNotReceive()
-                .DownloadImage(Arg.Any<string>(), Arg.Any<string>());
+                .DownloadImage(Arg.Any<string>(), Arg.Any<string>()).Async();
         }
 
         [Fact]
@@ -112,7 +112,7 @@ namespace PerfectMedia.Movies
                 .DeleteFile(FanartPath);
         }
 
-        private void UpdateMovieFanart(bool fileExists, bool imageIsFound)
+        private async Task UpdateMovieFanart(bool fileExists, bool imageIsFound)
         {
             // Arrange
             _fileSystemService.FileExists(FanartPath)
@@ -124,10 +124,10 @@ namespace PerfectMedia.Movies
             }
 
             // Act
-            _service.Update(MoviePath, movie);
+            await _service.Update(MoviePath, movie);
         }
 
-        private void UpdateMoviePoster(bool fileExists, bool imageIsFound)
+        private async Task UpdateMoviePoster(bool fileExists, bool imageIsFound)
         {
             // Arrange
             _fileSystemService.FileExists(PosterPath)
@@ -139,7 +139,7 @@ namespace PerfectMedia.Movies
             }
 
             // Act
-            _service.Update(MoviePath, movie);
+            await _service.Update(MoviePath, movie);
         }
     }
 }

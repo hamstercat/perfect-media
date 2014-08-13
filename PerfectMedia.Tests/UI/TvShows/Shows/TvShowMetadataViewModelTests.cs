@@ -96,7 +96,7 @@ namespace PerfectMedia.UI.TvShows.Shows
 
             // Assert
             _metadataService.Received()
-                .Update(_path);
+                .Update(_path).Async();
             AssertMetadataEqualsViewModel(metadata);
         }
 

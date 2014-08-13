@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.Movies
 {
@@ -26,14 +27,14 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="path">The movie file path.</param>
         /// <param name="metadata">The metadata.</param>
-        void Save(string path, MovieMetadata metadata);
+        Task Save(string path, MovieMetadata metadata);
 
         /// <summary>
         /// Updates the movie located at the specified path.
         /// </summary>
         /// <param name="path">The movie file path.</param>
         /// <exception cref="MovieNotFoundException">No movie found</exception>
-        void Update(string path);
+        Task Update(string path);
 
         /// <summary>
         /// Deletes the metadata from the movie located at the specified path.

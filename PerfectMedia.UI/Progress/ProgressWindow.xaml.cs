@@ -5,7 +5,7 @@ namespace PerfectMedia.UI.Progress
     /// <summary>
     /// Interaction logic for ProgressWindow.xaml
     /// </summary>
-    public partial class ProgressWindow : Window, IProgressIndicator
+    public partial class ProgressWindow : IProgressIndicator
     {
         public ProgressWindow()
         {

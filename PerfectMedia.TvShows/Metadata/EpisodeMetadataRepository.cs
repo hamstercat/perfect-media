@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.TvShows.Metadata
 {
@@ -36,14 +37,14 @@ namespace PerfectMedia.TvShows.Metadata
         /// </summary>
         /// <param name="path">The episode file path.</param>
         /// <param name="metadata">The metadata.</param>
-        public override void Save(string path, EpisodeMetadata metadata)
+        public override async Task Save(string path, EpisodeMetadata metadata)
         {
-            base.Save(path, metadata);
+            await base.Save(path, metadata);
 
             if (!string.IsNullOrEmpty(metadata.ImageUrl))
             {
                 string imageFile = GetImageFile(path);
-                _fileSystemService.DownloadImage(imageFile, metadata.ImageUrl);
+                await _fileSystemService.DownloadImage(imageFile, metadata.ImageUrl);
             }
         }
 

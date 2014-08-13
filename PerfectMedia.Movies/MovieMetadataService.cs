@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using PerfectMedia.FileInformation;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.Movies
 {
@@ -73,9 +74,9 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="path">The movie file path.</param>
         /// <param name="metadata">The metadata.</param>
-        public void Save(string path, MovieMetadata metadata)
+        public async Task Save(string path, MovieMetadata metadata)
         {
-            _metadataRepository.Save(path, metadata);
+            await _metadataRepository.Save(path, metadata);
         }
 
         /// <summary>
@@ -83,14 +84,14 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="path">The movie file path.</param>
         /// <exception cref="MovieNotFoundException">No movie found</exception>
-        public void Update(string path)
+        public async Task Update(string path)
         {
             FullMovie movie = FindFullMovie(path);
             if (string.IsNullOrEmpty(movie.ImdbId))
             {
                 throw new MovieNotFoundException("No movie found for " + path);
             }
-            UpdateFromMovie(path, movie);
+            await UpdateFromMovie(path, movie);
         }
 
         /// <summary>
@@ -191,12 +192,12 @@ namespace PerfectMedia.Movies
                 .First().Id;
         }
 
-        private void UpdateFromMovie(string path, FullMovie movie)
+        private async Task UpdateFromMovie(string path, FullMovie movie)
         {
             SetFullMovieSynopsis(movie);
             SetRating(movie);
-            UpdateInformationMetadata(path, movie);
-            _imagesService.Update(path, movie);
+            await UpdateInformationMetadata(path, movie);
+            await _imagesService.Update(path, movie);
         }
 
         private void SetFullMovieSynopsis(FullMovie movie)
@@ -221,12 +222,12 @@ namespace PerfectMedia.Movies
             movie.Certification = _metadataUpdater.FindCertification(movie.ImdbId);
         }
 
-        private void UpdateInformationMetadata(string path, FullMovie movie)
+        private async Task UpdateInformationMetadata(string path, FullMovie movie)
         {
             MovieMetadata metadata = MapFullMovieToMetadata(movie);
             UpdateActorsMetadata(path, metadata);
             metadata.FileInformation = _fileInformationService.GetVideoFileInformation(path);
-            Save(path, metadata);
+            await Save(path, metadata);
         }
 
         private MovieMetadata MapFullMovieToMetadata(FullMovie movie)

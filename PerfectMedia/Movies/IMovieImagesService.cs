@@ -1,4 +1,5 @@
 ﻿
+using System.Threading.Tasks;
 namespace PerfectMedia.Movies
 {
     /// <summary>
@@ -11,7 +12,7 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="path">The movie path.</param>
         /// <param name="movie">The movie metadata.</param>
-        void Update(string path, FullMovie movie);
+        Task Update(string path, FullMovie movie);
 
         /// <summary>
         /// Deletes the images of the movie located at the specified path.

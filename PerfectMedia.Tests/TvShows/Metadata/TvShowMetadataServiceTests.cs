@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NSubstitute;
 using Xunit;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.TvShows.Metadata
 {
@@ -51,7 +52,7 @@ namespace PerfectMedia.TvShows.Metadata
         }
 
         [Fact]
-        public void Update_WhenSerieAlreadyHasMetadata_UpdatesImages()
+        public async Task Update_WhenSerieAlreadyHasMetadata_UpdatesImages()
         {
             // Arrange
             _metadataRepository.Get(_path)
@@ -62,11 +63,11 @@ namespace PerfectMedia.TvShows.Metadata
                 .Returns(fullSerie);
 
             // Act
-            _service.Update(_path);
+            await _service.Update(_path);
 
             // Assert
             _imageService.Received()
-                .Update(_path, Arg.Any<AvailableTvShowImages>());
+                .Update(_path, Arg.Any<AvailableTvShowImages>()).Async();
         }
 
         [Fact]
@@ -77,7 +78,7 @@ namespace PerfectMedia.TvShows.Metadata
                 .Returns(new TvShowMetadata());
 
             // Act + Assert
-            Assert.Throws<TvShowNotFoundException>(() => _service.Update(_path));
+            Assert.Throws<TvShowNotFoundException>(async () => await _service.Update(_path));
         }
 
         [Fact]

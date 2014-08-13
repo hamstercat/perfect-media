@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.UI.Images.Selection
 {
@@ -7,6 +8,6 @@ namespace PerfectMedia.UI.Images.Selection
         string Url { get; }
         bool IsClosed { get; set; }
         void SaveLocalFile();
-        void DownloadFile();
+        Task DownloadFile();
     }
 }

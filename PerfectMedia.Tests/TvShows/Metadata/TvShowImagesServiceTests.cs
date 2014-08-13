@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NSubstitute;
 using Xunit;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.TvShows.Metadata
 {
@@ -47,20 +48,20 @@ namespace PerfectMedia.TvShows.Metadata
         }
 
         [Fact]
-        public void Update_WithNoAvailableImages_DoesNothing()
+        public async Task Update_WithNoAvailableImages_DoesNothing()
         {
             // Act
-            _service.Update(_path, new AvailableTvShowImages());
+            await _service.Update(_path, new AvailableTvShowImages());
 
             // Assert
             _fileSystemService.DidNotReceive()
-                .DownloadImage(Arg.Any<string>(), Arg.Any<string>());
+                .DownloadImage(Arg.Any<string>(), Arg.Any<string>()).Async();
             _fileSystemService.DidNotReceive()
-                .DownloadImage(Arg.Any<string>(), Arg.Any<string>());
+                .DownloadImage(Arg.Any<string>(), Arg.Any<string>()).Async();
         }
 
         [Fact]
-        public void Update_WhenImagesAlreadyExist_DoesntUpdateThem()
+        public async Task Update_WhenImagesAlreadyExist_DoesntUpdateThem()
         {
             // Arrange
             AvailableTvShowImages availableImages = CreateAvailableImages();
@@ -68,39 +69,39 @@ namespace PerfectMedia.TvShows.Metadata
                 .Returns(true);
 
             // Act
-            _service.Update(_path, availableImages);
+            await _service.Update(_path, availableImages);
 
             // Assert
             _fileSystemService.DidNotReceive()
-                .DownloadImage(Arg.Any<string>(), Arg.Any<string>());
+                .DownloadImage(Arg.Any<string>(), Arg.Any<string>()).Async();
             _fileSystemService.DidNotReceive()
-                .DownloadImage(Arg.Any<string>(), Arg.Any<string>());
+                .DownloadImage(Arg.Any<string>(), Arg.Any<string>()).Async();
         }
 
         [Fact]
-        public void Update_WhenImagesDontExist_UpdatesThem()
+        public async Task Update_WhenImagesDontExist_UpdatesThem()
         {
             // Arrange
             AvailableTvShowImages availableImages = CreateAvailableImages();
 
             // Act
-            _service.Update(_path, availableImages);
+            await _service.Update(_path, availableImages);
 
             // Assert
             _fileSystemService.Received()
-                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\fanart.jpg", "http://thetvdb.com/fanart1.jpg");
+                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\fanart.jpg", "http://thetvdb.com/fanart1.jpg").Async();
             _fileSystemService.Received()
-                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\poster.jpg", "http://thetvdb.com/poster1.jpg");
+                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\poster.jpg", "http://thetvdb.com/poster1.jpg").Async();
             _fileSystemService.Received()
-                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\banner.jpg", "http://thetvdb.com/banner1.jpg");
+                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\banner.jpg", "http://thetvdb.com/banner1.jpg").Async();
             _fileSystemService.Received()
-                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\season-specials-poster.jpg", "http://thetvdb.com/specials-poster.jpg");
+                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\season-specials-poster.jpg", "http://thetvdb.com/specials-poster.jpg").Async();
             _fileSystemService.Received()
-                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\season-specials-banner.jpg", "http://thetvdb.com/specials-banner.jpg");
+                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\season-specials-banner.jpg", "http://thetvdb.com/specials-banner.jpg").Async();
             _fileSystemService.Received()
-                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\season01-poster.jpg", "http://thetvdb.com/season01-poster.jpg");
+                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\season01-poster.jpg", "http://thetvdb.com/season01-poster.jpg").Async();
             _fileSystemService.Received()
-                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\season01-banner.jpg", "http://thetvdb.com/season01-banner.jpg");
+                .DownloadImage(@"C:\Folder\TV Shows\Game of Thrones\season01-banner.jpg", "http://thetvdb.com/season01-banner.jpg").Async();
         }
 
         [Fact]

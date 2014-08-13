@@ -59,6 +59,7 @@
     <Compile Include="Movies\MovieMetadataServiceTests.cs" />
     <Compile Include="Movies\ImdbMovieSynopsisServiceTests.cs" />
     <Compile Include="NfoRepositoryTests.cs" />
+    <Compile Include="NSubstituteExtensions.cs" />
     <Compile Include="UI\CachedPropertyViewModelTests.cs" />
     <Compile Include="FileInformation\CodecHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

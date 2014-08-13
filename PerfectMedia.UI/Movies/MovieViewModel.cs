@@ -507,7 +507,7 @@ namespace PerfectMedia.UI.Movies
 
         private async Task UpdateInternal2()
         {
-            _metadataService.Update(Path);
+            await _metadataService.Update(Path);
             await Application.Current.Dispatcher.InvokeAsync(Refresh);
         }
     }

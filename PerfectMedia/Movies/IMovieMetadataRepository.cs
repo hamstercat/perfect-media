@@ -1,4 +1,5 @@
 ﻿
+using System.Threading.Tasks;
 namespace PerfectMedia.Movies
 {
     /// <summary>
@@ -18,7 +19,7 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="path">The movie file path.</param>
         /// <param name="metadata">The metadata.</param>
-        void Save(string path, MovieMetadata metadata);
+        Task Save(string path, MovieMetadata metadata);
 
         /// <summary>
         /// Deletes the metadata associated with the movie located at the specified path.

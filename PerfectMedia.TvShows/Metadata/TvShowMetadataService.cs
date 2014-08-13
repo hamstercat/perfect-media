@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.TvShows.Metadata
 {
@@ -34,11 +35,11 @@ namespace PerfectMedia.TvShows.Metadata
             _metadataRepository.Save(path, metadata);
         }
 
-        public void Update(string path)
+        public async Task Update(string path)
         {
             FullSerie serie = FindFullSerie(path);
             UpdateInformationMetadata(path, serie);
-            UpdateImages(path, serie.Id);
+            await UpdateImages(path, serie.Id);
         }
 
         public void Delete(string path)
@@ -159,10 +160,10 @@ namespace PerfectMedia.TvShows.Metadata
             }
         }
 
-        private void UpdateImages(string path, string serieId)
+        private async Task UpdateImages(string path, string serieId)
         {
             AvailableTvShowImages images = _metadataUpdater.FindImages(serieId);
-            _imagesService.Update(path, images);
+            await _imagesService.Update(path, images);
         }
     }
 }

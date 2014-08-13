@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using PropertyChanged;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.UI
 {
@@ -10,7 +11,7 @@ namespace PerfectMedia.UI
         where T : class
     {
         public event EventHandler CanExecuteChanged;
-        private readonly Action<T> _save;
+        private readonly Func<T, Task> _save;
 
         private T _selectedItem;
         public T SelectedItem
@@ -30,11 +31,11 @@ namespace PerfectMedia.UI
         public ObservableCollection<T> AvailableItems { get; private set; }
         public ICommand SaveCommand { get; private set; }
 
-        public SelectionViewModel(Action<T> save)
+        public SelectionViewModel(Func<T, Task> save)
             : this(default(T), save)
         { }
 
-        public SelectionViewModel(T defaultItem, Action<T> save)
+        public SelectionViewModel(T defaultItem, Func<T,Task> save)
         {
             _selectedItem = defaultItem;
             _save = save;
@@ -47,9 +48,9 @@ namespace PerfectMedia.UI
             return SelectedItem != null;
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
-            _save(SelectedItem);
+            await _save(SelectedItem);
         }
     }
 }

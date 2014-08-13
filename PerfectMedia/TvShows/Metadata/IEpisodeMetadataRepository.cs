@@ -1,4 +1,5 @@
 ﻿
+using System.Threading.Tasks;
 namespace PerfectMedia.TvShows.Metadata
 {
     /// <summary>
@@ -18,7 +19,7 @@ namespace PerfectMedia.TvShows.Metadata
         /// </summary>
         /// <param name="path">The episode file path.</param>
         /// <param name="metadata">The metadata.</param>
-        void Save(string path, EpisodeMetadata metadata);
+        Task Save(string path, EpisodeMetadata metadata);
 
         /// <summary>
         /// Deletes the metadata associated with the episode located at the specified path.

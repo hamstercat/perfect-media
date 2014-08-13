@@ -1,4 +1,5 @@
 ﻿
+using System.Threading.Tasks;
 namespace PerfectMedia.Movies
 {
     /// <summary>
@@ -22,13 +23,13 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="path">The movie path.</param>
         /// <param name="movie">The movie metadata.</param>
-        public void Update(string path, FullMovie movie)
+        public async Task Update(string path, FullMovie movie)
         {
             string posterPath = MovieHelper.GetMoviePosterPath(path);
-            UpdateImageIfNeeded(posterPath, movie.PosterPath);
+            await UpdateImageIfNeeded(posterPath, movie.PosterPath);
 
             string fanartPath = MovieHelper.GetMovieFanartPath(path);
-            UpdateImageIfNeeded(fanartPath, movie.BackdropPath);
+            await UpdateImageIfNeeded(fanartPath, movie.BackdropPath);
         }
 
         /// <summary>
@@ -44,11 +45,11 @@ namespace PerfectMedia.Movies
             _fileSystemService.DeleteFile(fanartPath);
         }
 
-        private void UpdateImageIfNeeded(string imagePath, string imageUrl)
+        private async Task UpdateImageIfNeeded(string imagePath, string imageUrl)
         {
             if (!_fileSystemService.FileExists(imagePath) && !string.IsNullOrEmpty(imageUrl))
             {
-                _fileSystemService.DownloadImage(imagePath, imageUrl);
+                await _fileSystemService.DownloadImage(imagePath, imageUrl);
             }
         }
     }

@@ -15,9 +15,9 @@ namespace PerfectMedia.UI.Images.Selection
         {
             HorizontalAlignement = horizontalAlignement;
             Image defaultImage = new Image { Url = path };
-            Selection = new SelectionViewModel<Image>(defaultImage, image =>
+            Selection = new SelectionViewModel<Image>(defaultImage, async image =>
             {
-                fileSystemService.DownloadImage(path, image.Url);
+                await fileSystemService.DownloadImage(path, image.Url);
                 IsClosed = true;
             });
             Download = new ChooseImageFileViewModel(fileSystemService, this, path);

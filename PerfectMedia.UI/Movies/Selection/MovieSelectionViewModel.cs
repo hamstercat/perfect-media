@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using PerfectMedia.Movies;
 using PropertyChanged;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.UI.Movies.Selection
 {
@@ -17,10 +18,10 @@ namespace PerfectMedia.UI.Movies.Selection
         public MovieSelectionViewModel(IMovieMetadataService metadataService, IMovieViewModel movieViewModel)
         {
             SearchCommand = new SearchCommand(metadataService, this);
-            Selection = new SelectionViewModel<Movie>(movie =>
+            Selection = new SelectionViewModel<Movie>(async movie =>
             {
                 SaveNewId(metadataService, movie.Id, movieViewModel.Path);
-                Update(metadataService, movieViewModel, movieViewModel.Path);
+                await Update(metadataService, movieViewModel, movieViewModel.Path);
                 IsClosed = true;
             });
         }
@@ -41,10 +42,10 @@ namespace PerfectMedia.UI.Movies.Selection
             metadataService.Save(path, metadata);
         }
 
-        private void Update(IMovieMetadataService metadataService, IMovieViewModel movieViewModel, string path)
+        private async Task Update(IMovieMetadataService metadataService, IMovieViewModel movieViewModel, string path)
         {
             metadataService.DeleteImages(path);
-            metadataService.Update(path);
+            await metadataService.Update(path);
             movieViewModel.Refresh();
         }
     }

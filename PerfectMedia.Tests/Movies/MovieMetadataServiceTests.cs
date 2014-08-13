@@ -110,17 +110,17 @@ namespace PerfectMedia.Movies
         }
 
         [Fact]
-        public void Save_Always_PersistsMetadata()
+        public async Task Save_Always_PersistsMetadata()
         {
             // Arrange
             MovieMetadata metadata = new MovieMetadata();
 
             // Act
-            _service.Save(MovieFile, metadata);
+            await _service.Save(MovieFile, metadata);
 
             // Assert
             _metadataRepository.Received()
-                .Save(MovieFile, metadata);
+                .Save(MovieFile, metadata).Async();
         }
 
         [Fact]

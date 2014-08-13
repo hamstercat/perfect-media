@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using PropertyChanged;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.UI.Images.Selection
 {
@@ -32,9 +33,9 @@ namespace PerfectMedia.UI.Images.Selection
             _imageSelectionViewModel.IsClosed = true;
         }
 
-        public void DownloadFile()
+        public async Task DownloadFile()
         {
-            _fileSystemService.DownloadImage(_path, Url);
+            await _fileSystemService.DownloadImage(_path, Url);
             IsClosed = true;
             _imageSelectionViewModel.IsClosed = true;
         }

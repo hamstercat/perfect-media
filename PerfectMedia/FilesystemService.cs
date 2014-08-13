@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using ImageMagick;
+using System.Threading.Tasks;
 
 namespace PerfectMedia
 {
@@ -39,15 +40,9 @@ namespace PerfectMedia
             }
         }
 
-        public void DownloadImage(string filePath, string url)
+        public async Task DownloadImage(string filePath, string url)
         {
-            using (WebClient client = new WebClient())
-            using (Stream stream = client.OpenRead(url))
-            using (MagickImage image = new MagickImage(stream))
-            {
-                image.Quality = 80;
-                image.Write(filePath);
-            }
+            await DownloadImageAsync(filePath, url);
         }
 
         public bool FolderExists(string folderName)
@@ -88,6 +83,20 @@ namespace PerfectMedia
         public IEnumerable<string> FindVideoFiles(string path)
         {
             return FindFiles(path, VideoFileExtensions);
+        }
+
+        private Task DownloadImageAsync(string filePath, string url)
+        {
+            return Task.Run(() =>
+            {
+                using (WebClient client = new WebClient())
+                using (Stream stream = client.OpenRead(url))
+                using (MagickImage image = new MagickImage(stream))
+                {
+                    image.Quality = 80;
+                    image.Write(filePath);
+                }
+            });
         }
 
         private IEnumerable<string> FindFiles(string path, params string[] extensions)

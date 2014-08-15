@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using log4net.Config;
 using Ninject;
 using Ninject.Extensions.Conventions;
@@ -17,6 +18,7 @@ namespace PerfectMedia.UI
     {
         private static readonly List<ServiceLocator> Instances = new List<ServiceLocator>();
         private readonly IKernel _kernel;
+        private bool _initialized;
 
         public TvShowManagerViewModel TvShowManagerViewModel
         {
@@ -69,6 +71,14 @@ namespace PerfectMedia.UI
             Instances.Add(this);
         }
 
+        public static async Task InitializeInstances()
+        {
+            foreach (ServiceLocator instance in Instances)
+            {
+                await instance.Initialize();
+            }
+        }
+
         public static void DisposeInstances()
         {
             foreach (ServiceLocator instance in Instances)
@@ -80,6 +90,18 @@ namespace PerfectMedia.UI
         public void Dispose()
         {
             _kernel.Dispose();
+        }
+
+        private async Task Initialize()
+        {
+            if (!_initialized)
+            {
+                _initialized = true;
+                foreach (var dependency in _kernel.GetAll<IStartupInitialization>())
+                {
+                    await dependency.Initialize();
+                }
+            }
         }
 
         private void BindDependencies()

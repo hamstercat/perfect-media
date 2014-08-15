@@ -21,7 +21,7 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
             SearchCommand = new SearchCommand(metadataService, this);
             Selection = new SelectionViewModel<Series>(async serie =>
             {
-                SaveNewId(metadataService, serie.SeriesId, path);
+                await SaveNewId(metadataService, serie.SeriesId, path);
                 await Update(metadataService, tvShowMetadata, path);
                 IsClosed = true;
             });
@@ -36,9 +36,9 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
             }
         }
 
-        private void SaveNewId(ITvShowMetadataService metadataService, string serieId, string path)
+        private async Task SaveNewId(ITvShowMetadataService metadataService, string serieId, string path)
         {
-            TvShowMetadata metadata = metadataService.Get(path);
+            TvShowMetadata metadata = await metadataService.Get(path);
             metadata.Id = serieId;
             metadataService.Save(path, metadata);
         }
@@ -47,7 +47,7 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
         {
             metadataService.DeleteImages(path);
             await metadataService.Update(path);
-            tvShowMetadata.Refresh();
+            await tvShowMetadata.Refresh();
         }
     }
 }

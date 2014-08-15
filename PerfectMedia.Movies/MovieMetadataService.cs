@@ -47,9 +47,9 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="path">The movie file path.</param>
         /// <returns></returns>
-        public MovieMetadata Get(string path)
+        public async Task<MovieMetadata> Get(string path)
         {
-            MovieMetadata metadata = _metadataRepository.Get(path);
+            MovieMetadata metadata = await _metadataRepository.Get(path);
             SetActorsThumbPath(path, metadata);
             SetImagesPath(path, metadata);
             return metadata;
@@ -86,7 +86,7 @@ namespace PerfectMedia.Movies
         /// <exception cref="MovieNotFoundException">No movie found</exception>
         public async Task Update(string path)
         {
-            FullMovie movie = FindFullMovie(path);
+            FullMovie movie = await FindFullMovie(path);
             if (string.IsNullOrEmpty(movie.ImdbId))
             {
                 throw new MovieNotFoundException("No movie found for " + path);
@@ -157,9 +157,9 @@ namespace PerfectMedia.Movies
             metadata.ImagePosterPath = MovieHelper.GetMoviePosterPath(path);
         }
 
-        private FullMovie FindFullMovie(string path)
+        private async Task<FullMovie> FindFullMovie(string path)
         {
-            string movieId = GetMovieId(path);
+            string movieId = await GetMovieId(path);
             FullMovie fullMovie = _metadataUpdater.GetMovieMetadata(movieId);
             if (fullMovie == null)
             {
@@ -168,9 +168,9 @@ namespace PerfectMedia.Movies
             return fullMovie;
         }
 
-        private string GetMovieId(string path)
+        private async Task<string> GetMovieId(string path)
         {
-            MovieMetadata metadata = Get(path);
+            MovieMetadata metadata = await Get(path);
             if (string.IsNullOrEmpty(metadata.Id))
             {
                 return FindIdFromPath(path);

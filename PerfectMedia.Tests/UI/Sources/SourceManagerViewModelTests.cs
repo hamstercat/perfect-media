@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using NSubstitute;
 using PerfectMedia.Sources;
 using Xunit;
@@ -19,18 +20,18 @@ namespace PerfectMedia.UI.Sources
         }
 
         [Fact]
-        public void Load_WithAvailableSources_AddsRootFoldersAndSpecificFolders()
+        public async Task Load_WithAvailableSources_AddsRootFoldersAndSpecificFolders()
         {
             // Arrange
             Source rootFolder = new Source { IsRoot = true, SourceType = SourceType.Music, Folder = @"C:\Folder" };
             Source specificFolder = new Source { IsRoot = false, SourceType = SourceType.Music, Folder = @"C:\Folder\Music" };
-            List<Source> sources = new List<Source> { rootFolder, specificFolder };
+            IEnumerable<Source> sources = new List<Source> { rootFolder, specificFolder };
 
             _sourceService.GetSources(SourceType.Music)
-                .Returns(sources);
+                .Returns(Task.FromResult(sources));
 
             // Act
-            _viewModel.Load();
+            await _viewModel.Load();
 
             // Assert
             Assert.Equal(1, _viewModel.RootFolders.Count);
@@ -41,17 +42,17 @@ namespace PerfectMedia.UI.Sources
         }
 
         [Fact]
-        public void Load_WithAvailableSources_DoesntSaveThoseSources()
+        public async Task Load_WithAvailableSources_DoesntSaveThoseSources()
         {
             Source rootFolder = new Source { IsRoot = true, SourceType = SourceType.Music, Folder = @"C:\Folder" };
             Source specificFolder = new Source { IsRoot = false, SourceType = SourceType.Music, Folder = @"C:\Folder\Music" };
-            List<Source> sources = new List<Source> { rootFolder, specificFolder };
+            IEnumerable<Source> sources = new List<Source> { rootFolder, specificFolder };
 
             _sourceService.GetSources(SourceType.Music)
-                .Returns(sources);
+                .Returns(Task.FromResult(sources));
 
             // Act
-            _viewModel.Load();
+            await _viewModel.Load();
 
             // Assert
             _sourceService.DidNotReceiveWithAnyArgs().Save(null);

@@ -25,9 +25,9 @@ namespace PerfectMedia.TvShows.Metadata
         /// </summary>
         /// <param name="path">The episode file path.</param>
         /// <returns></returns>
-        public override EpisodeMetadata Get(string path)
+        public override async Task<EpisodeMetadata> Get(string path)
         {
-            EpisodeMetadata metadata = base.Get(path);
+            EpisodeMetadata metadata = await base.Get(path);
             metadata.ImagePath = GetImageFile(path);
             return metadata;
         }

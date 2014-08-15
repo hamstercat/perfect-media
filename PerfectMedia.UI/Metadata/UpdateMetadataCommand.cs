@@ -26,13 +26,13 @@ namespace PerfectMedia.UI.Metadata
             return true;
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
-            foreach (ProgressItem item in _metadataProvider.Update())
+            foreach (ProgressItem item in await _metadataProvider.Update())
             {
                 _progressManager.AddItem(item);
             }
-            _progressManager.Start();
+            await _progressManager.Start();
         }
     }
 }

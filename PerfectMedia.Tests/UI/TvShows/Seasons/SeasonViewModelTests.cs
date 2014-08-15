@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NSubstitute;
 using PerfectMedia.TvShows;
 using PerfectMedia.UI.TvShows.Episodes;
@@ -99,14 +100,14 @@ namespace PerfectMedia.UI.TvShows.Seasons
         }
 
         [Fact]
-        public void FindNewEpisodes_WithoutEpisodes_DoesNothing()
+        public async Task FindNewEpisodes_WithoutEpisodes_DoesNothing()
         {
             // Act
-            _viewModel.FindNewEpisodes();
+            await _viewModel.FindNewEpisodes();
         }
 
         [Fact]
-        public void FindNewEpisodes_WithTvShows_UpdatesTheseEpisodes()
+        public async Task FindNewEpisodes_WithTvShows_UpdatesTheseEpisodes()
         {
             // Arrange
             _tvShowFileService.GetEpisodes(_path)
@@ -117,11 +118,11 @@ namespace PerfectMedia.UI.TvShows.Seasons
                 .Returns(episodeViewModel1);
 
             // Act
-            _viewModel.FindNewEpisodes().ToList();
+            await _viewModel.FindNewEpisodes();
 
             // Assert
             episodeViewModel1.Received()
-                .Update();
+                .Update().Async();
         }
     }
 }

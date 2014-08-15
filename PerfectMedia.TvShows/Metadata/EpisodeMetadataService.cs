@@ -1,4 +1,5 @@
-﻿using PerfectMedia.FileInformation;
+﻿using System.Threading.Tasks;
+using PerfectMedia.FileInformation;
 
 namespace PerfectMedia.TvShows.Metadata
 {
@@ -20,9 +21,9 @@ namespace PerfectMedia.TvShows.Metadata
             _fileInformationService = fileInformationService;
         }
 
-        public EpisodeMetadata Get(string episodeFile)
+        public async Task<EpisodeMetadata> Get(string episodeFile)
         {
-            return _metadataRepository.Get(episodeFile);
+            return await _metadataRepository.Get(episodeFile);
         }
 
         public void Save(string episodeFile, EpisodeMetadata metadata)

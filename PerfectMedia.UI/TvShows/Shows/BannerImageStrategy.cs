@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Images;
 
@@ -16,12 +17,13 @@ namespace PerfectMedia.UI.TvShows.Shows
             _metadataViewModel = metadataViewModel;
         }
 
-        public IEnumerable<Image> FindImages()
+        public Task<IEnumerable<Image>> FindImages()
         {
             AvailableTvShowImages images = _metadataService.FindImages(_metadataViewModel.Id);
             IEnumerable<Image> allSeasonsImages = images.Seasons.SelectMany(s => s.Value.Banners);
-            return images.Banners
+            IEnumerable<Image> allImages = images.Banners
                 .Union(allSeasonsImages);
+            return Task.FromResult(allImages);
         }
     }
 }

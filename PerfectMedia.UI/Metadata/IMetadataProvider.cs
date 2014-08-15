@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using PerfectMedia.UI.Progress;
 
 namespace PerfectMedia.UI.Metadata
 {
     public interface IMetadataProvider
     {
-        void Refresh();
-        IEnumerable<ProgressItem> Update();
-        void Save();
+        Task Refresh();
+        Task<IEnumerable<ProgressItem>> Update();
+        Task Save();
     }
 }

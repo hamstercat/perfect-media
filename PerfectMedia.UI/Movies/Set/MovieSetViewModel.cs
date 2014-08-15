@@ -70,51 +70,53 @@ namespace PerfectMedia.UI.Movies.Set
             return Children.Where(movie => MovieIsInPath(movie, path));
         }
 
-        public void Refresh()
+        public Task Refresh()
         {
-            MovieSet set = _metadataService.GetMovieSet(DisplayName);
-            SetName = DisplayName = set.Name;
-            Fanart.Path = set.BackdropPath;
-            Poster.Path = set.PosterPath;
-            Fanart.RefreshImage();
-            Poster.RefreshImage();
+            return Task.Run(() =>
+            {
+                MovieSet set = _metadataService.GetMovieSet(DisplayName);
+                SetName = DisplayName = set.Name;
+                Fanart.Path = set.BackdropPath;
+                Poster.Path = set.PosterPath;
+                Fanart.RefreshImage();
+                Poster.RefreshImage();
+            });
         }
 
-        public IEnumerable<ProgressItem> Update()
+        public async Task<IEnumerable<ProgressItem>> Update()
         {
-            if (!_fileSystemService.FileExists(Fanart.Path) || _fileSystemService.FileExists(Poster.Path))
+            List<ProgressItem> result = new List<ProgressItem>();
+            if (!await _fileSystemService.FileExists(Fanart.Path) || await _fileSystemService.FileExists(Poster.Path))
             {
-                yield return UpdateImages();
+                result.Add(UpdateImages());
             }
             foreach (IMovieViewModel movie in Children)
             {
-                foreach (ProgressItem item in movie.Update())
-                {
-                    yield return item;
-                }
+                result.AddRange(await movie.Update());
             }
+            return result;
         }
 
-        public void Save()
+        public async Task Save()
         {
             if (SetName != DisplayName)
             {
-                MoveImages();
+                await MoveImages();
                 DisplayName = SetName;
                 foreach (IMovieViewModel movie in Children.ToList())
                 {
                     movie.SetName = SetName;
-                    movie.Save();
+                    await movie.Save();
                 }
             }
         }
 
-        private void MoveImages()
+        private async Task MoveImages()
         {
             MovieSet oldSet = _metadataService.GetMovieSet(DisplayName);
             MovieSet newSet = _metadataService.GetMovieSet(SetName);
-            _fileSystemService.MoveFile(oldSet.BackdropPath, newSet.BackdropPath);
-            _fileSystemService.MoveFile(oldSet.PosterPath, newSet.PosterPath);
+            await _fileSystemService.MoveFile(oldSet.BackdropPath, newSet.BackdropPath);
+            await _fileSystemService.MoveFile(oldSet.PosterPath, newSet.PosterPath);
             Fanart.Path = newSet.BackdropPath;
             Poster.Path = newSet.PosterPath;
         }
@@ -141,13 +143,13 @@ namespace PerfectMedia.UI.Movies.Set
             AvailableMovieImages images = _metadataService.FindSetImages(DisplayName);
             await SetImagePathIfNeeded(images.Fanarts, Fanart);
             await SetImagePathIfNeeded(images.Posters, Poster);
-            Refresh();
+            await Refresh();
         }
 
         private async Task SetImagePathIfNeeded(IEnumerable<Image> images, IImageViewModel imageViewModel)
         {
             Image image = images.FirstOrDefault();
-            if (image != null && !_fileSystemService.FileExists(imageViewModel.Path))
+            if (image != null && !await _fileSystemService.FileExists(imageViewModel.Path))
             {
                 await _fileSystemService.DownloadImage(imageViewModel.Path, image.Url);
             }

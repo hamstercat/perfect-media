@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using NSubstitute;
 using PerfectMedia.UI.Progress;
 using Xunit;
@@ -32,8 +33,9 @@ namespace PerfectMedia.UI.Metadata
         public void Execute_Always_QueuesCallToUpdate()
         {
             // Arrange
+            IEnumerable<ProgressItem> items = new List<ProgressItem> { CreateProgressItem() };
             _metadataProvider.Update()
-                .Returns(new List<ProgressItem> { CreateProgressItem() });
+                .Returns(items.ToTask());
 
             // Act
             _command.Execute(null);
@@ -42,7 +44,7 @@ namespace PerfectMedia.UI.Metadata
             _progressManager.Received()
                 .AddItem(Arg.Any<ProgressItem>());
             _progressManager.Received()
-                .Start();
+                .Start().Async();
         }
 
         private ProgressItem CreateProgressItem()

@@ -26,16 +26,16 @@ namespace PerfectMedia.UI.Metadata
             return _items.Count != 0;
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
             foreach (T item in _items)
             {
-                foreach (ProgressItem progressItem in item.Update())
+                foreach (ProgressItem progressItem in await item.Update())
                 {
                     _progressManager.AddItem(progressItem);
                 }
             }
-            _progressManager.Start();
+            await _progressManager.Start();
         }
 
         private void TvShowsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

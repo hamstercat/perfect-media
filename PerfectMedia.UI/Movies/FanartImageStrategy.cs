@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using PerfectMedia.Movies;
 using PerfectMedia.UI.Images;
 
@@ -16,14 +17,14 @@ namespace PerfectMedia.UI.Movies
             _movieViewModel = movieViewModel;
         }
 
-        public IEnumerable<Image> FindImages()
+        public Task<IEnumerable<Image>> FindImages()
         {
             if (!string.IsNullOrEmpty(_movieViewModel.Id))
             {
                 AvailableMovieImages images = _metadataService.FindImages(_movieViewModel.Id);
-                return images.Fanarts;
+                return Task.FromResult(images.Fanarts);
             }
-            return Enumerable.Empty<Image>();
+            return Task.FromResult(Enumerable.Empty<Image>());
         }
     }
 }

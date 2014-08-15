@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using PerfectMedia.UI.Metadata;
@@ -14,7 +15,7 @@ using PropertyChanged;
 namespace PerfectMedia.UI.Movies
 {
     [ImplementPropertyChanged]
-    public class MovieManagerViewModel : ISourceProvider
+    public class MovieManagerViewModel : ISourceProvider, IStartupInitialization
     {
         private readonly IFileSystemService _fileSystemService;
         private readonly IMovieViewModelFactory _viewModelFactory;
@@ -29,14 +30,8 @@ namespace PerfectMedia.UI.Movies
             _viewModelFactory = viewModelFactory;
             Movies = new ObservableCollection<IMovieItem>();
             UpdateAll = new UpdateAllMetadataCommand<IMovieItem>(Movies, progressManager);
-            LoadSources();
-        }
-
-        private void LoadSources()
-        {
             Sources = _viewModelFactory.GetSourceManager();
             Sources.SpecificFolders.CollectionChanged += SourceFoldersCollectionChanged;
-            Sources.Load();
         }
 
         private void SourceFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -155,6 +150,11 @@ namespace PerfectMedia.UI.Movies
         {
             string fileName = System.IO.Path.GetFileNameWithoutExtension(videoFile);
             return !fileName.EndsWith("-trailer");
+        }
+
+        async Task IStartupInitialization.Initialize()
+        {
+            await Sources.Load();
         }
     }
 }

@@ -31,7 +31,8 @@ namespace PerfectMedia.UI.Metadata
             _command.Execute(null);
 
             // Assert
-            _metadataProvider.Received().Save();
+            _metadataProvider.Received()
+                .Save();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NSubstitute;
 using Xunit;
 using Xunit.Extensions;
@@ -14,8 +15,9 @@ namespace PerfectMedia
         public KeyDataStoreTests()
         {
             _fileBackedRepository = Substitute.For<IFileBackedRepository>();
+            IDictionary<string, string> dictionary = new Dictionary<string, string>();
             _fileBackedRepository.Load()
-                .Returns(new Dictionary<string, string>());
+                .Returns(Task.FromResult(dictionary));
             _keyDataStore = new KeyDataStore(_fileBackedRepository);
         }
 

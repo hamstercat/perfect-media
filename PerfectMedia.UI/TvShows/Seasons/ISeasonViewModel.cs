@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using PerfectMedia.UI.Progress;
 
 namespace PerfectMedia.UI.TvShows.Seasons
 {
     public interface ISeasonViewModel
     {
-        IEnumerable<ProgressItem> FindNewEpisodes();
+        Task<IEnumerable<ProgressItem>> FindNewEpisodes();
     }
 }

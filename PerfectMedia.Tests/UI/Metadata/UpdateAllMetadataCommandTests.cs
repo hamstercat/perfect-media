@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using NSubstitute;
 using PerfectMedia.UI.Movies;
 using PerfectMedia.UI.Progress;
@@ -56,8 +57,9 @@ namespace PerfectMedia.UI.Metadata
             // Arrange
             IMovieViewModel viewModel1 = Substitute.For<IMovieViewModel>();
             _movies.Add(viewModel1);
+            IEnumerable<ProgressItem> items = new List<ProgressItem> { CreateProgressItem() };
             viewModel1.Update()
-                .Returns(new List<ProgressItem> { CreateProgressItem() });
+                .Returns(items.ToTask());
 
             // Act
             _command.Execute(null);
@@ -66,7 +68,7 @@ namespace PerfectMedia.UI.Metadata
             _progressManager.Received()
                 .AddItem(Arg.Any<ProgressItem>());
             _progressManager.Received()
-                .Start();
+                .Start().Async();
         }
 
         private ProgressItem CreateProgressItem()

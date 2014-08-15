@@ -71,10 +71,10 @@ namespace PerfectMedia
         /// </summary>
         /// <param name="path">The path of the media.</param>
         /// <returns></returns>
-        public virtual TMetadata Get(string path)
+        public virtual async Task<TMetadata> Get(string path)
         {
             string nfoFileFullPath = GetNfoFile(path);
-            if (!_fileSystemService.FileExists(nfoFileFullPath))
+            if (!await _fileSystemService.FileExists(nfoFileFullPath))
             {
                 return new TMetadata();
             }

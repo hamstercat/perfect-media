@@ -13,7 +13,7 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="path">The movie file path.</param>
         /// <returns></returns>
-        MovieMetadata Get(string path);
+        Task<MovieMetadata> Get(string path);
 
         /// <summary>
         /// Gets the movie set.

@@ -66,7 +66,7 @@ namespace PerfectMedia.TvShows.Metadata
             // Arrange
             AvailableTvShowImages availableImages = CreateAvailableImages();
             _fileSystemService.FileExists(Arg.Any<string>())
-                .Returns(true);
+                .Returns(Task.FromResult(true));
 
             // Act
             await _service.Update(_path, availableImages);

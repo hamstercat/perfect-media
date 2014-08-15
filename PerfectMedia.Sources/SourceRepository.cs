@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -33,10 +34,10 @@ namespace PerfectMedia.Sources
         /// </summary>
         /// <param name="sourceType">Type of the source.</param>
         /// <returns></returns>
-        public IEnumerable<Source> GetSources(SourceType sourceType)
+        public async Task<IEnumerable<Source>> GetSources(SourceType sourceType)
         {
             string file = GetSourceTypeFile(sourceType);
-            if (_fileSystemService.FileExists(file))
+            if (await _fileSystemService.FileExists(file))
             {
                 return Deserialize(file);
             }
@@ -58,9 +59,9 @@ namespace PerfectMedia.Sources
         /// Deletes the specified source.
         /// </summary>
         /// <param name="source">The source.</param>
-        public void Delete(Source source)
+        public async Task Delete(Source source)
         {
-            IEnumerable<Source> sources = GetSources(source.SourceType);
+            IEnumerable<Source> sources = await GetSources(source.SourceType);
             IEnumerable<Source> newSources = sources.Where(src => src.Folder != source.Folder);
             ReplaceSources(newSources, source.SourceType);
         }

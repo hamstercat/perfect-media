@@ -33,35 +33,35 @@ namespace PerfectMedia.Movies
         }
 
         [Fact]
-        public void Get_WhenMetadataRepositoryReturnsMetadata_ReturnsIt()
+        public async Task Get_WhenMetadataRepositoryReturnsMetadata_ReturnsIt()
         {
             // Arrange
             MovieMetadata metadata = new MovieMetadata();
             _metadataRepository.Get(MovieFile)
-                .Returns(metadata);
+                .Returns(metadata.ToTask());
 
             // Act
-            MovieMetadata actualMetadata = _service.Get(MovieFile);
+            MovieMetadata actualMetadata = await _service.Get(MovieFile);
 
             // Assert
             Assert.Same(metadata, actualMetadata);
         }
 
         [Fact]
-        public void Get_WithActors_SetsActorThumbnailPath()
+        public async Task Get_WithActors_SetsActorThumbnailPath()
         {
             // Arrange
             MovieMetadata metadata = new MovieMetadata();
             ActorMetadata actor = new ActorMetadata { Name = "Michael Cera" };
             metadata.Actors.Add(actor);
             _metadataRepository.Get(MovieFile)
-                .Returns(metadata);
+                .Returns(metadata.ToTask());
 
             _fileSystemService.GetParentFolder(MovieFile, 1)
                 .Returns(@"C:\Folder\Movies\Scott Pilgrim Vs. The World\");
 
             // Act
-            MovieMetadata actualMetadata = _service.Get(MovieFile);
+            MovieMetadata actualMetadata = await _service.Get(MovieFile);
 
             // Assert
             Assert.NotEmpty(actualMetadata.Actors);
@@ -70,28 +70,28 @@ namespace PerfectMedia.Movies
         }
 
         [Fact]
-        public void Get_Always_SetFanartImagePath()
+        public async Task Get_Always_SetFanartImagePath()
         {
             // Arrange
             _metadataRepository.Get(MovieFile)
-                .Returns(new MovieMetadata());
+                .Returns(new MovieMetadata().ToTask());
 
             // Act
-            MovieMetadata metadata = _service.Get(MovieFile);
+            MovieMetadata metadata = await _service.Get(MovieFile);
 
             // Assert
             Assert.Equal(@"C:\Folder\Movies\Scott Pilgrim Vs. The World\Scott_Pilgrim_Vs_The_World-fanart.jpg", metadata.ImageFanartPath);
         }
 
         [Fact]
-        public void Get_Always_SetPosterImagePath()
+        public async Task Get_Always_SetPosterImagePath()
         {
             // Arrange
             _metadataRepository.Get(MovieFile)
-                .Returns(new MovieMetadata());
+                .Returns(new MovieMetadata().ToTask());
 
             // Act
-            MovieMetadata metadata = _service.Get(MovieFile);
+            MovieMetadata metadata = await _service.Get(MovieFile);
 
             // Assert
             Assert.Equal(@"C:\Folder\Movies\Scott Pilgrim Vs. The World\Scott_Pilgrim_Vs_The_World-poster.jpg", metadata.ImagePosterPath);

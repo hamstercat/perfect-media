@@ -5,11 +5,11 @@ namespace PerfectMedia
 {
     public interface IFileSystemService
     {
-        bool FileExists(string filePath);
+        Task<bool> FileExists(string filePath);
         void CreateFile(string filePath, IEnumerable<string> content);
         void DeleteFile(string filePath);
         void CopyFile(string sourceFile, string destinationFile);
-        void MoveFile(string sourceFile, string destinationFile);
+        Task MoveFile(string sourceFile, string destinationFile);
         Task DownloadImage(string filePath, string url);
 
         bool FolderExists(string folderName);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Images;
 
@@ -15,10 +16,10 @@ namespace PerfectMedia.UI.TvShows.Shows
             _metadataViewModel = metadataViewModel;
         }
 
-        public IEnumerable<Image> FindImages()
+        public Task<IEnumerable<Image>> FindImages()
         {
             AvailableTvShowImages images = _metadataService.FindImages(_metadataViewModel.Id);
-            return images.Fanarts;
+            return Task.FromResult(images.Fanarts);
         }
     }
 }

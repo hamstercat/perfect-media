@@ -14,5 +14,10 @@ namespace PerfectMedia
             // "Because this call is not awaited, execution of the current method continues before the call is completed.
             // Consider applying the 'await' operator to the result of the call."
         }
+
+        public static Task<T> ToTask<T>(this T @this)
+        {
+            return Task.FromResult(@this);
+        }
     }
 }

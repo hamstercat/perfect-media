@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using PerfectMedia.UI.Images.Selection;
 using PropertyChanged;
 
@@ -37,9 +38,10 @@ namespace PerfectMedia.UI.Images
             _horizontalAlignement = horizontalAlignement;
         }
 
-        public void LoadAvailableImages()
+        public async Task LoadAvailableImages()
         {
             ImageSelection = new ImageSelectionViewModel(_fileSystemService, _imageStrategy, Path, _horizontalAlignement);
+            await ImageSelection.LoadAvailableImages();
             ImageSelection.PropertyChanged += ImageSelectionPropertyChanged;
         }
 

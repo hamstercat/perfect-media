@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using PerfectMedia.Sources;
 using PerfectMedia.UI.Metadata;
@@ -11,7 +12,7 @@ using PerfectMedia.UI.TvShows.Shows;
 
 namespace PerfectMedia.UI.TvShows
 {
-    public class TvShowManagerViewModel : ISourceProvider
+    public class TvShowManagerViewModel : ISourceProvider, IStartupInitialization
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
 
@@ -28,14 +29,8 @@ namespace PerfectMedia.UI.TvShows
             UpdateAll = new UpdateAllMetadataCommand<ITvShowViewModel>(TvShows, progressManager);
             FindNewEpisodes = new FindNewEpisodesCommand(TvShows, progressManager);
 
-            LoadSources(viewModelFactory);
-        }
-
-        private void LoadSources(ITvShowViewModelFactory viewModelFactory)
-        {
             Sources = viewModelFactory.GetSourceManager(SourceType.TvShow);
             Sources.SpecificFolders.CollectionChanged += SourceFoldersCollectionChanged;
-            Sources.Load();
         }
 
         private void SourceFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -74,6 +69,11 @@ namespace PerfectMedia.UI.TvShows
                 ITvShowViewModel tvShowToRemove = TvShows.First(show => show.Path == path);
                 TvShows.Remove(tvShowToRemove);
             }
+        }
+
+        async Task IStartupInitialization.Initialize()
+        {
+            await Sources.Load();
         }
     }
 }

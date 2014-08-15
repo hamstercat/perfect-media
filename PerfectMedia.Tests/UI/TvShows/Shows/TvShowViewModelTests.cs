@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NSubstitute;
 using PerfectMedia.TvShows;
 using PerfectMedia.UI.TvShows.Seasons;
@@ -66,7 +67,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         }
 
         [Fact]
-        public void Update_Always_UpdatesMetadata()
+        public async Task Update_Always_UpdatesMetadata()
         {
             // Arrange
             ITvShowMetadataViewModel metadata = Substitute.For<ITvShowMetadataViewModel>();
@@ -75,22 +76,22 @@ namespace PerfectMedia.UI.TvShows.Shows
             _viewModel = new TvShowViewModel(_viewModelFactory, _tvShowFileService, _path);
 
             // Act
-            _viewModel.Update();
+            await _viewModel.Update();
 
             // Assert
             metadata.Received()
-                .Update();
+                .Update().Async();
         }
 
         [Fact]
-        public void FindNewEpisodes_WithoutSeasons_DoesNothing()
+        public async Task FindNewEpisodes_WithoutSeasons_DoesNothing()
         {
             // Act
-            _viewModel.FindNewEpisodes().ToList();
+            await _viewModel.FindNewEpisodes();
         }
 
         [Fact]
-        public void FindNewEpisodes_WithSeasons_FindNewEpisodesInTheseSeasons()
+        public async Task FindNewEpisodes_WithSeasons_FindNewEpisodesInTheseSeasons()
         {
             // Arrange
             _tvShowFileService.GetSeasons(_path)
@@ -101,11 +102,11 @@ namespace PerfectMedia.UI.TvShows.Shows
                 .Returns(seasonViewModel1);
 
             // Act
-            _viewModel.FindNewEpisodes().ToList();
+            await _viewModel.FindNewEpisodes();
 
             // Assert
             seasonViewModel1.Received()
-                .FindNewEpisodes();
+                .FindNewEpisodes().Async();
         }
     }
 }

@@ -116,7 +116,7 @@ namespace PerfectMedia.Movies
         {
             // Arrange
             _fileSystemService.FileExists(FanartPath)
-                .Returns(fileExists);
+                .Returns(Task.FromResult(fileExists));
             FullMovie movie = new FullMovie();
             if (imageIsFound)
             {
@@ -131,7 +131,7 @@ namespace PerfectMedia.Movies
         {
             // Arrange
             _fileSystemService.FileExists(PosterPath)
-                .Returns(fileExists);
+                .Returns(Task.FromResult(fileExists));
             FullMovie movie = new FullMovie();
             if (imageIsFound)
             {

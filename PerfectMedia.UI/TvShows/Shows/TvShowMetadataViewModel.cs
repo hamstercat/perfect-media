@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -242,27 +243,31 @@ namespace PerfectMedia.UI.TvShows.Shows
             SaveCommand = new SaveMetadataCommand(this);
         }
 
-        public void Refresh()
+        public async Task Refresh()
         {
-            TvShowMetadata metadata = _metadataService.Get(Path);
+            TvShowMetadata metadata = await _metadataService.Get(Path);
             RefreshFromMetadata(metadata);
             Images.Refresh();
         }
 
-        public IEnumerable<ProgressItem> Update()
+        public async Task<IEnumerable<ProgressItem>> Update()
         {
-            TvShowMetadata metadata = _metadataService.Get(Path);
+            TvShowMetadata metadata = await _metadataService.Get(Path);
             if (string.IsNullOrEmpty(metadata.Id))
             {
                 Lazy<string> displayName = new Lazy<string>(() => DisplayName);
-                yield return new ProgressItem(displayName, UpdateInternal);
+                return new List<ProgressItem> { new ProgressItem(displayName, UpdateInternal) };
             }
+            return Enumerable.Empty<ProgressItem>();
         }
 
-        public void Save()
+        public Task Save()
         {
-            TvShowMetadata metadata = CreateMetadata();
-            _metadataService.Save(Path, metadata);
+            return Task.Run(() =>
+            {
+                TvShowMetadata metadata = CreateMetadata();
+                _metadataService.Save(Path, metadata);
+            });
         }
 
         private void TitleValueChanged(object sender, PropertyChangedEventArgs e)
@@ -276,6 +281,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             if (!_lazyLoaded)
             {
                 _lazyLoaded = true;
+                // TODO: call asynchronously
                 Refresh();
             }
         }
@@ -346,15 +352,11 @@ namespace PerfectMedia.UI.TvShows.Shows
             return metadata;
         }
 
-        private Task UpdateInternal()
-        {
-            return Task.Run((Func<Task>)UpdateInternal2);
-        }
-
-        private async Task UpdateInternal2()
+        private async Task UpdateInternal()
         {
             await _metadataService.Update(Path);
-            await Application.Current.Dispatcher.InvokeAsync(Refresh);
+            //await Application.Current.Dispatcher.InvokeAsync(Refresh);
+            await Refresh();
         }
     }
 }

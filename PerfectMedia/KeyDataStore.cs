@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PerfectMedia
 {
-    public class KeyDataStore : IKeyDataStore, IDisposable
+    public class KeyDataStore : IKeyDataStore, IStartupInitialization, IDisposable
     {
         private readonly IFileBackedRepository _fileBackedRepository;
-        private readonly IDictionary<string, string> _dataStore;
+        private IDictionary<string, string> _dataStore;
 
         public KeyDataStore(IFileBackedRepository fileBackedRepository)
         {
             _fileBackedRepository = fileBackedRepository;
-            _dataStore = _fileBackedRepository.Load();
         }
 
         public string GetValue(string key)
@@ -32,9 +32,14 @@ namespace PerfectMedia
             _dataStore[key] = value;
         }
 
+        public async Task Initialize()
+        {
+            _dataStore = await _fileBackedRepository.Load();
+        }
+
         public void Dispose()
         {
-            if (_dataStore.Any())
+            if (_dataStore != null && _dataStore.Any())
             {
                 _fileBackedRepository.Save(_dataStore);
             }

@@ -35,7 +35,7 @@ namespace PerfectMedia.TvShows.Metadata
 
         private async Task UpdateImageIfNeeded(string imagePath, IEnumerable<Image> imageUrls)
         {
-            if (!_fileSystemService.FileExists(imagePath))
+            if (!await _fileSystemService.FileExists(imagePath))
             {
                 Image defaultImage = imageUrls.FirstOrDefault();
                 if (defaultImage != null)

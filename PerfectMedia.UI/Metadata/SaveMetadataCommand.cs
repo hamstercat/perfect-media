@@ -23,9 +23,9 @@ namespace PerfectMedia.UI.Metadata
             return true;
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
-            _metadataProvider.Save();
+            await _metadataProvider.Save();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using NSubstitute;
 using Xunit;
 using Xunit.Extensions;
@@ -20,19 +21,19 @@ namespace PerfectMedia.Sources
         [InlineData(SourceType.Movie)]
         [InlineData(SourceType.Music)]
         [InlineData(SourceType.TvShow)]
-        public void GetSources_Always_ReturnsSources(SourceType sourceType)
+        public async Task GetSources_Always_ReturnsSources(SourceType sourceType)
         {
             // Arrange
-            List<Source> expectedSources = new List<Source>
+            IEnumerable<Source> expectedSources = new List<Source>
             {
                 new Source(sourceType, true, @"C:\Folder1"),
                 new Source(sourceType, false, @"C:\Folder2\My Folder")
             };
             _sourceRepository.GetSources(sourceType)
-                .Returns(expectedSources);
+                .Returns(Task.FromResult(expectedSources));
 
             // Act
-            IEnumerable<Source> sources = _service.GetSources(sourceType);
+            IEnumerable<Source> sources = await _service.GetSources(sourceType);
 
             // Assert
             Assert.Equal(expectedSources, sources);
@@ -59,17 +60,17 @@ namespace PerfectMedia.Sources
         [InlineData(SourceType.Movie)]
         [InlineData(SourceType.Music)]
         [InlineData(SourceType.TvShow)]
-        public void Delete_Always_PersistSource(SourceType sourceType)
+        public async Task Delete_Always_PersistSource(SourceType sourceType)
         {
             // Arrange
             Source source = new Source(sourceType, false, @"C:\Folder2\My Folder");
 
             // Act
-            _service.Delete(source);
+            await _service.Delete(source);
 
             // Assert
             _sourceRepository.Received()
-                .Delete(source);
+                .Delete(source).Async();
         }
     }
 }

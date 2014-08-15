@@ -12,7 +12,7 @@ namespace PerfectMedia.TvShows.Metadata
         /// </summary>
         /// <param name="path">The TV show folder path.</param>
         /// <returns></returns>
-        TvShowMetadata Get(string path);
+        Task<TvShowMetadata> Get(string path);
 
         /// <summary>
         /// Gets the metadata associated with the TV show located at the specified path.

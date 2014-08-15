@@ -47,7 +47,7 @@ namespace PerfectMedia.Movies
 
         private async Task UpdateImageIfNeeded(string imagePath, string imageUrl)
         {
-            if (!_fileSystemService.FileExists(imagePath) && !string.IsNullOrEmpty(imageUrl))
+            if (!await _fileSystemService.FileExists(imagePath) && !string.IsNullOrEmpty(imageUrl))
             {
                 await _fileSystemService.DownloadImage(imagePath, imageUrl);
             }

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
 using PerfectMedia.Sources;
 using PropertyChanged;
 
@@ -30,9 +31,9 @@ namespace PerfectMedia.UI.Sources
             SpecificFolders.CollectionChanged += SpecificFoldersCollectionChanged;
         }
 
-        public void Load()
+        public async Task Load()
         {
-            IEnumerable<Source> sources = _sourceService.GetSources(_sourceType);
+            IEnumerable<Source> sources = await _sourceService.GetSources(_sourceType);
 
             // Since we're loading the sources from the repo, don't save them back when adding them in the manager
             RootFolders.CollectionChanged -= RootFoldersCollectionChanged;
@@ -82,7 +83,7 @@ namespace PerfectMedia.UI.Sources
             }
         }
 
-        private void RootFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private async void RootFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged("RootFolders");
             switch (e.Action)
@@ -91,19 +92,19 @@ namespace PerfectMedia.UI.Sources
                     AddFolders(e.NewItems.Cast<string>(), true);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    RemoveFolders(e.OldItems.Cast<string>(), true);
+                    await RemoveFolders(e.OldItems.Cast<string>(), true);
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    RemoveFolders(e.OldItems.Cast<string>(), true);
+                    await RemoveFolders(e.OldItems.Cast<string>(), true);
                     AddFolders(e.NewItems.Cast<string>(), true);
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    RemoveFolders(RootFolders, true);
+                    await RemoveFolders(RootFolders, true);
                     break;
             }
         }
 
-        private void SpecificFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private async void SpecificFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {
@@ -111,14 +112,14 @@ namespace PerfectMedia.UI.Sources
                     AddFolders(e.NewItems.Cast<string>(), false);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    RemoveFolders(e.OldItems.Cast<string>(), false);
+                    await RemoveFolders(e.OldItems.Cast<string>(), false);
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    RemoveFolders(e.OldItems.Cast<string>(), false);
+                    await RemoveFolders(e.OldItems.Cast<string>(), false);
                     AddFolders(e.NewItems.Cast<string>(), false);
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    RemoveFolders(SpecificFolders, false);
+                    await RemoveFolders(SpecificFolders, false);
                     break;
             }
         }
@@ -147,12 +148,12 @@ namespace PerfectMedia.UI.Sources
             }
         }
 
-        private void RemoveFolders(IEnumerable<string> foldersToRemove, bool isRoot)
+        private async Task RemoveFolders(IEnumerable<string> foldersToRemove, bool isRoot)
         {
             foreach (string folder in foldersToRemove)
             {
                 Source source = new Source(_sourceType, isRoot, folder);
-                _sourceService.Delete(source);
+                await _sourceService.Delete(source);
             }
         }
     }

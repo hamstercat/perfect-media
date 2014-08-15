@@ -20,7 +20,7 @@ namespace PerfectMedia.UI.Movies.Selection
             SearchCommand = new SearchCommand(metadataService, this);
             Selection = new SelectionViewModel<Movie>(async movie =>
             {
-                SaveNewId(metadataService, movie.Id, movieViewModel.Path);
+                await SaveNewId(metadataService, movie.Id, movieViewModel.Path);
                 await Update(metadataService, movieViewModel, movieViewModel.Path);
                 IsClosed = true;
             });
@@ -35,18 +35,18 @@ namespace PerfectMedia.UI.Movies.Selection
             }
         }
 
-        private void SaveNewId(IMovieMetadataService metadataService, string movieId, string path)
+        private async Task SaveNewId(IMovieMetadataService metadataService, string movieId, string path)
         {
-            MovieMetadata metadata = metadataService.Get(path);
+            MovieMetadata metadata = await metadataService.Get(path);
             metadata.Id = movieId;
-            metadataService.Save(path, metadata);
+            await metadataService.Save(path, metadata);
         }
 
         private async Task Update(IMovieMetadataService metadataService, IMovieViewModel movieViewModel, string path)
         {
             metadataService.DeleteImages(path);
             await metadataService.Update(path);
-            movieViewModel.Refresh();
+            await movieViewModel.Refresh();
         }
     }
 }

@@ -37,7 +37,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             // Arrange
             TvShowMetadata metadata = CreateTvShowMetadata();
             _metadataService.Get(Arg.Any<string>())
-                .Returns(metadata);
+                .Returns(metadata.ToTask());
 
             // Act
             _viewModel.Refresh();
@@ -51,7 +51,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         {
             // Arrange
             _metadataService.Get(_path)
-                .Returns(new TvShowMetadata());
+                .Returns(new TvShowMetadata().ToTask());
 
             ITvShowImagesViewModel imagesViewModel = Substitute.For<ITvShowImagesViewModel>();
             _viewModelFactory.GetTvShowImages(Arg.Any<ITvShowMetadataViewModel>(), _path)
@@ -67,19 +67,19 @@ namespace PerfectMedia.UI.TvShows.Shows
         }
 
         [Fact]
-        public void Update_WhenMetadataAlreadyExists_DoesNothing()
+        public async Task Update_WhenMetadataAlreadyExists_DoesNothing()
         {
             // Arrange
             TvShowMetadata metadata = CreateTvShowMetadata();
             _metadataService.Get(Arg.Any<string>())
-                .Returns(metadata);
+                .Returns(metadata.ToTask());
 
             // Act
-            _viewModel.Update().ToList();
+            await _viewModel.Update();
 
             // Assert
             _metadataService.DidNotReceiveWithAnyArgs()
-                .Update(_path);
+                .Update(_path).Async();
         }
 
         [Fact]
@@ -88,10 +88,11 @@ namespace PerfectMedia.UI.TvShows.Shows
             // Arrange
             TvShowMetadata metadata = CreateTvShowMetadata();
             _metadataService.Get(Arg.Any<string>())
-                .Returns(new TvShowMetadata(), metadata);
+                .Returns(new TvShowMetadata().ToTask(), metadata.ToTask());
 
             // Act
-            ProgressItem item = _viewModel.Update().First();
+            IEnumerable<ProgressItem> items = await _viewModel.Update();
+            ProgressItem item = items.First();
             await item.Execute();
 
             // Assert
@@ -105,7 +106,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         {
             // Arrange
             _metadataService.Get(Arg.Any<string>())
-                .Returns(new TvShowMetadata());
+                .Returns(new TvShowMetadata().ToTask());
 
             _viewModel.Actors.Add(CreateActorViewModel(1));
             _viewModel.Actors.Add(CreateActorViewModel(2));

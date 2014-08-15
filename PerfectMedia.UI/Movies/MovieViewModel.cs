@@ -382,26 +382,27 @@ namespace PerfectMedia.UI.Movies
             }
         }
 
-        public void Refresh()
+        public async Task Refresh()
         {
-            MovieMetadata metadata = _metadataService.Get(Path);
+            MovieMetadata metadata = await _metadataService.Get(Path);
             RefreshFromMetadata(metadata);
         }
 
-        public IEnumerable<ProgressItem> Update()
+        public async Task<IEnumerable<ProgressItem>> Update()
         {
-            MovieMetadata metadata = _metadataService.Get(Path);
+            MovieMetadata metadata = await _metadataService.Get(Path);
             if (string.IsNullOrEmpty(metadata.Id))
             {
                 Lazy<string> displayName = new Lazy<string>(() => DisplayName);
-                yield return new ProgressItem(displayName, UpdateInternal);
+                return new List<ProgressItem> { new ProgressItem(displayName, UpdateInternal) };
             }
+            return Enumerable.Empty<ProgressItem>();
         }
 
-        public void Save()
+        public async Task Save()
         {
             MovieMetadata metadata = CreateMetadata();
-            _metadataService.Save(Path, metadata);
+            await _metadataService.Save(Path, metadata);
         }
 
         public override string ToString()
@@ -414,6 +415,7 @@ namespace PerfectMedia.UI.Movies
             if (!_lazyLoaded)
             {
                 _lazyLoaded = true;
+                // TODO: call asynchronously
                 Refresh();
             }
         }
@@ -500,15 +502,11 @@ namespace PerfectMedia.UI.Movies
             return metadata;
         }
 
-        private Task UpdateInternal()
-        {
-            return Task.Run((Func<Task>)UpdateInternal2);
-        }
-
-        private async Task UpdateInternal2()
+        private async Task UpdateInternal()
         {
             await _metadataService.Update(Path);
-            await Application.Current.Dispatcher.InvokeAsync(Refresh);
+            //await Application.Current.Dispatcher.InvokeAsync(Refresh);
+            await Refresh();
         }
     }
 }

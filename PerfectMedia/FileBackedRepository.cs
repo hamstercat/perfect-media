@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace PerfectMedia
@@ -20,9 +21,9 @@ namespace PerfectMedia
             _repositoryFile = Path.Combine(assemblyFolder, "Cache.xml");
         }
 
-        public IDictionary<string, string> Load()
+        public async Task<IDictionary<string, string>> Load()
         {
-            if (_fileSystemService.FileExists(_repositoryFile))
+            if (await _fileSystemService.FileExists(_repositoryFile))
             {
                 XElement root = XElement.Load(_repositoryFile);
                 return root.Elements().ToDictionary(pair => pair.Attribute("key").Value, val => val.Value);

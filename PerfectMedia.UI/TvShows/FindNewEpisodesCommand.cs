@@ -25,16 +25,16 @@ namespace PerfectMedia.UI.TvShows
             return _tvShows.Count != 0;
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
             foreach (ITvShowViewModel tvShow in _tvShows)
             {
-                foreach (ProgressItem item in tvShow.FindNewEpisodes())
+                foreach (ProgressItem item in await tvShow.FindNewEpisodes())
                 {
                     _progressManager.AddItem(item);
                 }
             }
-            _progressManager.Start();
+            await _progressManager.Start();
         }
 
         private void TvShowsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

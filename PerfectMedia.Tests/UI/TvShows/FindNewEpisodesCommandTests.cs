@@ -70,8 +70,9 @@ namespace PerfectMedia.UI.TvShows
             // Arrange
             ITvShowViewModel viewModel1 = Substitute.For<ITvShowViewModel>();
             _tvShows.Add(viewModel1);
+            IEnumerable<ProgressItem> items = new List<ProgressItem> { CreateProgressItem() };
             viewModel1.FindNewEpisodes()
-                .Returns(new List<ProgressItem> { CreateProgressItem() });
+                .Returns(items.ToTask());
 
             // Act
             _command.Execute(null);
@@ -80,7 +81,7 @@ namespace PerfectMedia.UI.TvShows
             _progressManager.Received()
                 .AddItem(Arg.Any<ProgressItem>());
             _progressManager.Received()
-                .Start();
+                .Start().Async();
         }
 
         private ProgressItem CreateProgressItem()

@@ -12,9 +12,9 @@ namespace PerfectMedia
     {
         private static readonly string[] VideoFileExtensions = ConfigurationManager.AppSettings["VideoFileExtensions"].Split(',');
 
-        public bool FileExists(string filePath)
+        public Task<bool> FileExists(string filePath)
         {
-            return File.Exists(filePath);
+            return Task.Run(() => File.Exists(filePath));
         }
 
         public void CreateFile(string filePath, IEnumerable<string> content)
@@ -32,9 +32,9 @@ namespace PerfectMedia
             File.Copy(sourceFile, destinationFile, true);
         }
 
-        public void MoveFile(string sourceFile, string destinationFile)
+        public async Task MoveFile(string sourceFile, string destinationFile)
         {
-            if (FileExists(sourceFile))
+            if (await FileExists(sourceFile))
             {
                 File.Move(sourceFile, destinationFile);
             }
@@ -42,7 +42,16 @@ namespace PerfectMedia
 
         public async Task DownloadImage(string filePath, string url)
         {
-            await DownloadImageAsync(filePath, url);
+            await Task.Run(() =>
+            {
+                using (WebClient client = new WebClient())
+                using (Stream stream = client.OpenRead(url))
+                using (MagickImage image = new MagickImage(stream))
+                {
+                    image.Quality = 80;
+                    image.Write(filePath);
+                }
+            });
         }
 
         public bool FolderExists(string folderName)
@@ -83,20 +92,6 @@ namespace PerfectMedia
         public IEnumerable<string> FindVideoFiles(string path)
         {
             return FindFiles(path, VideoFileExtensions);
-        }
-
-        private Task DownloadImageAsync(string filePath, string url)
-        {
-            return Task.Run(() =>
-            {
-                using (WebClient client = new WebClient())
-                using (Stream stream = client.OpenRead(url))
-                using (MagickImage image = new MagickImage(stream))
-                {
-                    image.Quality = 80;
-                    image.Write(filePath);
-                }
-            });
         }
 
         private IEnumerable<string> FindFiles(string path, params string[] extensions)

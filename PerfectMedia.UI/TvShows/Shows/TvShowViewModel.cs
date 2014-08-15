@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using PerfectMedia.TvShows;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Seasons;
@@ -61,25 +62,30 @@ namespace PerfectMedia.UI.TvShows.Shows
             Seasons = new ObservableCollection<ISeasonViewModel> { _viewModelFactory.GetSeason(Metadata, "dummy") };
         }
 
-        public void Refresh()
+        public async Task Refresh()
         {
-            Metadata.Refresh();
+            await Metadata.Refresh();
         }
 
-        public IEnumerable<ProgressItem> Update()
+        public async Task<IEnumerable<ProgressItem>> Update()
         {
-            return Metadata.Update();
+            return await Metadata.Update();
         }
 
-        public void Save()
+        public async Task Save()
         {
-            Metadata.Save();
+            await Metadata.Save();
         }
 
-        public IEnumerable<ProgressItem> FindNewEpisodes()
+        public async Task<IEnumerable<ProgressItem>> FindNewEpisodes()
         {
             LoadSeasons();
-            return Seasons.SelectMany(season => season.FindNewEpisodes());
+            List<ProgressItem> items = new List<ProgressItem>();
+            foreach (ISeasonViewModel season in Seasons)
+            {
+                items.AddRange(await season.FindNewEpisodes());
+            }
+            return items;
         }
 
         private void LoadSeasons()

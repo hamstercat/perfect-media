@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Seasons;
@@ -13,6 +14,6 @@ namespace PerfectMedia.UI.TvShows.Shows
         string DisplayName { get; }
         ITvShowSelectionViewModel Selection { get; }
         ObservableCollection<ISeasonViewModel> Seasons { get; }
-        IEnumerable<ProgressItem> FindNewEpisodes();
+        Task<IEnumerable<ProgressItem>> FindNewEpisodes();
     }
 }

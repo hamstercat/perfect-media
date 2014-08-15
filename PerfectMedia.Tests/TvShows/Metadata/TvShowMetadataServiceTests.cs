@@ -23,15 +23,15 @@ namespace PerfectMedia.TvShows.Metadata
         }
 
         [Fact]
-        public void Get_Always_ReturnsMetadata()
+        public async Task Get_Always_ReturnsMetadata()
         {
             // Arrange
             TvShowMetadata expectedMetadata = new TvShowMetadata();
             _metadataRepository.Get(_path)
-                .Returns(expectedMetadata);
+                .Returns(expectedMetadata.ToTask());
 
             // Act
-            TvShowMetadata metadata = _service.Get(_path);
+            TvShowMetadata metadata = await _service.Get(_path);
 
             // Assert
             Assert.Equal(expectedMetadata, metadata);
@@ -56,7 +56,7 @@ namespace PerfectMedia.TvShows.Metadata
         {
             // Arrange
             _metadataRepository.Get(_path)
-                .Returns(new TvShowMetadata { Id = "456" });
+                .Returns(new TvShowMetadata { Id = "456" }.ToTask());
 
             FullSerie fullSerie = CreateFullSerie();
             _metadataUpdater.GetTvShowMetadata("456")
@@ -75,7 +75,7 @@ namespace PerfectMedia.TvShows.Metadata
         {
             // Arrange
             _metadataRepository.Get(_path)
-                .Returns(new TvShowMetadata());
+                .Returns(new TvShowMetadata().ToTask());
 
             // Act + Assert
             Assert.Throws<TvShowNotFoundException>(async () => await _service.Update(_path));

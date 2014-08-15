@@ -257,31 +257,36 @@ namespace PerfectMedia.UI.TvShows.Episodes
             OnPropertyChanged("DisplayName");
         }
 
-        public void Refresh()
+        public async Task Refresh()
         {
-            EpisodeMetadata metadata = _metadataService.Get(Path);
+            EpisodeMetadata metadata = await _metadataService.Get(Path);
             RefreshFromMetadata(metadata);
         }
 
-        public IEnumerable<ProgressItem> Update()
+        public async Task<IEnumerable<ProgressItem>> Update()
         {
-            foreach (ProgressItem item in _tvShowMetadata.Update())
+            List<ProgressItem> items = new List<ProgressItem>();
+            foreach (ProgressItem item in await _tvShowMetadata.Update())
             {
-                yield return item;
+                items.Add(item);
             }
 
-            EpisodeMetadata metadata = _metadataService.Get(Path);
+            EpisodeMetadata metadata = await _metadataService.Get(Path);
             if (metadata.FileInformation == null)
             {
                 Lazy<string> displayName = new Lazy<string>(() => DisplayName);
-                yield return new ProgressItem(displayName, UpdateInternal);
+                items.Add(new ProgressItem(displayName, UpdateInternal));
             }
+            return items;
         }
 
-        public void Save()
+        public Task Save()
         {
-            EpisodeMetadata metadata = CreateMetadata();
-            _metadataService.Save(Path, metadata);
+            return Task.Run(() =>
+            {
+                EpisodeMetadata metadata = CreateMetadata();
+                _metadataService.Save(Path, metadata);
+            });
         }
 
         private void InitialLoadInformation()
@@ -289,6 +294,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             if (!_lazyLoaded)
             {
                 _lazyLoaded = true;
+                // TODO: call asynchronously
                 Refresh();
             }
         }
@@ -336,13 +342,10 @@ namespace PerfectMedia.UI.TvShows.Episodes
             };
         }
 
-        private Task UpdateInternal()
+        private async Task UpdateInternal()
         {
-            return Task.Run(() =>
-            {
-                _metadataService.Update(Path, _tvShowMetadata.Id);
-                Refresh();
-            });
+            _metadataService.Update(Path, _tvShowMetadata.Id);
+            await Refresh();
         }
     }
 }

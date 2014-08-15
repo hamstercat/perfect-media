@@ -20,9 +20,9 @@ namespace PerfectMedia.TvShows.Metadata
             _metadataUpdater = metadataUpdater;
         }
 
-        public TvShowMetadata Get(string path)
+        public async Task<TvShowMetadata> Get(string path)
         {
-            TvShowMetadata metadata = _metadataRepository.Get(path);
+            TvShowMetadata metadata = await _metadataRepository.Get(path);
             foreach (ActorMetadata actor in metadata.Actors)
             {
                 actor.ThumbPath = ActorMetadata.GetActorThumbPath(path, actor.Name);
@@ -37,7 +37,7 @@ namespace PerfectMedia.TvShows.Metadata
 
         public async Task Update(string path)
         {
-            FullSerie serie = FindFullSerie(path);
+            FullSerie serie = await FindFullSerie(path);
             UpdateInformationMetadata(path, serie);
             await UpdateImages(path, serie.Id);
         }
@@ -64,10 +64,10 @@ namespace PerfectMedia.TvShows.Metadata
             return FindImages(seriesId);
         }
 
-        public AvailableSeasonImages FindSeasonImages(string seasonPath)
+        public async Task<AvailableSeasonImages> FindSeasonImages(string seasonPath)
         {
             string seriePath = _fileSystemService.GetParentFolder(seasonPath, 1);
-            string serieId = GetSeriesId(seriePath);
+            string serieId = await GetSeriesId(seriePath);
             AvailableTvShowImages images = FindImages(serieId);
             int seasonNumber = TvShowHelper.FindSeasonNumberFromFolder(seasonPath);
             return images.Seasons[seasonNumber];
@@ -78,9 +78,9 @@ namespace PerfectMedia.TvShows.Metadata
             _imagesService.Delete(path);
         }
 
-        private FullSerie FindFullSerie(string path)
+        private async Task<FullSerie> FindFullSerie(string path)
         {
-            string seriesId = GetSeriesId(path);
+            string seriesId = await GetSeriesId(path);
             FullSerie fullSerie = _metadataUpdater.GetTvShowMetadata(seriesId);
             if (fullSerie == null)
             {
@@ -89,9 +89,9 @@ namespace PerfectMedia.TvShows.Metadata
             return fullSerie;
         }
 
-        private string GetSeriesId(string path)
+        private async Task<string> GetSeriesId(string path)
         {
-            TvShowMetadata metadata = Get(path);
+            TvShowMetadata metadata = await Get(path);
             if (string.IsNullOrEmpty(metadata.Id))
             {
                 return FindIdFromPath(path);

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.UI.Images
 {
     public interface IImageStrategy
     {
-        IEnumerable<Image> FindImages();
+        Task<IEnumerable<Image>> FindImages();
     }
 }

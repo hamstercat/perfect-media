@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -31,9 +32,9 @@ namespace PerfectMedia.UI.Images
             MouseOverOverlay.Visibility = visibility;
         }
 
-        private void HyperlinkClick(object sender, RoutedEventArgs e)
+        private async void HyperlinkClick(object sender, RoutedEventArgs e)
         {
-            IImageViewModel images = FindAvailableImages();
+            IImageViewModel images = await FindAvailableImages();
             ContentControl control = FindParentMainContentControl(this);
             images.OriginalContent = BindingOperations.GetBinding(control, ContentProperty);
             control.Content = images;
@@ -49,10 +50,10 @@ namespace PerfectMedia.UI.Images
             return FindParentMainContentControl(parent);
         }
 
-        private IImageViewModel FindAvailableImages()
+        private async Task<IImageViewModel> FindAvailableImages()
         {
             IImageViewModel imageViewModel = (IImageViewModel)DataContext;
-            imageViewModel.LoadAvailableImages();
+            await imageViewModel.LoadAvailableImages();
             return imageViewModel;
         }
     }

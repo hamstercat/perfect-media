@@ -28,32 +28,32 @@ namespace PerfectMedia.UI.TvShows.Episodes
         }
 
         [Fact]
-        public void Refresh_Always_RefreshesTvShowProperties()
+        public async Task Refresh_Always_RefreshesTvShowProperties()
         {
             // Arrange
             EpisodeMetadata metadata = CreateEpisodeMetadata();
             _metadataService.Get(_path)
-                .Returns(metadata);
+                .Returns(Task.FromResult(metadata));
 
             // Act
-            _viewModel.Refresh();
+            await _viewModel.Refresh();
 
             // Assert
             AssertMetadataEqualsViewModel(metadata);
         }
 
         [Fact]
-        public void Update_WhenMetadataAlreadyExists_DoesNothing()
+        public async Task Update_WhenMetadataAlreadyExists_DoesNothing()
         {
             // Arrange
             EpisodeMetadata metadata = CreateEpisodeMetadata();
             _metadataService.Get(_path)
-                .Returns(metadata);
+                .Returns(Task.FromResult(metadata));
             _tvShowMetadata.Id
                 .Returns("123");
 
             // Act
-            _viewModel.Update().ToList();
+            await _viewModel.Update();
 
             // Assert
             _metadataService.DidNotReceiveWithAnyArgs()
@@ -66,12 +66,13 @@ namespace PerfectMedia.UI.TvShows.Episodes
             // Arrange
             EpisodeMetadata metadata = CreateEpisodeMetadata();
             _metadataService.Get(_path)
-                .Returns(new EpisodeMetadata(), metadata);
+                .Returns(new EpisodeMetadata().ToTask(), metadata.ToTask());
             _tvShowMetadata.Id
                 .Returns("123");
 
             // Act
-            ProgressItem item = _viewModel.Update().First();
+            IEnumerable<ProgressItem> items = await _viewModel.Update();
+            ProgressItem item = items.First();
             await item.Execute();
 
             // Assert
@@ -81,18 +82,18 @@ namespace PerfectMedia.UI.TvShows.Episodes
         }
 
         [Fact]
-        public void Update_Always_UpdatesTvShowMetadata()
+        public async Task Update_Always_UpdatesTvShowMetadata()
         {
             // Arrange
             _metadataService.Get(_path)
-                .Returns(new EpisodeMetadata());
+                .Returns(new EpisodeMetadata().ToTask());
 
             // Act
-            _viewModel.Update().ToList();
+            await _viewModel.Update();
 
             // Assert
             _tvShowMetadata.Received()
-                .Update();
+                .Update().Async();
         }
 
         [Fact]
@@ -100,7 +101,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
         {
             // Arrange
             _metadataService.Get(_path)
-                .Returns(new EpisodeMetadata());
+                .Returns(new EpisodeMetadata().ToTask());
 
             _viewModel.AiredDate = new DateTime(2012, 02, 17);
             _viewModel.Credits.Collection.Add("Writer #1");

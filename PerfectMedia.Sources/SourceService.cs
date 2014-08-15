@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.Sources
 {
@@ -24,9 +25,9 @@ namespace PerfectMedia.Sources
         /// </summary>
         /// <param name="sourceType">Type of the source.</param>
         /// <returns></returns>
-        public IEnumerable<Source> GetSources(SourceType sourceType)
+        public async Task<IEnumerable<Source>> GetSources(SourceType sourceType)
         {
-            return _sourceRepository.GetSources(sourceType);
+            return await _sourceRepository.GetSources(sourceType);
         }
 
         /// <summary>
@@ -42,9 +43,9 @@ namespace PerfectMedia.Sources
         /// Deletes the specified source.
         /// </summary>
         /// <param name="source">The source.</param>
-        public void Delete(Source source)
+        public async Task Delete(Source source)
         {
-            _sourceRepository.Delete(source);
+            await _sourceRepository.Delete(source);
         }
     }
 }

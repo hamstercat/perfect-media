@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NSubstitute;
 using PerfectMedia.FileInformation;
 using Xunit;
@@ -26,15 +27,15 @@ namespace PerfectMedia.TvShows.Metadata
         }
 
         [Fact]
-        public void Get_Always_ReturnsMetadata()
+        public async Task Get_Always_ReturnsMetadata()
         {
             // Arrange
             EpisodeMetadata expectedMetadata = new EpisodeMetadata();
             _metadataRepository.Get(_path)
-                .Returns(expectedMetadata);
+                .Returns(Task.FromResult(expectedMetadata));
 
             // Act
-            EpisodeMetadata metadata = _service.Get(_path);
+            EpisodeMetadata metadata = await _service.Get(_path);
 
             // Assert
             Assert.Equal(expectedMetadata, metadata);

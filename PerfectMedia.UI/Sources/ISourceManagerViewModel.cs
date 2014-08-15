@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.UI.Sources
 {
@@ -12,6 +13,6 @@ namespace PerfectMedia.UI.Sources
         void AddSpecificFolder(string folder);
         void RemoveSpecificFolder(string folderToRemove);
 
-        void Load();
+        Task Load();
     }
 }

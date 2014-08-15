@@ -54,7 +54,7 @@ namespace PerfectMedia.Movies
 
         private async Task SaveActorMetadata(ActorMetadata actor)
         {
-            if (!_fileSystemService.FileExists(actor.ThumbPath) && !string.IsNullOrEmpty(actor.Thumb))
+            if (!await _fileSystemService.FileExists(actor.ThumbPath) && !string.IsNullOrEmpty(actor.Thumb))
             {
                 await _fileSystemService.DownloadImage(actor.ThumbPath, actor.Thumb);
             }

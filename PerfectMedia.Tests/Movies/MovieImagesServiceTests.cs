@@ -91,25 +91,25 @@ namespace PerfectMedia.Movies
         }
 
         [Fact]
-        public void Delete_Always_DeletesPosterFile()
+        public async Task Delete_Always_DeletesPosterFile()
         {
             // Act
-            _service.Delete(MoviePath);
+            await _service.Delete(MoviePath);
 
             // Arrange
             _fileSystemService.Received()
-                .DeleteFile(PosterPath);
+                .DeleteFile(PosterPath).Async();
         }
 
         [Fact]
-        public void Delete_Always_DeletesFanartFile()
+        public async Task Delete_Always_DeletesFanartFile()
         {
             // Act
-            _service.Delete(MoviePath);
+            await _service.Delete(MoviePath);
 
             // Arrange
             _fileSystemService.Received()
-                .DeleteFile(FanartPath);
+                .DeleteFile(FanartPath).Async();
         }
 
         private async Task UpdateMovieFanart(bool fileExists, bool imageIsFound)

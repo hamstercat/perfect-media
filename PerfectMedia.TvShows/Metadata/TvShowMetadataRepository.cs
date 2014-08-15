@@ -41,9 +41,9 @@ namespace PerfectMedia.TvShows.Metadata
         private async Task SaveActorsThumbnails(string path, IEnumerable<ActorMetadata> actors)
         {
             string actorFolder = ActorMetadata.GetActorsFolder(path);
-            if (!_fileSystemService.FolderExists(actorFolder))
+            if (!await _fileSystemService.FolderExists(actorFolder))
             {
-                _fileSystemService.CreateFolder(actorFolder);
+                await _fileSystemService.CreateFolder(actorFolder);
             }
 
             foreach (ActorMetadata actor in actors)

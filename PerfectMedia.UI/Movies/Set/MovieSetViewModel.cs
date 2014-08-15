@@ -140,7 +140,7 @@ namespace PerfectMedia.UI.Movies.Set
 
         private async Task LoadImagesInternal()
         {
-            AvailableMovieImages images = _metadataService.FindSetImages(DisplayName);
+            AvailableMovieImages images = await _metadataService.FindSetImages(DisplayName);
             await SetImagePathIfNeeded(images.Fanarts, Fanart);
             await SetImagePathIfNeeded(images.Posters, Poster);
             await Refresh();

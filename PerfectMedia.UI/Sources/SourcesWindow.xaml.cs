@@ -37,9 +37,9 @@ namespace PerfectMedia.UI.Sources
             Sources.RemoveRootFolder(folderToRemove);
         }
 
-        private void RefreshSpecificFolders(object sender, RoutedEventArgs e)
+        private async void RefreshSpecificFolders(object sender, RoutedEventArgs e)
         {
-            Sources.RefreshSpecificFolders();
+            await Sources.RefreshSpecificFolders();
         }
 
         private void AddSpecificFolder(object sender, RoutedEventArgs e)

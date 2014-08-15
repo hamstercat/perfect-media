@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Nito.AsyncEx.Synchronous;
 using NSubstitute;
 using Xunit;
 using Xunit.Extensions;
@@ -19,13 +21,13 @@ namespace PerfectMedia.TvShows
         }
 
         [Fact]
-        public void GetShowImages_Always_CalculatesTheShowMainImagePaths()
+        public async Task GetShowImages_Always_CalculatesTheShowMainImagePaths()
         {
             // Arrange
             const string path = @"C:\Folder\TV Shows\Game of Thrones";
 
             // Act
-            TvShowImages images = _service.GetShowImages(path);
+            TvShowImages images = await _service.GetShowImages(path);
 
             // Assert
             Assert.Equal(@"C:\Folder\TV Shows\Game of Thrones\fanart.jpg", images.Fanart);
@@ -52,7 +54,7 @@ namespace PerfectMedia.TvShows
         }
 
         [Fact]
-        public void GetSeasons_WithFolders_ReturnsSeasons()
+        public async Task GetSeasons_WithFolders_ReturnsSeasons()
         {
             // Arrange
             const string path = @"C:\Folder";
@@ -63,27 +65,27 @@ namespace PerfectMedia.TvShows
                 @"C:\Folder\Specials"
             };
             _fileSystemService.FindDirectories(path, "Season *")
-                .Returns(seasonFolders.Take(2));
+                .Returns(seasonFolders.Take(2).ToTask());
             _fileSystemService.FindDirectories(path, "Special*")
-                .Returns(seasonFolders.Skip(2));
+                .Returns(seasonFolders.Skip(2).ToTask());
 
             // Act
-            IEnumerable<Season> seasons = _service.GetSeasons(path);
+            IEnumerable<Season> seasons = await _service.GetSeasons(path);
 
             // Assert
-            IEnumerable<string> actualSeasonFolders = seasons.Select(s => s.Path);
-            Assert.Equal(seasonFolders.Count, actualSeasonFolders.Count());
+            List<string> actualSeasonFolders = seasons.Select(s => s.Path).ToList();
+            Assert.Equal(seasonFolders.Count, actualSeasonFolders.Count);
             // Seasons are sorted by season number
-            Assert.Equal(seasonFolders[0], actualSeasonFolders.ElementAt(1));
-            Assert.Equal(seasonFolders[1], actualSeasonFolders.ElementAt(2));
-            Assert.Equal(seasonFolders[2], actualSeasonFolders.ElementAt(0));
+            Assert.Equal(seasonFolders[0], actualSeasonFolders[1]);
+            Assert.Equal(seasonFolders[1], actualSeasonFolders[2]);
+            Assert.Equal(seasonFolders[2], actualSeasonFolders[0]);
         }
 
         [Fact]
-        public void GetSeasons_WithoutFolders_ReturnsEmpty()
+        public async Task GetSeasons_WithoutFolders_ReturnsEmpty()
         {
             // Act
-            IEnumerable<Season> seasons = _service.GetSeasons(@"C:\Folder");
+            IEnumerable<Season> seasons = await _service.GetSeasons(@"C:\Folder");
 
             // Assert
             Assert.NotNull(seasons);
@@ -97,41 +99,41 @@ namespace PerfectMedia.TvShows
             {
                 // Act
                 // Method returns an IEnumerable, enumerate it so the method executes
-                _service.GetSeasons(null).ToList();
+                _service.GetSeasons(null).WaitAndUnwrapException();
             });
         }
 
         [Fact]
-        public void GetEpisodes_WithFolders_ReturnsEpisodes()
+        public async Task GetEpisodes_WithFolders_ReturnsEpisodes()
         {
             // Arrange
             const string path = @"C:\Folder\Season 1";
-            List<string> episodeFolders = new List<string>
+            IEnumerable<string> episodeFolders = new List<string>
             {
                 @"C:\Folder\Season 1\1x02.mkv",
                 @"C:\Folder\Season 1\1x01.mkv",
                 @"C:\Folder\Season 1\1x03.mkv"
             };
             _fileSystemService.FindVideoFiles(path)
-                .Returns(episodeFolders);
+                .Returns(episodeFolders.ToTask());
 
             // Act
-            IEnumerable<Episode> episodes = _service.GetEpisodes(path);
+            IEnumerable<Episode> episodes = await _service.GetEpisodes(path);
 
             // Assert
-            IEnumerable<string> actualEpisodeFolders = episodes.Select(s => s.Path);
-            Assert.Equal(episodeFolders.Count, actualEpisodeFolders.Count());
+            IEnumerable<string> actualEpisodeFolders = episodes.Select(s => s.Path).ToList();
+            Assert.Equal(episodeFolders.Count(), actualEpisodeFolders.Count());
             // Episodes are sorted by season number / episode number
-            Assert.Equal(episodeFolders[0], actualEpisodeFolders.ElementAt(1));
-            Assert.Equal(episodeFolders[1], actualEpisodeFolders.ElementAt(0));
-            Assert.Equal(episodeFolders[2], actualEpisodeFolders.ElementAt(2));
+            Assert.Equal(episodeFolders.ElementAt(0), actualEpisodeFolders.ElementAt(1));
+            Assert.Equal(episodeFolders.ElementAt(1), actualEpisodeFolders.ElementAt(0));
+            Assert.Equal(episodeFolders.ElementAt(2), actualEpisodeFolders.ElementAt(2));
         }
 
         [Fact]
-        public void GetEpisodes_WithoutFolders_ReturnsEmpty()
+        public async Task GetEpisodes_WithoutFolders_ReturnsEmpty()
         {
             // Act
-            IEnumerable<Episode> episodes = _service.GetEpisodes(@"C:\Folder");
+            IEnumerable<Episode> episodes = await _service.GetEpisodes(@"C:\Folder");
 
             // Assert
             Assert.NotNull(episodes);
@@ -145,7 +147,7 @@ namespace PerfectMedia.TvShows
             {
                 // Act
                 // Method returns an IEnumerable, enumerate it so the method executes
-                _service.GetEpisodes(null).ToList();
+                _service.GetEpisodes(null).WaitAndUnwrapException();
             });
         }
     }

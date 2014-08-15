@@ -5,6 +5,6 @@ namespace PerfectMedia.TvShows.Metadata
     public interface ITvShowImagesService
     {
         Task Update(string path, AvailableTvShowImages images);
-        void Delete(string path);
+        Task Delete(string path);
     }
 }

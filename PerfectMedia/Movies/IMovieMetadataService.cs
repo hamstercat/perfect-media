@@ -40,33 +40,33 @@ namespace PerfectMedia.Movies
         /// Deletes the metadata from the movie located at the specified path.
         /// </summary>
         /// <param name="path">The movie file path.</param>
-        void Delete(string path);
+        Task Delete(string path);
 
         /// <summary>
         /// Deletes the images associated with the movie located at the specified path.
         /// </summary>
         /// <param name="path">The movie file path.</param>
-        void DeleteImages(string path);
+        Task DeleteImages(string path);
 
         /// <summary>
         /// Finds the movis summary that match the given name.
         /// </summary>
         /// <param name="name">The movie name.</param>
         /// <returns></returns>
-        IEnumerable<Movie> FindMovies(string name);
+        Task<IEnumerable<Movie>> FindMovies(string name);
 
         /// <summary>
         /// Finds the images about a movie.
         /// </summary>
         /// <param name="movieId">The movie identifier.</param>
         /// <returns></returns>
-        AvailableMovieImages FindImages(string movieId);
+        Task<AvailableMovieImages> FindImages(string movieId);
 
         /// <summary>
         /// Finds the set images.
         /// </summary>
         /// <param name="setName">Name of the set.</param>
         /// <returns></returns>
-        AvailableMovieImages FindSetImages(string setName);
+        Task<AvailableMovieImages> FindSetImages(string setName);
     }
 }

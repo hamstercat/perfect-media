@@ -31,24 +31,24 @@ namespace PerfectMedia.TvShows.Metadata
             _metadataRepository.Save(episodeFile, metadata);
         }
 
-        public void Update(string episodeFile, string serieId)
+        public async Task Update(string episodeFile, string serieId)
         {
             EpisodeNumber episode = TvShowHelper.FindEpisodeNumberFromFile(_fileSystemService, episodeFile);
-            EpisodeMetadata metadata = GetMetadata(episodeFile, serieId, episode);
+            EpisodeMetadata metadata = await GetMetadata(episodeFile, serieId, episode);
             metadata.FileInformation = _fileInformationService.GetVideoFileInformation(episodeFile);
             Save(episodeFile, metadata);
         }
 
-        public void Delete(string episodeFile)
+        public async Task Delete(string episodeFile)
         {
-            _metadataRepository.Delete(episodeFile);
+            await _metadataRepository.Delete(episodeFile);
         }
 
-        private EpisodeMetadata GetMetadata(string episodeFile, string serieId, EpisodeNumber episode)
+        private async Task<EpisodeMetadata> GetMetadata(string episodeFile, string serieId, EpisodeNumber episode)
         {
             try
             {
-                return _metadataUpdater.GetEpisodeMetadata(serieId, episode.SeasonNumber, episode.EpisodeSeasonNumber);
+                return await _metadataUpdater.GetEpisodeMetadata(serieId, episode.SeasonNumber, episode.EpisodeSeasonNumber);
             }
             catch (ApiException)
             {

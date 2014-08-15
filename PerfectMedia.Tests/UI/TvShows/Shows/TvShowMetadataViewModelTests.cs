@@ -47,7 +47,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         }
 
         [Fact]
-        public void Refresh_Always_RefreshesImages()
+        public async Task Refresh_Always_RefreshesImages()
         {
             // Arrange
             _metadataService.Get(_path)
@@ -60,10 +60,11 @@ namespace PerfectMedia.UI.TvShows.Shows
             _viewModel = new TvShowMetadataViewModel(_viewModelFactory, _metadataService, _progressManager, _path);
 
             // Act
-            _viewModel.Refresh();
+            await _viewModel.Refresh();
 
             // Assert
-            imagesViewModel.Received().Refresh();
+            imagesViewModel.Received()
+                .Refresh().Async();
         }
 
         [Fact]

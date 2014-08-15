@@ -17,14 +17,14 @@ namespace PerfectMedia.UI.Movies
             _movieViewModel = movieViewModel;
         }
 
-        public Task<IEnumerable<Image>> FindImages()
+        public async Task<IEnumerable<Image>> FindImages()
         {
             if (!string.IsNullOrEmpty(_movieViewModel.Id))
             {
-                AvailableMovieImages images = _metadataService.FindImages(_movieViewModel.Id);
-                return Task.FromResult(images.Fanarts);
+                AvailableMovieImages images = await _metadataService.FindImages(_movieViewModel.Id);
+                return images.Fanarts;
             }
-            return Task.FromResult(Enumerable.Empty<Image>());
+            return Enumerable.Empty<Image>();
         }
     }
 }

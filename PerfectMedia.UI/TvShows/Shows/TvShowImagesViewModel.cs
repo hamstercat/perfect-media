@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Threading.Tasks;
 using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Images;
@@ -79,10 +80,10 @@ namespace PerfectMedia.UI.TvShows.Shows
             _bannerUrl = new ImageViewModel(fileSystemService, false, new BannerImageStrategy(metadataService, metadataViewModel));
         }
 
-        public void Refresh()
+        public async Task Refresh()
         {
             ForceInitialLoadTvShowImages();
-            InitialLoadSeasonImages();
+            await InitialLoadSeasonImages();
         }
 
         private void InitialLoadTvShowImages()
@@ -101,14 +102,14 @@ namespace PerfectMedia.UI.TvShows.Shows
             BannerUrl.Path = Path.Combine(_path, "banner.jpg");
         }
 
-        private void InitialLoadSeasonImages()
+        private async Task InitialLoadSeasonImages()
         {
             if (_seasonImages == null)
             {
                 _seasonImages = new ObservableCollection<SeasonImagesViewModel>();
             }
             _seasonImages.Clear();
-            IEnumerable<Season> seasons = _tvShowFileService.GetSeasons(_path);
+            IEnumerable<Season> seasons = await _tvShowFileService.GetSeasons(_path);
             foreach (Season season in seasons)
             {
                 LoadSeason(season);

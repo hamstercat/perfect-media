@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using NSubstitute;
 using PerfectMedia.Sources;
 using PerfectMedia.UI.Sources;
@@ -27,11 +28,14 @@ namespace PerfectMedia.UI.TvShows
         }
 
         [Fact]
-        public void Constructor_Always_LoadsSources()
+        public async Task Initializes_Always_LoadsSources()
         {
+            // Act
+            await ((IStartupInitialization)_viewModel).Initialize();
+
             // Assert
             _sourceManagerViewModel.Received()
-                .Load();
+                .Load().Async();
         }
 
         [Fact]

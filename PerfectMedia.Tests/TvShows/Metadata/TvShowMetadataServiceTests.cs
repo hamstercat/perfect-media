@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Nito.AsyncEx.Synchronous;
 using NSubstitute;
 using Xunit;
 using System.Threading.Tasks;
@@ -60,7 +61,7 @@ namespace PerfectMedia.TvShows.Metadata
 
             FullSerie fullSerie = CreateFullSerie();
             _metadataUpdater.GetTvShowMetadata("456")
-                .Returns(fullSerie);
+                .Returns(fullSerie.ToTask());
 
             // Act
             await _service.Update(_path);
@@ -78,55 +79,55 @@ namespace PerfectMedia.TvShows.Metadata
                 .Returns(new TvShowMetadata().ToTask());
 
             // Act + Assert
-            Assert.Throws<TvShowNotFoundException>(async () => await _service.Update(_path));
+            Assert.Throws<TvShowNotFoundException>(() => _service.Update(_path).WaitAndUnwrapException());
         }
 
         [Fact]
-        public void Delete_Always_DeleteMetadata()
+        public async Task Delete_Always_DeleteMetadata()
         {
             // Act
-            _service.Delete(_path);
+            await _service.Delete(_path);
 
             // Assert
             _metadataRepository.Received()
-                .Delete(_path);
+                .Delete(_path).Async();
         }
 
         [Fact]
-        public void Delete_Always_DeleteImages()
+        public async Task Delete_Always_DeleteImages()
         {
             // Act
-            _service.Delete(_path);
+            await _service.Delete(_path);
 
             // Assert
             _imageService.Received()
-                .Delete(_path);
+                .Delete(_path).Async();
         }
 
         [Fact]
-        public void FindSeries_Always_ReturnsSeries()
+        public async Task FindSeries_Always_ReturnsSeries()
         {
             // Arrange
             const string serieName = "Supernatural";
 
-            List<Series> expectedSeries = new List<Series>
+            IEnumerable<Series> expectedSeries = new List<Series>
             {
                 new Series { SeriesId = "78901", SeriesName = "Supernatural" },
                 new Series { SeriesId = "79426", SeriesName = "Supernatural Science" },
                 new Series { SeriesId = "154401", SeriesName = "5th Dimension - Secrets of the Supernatural" }
             };
             _metadataUpdater.FindSeries(serieName)
-                .Returns(expectedSeries);
+                .Returns(expectedSeries.ToTask());
 
             // Act
-            IEnumerable<Series> series = _service.FindSeries(serieName);
+            IEnumerable<Series> series = await _service.FindSeries(serieName);
 
             // Assert
             Assert.Equal(expectedSeries, series);
         }
 
         [Fact]
-        public void FindImages_Always_ReturnsSeries()
+        public async Task FindImages_Always_ReturnsSeries()
         {
             // Arrange
             const string serieId = "78901";
@@ -147,10 +148,10 @@ namespace PerfectMedia.TvShows.Metadata
                 }
             };
             _metadataUpdater.FindImages(serieId)
-                .Returns(expectedImages);
+                .Returns(expectedImages.ToTask());
 
             // Act
-            AvailableTvShowImages images = _service.FindImages(serieId);
+            AvailableTvShowImages images = await _service.FindImages(serieId);
 
             // Assert
             Assert.Equal(expectedImages, images);

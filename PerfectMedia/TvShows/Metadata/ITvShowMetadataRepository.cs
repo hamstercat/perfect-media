@@ -25,6 +25,6 @@ namespace PerfectMedia.TvShows.Metadata
         /// Deletes the metadata associated with the TV show located at the specified path.
         /// </summary>
         /// <param name="path">The TV show folder path.</param>
-        void Delete(string path);
+        Task Delete(string path);
     }
 }

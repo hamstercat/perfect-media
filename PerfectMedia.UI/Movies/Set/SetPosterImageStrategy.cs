@@ -16,10 +16,10 @@ namespace PerfectMedia.UI.Movies.Set
             _movieSet = movieSet;
         }
 
-        public Task<IEnumerable<Image>> FindImages()
+        public async Task<IEnumerable<Image>> FindImages()
         {
-            AvailableMovieImages images = _metadataService.FindSetImages(_movieSet.DisplayName);
-            return Task.FromResult(images.Posters);
+            AvailableMovieImages images = await _metadataService.FindSetImages(_movieSet.DisplayName);
+            return images.Posters;
         }
     }
 }

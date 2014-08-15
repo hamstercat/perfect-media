@@ -1,8 +1,10 @@
 ﻿
+using System.Threading.Tasks;
+
 namespace PerfectMedia.UI.TvShows.Shows
 {
     public interface ITvShowImagesViewModel
     {
-        void Refresh();
+        Task Refresh();
     }
 }

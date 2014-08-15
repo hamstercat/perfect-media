@@ -6,18 +6,18 @@ namespace PerfectMedia
     public interface IFileSystemService
     {
         Task<bool> FileExists(string filePath);
-        void CreateFile(string filePath, IEnumerable<string> content);
-        void DeleteFile(string filePath);
-        void CopyFile(string sourceFile, string destinationFile);
+        Task CreateFile(string filePath, IEnumerable<string> content);
+        Task DeleteFile(string filePath);
+        Task CopyFile(string sourceFile, string destinationFile);
         Task MoveFile(string sourceFile, string destinationFile);
         Task DownloadImage(string filePath, string url);
 
-        bool FolderExists(string folderName);
-        void CreateFolder(string folderName);
+        Task<bool> FolderExists(string folderName);
+        Task CreateFolder(string folderName);
         string GetParentFolder(string path, int parentCount);
 
-        IEnumerable<string> FindDirectories(string path);
-        IEnumerable<string> FindDirectories(string path, string searchPattern);
-        IEnumerable<string> FindVideoFiles(string path);
+        Task<IEnumerable<string>> FindDirectories(string path);
+        Task<IEnumerable<string>> FindDirectories(string path, string searchPattern);
+        Task<IEnumerable<string>> FindVideoFiles(string path);
     }
 }

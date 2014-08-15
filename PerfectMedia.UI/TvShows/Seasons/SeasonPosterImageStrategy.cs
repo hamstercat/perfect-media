@@ -22,7 +22,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
         public async Task<IEnumerable<Image>> FindImages()
         {
             AvailableSeasonImages seasonImages = await _metadataService.FindSeasonImages(_seasonPath);
-            AvailableTvShowImages images = _metadataService.FindImagesFromPath(_tvShowPath);
+            AvailableTvShowImages images = await _metadataService.FindImagesFromPath(_tvShowPath);
             IEnumerable<Image> allSeasonsImages = images.Seasons.SelectMany(s => s.Value.Posters);
             return seasonImages.Posters
                 .Union(images.Posters)

@@ -1,4 +1,6 @@
 ﻿
+using System.Threading.Tasks;
+
 namespace PerfectMedia.Movies
 {
     /// <summary>
@@ -11,6 +13,6 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="movieId">The movie identifier.</param>
         /// <returns></returns>
-        MovieSynopsis GetSynopsis(string movieId);
+        Task<MovieSynopsis> GetSynopsis(string movieId);
     }
 }

@@ -344,7 +344,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
 
         private async Task UpdateInternal()
         {
-            _metadataService.Update(Path, _tvShowMetadata.Id);
+            await _metadataService.Update(Path, _tvShowMetadata.Id);
             await Refresh();
         }
     }

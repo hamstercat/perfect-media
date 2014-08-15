@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading.Tasks;
 using Anotar.Log4Net;
 using RestSharp;
 
@@ -15,34 +16,61 @@ namespace PerfectMedia
             _dateFormat = dateFormat;
         }
 
-        public string Get(string url)
+        public async Task<string> Get(string url)
         {
-            IRestResponse response = ExecuteRequest(url);
+            IRestResponse response = await ExecuteRequest(url);
             ValidateStatusCode(response, url);
             return response.Content;
         }
 
-        public T Get<T>(string url)
+        public async Task<T> Get<T>(string url)
             where T : new()
         {
-            IRestResponse<T> response = ExecuteRequest<T>(url);
+            IRestResponse<T> response = await ExecuteRequest<T>(url);
             ValidateStatusCode(response, url);
             return response.Data;
         }
 
-        private IRestResponse ExecuteRequest(string url)
+        private Task<IRestResponse> ExecuteRequest(string url)
         {
             RestRequest request = new RestRequest(url);
             request.DateFormat = _dateFormat;
-            return _restClient.Execute(request);
+            return ExecuteAsync(request);
         }
 
-        private IRestResponse<T> ExecuteRequest<T>(string url)
+        private Task<IRestResponse> ExecuteAsync(RestRequest request)
+        {
+            TaskCompletionSource<IRestResponse> taskCompletionSource = new TaskCompletionSource<IRestResponse>();
+            _restClient.ExecuteAsync(request, (response) =>
+            {
+                if (response.ErrorException != null)
+                    taskCompletionSource.TrySetException(response.ErrorException);
+                else
+                    taskCompletionSource.TrySetResult(response);
+            });
+            return taskCompletionSource.Task;
+        }
+
+        private Task<IRestResponse<T>> ExecuteRequest<T>(string url)
             where T : new()
         {
             RestRequest request = new RestRequest(url);
             request.DateFormat = _dateFormat;
-            return _restClient.Execute<T>(request);
+            return ExecuteAsync<T>(request);
+        }
+
+        private Task<IRestResponse<T>> ExecuteAsync<T>(RestRequest request)
+            where T : new()
+        {
+            TaskCompletionSource<IRestResponse<T>> taskCompletionSource = new TaskCompletionSource<IRestResponse<T>>();
+            _restClient.ExecuteAsync<T>(request, (response) =>
+            {
+                if (response.ErrorException != null)
+                    taskCompletionSource.TrySetException(response.ErrorException);
+                else
+                    taskCompletionSource.TrySetResult(response);
+            });
+            return taskCompletionSource.Task;
         }
 
         private void ValidateStatusCode(IRestResponse response, string url)

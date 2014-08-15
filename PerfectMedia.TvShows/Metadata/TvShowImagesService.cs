@@ -17,20 +17,20 @@ namespace PerfectMedia.TvShows.Metadata
 
         public async Task Update(string path, AvailableTvShowImages images)
         {
-            TvShowImages tvShowImages = _tvShowFileService.GetShowImages(path);
+            TvShowImages tvShowImages = await _tvShowFileService.GetShowImages(path);
             await UpdateImageIfNeeded(tvShowImages.Fanart, images.Fanarts);
             await UpdateImageIfNeeded(tvShowImages.Poster, images.Posters);
             await UpdateImageIfNeeded(tvShowImages.Banner, images.Banners);
             await UpdateSeasonImages(tvShowImages.Seasons, images.Seasons);
         }
 
-        public void Delete(string path)
+        public async Task Delete(string path)
         {
-            TvShowImages tvShowImages = _tvShowFileService.GetShowImages(path);
-            _fileSystemService.DeleteFile(tvShowImages.Fanart);
-            _fileSystemService.DeleteFile(tvShowImages.Poster);
-            _fileSystemService.DeleteFile(tvShowImages.Banner);
-            DeleteSeasonImages(tvShowImages.Seasons);
+            TvShowImages tvShowImages = await _tvShowFileService.GetShowImages(path);
+            await _fileSystemService.DeleteFile(tvShowImages.Fanart);
+            await _fileSystemService.DeleteFile(tvShowImages.Poster);
+            await _fileSystemService.DeleteFile(tvShowImages.Banner);
+            await DeleteSeasonImages(tvShowImages.Seasons);
         }
 
         private async Task UpdateImageIfNeeded(string imagePath, IEnumerable<Image> imageUrls)
@@ -58,12 +58,12 @@ namespace PerfectMedia.TvShows.Metadata
             }
         }
 
-        private void DeleteSeasonImages(IEnumerable<Season> seasons)
+        private async Task DeleteSeasonImages(IEnumerable<Season> seasons)
         {
             foreach (Season images in seasons)
             {
-                _fileSystemService.DeleteFile(images.PosterUrl);
-                _fileSystemService.DeleteFile(images.BannerUrl);
+                await _fileSystemService.DeleteFile(images.PosterUrl);
+                await _fileSystemService.DeleteFile(images.BannerUrl);
             }
         }
     }

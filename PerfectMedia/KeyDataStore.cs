@@ -32,7 +32,7 @@ namespace PerfectMedia
             _dataStore[key] = value;
         }
 
-        public async Task Initialize()
+        async Task IStartupInitialization.Initialize()
         {
             _dataStore = await _fileBackedRepository.Load();
         }

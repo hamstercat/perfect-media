@@ -124,73 +124,73 @@ namespace PerfectMedia.Movies
         }
 
         [Fact]
-        public void Delete_Always_DeletesMetadata()
+        public async Task Delete_Always_DeletesMetadata()
         {
             // Act
-            _service.Delete(MovieFile);
+            await _service.Delete(MovieFile);
 
             // Assert
             _metadataRepository.Received()
-                .Delete(MovieFile);
+                .Delete(MovieFile).Async();
         }
 
         [Fact]
-        public void DeleteImages_Always_DeletesImages()
+        public async Task DeleteImages_Always_DeletesImages()
         {
             // Act
-            _service.DeleteImages(MovieFile);
+            await _service.DeleteImages(MovieFile);
 
             // Assert
             _imagesService.Received()
-                .Delete(MovieFile);
+                .Delete(MovieFile).Async();
         }
 
         [Fact]
-        public void FindMovies_WhenMetadataUpdaterReturnsMovies_ReturnsThose()
+        public async Task FindMovies_WhenMetadataUpdaterReturnsMovies_ReturnsThose()
         {
             // Arrange
-            List<Movie> movies = new List<Movie>
+            IEnumerable<Movie> movies = new List<Movie>
             {
                 new Movie { Title = "The Movie About Stuff" },
                 new Movie { Title = "Great Stuff" }
             };
             _metadataUpdater.FindMovies("Stuff")
-                .Returns(movies);
+                .Returns(movies.ToTask());
 
             // Act
-            List<Movie> actualMovies = _service.FindMovies("Stuff").ToList();
+            IEnumerable<Movie> actualMovies = await _service.FindMovies("Stuff");
 
             // Assert
-            Assert.Equal(2, actualMovies.Count);
-            Assert.Contains(movies[0], actualMovies);
-            Assert.Contains(movies[1], actualMovies);
+            Assert.Equal(2, actualMovies.Count());
+            Assert.Contains(movies.ElementAt(0), actualMovies);
+            Assert.Contains(movies.ElementAt(1), actualMovies);
         }
 
         [Fact]
-        public void FindImages_WhenMetadataUpdaterReturnsImages_ReturnsThose()
+        public async Task FindImages_WhenMetadataUpdaterReturnsImages_ReturnsThose()
         {
             // Arrange
             AvailableMovieImages images = new AvailableMovieImages();
             _metadataUpdater.FindImages("123")
-                .Returns(images);
+                .Returns(images.ToTask());
 
             // Act
-            AvailableMovieImages actualImages = _service.FindImages("123");
+            AvailableMovieImages actualImages = await _service.FindImages("123");
 
             // Assert
             Assert.Same(images, actualImages);
         }
 
         [Fact]
-        public void FindSetImages_WhenMetadataUpdaterReturnsImages_ReturnsThose()
+        public async Task FindSetImages_WhenMetadataUpdaterReturnsImages_ReturnsThose()
         {
             // Arrange
             AvailableMovieImages images = new AvailableMovieImages();
             _metadataUpdater.FindSetImages("Star Wars")
-                .Returns(images);
+                .Returns(images.ToTask());
 
             // Act
-            AvailableMovieImages actualImages = _service.FindSetImages("Star Wars");
+            AvailableMovieImages actualImages = await _service.FindSetImages("Star Wars");
 
             // Assert
             Assert.Same(images, actualImages);

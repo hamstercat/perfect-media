@@ -17,26 +17,26 @@ namespace PerfectMedia
             return Task.Run(() => File.Exists(filePath));
         }
 
-        public void CreateFile(string filePath, IEnumerable<string> content)
+        public async Task CreateFile(string filePath, IEnumerable<string> content)
         {
-            File.WriteAllLines(filePath, content);
+            await Task.Run(() => File.WriteAllLines(filePath, content));
         }
 
-        public void DeleteFile(string filePath)
+        public async Task DeleteFile(string filePath)
         {
-            File.Delete(filePath);
+            await Task.Run(() => File.Delete(filePath));
         }
 
-        public void CopyFile(string sourceFile, string destinationFile)
+        public async Task CopyFile(string sourceFile, string destinationFile)
         {
-            File.Copy(sourceFile, destinationFile, true);
+            await Task.Run(() => File.Copy(sourceFile, destinationFile, true));
         }
 
         public async Task MoveFile(string sourceFile, string destinationFile)
         {
             if (await FileExists(sourceFile))
             {
-                File.Move(sourceFile, destinationFile);
+                await Task.Run(() => File.Move(sourceFile, destinationFile));
             }
         }
 
@@ -54,14 +54,14 @@ namespace PerfectMedia
             });
         }
 
-        public bool FolderExists(string folderName)
+        public async Task<bool> FolderExists(string folderName)
         {
-            return Directory.Exists(folderName);
+            return await Task.Run(() => Directory.Exists(folderName));
         }
 
-        public void CreateFolder(string folderName)
+        public async Task CreateFolder(string folderName)
         {
-            Directory.CreateDirectory(folderName);
+            await Task.Run(() => Directory.CreateDirectory(folderName));
         }
 
         // This method comes from https://stackoverflow.com/questions/4389775/what-is-a-good-way-to-remove-last-few-directory
@@ -79,29 +79,29 @@ namespace PerfectMedia
             return parent;
         }
 
-        public IEnumerable<string> FindDirectories(string path)
+        public async Task<IEnumerable<string>> FindDirectories(string path)
         {
-            return FindDirectories(path, "*");
+            return await FindDirectories(path, "*");
         }
 
-        public IEnumerable<string> FindDirectories(string path, string searchPattern)
+        public async Task<IEnumerable<string>> FindDirectories(string path, string searchPattern)
         {
-            return Directory.GetDirectories(path, searchPattern, SearchOption.TopDirectoryOnly);
+            return await Task.Run(() => Directory.GetDirectories(path, searchPattern, SearchOption.TopDirectoryOnly));
         }
 
-        public IEnumerable<string> FindVideoFiles(string path)
+        public async Task<IEnumerable<string>> FindVideoFiles(string path)
         {
-            return FindFiles(path, VideoFileExtensions);
+            return await FindFiles(path, VideoFileExtensions);
         }
 
-        private IEnumerable<string> FindFiles(string path, params string[] extensions)
+        private static async Task<IEnumerable<string>> FindFiles(string path, params string[] extensions)
         {
-            return Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly)
-                .Where(file =>
-                {
-                    string extension = Path.GetExtension(file);
-                    return extensions.Contains(extension.ToLower());
-                });
+            IEnumerable<string> files = await Task.Run(() => Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly));
+            return files.Where(file =>
+            {
+                string extension = Path.GetExtension(file);
+                return extensions.Contains(extension.ToLower());
+            });
         }
     }
 }

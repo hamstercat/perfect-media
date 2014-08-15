@@ -41,9 +41,9 @@ namespace PerfectMedia.Movies
         {
             string movieFolder = _fileSystemService.GetParentFolder(path, 1);
             string actorFolder = ActorMetadata.GetActorsFolder(movieFolder);
-            if (!_fileSystemService.FolderExists(actorFolder))
+            if (!await _fileSystemService.FolderExists(actorFolder))
             {
-                _fileSystemService.CreateFolder(actorFolder);
+                await _fileSystemService.CreateFolder(actorFolder);
             }
 
             foreach (ActorMetadata actor in actors)

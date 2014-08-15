@@ -44,7 +44,7 @@ namespace PerfectMedia.UI.Movies.Selection
 
         private async Task Update(IMovieMetadataService metadataService, IMovieViewModel movieViewModel, string path)
         {
-            metadataService.DeleteImages(path);
+            await metadataService.DeleteImages(path);
             await metadataService.Update(path);
             await movieViewModel.Refresh();
         }

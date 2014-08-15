@@ -3981,10 +3981,10 @@ c15:""""
         }
 
         [Fact]
-        public void GetSynopsis_WhenMovieNotFound_ReturnsEmptySynopsis()
+        public async Task GetSynopsis_WhenMovieNotFound_ReturnsEmptySynopsis()
         {
             // Act
-            MovieSynopsis synopsis = _service.GetSynopsis(MovieId);
+            MovieSynopsis synopsis = await _service.GetSynopsis(MovieId);
 
             // Assert
             Assert.True(string.IsNullOrEmpty(synopsis.Outline));
@@ -3993,45 +3993,45 @@ c15:""""
         }
 
         [Fact]
-        public void GetSynopsis_WhenMovieIsFound_ReturnsOutline()
+        public async Task GetSynopsis_WhenMovieIsFound_ReturnsOutline()
         {
             // Arrange
             _restApiService.Get("title/tt0446029/")
-                .Returns(ImdbPageHtml);
+                .Returns(ImdbPageHtml.ToTask());
 
             // Act
-            MovieSynopsis synopsis = _service.GetSynopsis(MovieId);
+            MovieSynopsis synopsis = await _service.GetSynopsis(MovieId);
 
             // Assert
             Assert.Equal("Scott Pilgrim must defeat his new girlfriend's seven evil exes in order to win her heart.", synopsis.Outline);
         }
 
         [Fact]
-        public void GetSynopsis_WhenMovieIsFound_ReturnsTagline()
+        public async Task GetSynopsis_WhenMovieIsFound_ReturnsTagline()
         {
             // Arrange
             _restApiService.Get("title/tt0446029/")
-                .Returns(ImdbPageHtml);
+                .Returns(ImdbPageHtml.ToTask());
 
             // Act
-            MovieSynopsis synopsis = _service.GetSynopsis(MovieId);
+            MovieSynopsis synopsis = await _service.GetSynopsis(MovieId);
 
             // Assert
             Assert.Equal("Get the hot girl. Defeat her evil exes. Hit love where it hurts.", synopsis.Tagline);
         }
 
         [Fact]
-        public void GetSynopsis_WhenMovieIsFound_ReturnsPlot()
+        public async void GetSynopsis_WhenMovieIsFound_ReturnsPlot()
         {
             // Arrange
             _restApiService.Get("title/tt0446029/")
-                .Returns(ImdbPageHtml);
+                .Returns(ImdbPageHtml.ToTask());
 
             // Act
-            MovieSynopsis synopsis = _service.GetSynopsis(MovieId);
+            MovieSynopsis synopsis = await _service.GetSynopsis(MovieId);
 
             // Assert
-            string expectedPlot = "Scott Pilgrim plays in a band which aspires to success. He dates Knives Chau, a high-school girl five years younger, and he hasn't recovered from being dumped by his former girlfriend, now a success with her own band. When Scott falls for Ramona Flowers, he has trouble breaking up with Knives and tries to romance Ramona. As if juggling two women wasn't enough, Ramona comes with baggage: seven ex-lovers, with each of whom Scott must do battle to the death in order to win Ramona.";
+            const string expectedPlot = "Scott Pilgrim plays in a band which aspires to success. He dates Knives Chau, a high-school girl five years younger, and he hasn't recovered from being dumped by his former girlfriend, now a success with her own band. When Scott falls for Ramona Flowers, he has trouble breaking up with Knives and tries to romance Ramona. As if juggling two women wasn't enough, Ramona comes with baggage: seven ex-lovers, with each of whom Scott must do battle to the death in order to win Ramona.";
             Assert.Equal(expectedPlot, synopsis.Plot);
         }
     }

@@ -56,7 +56,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         public void SeasonImages_WhenSeasonsExist_AddsThoseSeasons()
         {
             // Arrange
-            List<Season> seasons = new List<Season>
+            IEnumerable<Season> seasons = new List<Season>
             {
                 new Season { SeasonNumber = 0 },
                 new Season { SeasonNumber = 1 },
@@ -65,13 +65,13 @@ namespace PerfectMedia.UI.TvShows.Shows
                 new Season { SeasonNumber = 4 }
             };
             _tvShowFileService.GetSeasons(_path)
-                .Returns(seasons);
+                .Returns(seasons.ToTask());
 
             // Assert
             Assert.Equal(5, _viewModel.SeasonImages.Count);
             Assert.Equal(seasons.Select(s => s.SeasonNumber), _viewModel.SeasonImages.Select(s => s.SeasonNumber));
         }
-        
+
         [Fact]
         public void SeasonImages_WhenNoSeasonsExist_ClearsSeasonImages()
         {

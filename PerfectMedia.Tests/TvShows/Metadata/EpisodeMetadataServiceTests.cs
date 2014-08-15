@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Nito.AsyncEx.Synchronous;
 using NSubstitute;
 using PerfectMedia.FileInformation;
 using Xunit;
@@ -56,47 +57,47 @@ namespace PerfectMedia.TvShows.Metadata
         }
 
         [Fact]
-        public void Update_SpecialEpisode_ShouldSaveMetadata()
+        public async Task Update_SpecialEpisode_ShouldSaveMetadata()
         {
             // Arrange
             const string path = @"C:\Folder\TV Shows\Game of Thrones\Specials\0x02.mkv";
             EpisodeMetadata metadata = CreateEpisodeMetadata(0, "Specials");
 
             _metadataUpdater.GetEpisodeMetadata("123", 0, 2)
-                .Returns(metadata);
+                .Returns(metadata.ToTask());
 
             _fileInformationService.GetVideoFileInformation(path)
                 .Returns(CreateFileInformation());
 
             // Act
-            _service.Update(path, "123");
+            await _service.Update(path, "123");
 
             // Assert
             EpisodeMetadata expectedMetadata = CreateEpisodeMetadataWithFileInformation(0, "Specials");
             _metadataRepository.Received()
-                .Save(path, Arg.Is<EpisodeMetadata>(m => m == expectedMetadata));
+                .Save(path, Arg.Is<EpisodeMetadata>(m => m == expectedMetadata)).Async();
         }
 
         [Fact]
-        public void Update_EpisodeFromSeason3_ShouldSaveMetadata()
+        public async Task Update_EpisodeFromSeason3_ShouldSaveMetadata()
         {
             // Arrange
             const string path = @"C:\Folder\TV Shows\Game of Thrones\Specials\3x02.mkv";
             EpisodeMetadata metadata = CreateEpisodeMetadata(3, "Season 3");
 
             _metadataUpdater.GetEpisodeMetadata("123", 3, 2)
-                .Returns(metadata);
+                .Returns(metadata.ToTask());
 
             _fileInformationService.GetVideoFileInformation(path)
                 .Returns(CreateFileInformation());
 
             // Act
-            _service.Update(path, "123");
+            await _service.Update(path, "123");
 
             // Assert
             EpisodeMetadata expectedMetadata = CreateEpisodeMetadataWithFileInformation(3, "Season 3");
             _metadataRepository.Received()
-                .Save(path, Arg.Is<EpisodeMetadata>(m => m == expectedMetadata));
+                .Save(path, Arg.Is<EpisodeMetadata>(m => m == expectedMetadata)).Async();
         }
 
         [Fact]
@@ -107,18 +108,18 @@ namespace PerfectMedia.TvShows.Metadata
                 .Returns(x => { throw new ApiException(); });
 
             // Act + Assert
-            Assert.Throws<EpisodeNotFoundException>(() => _service.Update(_path, "234"));
+            Assert.Throws<EpisodeNotFoundException>(() => _service.Update(_path, "234").WaitAndUnwrapException());
         }
 
         [Fact]
-        public void Delete_Always_DeleteMetadata()
+        public async Task Delete_Always_DeleteMetadata()
         {
             // Act
-            _service.Delete(_path);
+            await _service.Delete(_path);
 
             // Assert
             _metadataRepository.Received()
-                .Delete(_path);
+                .Delete(_path).Async();
         }
 
         private EpisodeMetadata CreateEpisodeMetadata(int seasonNumber, string seasonFolder)

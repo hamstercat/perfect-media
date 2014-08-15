@@ -18,6 +18,6 @@ namespace PerfectMedia.Movies
         /// Deletes the images of the movie located at the specified path.
         /// </summary>
         /// <param name="path">The path.</param>
-        void Delete(string path);
+        Task Delete(string path);
     }
 }

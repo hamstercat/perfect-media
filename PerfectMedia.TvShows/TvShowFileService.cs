@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.TvShows
 {
@@ -14,13 +15,13 @@ namespace PerfectMedia.TvShows
             _fileSystemService = fileSystemService;
         }
 
-        public TvShowImages GetShowImages(string tvShowPath)
+        public async Task<TvShowImages> GetShowImages(string tvShowPath)
         {
             TvShowImages images = new TvShowImages();
             images.Fanart = Path.Combine(tvShowPath, "fanart.jpg");
             images.Poster = Path.Combine(tvShowPath, "poster.jpg");
             images.Banner = Path.Combine(tvShowPath, "banner.jpg");
-            images.Seasons = GetSeasons(tvShowPath);
+            images.Seasons = await GetSeasons(tvShowPath);
             return images;
         }
 
@@ -29,36 +30,33 @@ namespace PerfectMedia.TvShows
             return CreateSeason(tvShowPath, seasonFolder);
         }
 
-        public IEnumerable<Season> GetSeasons(string tvShowPath)
+        public async Task<IEnumerable<Season>> GetSeasons(string tvShowPath)
         {
             if(string.IsNullOrEmpty(tvShowPath)) throw new ArgumentNullException("tvShowPath");
 
-            return GetUnorderedSeasons(tvShowPath)
-                .OrderBy(season => season.SeasonNumber);
+            IEnumerable<Season> seasons = await GetUnorderedSeasons(tvShowPath);
+            return seasons.OrderBy(season => season.SeasonNumber);
         }
 
-        public IEnumerable<Episode> GetEpisodes(string seasonPath)
+        public async Task<IEnumerable<Episode>> GetEpisodes(string seasonPath)
         {
             if (string.IsNullOrEmpty(seasonPath)) throw new ArgumentNullException("seasonPath");
 
-            return GetUnorderedEpisodes(seasonPath)
-                .OrderBy(episode => episode.SeasonNumber)
+            IEnumerable<Episode> episodes = await GetUnorderedEpisodes(seasonPath);
+            return episodes.OrderBy(episode => episode.SeasonNumber)
                 .ThenBy(episode => episode.EpisodeNumber);
         }
 
-        private IEnumerable<Season> GetUnorderedSeasons(string tvShowPath)
+        private async Task<IEnumerable<Season>> GetUnorderedSeasons(string tvShowPath)
         {
-            IEnumerable<string> folders = GetSeasonFolders(tvShowPath);
-            foreach (string seasonFolder in folders)
-            {
-                yield return CreateSeason(tvShowPath, seasonFolder);
-            }
+            IEnumerable<string> folders = await GetSeasonFolders(tvShowPath);
+            return folders.Select(seasonFolder => CreateSeason(tvShowPath, seasonFolder));
         }
 
-        private IEnumerable<string> GetSeasonFolders(string path)
+        private async Task<IEnumerable<string>> GetSeasonFolders(string path)
         {
-            IEnumerable<string> normalSeasons = _fileSystemService.FindDirectories(path, "Season *");
-            IEnumerable<string> specialSeasons = _fileSystemService.FindDirectories(path, "Special*");
+            IEnumerable<string> normalSeasons = await _fileSystemService.FindDirectories(path, "Season *");
+            IEnumerable<string> specialSeasons = await _fileSystemService.FindDirectories(path, "Special*");
             return normalSeasons.Union(specialSeasons);
         }
 
@@ -72,13 +70,10 @@ namespace PerfectMedia.TvShows
             return season;
         }
 
-        private IEnumerable<Episode> GetUnorderedEpisodes(string seasonPath)
+        private async Task<IEnumerable<Episode>> GetUnorderedEpisodes(string seasonPath)
         {
-            IEnumerable<string> videoFiles = _fileSystemService.FindVideoFiles(seasonPath);
-            foreach (string episodeFile in videoFiles)
-            {
-                yield return CreateEpisode(episodeFile);
-            }
+            IEnumerable<string> videoFiles = await _fileSystemService.FindVideoFiles(seasonPath);
+            return videoFiles.Select(CreateEpisode);
         }
 
         private Episode CreateEpisode(string episodeFile)

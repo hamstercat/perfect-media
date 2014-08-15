@@ -92,7 +92,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
 
         public async Task<IEnumerable<ProgressItem>> FindNewEpisodes()
         {
-            LoadEpisodes();
+            await LoadEpisodes();
             List<ProgressItem> items = new List<ProgressItem>();
             foreach (IEpisodeViewModel episode in Episodes)
             {
@@ -101,14 +101,14 @@ namespace PerfectMedia.UI.TvShows.Seasons
             return items;
         }
 
-        private void LoadEpisodes()
+        private async Task LoadEpisodes()
         {
             if (!_episodeLoaded)
             {
                 // Remove the dummy object
                 Episodes.Clear();
 
-                IEnumerable<PerfectMedia.TvShows.Episode> episodes = _tvShowFileService.GetEpisodes(Path);
+                IEnumerable<PerfectMedia.TvShows.Episode> episodes = await _tvShowFileService.GetEpisodes(Path);
                 foreach (PerfectMedia.TvShows.Episode episode in episodes)
                 {
                     IEpisodeViewModel episodeViewModel = _viewModelFactory.GetEpisode(_tvShowMetadata, episode.Path);

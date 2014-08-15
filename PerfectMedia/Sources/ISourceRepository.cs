@@ -19,7 +19,7 @@ namespace PerfectMedia.Sources
         /// Saves the specified source.
         /// </summary>
         /// <param name="source">The source.</param>
-        void Save(Source source);
+        Task Save(Source source);
 
         /// <summary>
         /// Deletes the specified source.

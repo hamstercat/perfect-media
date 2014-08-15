@@ -34,14 +34,14 @@ namespace PerfectMedia.UI.TvShows.Shows
         public void IsExpanded_WhenSeasonsExists_LoadsThoseSeasons()
         {
             // Arrange
-            List<Season> seasonPaths = new List<Season>
+            IEnumerable<Season> seasonPaths = new List<Season>
             {
                 new Season { Path = @"C:\Folder\TV Shows\Game of Thrones\Season 1" },
                 new Season { Path = @"C:\Folder\TV Shows\Game of Thrones\Season 2" },
                 new Season { Path = @"C:\Folder\TV Shows\Game of Thrones\Season 3" }
             };
             _tvShowFileService.GetSeasons(_path)
-                .Returns(seasonPaths);
+                .Returns(seasonPaths.ToTask());
 
             // Act
             _viewModel.IsExpanded = true;
@@ -49,11 +49,11 @@ namespace PerfectMedia.UI.TvShows.Shows
             // Assert
             Assert.Equal(3, _viewModel.Seasons.Count);
             _viewModelFactory.Received()
-                .GetSeason(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is(seasonPaths[0].Path));
+                .GetSeason(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is(seasonPaths.ElementAt(0).Path));
             _viewModelFactory.Received()
-                .GetSeason(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is(seasonPaths[1].Path));
+                .GetSeason(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is(seasonPaths.ElementAt(1).Path));
             _viewModelFactory.Received()
-                .GetSeason(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is(seasonPaths[2].Path));
+                .GetSeason(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is(seasonPaths.ElementAt(2).Path));
         }
 
         [Fact]
@@ -94,8 +94,9 @@ namespace PerfectMedia.UI.TvShows.Shows
         public async Task FindNewEpisodes_WithSeasons_FindNewEpisodesInTheseSeasons()
         {
             // Arrange
+            IEnumerable<Season> seasons = new List<Season> { new Season(), new Season() };
             _tvShowFileService.GetSeasons(_path)
-                .Returns(new List<Season> { new Season(), new Season() });
+                .Returns(seasons.ToTask());
 
             ISeasonViewModel seasonViewModel1 = Substitute.For<ISeasonViewModel>();
             _viewModelFactory.GetSeason(Arg.Any<ITvShowMetadataViewModel>(), Arg.Any<string>())

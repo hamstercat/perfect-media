@@ -42,7 +42,7 @@ namespace PerfectMedia.TvShows.Metadata
                 }
             };
             _tvShowFileService.GetShowImages(_path)
-                .Returns(images);
+                .Returns(images.ToTask());
 
             _service = new TvShowImagesService(_fileSystemService, _tvShowFileService);
         }
@@ -105,26 +105,26 @@ namespace PerfectMedia.TvShows.Metadata
         }
 
         [Fact]
-        public void Delete_Always_DeletesImages()
+        public async Task Delete_Always_DeletesImages()
         {
             // Act
-            _service.Delete(_path);
+            await _service.Delete(_path);
 
             // Assert
             _fileSystemService.Received()
-                .DeleteFile(@"C:\Folder\TV Shows\Game of Thrones\fanart.jpg");
+                .DeleteFile(@"C:\Folder\TV Shows\Game of Thrones\fanart.jpg").Async();
             _fileSystemService.Received()
-                .DeleteFile(@"C:\Folder\TV Shows\Game of Thrones\poster.jpg");
+                .DeleteFile(@"C:\Folder\TV Shows\Game of Thrones\poster.jpg").Async();
             _fileSystemService.Received()
-                .DeleteFile(@"C:\Folder\TV Shows\Game of Thrones\banner.jpg");
+                .DeleteFile(@"C:\Folder\TV Shows\Game of Thrones\banner.jpg").Async();
             _fileSystemService.Received()
-                .DeleteFile(@"C:\Folder\TV Shows\Game of Thrones\season-specials-poster.jpg");
+                .DeleteFile(@"C:\Folder\TV Shows\Game of Thrones\season-specials-poster.jpg").Async();
             _fileSystemService.Received()
-                .DeleteFile(@"C:\Folder\TV Shows\Game of Thrones\season-specials-banner.jpg");
+                .DeleteFile(@"C:\Folder\TV Shows\Game of Thrones\season-specials-banner.jpg").Async();
             _fileSystemService.Received()
-                .DeleteFile(@"C:\Folder\TV Shows\Game of Thrones\season01-poster.jpg");
+                .DeleteFile(@"C:\Folder\TV Shows\Game of Thrones\season01-poster.jpg").Async();
             _fileSystemService.Received()
-                .DeleteFile(@"C:\Folder\TV Shows\Game of Thrones\season01-banner.jpg");
+                .DeleteFile(@"C:\Folder\TV Shows\Game of Thrones\season01-banner.jpg").Async();
         }
 
         private AvailableTvShowImages CreateAvailableImages()

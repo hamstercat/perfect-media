@@ -25,9 +25,9 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
             return !string.IsNullOrEmpty(_tvShowSelectionViewModel.SearchTitle);
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
-            IEnumerable<Series> series = _metadataService.FindSeries(_tvShowSelectionViewModel.SearchTitle);
+            IEnumerable<Series> series = await _metadataService.FindSeries(_tvShowSelectionViewModel.SearchTitle);
             _tvShowSelectionViewModel.ReplaceSeries(series);
         }
 

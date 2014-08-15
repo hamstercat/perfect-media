@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using Anotar.Log4Net;
 
@@ -27,13 +28,12 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        [LogToErrorOnException]
-        public IEnumerable<Movie> FindMovies(string name)
+        public async Task<IEnumerable<Movie>> FindMovies(string name)
         {
             string url = string.Format("3/search/movie?api_key={0}&query={1}",
                 MovieHelper.ThemoviedbApiKey,
                 HttpUtility.UrlEncode(name));
-            SearchMovieResult result = _restApiService.Get<SearchMovieResult>(url);
+            SearchMovieResult result = await _restApiService.Get<SearchMovieResult>(url);
             FixImagesUrl(result.Results);
             return result.Results;
         }
@@ -43,11 +43,10 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="movieId">The movie identifier.</param>
         /// <returns></returns>
-        [LogToErrorOnException]
-        public FullMovie GetMovieMetadata(string movieId)
+        public async Task<FullMovie> GetMovieMetadata(string movieId)
         {
             string url = string.Format("3/movie/{0}?api_key={1}", movieId, MovieHelper.ThemoviedbApiKey);
-            FullMovie fullMovie = _restApiService.Get<FullMovie>(url);
+            FullMovie fullMovie = await _restApiService.Get<FullMovie>(url);
             FixImagesUrl(fullMovie);
             return fullMovie;
         }
@@ -57,12 +56,11 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="movieId">The movie identifier.</param>
         /// <returns></returns>
-        [LogToErrorOnException]
-        public AvailableMovieImages FindImages(string movieId)
+        public async Task<AvailableMovieImages> FindImages(string movieId)
         {
             string url = string.Format("3/movie/{0}/images?api_key={1}", movieId, MovieHelper.ThemoviedbApiKey);
-            MovieImagesResult result = _restApiService.Get<MovieImagesResult>(url);
-            return ConvertImagesResult(result);
+            MovieImagesResult result = await _restApiService.Get<MovieImagesResult>(url);
+            return await ConvertImagesResult(result);
         }
 
         /// <summary>
@@ -70,18 +68,17 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="setName">Name of the set.</param>
         /// <returns></returns>
-        [LogToErrorOnException]
-        public AvailableMovieImages FindSetImages(string setName)
+        public async Task<AvailableMovieImages> FindSetImages(string setName)
         {
             // TODO: refactor
             string searchCollectionUrl = string.Format("3/search/collection?query={0}&api_key={1}", setName, MovieHelper.ThemoviedbApiKey);
-            SearchCollectionResult searchResult = _restApiService.Get<SearchCollectionResult>(searchCollectionUrl);
+            SearchCollectionResult searchResult = await _restApiService.Get<SearchCollectionResult>(searchCollectionUrl);
             MovieSet set = searchResult.Results.FirstOrDefault();
             if (set != null)
             {
                 string getCollectionImagesUrl = string.Format("3/collection/{0}/images?api_key={1}", set.Id, MovieHelper.ThemoviedbApiKey);
-                MovieImagesResult getImagesResult = _restApiService.Get<MovieImagesResult>(getCollectionImagesUrl);
-                return ConvertImagesResult(getImagesResult);
+                MovieImagesResult getImagesResult = await _restApiService.Get<MovieImagesResult>(getCollectionImagesUrl);
+                return await ConvertImagesResult(getImagesResult);
             }
             return new AvailableMovieImages();
         }
@@ -91,11 +88,10 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="movieId">The movie identifier.</param>
         /// <returns></returns>
-        [LogToErrorOnException]
-        public MovieActorsResult FindCast(string movieId)
+        public async Task<MovieActorsResult> FindCast(string movieId)
         {
             string url = string.Format("3/movie/{0}/credits?api_key={1}", movieId, MovieHelper.ThemoviedbApiKey);
-            MovieActorsResult actorsResult = _restApiService.Get<MovieActorsResult>(url);
+            MovieActorsResult actorsResult = await _restApiService.Get<MovieActorsResult>(url);
             FixImagesUrl(actorsResult.Cast);
             return actorsResult;
         }
@@ -105,11 +101,10 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="movieId">The movie identifier.</param>
         /// <returns></returns>
-        [LogToErrorOnException]
-        public string FindCertification(string movieId)
+        public async Task<string> FindCertification(string movieId)
         {
             string url = string.Format("3/movie/{0}/releases?api_key={1}", movieId, MovieHelper.ThemoviedbApiKey);
-            MovieCertificationResult result = _restApiService.Get<MovieCertificationResult>(url);
+            MovieCertificationResult result = await _restApiService.Get<MovieCertificationResult>(url);
             return ConvertCertificationResult(result);
         }
 
@@ -127,19 +122,29 @@ namespace PerfectMedia.Movies
             return "Rated " + certification.Certification;
         }
 
-        private AvailableMovieImages ConvertImagesResult(MovieImagesResult movieImagesResult)
+        private async Task<AvailableMovieImages> ConvertImagesResult(MovieImagesResult movieImagesResult)
         {
             AvailableMovieImages availableMovieImages = new AvailableMovieImages();
-            availableMovieImages.Fanarts = movieImagesResult.Backdrops.Select(ConvertThemoviedbImage);
-            availableMovieImages.Posters = movieImagesResult.Posters.Select(ConvertThemoviedbImage);
+            availableMovieImages.Fanarts = await ConvertImagesCollection(movieImagesResult.Backdrops);
+            availableMovieImages.Posters = await ConvertImagesCollection(movieImagesResult.Posters);
             return availableMovieImages;
         }
 
-        private Image ConvertThemoviedbImage(ThemoviedbImage themoviedbImage)
+        private async Task<IEnumerable<Image>> ConvertImagesCollection(IEnumerable<ThemoviedbImage> images)
+        {
+            List<Image> fanarts = new List<Image>();
+            foreach (ThemoviedbImage image in images)
+            {
+                fanarts.Add(await ConvertThemoviedbImage(image));
+            }
+            return fanarts;
+        }
+
+        private async Task<Image> ConvertThemoviedbImage(ThemoviedbImage themoviedbImage)
         {
             return new Image
             {
-                Url = GetImageBasePath() + "original" + themoviedbImage.FilePath,
+                Url = await GetImageBasePath() + "original" + themoviedbImage.FilePath,
                 Size = string.Format("{0}x{1}", themoviedbImage.Width, themoviedbImage.Height),
                 Rating = themoviedbImage.VoteAverage
             };
@@ -180,12 +185,12 @@ namespace PerfectMedia.Movies
             }
         }
 
-        private string GetImageBasePath()
+        private async Task<string> GetImageBasePath()
         {
             if (_serverConfiguration == null)
             {
                 string url = "3/configuration?api_key=" + MovieHelper.ThemoviedbApiKey;
-                _serverConfiguration = _restApiService.Get<ThemoviedbConfiguration>(url);
+                _serverConfiguration = await _restApiService.Get<ThemoviedbConfiguration>(url);
             }
             return _serverConfiguration.Images.SecureBaseUrl;
         }

@@ -52,11 +52,11 @@ namespace PerfectMedia.TvShows.Metadata
         /// Deletes the metadata associated with the episode located at the specified path.
         /// </summary>
         /// <param name="path">The episode file path.</param>
-        public override void Delete(string path)
+        public override async Task Delete(string path)
         {
-            base.Delete(path);
+            await base.Delete(path);
             string imageFile = GetImageFile(path);
-            _fileSystemService.DeleteFile(imageFile);
+            await _fileSystemService.DeleteFile(imageFile);
         }
 
         protected override string GetNfoFile(string path)

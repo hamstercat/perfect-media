@@ -71,11 +71,12 @@ namespace PerfectMedia.UI.Sources
             SpecificFolders.Remove(folderToRemove);
         }
 
-        public void RefreshSpecificFolders()
+        // TODO: turn this into a command
+        public async Task RefreshSpecificFolders()
         {
             foreach (string folder in RootFolders)
             {
-                IEnumerable<string> specificFolders = _fileSystemService.FindDirectories(folder);
+                IEnumerable<string> specificFolders = await _fileSystemService.FindDirectories(folder);
                 foreach (string specificFolder in specificFolders)
                 {
                     AddSpecificFolder(specificFolder);
@@ -89,14 +90,14 @@ namespace PerfectMedia.UI.Sources
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    AddFolders(e.NewItems.Cast<string>(), true);
+                    await AddFolders(e.NewItems.Cast<string>(), true);
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     await RemoveFolders(e.OldItems.Cast<string>(), true);
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     await RemoveFolders(e.OldItems.Cast<string>(), true);
-                    AddFolders(e.NewItems.Cast<string>(), true);
+                    await AddFolders(e.NewItems.Cast<string>(), true);
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     await RemoveFolders(RootFolders, true);
@@ -109,14 +110,14 @@ namespace PerfectMedia.UI.Sources
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    AddFolders(e.NewItems.Cast<string>(), false);
+                    await AddFolders(e.NewItems.Cast<string>(), false);
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     await RemoveFolders(e.OldItems.Cast<string>(), false);
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     await RemoveFolders(e.OldItems.Cast<string>(), false);
-                    AddFolders(e.NewItems.Cast<string>(), false);
+                    await AddFolders(e.NewItems.Cast<string>(), false);
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     await RemoveFolders(SpecificFolders, false);
@@ -139,12 +140,12 @@ namespace PerfectMedia.UI.Sources
             }
         }
 
-        private void AddFolders(IEnumerable<string> newFolders, bool isRoot)
+        private async Task AddFolders(IEnumerable<string> newFolders, bool isRoot)
         {
             foreach (string folder in newFolders)
             {
                 Source source = new Source(_sourceType, isRoot, folder);
-                _sourceService.Save(source);
+                await _sourceService.Save(source);
             }
         }
 

@@ -26,9 +26,9 @@ namespace PerfectMedia.UI.Images.Selection
             LoadFileCommand = new LoadFileCommand(this);
         }
 
-        public void SaveLocalFile()
+        public async Task SaveLocalFile()
         {
-            _fileSystemService.CopyFile(Url, _path);
+            await _fileSystemService.CopyFile(Url, _path);
             IsClosed = true;
             _imageSelectionViewModel.IsClosed = true;
         }

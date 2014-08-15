@@ -34,9 +34,9 @@ namespace PerfectMedia.Sources
         /// Saves the specified source.
         /// </summary>
         /// <param name="source">The source.</param>
-        public void Save(Source source)
+        public async Task Save(Source source)
         {
-            _sourceRepository.Save(source);
+            await _sourceRepository.Save(source);
         }
 
         /// <summary>

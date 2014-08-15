@@ -45,7 +45,7 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
 
         private async Task Update(ITvShowMetadataService metadataService, ITvShowMetadataViewModel tvShowMetadata, string path)
         {
-            metadataService.DeleteImages(path);
+            await metadataService.DeleteImages(path);
             await metadataService.Update(path);
             await tvShowMetadata.Refresh();
         }

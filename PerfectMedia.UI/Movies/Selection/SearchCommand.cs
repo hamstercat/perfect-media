@@ -25,9 +25,9 @@ namespace PerfectMedia.UI.Movies.Selection
             return !string.IsNullOrEmpty(_movieSelectionViewModel.SearchTitle);
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
-            IEnumerable<Movie> series = _metadataService.FindMovies(_movieSelectionViewModel.SearchTitle);
+            IEnumerable<Movie> series = await _metadataService.FindMovies(_movieSelectionViewModel.SearchTitle);
             _movieSelectionViewModel.ReplaceMovies(series);
         }
 

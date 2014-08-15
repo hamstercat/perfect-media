@@ -98,18 +98,18 @@ namespace PerfectMedia.Movies
         /// Deletes the metadata from the movie located at the specified path.
         /// </summary>
         /// <param name="path">The movie file path.</param>
-        public void Delete(string path)
+        public async Task Delete(string path)
         {
-            _metadataRepository.Delete(path);
+            await _metadataRepository.Delete(path);
         }
 
         /// <summary>
         /// Deletes the images associated with the movie located at the specified path.
         /// </summary>
         /// <param name="path">The movie file path.</param>
-        public void DeleteImages(string path)
+        public async Task DeleteImages(string path)
         {
-            _imagesService.Delete(path);
+            await _imagesService.Delete(path);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="name">The movie name.</param>
         /// <returns></returns>
-        public IEnumerable<Movie> FindMovies(string name)
+        public Task<IEnumerable<Movie>> FindMovies(string name)
         {
             return _metadataUpdater.FindMovies(name);
         }
@@ -127,7 +127,7 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="movieId">The movie identifier.</param>
         /// <returns></returns>
-        public AvailableMovieImages FindImages(string movieId)
+        public Task<AvailableMovieImages> FindImages(string movieId)
         {
             return _metadataUpdater.FindImages(movieId);
         }
@@ -137,7 +137,7 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="setName">Name of the set.</param>
         /// <returns></returns>
-        public AvailableMovieImages FindSetImages(string setName)
+        public Task<AvailableMovieImages> FindSetImages(string setName)
         {
             return _metadataUpdater.FindSetImages(setName);
         }
@@ -160,7 +160,7 @@ namespace PerfectMedia.Movies
         private async Task<FullMovie> FindFullMovie(string path)
         {
             string movieId = await GetMovieId(path);
-            FullMovie fullMovie = _metadataUpdater.GetMovieMetadata(movieId);
+            FullMovie fullMovie = await _metadataUpdater.GetMovieMetadata(movieId);
             if (fullMovie == null)
             {
                 throw new MovieNotFoundException(path);
@@ -173,15 +173,15 @@ namespace PerfectMedia.Movies
             MovieMetadata metadata = await Get(path);
             if (string.IsNullOrEmpty(metadata.Id))
             {
-                return FindIdFromPath(path);
+                return await FindIdFromPath(path);
             }
             return metadata.Id;
         }
 
-        private string FindIdFromPath(string path)
+        private async Task<string> FindIdFromPath(string path)
         {
             string folderName = Path.GetFileNameWithoutExtension(path);
-            IEnumerable<Movie> movies = FindMovies(folderName);
+            IEnumerable<Movie> movies = await FindMovies(folderName);
             if (!movies.Any())
             {
                 string message = string.Format("Couldn't find any movie corresponding to \"{0}\"", folderName);
@@ -194,15 +194,15 @@ namespace PerfectMedia.Movies
 
         private async Task UpdateFromMovie(string path, FullMovie movie)
         {
-            SetFullMovieSynopsis(movie);
-            SetRating(movie);
+            await SetFullMovieSynopsis(movie);
+            await SetRating(movie);
             await UpdateInformationMetadata(path, movie);
             await _imagesService.Update(path, movie);
         }
 
-        private void SetFullMovieSynopsis(FullMovie movie)
+        private async Task SetFullMovieSynopsis(FullMovie movie)
         {
-            MovieSynopsis synopsis = _synopsisService.GetSynopsis(movie.ImdbId);
+            MovieSynopsis synopsis = await _synopsisService.GetSynopsis(movie.ImdbId);
             if (string.IsNullOrEmpty(movie.Tagline))
             {
                 movie.Tagline = synopsis.Tagline;
@@ -217,15 +217,15 @@ namespace PerfectMedia.Movies
             }
         }
 
-        private void SetRating(FullMovie movie)
+        private async Task SetRating(FullMovie movie)
         {
-            movie.Certification = _metadataUpdater.FindCertification(movie.ImdbId);
+            movie.Certification = await _metadataUpdater.FindCertification(movie.ImdbId);
         }
 
         private async Task UpdateInformationMetadata(string path, FullMovie movie)
         {
             MovieMetadata metadata = MapFullMovieToMetadata(movie);
-            UpdateActorsMetadata(path, metadata);
+            await UpdateActorsMetadata(path, metadata);
             metadata.FileInformation = _fileInformationService.GetVideoFileInformation(path);
             await Save(path, metadata);
         }
@@ -270,10 +270,10 @@ namespace PerfectMedia.Movies
             return metadata;
         }
 
-        private void UpdateActorsMetadata(string path, MovieMetadata metadata)
+        private async Task UpdateActorsMetadata(string path, MovieMetadata metadata)
         {
             string movieFolder = _fileSystemService.GetParentFolder(path, 1);
-            MovieActorsResult actorsResult = _metadataUpdater.FindCast(metadata.Id);
+            MovieActorsResult actorsResult = await _metadataUpdater.FindCast(metadata.Id);
             UpdateActors(metadata, movieFolder, actorsResult.Cast);
             UpdateCrews(metadata, actorsResult.Crew);
         }

@@ -37,14 +37,14 @@ namespace PerfectMedia.UI.TvShows.Seasons
         public void IsExpanded_WhenEpisodesExists_LoadsThoseEpisodes()
         {
             // Arrange
-            List<Episode> episodePaths = new List<Episode>
+            IEnumerable<Episode> episodePaths = new List<Episode>
             {
                 new Episode { Path = @"C:\Folder\TV Shows\Game of Thrones\Season 1\1x01.mkv" },
                 new Episode { Path = @"C:\Folder\TV Shows\Game of Thrones\Season 1\1x02.mkv" },
                 new Episode { Path = @"C:\Folder\TV Shows\Game of Thrones\Season 1\1x03.mkv" }
             };
             _tvShowFileService.GetEpisodes(_path)
-                .Returns(episodePaths);
+                .Returns(episodePaths.ToTask());
 
             // Act
             _viewModel.IsExpanded = true;
@@ -52,11 +52,11 @@ namespace PerfectMedia.UI.TvShows.Seasons
             // Assert
             Assert.Equal(3, _viewModel.Episodes.Count);
             _viewModelFactory.Received()
-                .GetEpisode(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is(episodePaths[0].Path));
+                .GetEpisode(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is(episodePaths.ElementAt(0).Path));
             _viewModelFactory.Received()
-                .GetEpisode(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is(episodePaths[1].Path));
+                .GetEpisode(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is(episodePaths.ElementAt(1).Path));
             _viewModelFactory.Received()
-                .GetEpisode(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is(episodePaths[2].Path));
+                .GetEpisode(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is(episodePaths.ElementAt(2).Path));
         }
 
         [Fact]
@@ -110,8 +110,9 @@ namespace PerfectMedia.UI.TvShows.Seasons
         public async Task FindNewEpisodes_WithTvShows_UpdatesTheseEpisodes()
         {
             // Arrange
+            IEnumerable<Episode> episodes = new List<Episode> { new Episode(), new Episode() };
             _tvShowFileService.GetEpisodes(_path)
-                .Returns(new List<Episode> { new Episode(), new Episode() });
+                .Returns(episodes.ToTask());
 
             IEpisodeViewModel episodeViewModel1 = Substitute.For<IEpisodeViewModel>();
             _viewModelFactory.GetEpisode(Arg.Any<ITvShowMetadataViewModel>(), Arg.Any<string>())

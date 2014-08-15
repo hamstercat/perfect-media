@@ -55,7 +55,8 @@ namespace PerfectMedia.UI.Sources
             await _viewModel.Load();
 
             // Assert
-            _sourceService.DidNotReceiveWithAnyArgs().Save(null);
+            _sourceService.DidNotReceiveWithAnyArgs()
+                .Save(null).Async();
         }
 
         [Fact]
@@ -201,23 +202,23 @@ namespace PerfectMedia.UI.Sources
         }
 
         [Fact]
-        public void RefreshSpecificFolders_WithRootFolder_AddsSpecificFolders()
+        public async Task RefreshSpecificFolders_WithRootFolder_AddsSpecificFolders()
         {
             // Arrange
             const string folder = @"C:\Folder\Music\";
             _viewModel.RootFolders.Add(folder);
 
-            List<string> artistFolders = new List<string>
+            IEnumerable<string> artistFolders = new List<string>
             {
                 @"C:\Folder\Music\Billy Talent",
                 @"C:\Folder\Music\Cobra Starship",
                 @"C:\Folder\Music\Linkin Park"
             };
             _fileSystemService.FindDirectories(folder)
-                .Returns(artistFolders);
+                .Returns(artistFolders.ToTask());
 
             // Act
-            _viewModel.RefreshSpecificFolders();
+            await _viewModel.RefreshSpecificFolders();
 
             // Assert
             Assert.Equal(artistFolders, _viewModel.SpecificFolders);

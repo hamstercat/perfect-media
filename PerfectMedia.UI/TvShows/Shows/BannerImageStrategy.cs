@@ -17,13 +17,12 @@ namespace PerfectMedia.UI.TvShows.Shows
             _metadataViewModel = metadataViewModel;
         }
 
-        public Task<IEnumerable<Image>> FindImages()
+        public async Task<IEnumerable<Image>> FindImages()
         {
-            AvailableTvShowImages images = _metadataService.FindImages(_metadataViewModel.Id);
+            AvailableTvShowImages images = await _metadataService.FindImages(_metadataViewModel.Id);
             IEnumerable<Image> allSeasonsImages = images.Seasons.SelectMany(s => s.Value.Banners);
-            IEnumerable<Image> allImages = images.Banners
+            return images.Banners
                 .Union(allSeasonsImages);
-            return Task.FromResult(allImages);
         }
     }
 }

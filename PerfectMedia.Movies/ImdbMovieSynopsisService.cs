@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Anotar.Log4Net;
 using HtmlAgilityPack;
 
@@ -25,11 +26,10 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="movieId">The movie identifier.</param>
         /// <returns></returns>
-        [LogToErrorOnException]
-        public MovieSynopsis GetSynopsis(string movieId)
+        public async Task<MovieSynopsis> GetSynopsis(string movieId)
         {
             string url = string.Format("title/{0}/", movieId);
-            string moviePageContent = _restApiService.Get(url);
+            string moviePageContent = await _restApiService.Get(url);
             return ParseMoviePageContent(moviePageContent);
         }
 

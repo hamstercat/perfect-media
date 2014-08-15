@@ -7,7 +7,7 @@ namespace PerfectMedia.TvShows.Metadata
     {
         Task<EpisodeMetadata> Get(string episodeFile);
         void Save(string episodeFile, EpisodeMetadata metadata);
-        void Update(string episodeFile, string serieId);
-        void Delete(string episodeFile);
+        Task Update(string episodeFile, string serieId);
+        Task Delete(string episodeFile);
     }
 }

@@ -8,11 +8,11 @@ namespace PerfectMedia.TvShows.Metadata
         Task<TvShowMetadata> Get(string path);
         void Save(string path, TvShowMetadata metadata);
         Task Update(string path);
-        void Delete(string path);
-        IEnumerable<Series> FindSeries(string name);
-        AvailableTvShowImages FindImages(string seriesId);
-        AvailableTvShowImages FindImagesFromPath(string path);
+        Task Delete(string path);
+        Task<IEnumerable<Series>> FindSeries(string name);
+        Task<AvailableTvShowImages> FindImages(string seriesId);
+        Task<AvailableTvShowImages> FindImagesFromPath(string path);
         Task<AvailableSeasonImages> FindSeasonImages(string seasonPath);
-        void DeleteImages(string path);
+        Task DeleteImages(string path);
     }
 }

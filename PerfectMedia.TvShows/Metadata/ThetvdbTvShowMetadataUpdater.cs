@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using Anotar.Log4Net;
 
@@ -14,44 +15,39 @@ namespace PerfectMedia.TvShows.Metadata
             _restApiService = restApiService;
         }
 
-        [LogToErrorOnException]
-        public IEnumerable<Series> FindSeries(string name)
+        public async Task<IEnumerable<Series>> FindSeries(string name)
         {
             string url = string.Format("api/GetSeries.php?seriesname={0}&language=en", HttpUtility.UrlEncode(name));
-            List<Series> series = _restApiService.Get<List<Series>>(url);
+            List<Series> series = await _restApiService.Get<List<Series>>(url);
             FixSeriesUrl(series);
             return series;
         }
 
-        [LogToErrorOnException]
-        public FullSerie GetTvShowMetadata(string serieId)
+        public async Task<FullSerie> GetTvShowMetadata(string serieId)
         {
             string url = string.Format("api/{0}/series/{1}/en.xml", TvShowHelper.TheTvDbApiKey, serieId);
-            FullSerie fullSerie = _restApiService.Get<FullSerie>(url);
+            FullSerie fullSerie = await _restApiService.Get<FullSerie>(url);
             FixSerieUrl(fullSerie);
             return fullSerie;
         }
 
-        [LogToErrorOnException]
-        public AvailableTvShowImages FindImages(string serieId)
+        public async Task<AvailableTvShowImages> FindImages(string serieId)
         {
             string url = string.Format("/api/{0}/series/{1}/banners.xml", TvShowHelper.TheTvDbApiKey, serieId);
-            List<Banner> images = _restApiService.Get<List<Banner>>(url);
+            List<Banner> images = await _restApiService.Get<List<Banner>>(url);
             return MapBannersToAvailableTvShowImages(images);
         }
 
-        [LogToErrorOnException]
-        public IEnumerable<Actor> FindActors(string serieId)
+        public async Task<IEnumerable<Actor>> FindActors(string serieId)
         {
             string url = string.Format("api/{0}/series/{1}/actors.xml", TvShowHelper.TheTvDbApiKey, serieId);
-            return _restApiService.Get<List<Actor>>(url);
+            return await _restApiService.Get<List<Actor>>(url);
         }
 
-        [LogToErrorOnException]
-        public EpisodeMetadata GetEpisodeMetadata(string serieId, int seasonNumber, int episodeNumber)
+        public async Task<EpisodeMetadata> GetEpisodeMetadata(string serieId, int seasonNumber, int episodeNumber)
         {
             string url = string.Format("api/{0}/series/{1}/default/{2}/{3}/en.xml", TvShowHelper.TheTvDbApiKey, serieId, seasonNumber, episodeNumber);
-            Episode episode = _restApiService.Get<Episode>(url);
+            Episode episode = await _restApiService.Get<Episode>(url);
             return MapEpisodeToMetadata(episode);
         }
 

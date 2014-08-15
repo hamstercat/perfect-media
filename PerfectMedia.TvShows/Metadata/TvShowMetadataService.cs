@@ -38,50 +38,50 @@ namespace PerfectMedia.TvShows.Metadata
         public async Task Update(string path)
         {
             FullSerie serie = await FindFullSerie(path);
-            UpdateInformationMetadata(path, serie);
+            await UpdateInformationMetadata(path, serie);
             await UpdateImages(path, serie.Id);
         }
 
-        public void Delete(string path)
+        public async Task Delete(string path)
         {
-            _metadataRepository.Delete(path);
-            _imagesService.Delete(path);
+            await _metadataRepository.Delete(path);
+            await _imagesService.Delete(path);
         }
 
-        public IEnumerable<Series> FindSeries(string name)
+        public Task<IEnumerable<Series>> FindSeries(string name)
         {
             return _metadataUpdater.FindSeries(name);
         }
 
-        public AvailableTvShowImages FindImages(string seriesId)
+        public Task<AvailableTvShowImages> FindImages(string seriesId)
         {
             return _metadataUpdater.FindImages(seriesId);
         }
 
-        public AvailableTvShowImages FindImagesFromPath(string path)
+        public async Task<AvailableTvShowImages> FindImagesFromPath(string path)
         {
-            string seriesId = FindIdFromPath(path);
-            return FindImages(seriesId);
+            string seriesId = await FindIdFromPath(path);
+            return await FindImages(seriesId);
         }
 
         public async Task<AvailableSeasonImages> FindSeasonImages(string seasonPath)
         {
             string seriePath = _fileSystemService.GetParentFolder(seasonPath, 1);
             string serieId = await GetSeriesId(seriePath);
-            AvailableTvShowImages images = FindImages(serieId);
+            AvailableTvShowImages images = await FindImages(serieId);
             int seasonNumber = TvShowHelper.FindSeasonNumberFromFolder(seasonPath);
             return images.Seasons[seasonNumber];
         }
 
-        public void DeleteImages(string path)
+        public Task DeleteImages(string path)
         {
-            _imagesService.Delete(path);
+            return _imagesService.Delete(path);
         }
 
         private async Task<FullSerie> FindFullSerie(string path)
         {
             string seriesId = await GetSeriesId(path);
-            FullSerie fullSerie = _metadataUpdater.GetTvShowMetadata(seriesId);
+            FullSerie fullSerie = await _metadataUpdater.GetTvShowMetadata(seriesId);
             if (fullSerie == null)
             {
                 throw new TvShowNotFoundException(path);
@@ -94,15 +94,15 @@ namespace PerfectMedia.TvShows.Metadata
             TvShowMetadata metadata = await Get(path);
             if (string.IsNullOrEmpty(metadata.Id))
             {
-                return FindIdFromPath(path);
+                return await FindIdFromPath(path);
             }
             return metadata.Id;
         }
 
-        private string FindIdFromPath(string path)
+        private async Task<string> FindIdFromPath(string path)
         {
             string folderName = Path.GetFileName(path);
-            IEnumerable<Series> series = FindSeries(folderName);
+            IEnumerable<Series> series = await FindSeries(folderName);
             if (!series.Any())
             {
                 string message = string.Format("Couldn't find any series corresponding to \"{0}\"", folderName);
@@ -111,10 +111,10 @@ namespace PerfectMedia.TvShows.Metadata
             return series.First().SeriesId;
         }
 
-        private void UpdateInformationMetadata(string path, FullSerie serie)
+        private async Task UpdateInformationMetadata(string path, FullSerie serie)
         {
             TvShowMetadata metadata = MapFullSerieToMetadata(serie);
-            UpdateActorsMetadata(path, metadata);
+            await UpdateActorsMetadata(path, metadata);
             Save(path, metadata);
         }
 
@@ -144,9 +144,9 @@ namespace PerfectMedia.TvShows.Metadata
                 .ToList();
         }
 
-        private void UpdateActorsMetadata(string path, TvShowMetadata metadata)
+        private async Task UpdateActorsMetadata(string path, TvShowMetadata metadata)
         {
-            IEnumerable<Actor> actors = _metadataUpdater.FindActors(metadata.Id);
+            IEnumerable<Actor> actors = await _metadataUpdater.FindActors(metadata.Id);
             foreach (Actor thetvdbActor in actors)
             {
                 ActorMetadata actor = new ActorMetadata
@@ -162,7 +162,7 @@ namespace PerfectMedia.TvShows.Metadata
 
         private async Task UpdateImages(string path, string serieId)
         {
-            AvailableTvShowImages images = _metadataUpdater.FindImages(serieId);
+            AvailableTvShowImages images = await _metadataUpdater.FindImages(serieId);
             await _imagesService.Update(path, images);
         }
     }

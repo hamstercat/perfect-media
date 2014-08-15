@@ -34,19 +34,19 @@ namespace PerfectMedia.UI.Movies
             Sources.SpecificFolders.CollectionChanged += SourceFoldersCollectionChanged;
         }
 
-        private void SourceFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private async void SourceFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    AddMovies(e.NewItems.Cast<string>());
+                    await AddMovies(e.NewItems.Cast<string>());
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     RemoveMovies(e.OldItems.Cast<string>());
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     RemoveMovies(e.OldItems.Cast<string>());
-                    AddMovies(e.NewItems.Cast<string>());
+                    await AddMovies(e.NewItems.Cast<string>());
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     Movies.Clear();
@@ -54,11 +54,11 @@ namespace PerfectMedia.UI.Movies
             }
         }
 
-        private void AddMovies(IEnumerable<string> movies)
+        private async Task AddMovies(IEnumerable<string> movies)
         {
             foreach (string path in movies)
             {
-                foreach (string file in FindMovieFiles(path))
+                foreach (string file in await FindMovieFiles(path))
                 {
                     IMovieViewModel newMovie = _viewModelFactory.GetMovie(file);
                     AddMovie(newMovie);
@@ -140,10 +140,10 @@ namespace PerfectMedia.UI.Movies
             }
         }
 
-        private IEnumerable<string> FindMovieFiles(string path)
+        private async Task<IEnumerable<string>> FindMovieFiles(string path)
         {
-            return _fileSystemService.FindVideoFiles(path)
-                .Where(FileIsNotTrailer);
+            IEnumerable<string> videoFiles = await _fileSystemService.FindVideoFiles(path);
+            return videoFiles.Where(FileIsNotTrailer);
         }
 
         private bool FileIsNotTrailer(string videoFile)

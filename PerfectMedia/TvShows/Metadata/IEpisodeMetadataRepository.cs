@@ -25,6 +25,6 @@ namespace PerfectMedia.TvShows.Metadata
         /// Deletes the metadata associated with the episode located at the specified path.
         /// </summary>
         /// <param name="path">The episode file path.</param>
-        void Delete(string path);
+        Task Delete(string path);
     }
 }

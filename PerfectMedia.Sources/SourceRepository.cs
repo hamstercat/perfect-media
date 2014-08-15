@@ -36,7 +36,7 @@ namespace PerfectMedia.Sources
         /// <returns></returns>
         public async Task<IEnumerable<Source>> GetSources(SourceType sourceType)
         {
-            string file = GetSourceTypeFile(sourceType);
+            string file = await GetSourceTypeFile(sourceType);
             if (await _fileSystemService.FileExists(file))
             {
                 return Deserialize(file);
@@ -48,9 +48,9 @@ namespace PerfectMedia.Sources
         /// Saves the specified source.
         /// </summary>
         /// <param name="source">The source.</param>
-        public void Save(Source source)
+        public async Task Save(Source source)
         {
-            string file = GetSourceTypeFile(source.SourceType);
+            string file = await GetSourceTypeFile(source.SourceType);
             string serializedSource = GetSerializedSource(source);
             File.AppendAllLines(file, new List<string> { serializedSource });
         }
@@ -63,22 +63,22 @@ namespace PerfectMedia.Sources
         {
             IEnumerable<Source> sources = await GetSources(source.SourceType);
             IEnumerable<Source> newSources = sources.Where(src => src.Folder != source.Folder);
-            ReplaceSources(newSources, source.SourceType);
+            await ReplaceSources(newSources, source.SourceType);
         }
 
-        private string GetSourceTypeFile(SourceType sourceType)
+        private async Task<string> GetSourceTypeFile(SourceType sourceType)
         {
             string fileName = sourceType.ToString() + ".xml";
-            string folder = GetFolder();
+            string folder = await GetFolder();
             return Path.Combine(folder, fileName);
         }
 
-        private string GetFolder()
+        private async Task<string> GetFolder()
         {
             string folder = Path.Combine(_basePath, "Sources");
-            if (!_fileSystemService.FolderExists(folder))
+            if (!await _fileSystemService.FolderExists(folder))
             {
-                _fileSystemService.CreateFolder(folder);
+                await _fileSystemService.CreateFolder(folder);
             }
             return folder;
         }
@@ -118,12 +118,12 @@ namespace PerfectMedia.Sources
             return str.ToString();
         }
 
-        private void ReplaceSources(IEnumerable<Source> newSources, SourceType sourceType)
+        private async Task ReplaceSources(IEnumerable<Source> newSources, SourceType sourceType)
         {
-            string file = GetSourceTypeFile(sourceType);
+            string file = await GetSourceTypeFile(sourceType);
             IEnumerable<string> serializedSources = newSources.Select(GetSerializedSource);
-            _fileSystemService.DeleteFile(file);
-            _fileSystemService.CreateFile(file, serializedSources);
+            await _fileSystemService.DeleteFile(file);
+            await _fileSystemService.CreateFile(file, serializedSources);
         }
     }
 }

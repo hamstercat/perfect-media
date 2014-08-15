@@ -9,7 +9,7 @@ namespace PerfectMedia.UI.Sources
         void RemoveRootFolder(string folderToRemove);
 
         ObservableCollection<string> SpecificFolders { get; }
-        void RefreshSpecificFolders();
+        Task RefreshSpecificFolders();
         void AddSpecificFolder(string folder);
         void RemoveSpecificFolder(string folderToRemove);
 

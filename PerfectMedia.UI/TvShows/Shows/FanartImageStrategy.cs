@@ -16,10 +16,10 @@ namespace PerfectMedia.UI.TvShows.Shows
             _metadataViewModel = metadataViewModel;
         }
 
-        public Task<IEnumerable<Image>> FindImages()
+        public async Task<IEnumerable<Image>> FindImages()
         {
-            AvailableTvShowImages images = _metadataService.FindImages(_metadataViewModel.Id);
-            return Task.FromResult(images.Fanarts);
+            AvailableTvShowImages images = await _metadataService.FindImages(_metadataViewModel.Id);
+            return images.Fanarts;
         }
     }
 }

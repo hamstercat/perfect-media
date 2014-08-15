@@ -103,10 +103,10 @@ namespace PerfectMedia
         /// Deletes the metadata associated with the media located at the specified path.
         /// </summary>
         /// <param name="path">The path of the media.</param>
-        public virtual void Delete(string path)
+        public virtual async Task Delete(string path)
         {
             string nfoFileFullPath = GetNfoFile(path);
-            _fileSystemService.DeleteFile(nfoFileFullPath);
+            await _fileSystemService.DeleteFile(nfoFileFullPath);
         }
 
         private static TMetadata Deserialize(string nfoFileFullPath)

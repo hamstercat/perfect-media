@@ -22,16 +22,22 @@ namespace PerfectMedia
         }
 
         [Fact]
-        public void Constructor_Always_LoadsDataInMemory()
+        public async Task Initialize_Always_LoadsDataInMemory()
         {
+            // Act
+            await InitializeKeyDataStore();
+
             // Assert
             _fileBackedRepository.Received()
-                .Load();
+                .Load().Async();
         }
 
         [Fact]
-        public void Dispose_WithoutData_DoesNothing()
+        public async Task Dispose_WithoutData_DoesNothing()
         {
+            // Arrange
+            await InitializeKeyDataStore();
+
             // Act
             _keyDataStore.Dispose();
 
@@ -41,9 +47,10 @@ namespace PerfectMedia
         }
 
         [Fact]
-        public void Dispose_WithData_PersistsIt()
+        public async Task Dispose_WithData_PersistsIt()
         {
             // Arrange
+            await InitializeKeyDataStore();
             _keyDataStore.SetValue("Key1", "I'm a dinosaur!");
             _keyDataStore.SetValue("Key2", "Rawr!");
 
@@ -58,9 +65,10 @@ namespace PerfectMedia
         }
 
         [Fact]
-        public void GetValue_AfterSetValue_ReturnsIt()
+        public async Task GetValue_AfterSetValue_ReturnsIt()
         {
             // Arrange
+            await InitializeKeyDataStore();
             _keyDataStore.SetValue("A long key", "rawr");
 
             // Act
@@ -71,8 +79,11 @@ namespace PerfectMedia
         }
 
         [Fact]
-        public void GetValue_WhichIsUndefined_ReturnsEmptyString()
+        public async Task GetValue_WhichIsUndefined_ReturnsEmptyString()
         {
+            // Arrange
+            await InitializeKeyDataStore();
+
             // Act
             string value = _keyDataStore.GetValue("Undefined key");
 
@@ -83,8 +94,11 @@ namespace PerfectMedia
         [Theory]
         [InlineData(null)]
         [InlineData("")]
-        public void GetValue_WithNullOrEmptyKey_ThrowsException(string str)
+        public async Task GetValue_WithNullOrEmptyKey_ThrowsException(string str)
         {
+            // Arrange
+            await InitializeKeyDataStore();
+
             Assert.Throws<ArgumentNullException>(() =>
             {
                 // Act
@@ -95,10 +109,18 @@ namespace PerfectMedia
         [Theory]
         [InlineData(null)]
         [InlineData("")]
-        public void SetValue_WithNullOrEmptyKey_ThrowsException(string str)
+        public async Task SetValue_WithNullOrEmptyKey_ThrowsException(string str)
         {
+            // Arrange
+            await InitializeKeyDataStore();
+
             // Act + Assert
             Assert.Throws<ArgumentNullException>(() => _keyDataStore.SetValue(str, "whatever"));
+        }
+
+        private async Task InitializeKeyDataStore()
+        {
+            await ((IStartupInitialization)_keyDataStore).Initialize();
         }
     }
 }

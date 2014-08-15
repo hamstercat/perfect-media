@@ -36,13 +36,13 @@ namespace PerfectMedia.Movies
         /// Deletes the images of the movie located at the specified path.
         /// </summary>
         /// <param name="path">The path.</param>
-        public void Delete(string path)
+        public async Task Delete(string path)
         {
             string posterPath = MovieHelper.GetMoviePosterPath(path);
-            _fileSystemService.DeleteFile(posterPath);
+            await _fileSystemService.DeleteFile(posterPath);
 
             string fanartPath = MovieHelper.GetMovieFanartPath(path);
-            _fileSystemService.DeleteFile(fanartPath);
+            await _fileSystemService.DeleteFile(fanartPath);
         }
 
         private async Task UpdateImageIfNeeded(string imagePath, string imageUrl)

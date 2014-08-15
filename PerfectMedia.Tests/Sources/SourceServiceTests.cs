@@ -43,17 +43,17 @@ namespace PerfectMedia.Sources
         [InlineData(SourceType.Movie)]
         [InlineData(SourceType.Music)]
         [InlineData(SourceType.TvShow)]
-        public void Save_Always_PersistSource(SourceType sourceType)
+        public async Task Save_Always_PersistSource(SourceType sourceType)
         {
             // Arrange
             Source source = new Source(sourceType, false, @"C:\Folder2\My Folder");
 
             // Act
-            _service.Save(source);
+            await _service.Save(source);
 
             // Assert
             _sourceRepository.Received()
-                .Save(source);
+                .Save(source).Async();
         }
 
         [Theory]

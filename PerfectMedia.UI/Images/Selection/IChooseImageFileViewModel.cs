@@ -7,7 +7,7 @@ namespace PerfectMedia.UI.Images.Selection
     {
         string Url { get; }
         bool IsClosed { get; set; }
-        void SaveLocalFile();
+        Task SaveLocalFile();
         Task DownloadFile();
     }
 }

@@ -57,7 +57,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
 
             // Assert
             _metadataService.DidNotReceiveWithAnyArgs()
-                .Update(_path, "123");
+                .Update(_path, "123").Async();
         }
 
         [Fact]
@@ -77,7 +77,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
 
             // Assert
             _metadataService.Received()
-                .Update(_path, "123");
+                .Update(_path, "123").Async();
             AssertMetadataEqualsViewModel(metadata);
         }
 

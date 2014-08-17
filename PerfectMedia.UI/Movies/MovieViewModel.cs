@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,7 +17,7 @@ using PropertyChanged;
 namespace PerfectMedia.UI.Movies
 {
     [ImplementPropertyChanged]
-    public class MovieViewModel : BaseViewModel, IMovieViewModel
+    public class MovieViewModel : BaseViewModel, IMovieViewModel, ITreeViewItemViewModel
     {
         private readonly IMovieMetadataService _metadataService;
         private readonly IMovieViewModelFactory _viewModelFactory;
@@ -24,319 +25,44 @@ namespace PerfectMedia.UI.Movies
         private bool _lazyLoaded;
 
         #region Metadata
-        private string _title;
-        public string Title
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _title;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _title = value;
-            }
-        }
-
-        private string _originalTitle;
-        public string OriginalTitle
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _originalTitle;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _originalTitle = value;
-            }
-        }
-
-        private DashDelimitedCollectionViewModel<string> _credits;
-        public DashDelimitedCollectionViewModel<string> Credits
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _credits;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _credits = value;
-            }
-        }
-
-        private DashDelimitedCollectionViewModel<string> _directors;
-        public DashDelimitedCollectionViewModel<string> Directors
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _directors;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _directors = value;
-            }
-        }
-
-        private string _setName;
-        public string SetName
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _setName;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _setName = value;
-            }
-        }
-
-        private double? _rating;
-        public double? Rating
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _rating;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _rating = value;
-            }
-        }
-
-        private int? _year;
-        public int? Year
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _year;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _year = value;
-            }
-        }
-
-        private DateTime? _premieredDate;
-        public DateTime? PremieredDate
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _premieredDate;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _premieredDate = value;
-            }
-        }
-
-        private string _outline;
-        public string Outline
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _outline;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _outline = value;
-            }
-        }
-
-        private string _plot;
-        public string Plot
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _plot;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _plot = value;
-            }
-        }
-
-        private string _tagline;
-        public string Tagline
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _tagline;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _tagline = value;
-            }
-        }
-
-        private int _runtimeInMinutes;
-        public int RuntimeInMinutes
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _runtimeInMinutes;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _runtimeInMinutes = value;
-            }
-        }
-
-        private string _certification;
-        public string Certification
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _certification;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _certification = value;
-            }
-        }
-
-        private int _playCount;
-        public int PlayCount
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _playCount;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _playCount = value;
-            }
-        }
-
-        private string _id;
-        public string Id
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _id;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _id = value;
-            }
-        }
-
-        private DashDelimitedCollectionViewModel<string> _genres;
-        public DashDelimitedCollectionViewModel<string> Genres
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _genres;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _genres = value;
-            }
-        }
-
-        private string _country;
-        public string Country
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _country;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _country = value;
-            }
-        }
-
-        private VideoFileInformation _fileInformation;
-        public VideoFileInformation FileInformation
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _fileInformation;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _fileInformation = value;
-            }
-        }
-
-        private string _studio;
-        public string Studio
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _studio;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _studio = value;
-            }
-        }
-
-        private ObservableCollection<ActorViewModel> _actors;
-        public ObservableCollection<ActorViewModel> Actors
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _actors;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _actors = value;
-            }
-        }
+        public ICachedPropertyViewModel<string> Title { get; private set; }
+        public ICachedPropertyViewModel<string> SetName { get; private set; }
 
         public IImageViewModel Poster { get; private set; }
         public IImageViewModel Fanart { get; private set; }
+
+        public string OriginalTitle { get; set; }
+        public DashDelimitedCollectionViewModel<string> Credits { get; set; }
+        public DashDelimitedCollectionViewModel<string> Directors { get; set; }
+        public double? Rating { get; set; }
+        public int? Year { get; set; }
+        public DateTime? PremieredDate { get; set; }
+        public string Outline { get; set; }
+        public string Plot { get; set; }
+        public string Tagline { get; set; }
+        public int RuntimeInMinutes { get; set; }
+        public string Certification { get; set; }
+        public int PlayCount { get; set; }
+        public string Id { get; set; }
+        public DashDelimitedCollectionViewModel<string> Genres { get; set; }
+        public string Country { get; set; }
+        public VideoFileInformation FileInformation { get; set; }
+        public string Studio { get; set; }
+        public ObservableCollection<ActorViewModel> Actors { get; set; }
         #endregion
+
+        // Do nothing since we have no children to show
+        public bool IsExpanded { get; set; }
 
         public string DisplayName
         {
             get
             {
-                if (string.IsNullOrEmpty(Title))
+                if (string.IsNullOrEmpty(Title.Value))
                 {
                     return System.IO.Path.GetFileNameWithoutExtension(Path);
                 }
-                return Title;
+                return Title.Value;
             }
         }
 
@@ -364,13 +90,16 @@ namespace PerfectMedia.UI.Movies
             UpdateCommand = new UpdateMetadataCommand(this, progressManager);
             SaveCommand = new SaveMetadataCommand(this);
 
+            Title = viewModelFactory.GetCachedProperty(Path + "?title", s => s, s => s);
+            Title.PropertyChanged += TitlePropertyChanged;
+            SetName = viewModelFactory.GetCachedProperty(Path + "?setName", s => s, s => s);
+            SetName.PropertyChanged += TitlePropertyChanged;
             Poster = viewModelFactory.GetImage(new PosterImageStrategy(metadataService, this));
             Fanart = viewModelFactory.GetImage(new FanartImageStrategy(metadataService, this));
-
-            _credits = new DashDelimitedCollectionViewModel<string>(s => s);
-            _directors = new DashDelimitedCollectionViewModel<string>(s => s);
-            _genres = new DashDelimitedCollectionViewModel<string>(s => s);
-            _actors = new ObservableCollection<ActorViewModel>();
+            Credits = new DashDelimitedCollectionViewModel<string>(s => s);
+            Directors = new DashDelimitedCollectionViewModel<string>(s => s);
+            Genres = new DashDelimitedCollectionViewModel<string>(s => s);
+            Actors = new ObservableCollection<ActorViewModel>();
         }
 
         public IEnumerable<IMovieViewModel> FindMovie(string path)
@@ -405,19 +134,24 @@ namespace PerfectMedia.UI.Movies
             await _metadataService.Save(Path, metadata);
         }
 
+        public async Task Load()
+        {
+            if (!_lazyLoaded)
+            {
+                _lazyLoaded = true;
+                await Refresh();
+            }
+        }
+
         public override string ToString()
         {
             return DisplayName;
         }
 
-        private void InitialLoadInformation()
+        private void TitlePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (!_lazyLoaded)
-            {
-                _lazyLoaded = true;
-                // TODO: call asynchronously
-                Refresh();
-            }
+            OnPropertyChanged("Title");
+            OnPropertyChanged("SetName");
         }
 
         private void RefreshFromMetadata(MovieMetadata metadata)
@@ -433,10 +167,10 @@ namespace PerfectMedia.UI.Movies
             Rating = metadata.Rating;
             RuntimeInMinutes = metadata.RuntimeInMinutes;
             Country = metadata.Country;
-            SetName = metadata.SetName;
+            SetName.Value = metadata.SetName;
             Studio = metadata.Studio;
             Tagline = metadata.Tagline;
-            Title = metadata.Title;
+            Title.Value = metadata.Title;
             Year = metadata.Year;
             Poster.Path = metadata.ImagePosterPath;
             Fanart.Path = metadata.ImageFanartPath;
@@ -479,10 +213,10 @@ namespace PerfectMedia.UI.Movies
                 Rating = Rating,
                 RuntimeInMinutes = RuntimeInMinutes,
                 Country = Country,
-                SetName = SetName,
+                SetName = SetName.Value,
                 Studio = Studio,
                 Tagline = Tagline,
-                Title = Title,
+                Title = Title.Value,
                 Year = Year
             };
 

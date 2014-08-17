@@ -101,6 +101,12 @@ namespace PerfectMedia.UI.TvShows.Seasons
             return items;
         }
 
+        public Task Load()
+        {
+            // Do nothing
+            return Task.Delay(0);
+        }
+
         private async Task LoadEpisodes()
         {
             if (!_episodeLoaded)

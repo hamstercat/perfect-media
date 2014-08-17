@@ -31,7 +31,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TreeView x:Name="MoviesTreeView" ItemsSource="{Binding Source={StaticResource SortedMovies}}">
+            <TreeView x:Name="MoviesTreeView" ItemsSource="{Binding Source={StaticResource SortedMovies}}" SelectedItemChanged="MoviesSelectedItemChanged">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                         <TextBlock Text="{Binding DisplayName}" />

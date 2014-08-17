@@ -35,5 +35,11 @@ namespace PerfectMedia.UI.Movies
             FrameworkElement frameworkElement = (FrameworkElement)sender;
             return (IMovieViewModel)frameworkElement.DataContext;
         }
+
+        private async void MoviesSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var newItem = (ITreeViewItemViewModel)e.NewValue;
+            await newItem.Load();
+        }
     }
 }

@@ -13,6 +13,6 @@ namespace PerfectMedia.UI.Sources
         void AddSpecificFolder(string folder);
         void RemoveSpecificFolder(string folderToRemove);
 
-        Task Load();
+        void Load();
     }
 }

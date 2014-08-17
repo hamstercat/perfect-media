@@ -31,14 +31,14 @@ namespace PerfectMedia.UI.TvShows
         }
 
         [Fact]
-        public async Task Initializes_Always_LoadsSources()
+        public void Initializes_Always_LoadsSources()
         {
             // Act
-            await ((ILifecycleService)_viewModel).Initialize();
+            ((ILifecycleService)_viewModel).Initialize();
 
             // Assert
             _sourceManagerViewModel.Received()
-                .Load().Async();
+                .Load();
         }
 
         [Fact]

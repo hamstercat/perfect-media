@@ -103,6 +103,11 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
         }
 
+        public async Task Load()
+        {
+            await Metadata.Load();
+        }
+
         private async Task LoadSeasons()
         {
             if (!_seasonLoaded)

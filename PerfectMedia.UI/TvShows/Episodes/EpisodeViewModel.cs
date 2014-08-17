@@ -26,180 +26,18 @@ namespace PerfectMedia.UI.TvShows.Episodes
         public ICachedPropertyViewModel<int> SeasonNumber { get; private set; }
         public ICachedPropertyViewModel<int> EpisodeNumber { get; private set; }
 
-        private double _rating;
-        public double Rating
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _rating;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _rating = value;
-            }
-        }
-
-        private string _plot;
-        public string Plot
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _plot;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _plot = value;
-            }
-        }
-
-        private readonly ImageViewModel _imagePath;
-        public ImageViewModel ImagePath
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _imagePath;
-            }
-        }
-
-        private string _imageUrl;
-        public string ImageUrl
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _imageUrl;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _imageUrl = value;
-            }
-        }
-
-        private int _playCount;
-        public int PlayCount
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _playCount;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _playCount = value;
-            }
-        }
-
-        private DateTime? _lastPlayed;
-        public DateTime? LastPlayed
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _lastPlayed;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _lastPlayed = value;
-            }
-        }
-
-        private DashDelimitedCollectionViewModel<string> _credits;
-        public DashDelimitedCollectionViewModel<string> Credits
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _credits;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _credits = value;
-            }
-        }
-
-        private DashDelimitedCollectionViewModel<string> _directors;
-        public DashDelimitedCollectionViewModel<string> Directors
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _directors;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _directors = value;
-            }
-        }
-
-        private DateTime? _airedDate;
-        public DateTime? AiredDate
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _airedDate;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _airedDate = value;
-            }
-        }
-
-        private int? _displaySeason;
-        public int? DisplaySeason
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _displaySeason;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _displaySeason = value;
-            }
-        }
-
-        private int? _displayEpisode;
-        public int? DisplayEpisode
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _displayEpisode;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _displayEpisode = value;
-            }
-        }
-
-        private double? _episodeBookmarks;
-        public double? EpisodeBookmarks
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _episodeBookmarks;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _episodeBookmarks = value;
-            }
-        }
+        public double Rating { get; set; }
+        public string Plot { get; set; }
+        public ImageViewModel ImagePath { get; set; }
+        public string ImageUrl { get; set; }
+        public int PlayCount { get; set; }
+        public DateTime? LastPlayed { get; set; }
+        public DashDelimitedCollectionViewModel<string> Credits { get; set; }
+        public DashDelimitedCollectionViewModel<string> Directors { get; set; }
+        public DateTime? AiredDate { get; set; }
+        public int? DisplaySeason { get; set; }
+        public int? DisplayEpisode { get; set; }
+        public double? EpisodeBookmarks { get; set; }
         #endregion
 
         // Do nothing with it, no children to show
@@ -239,10 +77,9 @@ namespace PerfectMedia.UI.TvShows.Episodes
             EpisodeNumber = viewModelFactory.GetCachedProperty(path + "?episodeNumber", i => i.ToString(CultureInfo.InvariantCulture), int.Parse);
             EpisodeNumber.PropertyChanged += CachedPropertyChanged;
 
-            // We don't want to trigger the InitialLoadInformation by setting the properties
-            _credits = new DashDelimitedCollectionViewModel<string>(s => s);
-            _directors = new DashDelimitedCollectionViewModel<string>(s => s);
-            _imagePath = new ImageViewModel(fileSystemService, true);
+            Credits = new DashDelimitedCollectionViewModel<string>(s => s);
+            Directors = new DashDelimitedCollectionViewModel<string>(s => s);
+            ImagePath = new ImageViewModel(fileSystemService, true);
 
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this, progressManager);
@@ -289,13 +126,12 @@ namespace PerfectMedia.UI.TvShows.Episodes
             });
         }
 
-        private void InitialLoadInformation()
+        public async Task Load()
         {
             if (!_lazyLoaded)
             {
                 _lazyLoaded = true;
-                // TODO: call asynchronously
-                Refresh();
+                await Refresh();
             }
         }
 

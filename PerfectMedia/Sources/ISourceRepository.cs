@@ -13,7 +13,7 @@ namespace PerfectMedia.Sources
         /// </summary>
         /// <param name="sourceType">Type of the source.</param>
         /// <returns></returns>
-        Task<IEnumerable<Source>> GetSources(SourceType sourceType);
+        IEnumerable<Source> GetSources(SourceType sourceType);
 
         /// <summary>
         /// Saves the specified sources.

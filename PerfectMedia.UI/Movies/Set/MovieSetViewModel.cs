@@ -13,13 +13,17 @@ using PropertyChanged;
 namespace PerfectMedia.UI.Movies.Set
 {
     [ImplementPropertyChanged]
-    public class MovieSetViewModel : IMovieSetViewModel
+    public class MovieSetViewModel : IMovieSetViewModel, ITreeViewItemViewModel
     {
         private readonly IFileSystemService _fileSystemService;
         private readonly IMovieMetadataService _metadataService;
 
         public string SetName { get; set; }
         public string DisplayName { get; private set; }
+
+        // Do nothing since children are not lazy-loaded
+        public bool IsExpanded { get; set; }
+
         public IImageViewModel Fanart { get; private set; }
         public IImageViewModel Poster { get; private set; }
         public ObservableCollection<IMovieViewModel> Children { get; private set; }
@@ -105,10 +109,21 @@ namespace PerfectMedia.UI.Movies.Set
                 DisplayName = SetName;
                 foreach (IMovieViewModel movie in Children.ToList())
                 {
-                    movie.SetName = SetName;
+                    movie.SetName.Value = SetName;
                     await movie.Save();
                 }
             }
+        }
+
+        public Task Load()
+        {
+            // Nothing to do
+            return Task.Delay(0);
+        }
+
+        public override string ToString()
+        {
+            return DisplayName;
         }
 
         private async Task MoveImages()
@@ -119,11 +134,6 @@ namespace PerfectMedia.UI.Movies.Set
             await _fileSystemService.MoveFile(oldSet.PosterPath, newSet.PosterPath);
             Fanart.Path = newSet.BackdropPath;
             Poster.Path = newSet.PosterPath;
-        }
-
-        public override string ToString()
-        {
-            return DisplayName;
         }
 
         private bool MovieIsInPath(IMovieViewModel movie, string path)

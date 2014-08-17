@@ -28,9 +28,9 @@ namespace PerfectMedia.Sources
         /// </summary>
         /// <param name="sourceType">Type of the source.</param>
         /// <returns></returns>
-        public async Task<IEnumerable<Source>> GetSources(SourceType sourceType)
+        public IEnumerable<Source> GetSources(SourceType sourceType)
         {
-            return await _sourceRepository.GetSources(sourceType);
+            return GetSourceListForSourceType(sourceType);
         }
 
         /// <summary>
@@ -53,13 +53,13 @@ namespace PerfectMedia.Sources
             sourcesList.Remove(source);
         }
 
-        async Task ILifecycleService.Initialize()
+        void ILifecycleService.Initialize()
         {
             IEnumerable<SourceType> allSourceTypes = Enum.GetValues(typeof(SourceType)).Cast<SourceType>();
             foreach (SourceType sourceType in allSourceTypes)
             {
                 List<Source> sourcesList = GetSourceListForSourceType(sourceType);
-                sourcesList.AddRange(await _sourceRepository.GetSources(sourceType));
+                sourcesList.AddRange(_sourceRepository.GetSources(sourceType));
             }
         }
 

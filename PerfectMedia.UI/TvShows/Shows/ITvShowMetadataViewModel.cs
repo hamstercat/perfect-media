@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using PerfectMedia.UI.Metadata;
 
 namespace PerfectMedia.UI.TvShows.Shows
@@ -8,5 +9,6 @@ namespace PerfectMedia.UI.TvShows.Shows
         string Id { get; }
         string Path { get; }
         string DisplayName { get; }
+        Task Load();
     }
 }

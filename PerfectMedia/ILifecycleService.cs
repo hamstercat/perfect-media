@@ -15,7 +15,7 @@ namespace PerfectMedia
         /// Initializes this instance. Will only be called once when the application starts up.
         /// </summary>
         /// <returns></returns>
-        Task Initialize();
+        void Initialize();
 
         /// <summary>
         /// Uninitializes this instance. Will only be called once just before the application closes.

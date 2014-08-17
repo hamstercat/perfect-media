@@ -33,9 +33,9 @@ namespace PerfectMedia.UI.Sources
             SpecificFolders.CollectionChanged += SpecificFoldersCollectionChanged;
         }
 
-        public async Task Load()
+        public void Load()
         {
-            IEnumerable<Source> sources = await _sourceService.GetSources(_sourceType);
+            IEnumerable<Source> sources = _sourceService.GetSources(_sourceType);
 
             // Since we're loading the sources from the repo, don't save them back when adding them in the manager
             RootFolders.CollectionChanged -= RootFoldersCollectionChanged;

@@ -17,26 +17,26 @@ namespace PerfectMedia
             _fileBackedRepository = Substitute.For<IFileBackedRepository>();
             IDictionary<string, string> dictionary = new Dictionary<string, string>();
             _fileBackedRepository.Load()
-                .Returns(Task.FromResult(dictionary));
+                .Returns(dictionary);
             _keyDataStore = new KeyDataStore(_fileBackedRepository);
         }
 
         [Fact]
-        public async Task Initialize_Always_LoadsDataInMemory()
+        public void Initialize_Always_LoadsDataInMemory()
         {
             // Act
-            await InitializeKeyDataStore();
+            InitializeKeyDataStore();
 
             // Assert
             _fileBackedRepository.Received()
-                .Load().Async();
+                .Load();
         }
 
         [Fact]
-        public async Task Dispose_WithoutData_DoesNothing()
+        public void Dispose_WithoutData_DoesNothing()
         {
             // Arrange
-            await InitializeKeyDataStore();
+            InitializeKeyDataStore();
 
             // Act
             ((ILifecycleService)_keyDataStore).Uninitialize();
@@ -47,10 +47,10 @@ namespace PerfectMedia
         }
 
         [Fact]
-        public async Task Dispose_WithData_PersistsIt()
+        public void Dispose_WithData_PersistsIt()
         {
             // Arrange
-            await InitializeKeyDataStore();
+            InitializeKeyDataStore();
             _keyDataStore.SetValue("Key1", "I'm a dinosaur!");
             _keyDataStore.SetValue("Key2", "Rawr!");
 
@@ -65,10 +65,10 @@ namespace PerfectMedia
         }
 
         [Fact]
-        public async Task GetValue_AfterSetValue_ReturnsIt()
+        public void GetValue_AfterSetValue_ReturnsIt()
         {
             // Arrange
-            await InitializeKeyDataStore();
+            InitializeKeyDataStore();
             _keyDataStore.SetValue("A long key", "rawr");
 
             // Act
@@ -79,10 +79,10 @@ namespace PerfectMedia
         }
 
         [Fact]
-        public async Task GetValue_WhichIsUndefined_ReturnsEmptyString()
+        public void GetValue_WhichIsUndefined_ReturnsEmptyString()
         {
             // Arrange
-            await InitializeKeyDataStore();
+            InitializeKeyDataStore();
 
             // Act
             string value = _keyDataStore.GetValue("Undefined key");
@@ -94,10 +94,10 @@ namespace PerfectMedia
         [Theory]
         [InlineData(null)]
         [InlineData("")]
-        public async Task GetValue_WithNullOrEmptyKey_ThrowsException(string str)
+        public void GetValue_WithNullOrEmptyKey_ThrowsException(string str)
         {
             // Arrange
-            await InitializeKeyDataStore();
+            InitializeKeyDataStore();
 
             Assert.Throws<ArgumentNullException>(() =>
             {
@@ -109,18 +109,18 @@ namespace PerfectMedia
         [Theory]
         [InlineData(null)]
         [InlineData("")]
-        public async Task SetValue_WithNullOrEmptyKey_ThrowsException(string str)
+        public void SetValue_WithNullOrEmptyKey_ThrowsException(string str)
         {
             // Arrange
-            await InitializeKeyDataStore();
+            InitializeKeyDataStore();
 
             // Act + Assert
             Assert.Throws<ArgumentNullException>(() => _keyDataStore.SetValue(str, "whatever"));
         }
 
-        private async Task InitializeKeyDataStore()
+        private void InitializeKeyDataStore()
         {
-            await ((ILifecycleService)_keyDataStore).Initialize();
+            ((ILifecycleService)_keyDataStore).Initialize();
         }
     }
 }

@@ -21,15 +21,12 @@ namespace PerfectMedia
             _repositoryFile = Path.Combine(assemblyFolder, "Cache.xml");
         }
 
-        public async Task<IDictionary<string, string>> Load()
+        public IDictionary<string, string> Load()
         {
-            if (await _fileSystemService.FileExists(_repositoryFile))
+            if (_fileSystemService.FileExistsSynchronously(_repositoryFile))
             {
-                await Task.Run(() =>
-                {
-                    XElement root = XElement.Load(_repositoryFile);
-                    return root.Elements().ToDictionary(pair => pair.Attribute("key").Value, val => val.Value);
-                });
+                XElement root = XElement.Load(_repositoryFile);
+                return root.Elements().ToDictionary(pair => pair.Attribute("key").Value, val => val.Value);
             }
             return new Dictionary<string, string>();
         }

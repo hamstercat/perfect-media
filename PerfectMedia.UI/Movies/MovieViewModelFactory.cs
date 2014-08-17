@@ -1,4 +1,5 @@
-﻿using PerfectMedia.Movies;
+﻿using System;
+using PerfectMedia.Movies;
 using PerfectMedia.Sources;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Movies.Selection;
@@ -14,16 +15,19 @@ namespace PerfectMedia.UI.Movies
         private readonly IFileSystemService _fileSystemService;
         private readonly IMovieMetadataService _metadataService;
         private readonly IProgressManagerViewModel _progressManager;
+        private readonly IKeyDataStore _keyDataStore;
 
         public MovieViewModelFactory(ISourceService sourceService,
             IMovieMetadataService metadataService,
             IFileSystemService fileSystemService,
-            IProgressManagerViewModel progressManager)
+            IProgressManagerViewModel progressManager,
+            IKeyDataStore keyDataStore)
         {
             _sourceService = sourceService;
             _fileSystemService = fileSystemService;
             _metadataService = metadataService;
             _progressManager = progressManager;
+            _keyDataStore = keyDataStore;
         }
 
         public ISourceManagerViewModel GetSourceManager()
@@ -54,6 +58,11 @@ namespace PerfectMedia.UI.Movies
         public IMovieSetViewModel GetMovieSet(string setName)
         {
             return new MovieSetViewModel(_fileSystemService, this, _metadataService, _progressManager, setName);
+        }
+
+        public ICachedPropertyViewModel<T> GetCachedProperty<T>(string key, Func<T, string> converter, Func<string, T> otherConverter)
+        {
+            return new CachedPropertyViewModel<T>(_keyDataStore, key, converter, otherConverter);
         }
     }
 }

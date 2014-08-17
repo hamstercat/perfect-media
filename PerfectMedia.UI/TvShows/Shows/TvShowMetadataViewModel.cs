@@ -41,186 +41,18 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         #region Metadata
         public ICachedPropertyViewModel<string> Title { get; private set; }
-
-        private ObservableCollection<ActorViewModel> _actors;
-        public ObservableCollection<ActorViewModel> Actors
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _actors;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _actors = value;
-            }
-        }
-
-        private int _state;
-        public int State
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _state;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _state = value;
-            }
-        }
-
-        private string _id;
-        public string Id
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _id;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _id = value;
-            }
-        }
-
-        private string _mpaaRating;
-        public string MpaaRating
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _mpaaRating;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _mpaaRating = value;
-            }
-        }
-
-        private DashDelimitedCollectionViewModel<string> _genres;
-        public DashDelimitedCollectionViewModel<string> Genres
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _genres;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _genres = value;
-            }
-        }
-
-        private string _imdbId;
-        public string ImdbId
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _imdbId;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _imdbId = value;
-            }
-        }
-
-        private string _plot;
-        public string Plot
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _plot;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _plot = value;
-            }
-        }
-
-        private int _runtimeInMinutes;
-        public int RuntimeInMinutes
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _runtimeInMinutes;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _runtimeInMinutes = value;
-            }
-        }
-
-        private double? _rating;
-        public double? Rating
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _rating;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _rating = value;
-            }
-        }
-
-        private DateTime? _premieredDate;
-        public DateTime? PremieredDate
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _premieredDate;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _premieredDate = value;
-            }
-        }
-
-        private string _studio;
-        public string Studio
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _studio;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _studio = value;
-            }
-        }
-
-        private string _language;
-        public string Language
-        {
-            get
-            {
-                InitialLoadInformation();
-                return _language;
-            }
-            set
-            {
-                InitialLoadInformation();
-                _language = value;
-            }
-        }
+        public ObservableCollection<ActorViewModel> Actors { get; set; }
+        public int State { get; set; }
+        public string Id { get; set; }
+        public string MpaaRating { get; set; }
+        public DashDelimitedCollectionViewModel<string> Genres { get; set; }
+        public string ImdbId { get; set; }
+        public string Plot { get; set; }
+        public int RuntimeInMinutes { get; set; }
+        public double? Rating { get; set; }
+        public DateTime? PremieredDate { get; set; }
+        public string Studio { get; set; }
+        public string Language { get; set; }
         #endregion
 
         public TvShowMetadataViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowMetadataService metadataService, IProgressManagerViewModel progressManager, string path)
@@ -234,9 +66,8 @@ namespace PerfectMedia.UI.TvShows.Shows
             Title.PropertyChanged += TitleValueChanged;
 
             Images = viewModelFactory.GetTvShowImages(this, path);
-            // We don't want to trigger the InitialLoadInformation by setting the properties
-            _actors = new ObservableCollection<ActorViewModel>();
-            _genres = new DashDelimitedCollectionViewModel<string>(s => s);
+            Actors = new ObservableCollection<ActorViewModel>();
+            Genres = new DashDelimitedCollectionViewModel<string>(s => s);
 
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this, progressManager);
@@ -270,20 +101,19 @@ namespace PerfectMedia.UI.TvShows.Shows
             });
         }
 
-        private void TitleValueChanged(object sender, PropertyChangedEventArgs e)
-        {
-            OnPropertyChanged("Title");
-            OnPropertyChanged("DisplayName");
-        }
-
-        private void InitialLoadInformation()
+        public async Task Load()
         {
             if (!_lazyLoaded)
             {
                 _lazyLoaded = true;
-                // TODO: call asynchronously
-                Refresh();
+                await Refresh();
             }
+        }
+
+        private void TitleValueChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged("Title");
+            OnPropertyChanged("DisplayName");
         }
 
         private void RefreshFromMetadata(TvShowMetadata metadata)

@@ -36,5 +36,11 @@ namespace PerfectMedia.UI.TvShows
             FrameworkElement frameworkElement = (FrameworkElement)sender;
             return (ITvShowViewModel)frameworkElement.DataContext;
         }
+
+        private async void TvShowsSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var newItem = (ITreeViewItemViewModel)e.NewValue;
+            await newItem.Load();
+        }
     }
 }

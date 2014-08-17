@@ -69,7 +69,7 @@ namespace PerfectMedia.UI.Movies
 
         private void AddMovie(IMovieViewModel movie)
         {
-            if (string.IsNullOrEmpty(movie.SetName))
+            if (string.IsNullOrEmpty(movie.SetName.Value))
             {
                 Movies.Add(movie);
             }
@@ -81,10 +81,11 @@ namespace PerfectMedia.UI.Movies
 
         private void AddMovieSet(IMovieViewModel movie)
         {
-            IMovieSetViewModel movieSet = Movies.OfType<IMovieSetViewModel>().FirstOrDefault(m => m.DisplayName == movie.SetName);
+            string setName = movie.SetName.Value;
+            IMovieSetViewModel movieSet = Movies.OfType<IMovieSetViewModel>().FirstOrDefault(m => m.DisplayName == setName);
             if (movieSet == null)
             {
-                movieSet = _viewModelFactory.GetMovieSet(movie.SetName);
+                movieSet = _viewModelFactory.GetMovieSet(setName);
                 Movies.Add(movieSet);
             }
             movieSet.AddMovie(movie);
@@ -152,9 +153,9 @@ namespace PerfectMedia.UI.Movies
             return !fileName.EndsWith("-trailer");
         }
 
-        async Task ILifecycleService.Initialize()
+        void ILifecycleService.Initialize()
         {
-            await Sources.Load();
+            Sources.Load();
         }
 
         void ILifecycleService.Uninitialize()

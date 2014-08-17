@@ -17,6 +17,11 @@ namespace PerfectMedia
             return Task.Run(() => File.Exists(filePath));
         }
 
+        public bool FileExistsSynchronously(string filePath)
+        {
+            return File.Exists(filePath);
+        }
+
         public async Task CreateFile(string filePath, params string[] content)
         {
             await Task.Run(() => File.WriteAllLines(filePath, content));

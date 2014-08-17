@@ -74,11 +74,11 @@ namespace PerfectMedia.UI.TvShows
             }
         }
 
-        async Task ILifecycleService.Initialize()
+        void ILifecycleService.Initialize()
         {
             using (_busyProvider.DoWork())
             {
-                await Sources.Load();
+                Sources.Load();
             }
         }
 

@@ -7,7 +7,7 @@ namespace PerfectMedia.UI.Movies
     {
         string Path { get; }
         string Id { get; }
-        string SetName { get; set; }
+        ICachedPropertyViewModel<string> SetName { get; }
         IMovieSelectionViewModel Selection { get; }
     }
 }

@@ -34,12 +34,12 @@ namespace PerfectMedia.Sources
         /// </summary>
         /// <param name="sourceType">Type of the sources.</param>
         /// <returns></returns>
-        public async Task<IEnumerable<Source>> GetSources(SourceType sourceType)
+        public IEnumerable<Source> GetSources(SourceType sourceType)
         {
-            string file = await GetSourceTypeFile(sourceType);
-            if (await _fileSystemService.FileExists(file))
+            string file = GetSourceTypeFile(sourceType);
+            if (_fileSystemService.FileExistsSynchronously(file))
             {
-                return await Task.Run(() => Deserialize(file));
+                return Deserialize(file);
             }
             return Enumerable.Empty<Source>();
         }
@@ -53,32 +53,18 @@ namespace PerfectMedia.Sources
         public void Save(SourceType sourceType, IEnumerable<Source> sources)
         {
             string serializedSources = GetSerializedSource(sources.ToList());
-            string file = GetSourceTypeFileSynchrnously(sourceType);
-            _fileSystemService.CreateFileSynchronously(file, serializedSources);
+            string file = GetSourceTypeFile(sourceType);
+            _fileSystemService.CreateFile(file, serializedSources);
         }
 
-        private async Task<string> GetSourceTypeFile(SourceType sourceType)
+        private string GetSourceTypeFile(SourceType sourceType)
         {
             string fileName = sourceType.ToString() + ".xml";
-            string folder = await GetFolder();
+            string folder = GetFolder();
             return Path.Combine(folder, fileName);
         }
 
-        private string GetSourceTypeFileSynchrnously(SourceType sourceType)
-        {
-            string fileName = sourceType.ToString() + ".xml";
-            string folder = GetFolderSynchronously();
-            return Path.Combine(folder, fileName);
-        }
-
-        private async Task<string> GetFolder()
-        {
-            string folder = Path.Combine(_basePath, "Sources");
-            await _fileSystemService.CreateFolder(folder);
-            return folder;
-        }
-
-        private string GetFolderSynchronously()
+        private string GetFolder()
         {
             string folder = Path.Combine(_basePath, "Sources");
             _fileSystemService.CreateFolderSynchronously(folder);

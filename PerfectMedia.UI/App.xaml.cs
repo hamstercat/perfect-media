@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace PerfectMedia.UI
 {
@@ -7,9 +8,10 @@ namespace PerfectMedia.UI
     /// </summary>
     public partial class App : Application
     {
-        protected override async void OnActivated(System.EventArgs e)
+        protected override void OnActivated(EventArgs e)
         {
-            await ServiceLocator.InitializeInstances();
+            base.OnActivated(e);
+            ServiceLocator.InitializeInstances();
         }
 
         protected override void OnExit(ExitEventArgs e)

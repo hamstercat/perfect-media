@@ -73,11 +73,11 @@ namespace PerfectMedia.UI
             Instances.Add(this);
         }
 
-        public static async Task InitializeInstances()
+        public static void InitializeInstances()
         {
             foreach (ServiceLocator instance in Instances)
             {
-                await instance.Initialize();
+                instance.Initialize();
             }
         }
 
@@ -89,14 +89,14 @@ namespace PerfectMedia.UI
             }
         }
 
-        private async Task Initialize()
+        private void Initialize()
         {
             if (!_initialized)
             {
                 _initialized = true;
                 foreach (var svc in _kernel.GetAll<ILifecycleService>())
                 {
-                    await svc.Initialize();
+                    svc.Initialize();
                 }
             }
         }

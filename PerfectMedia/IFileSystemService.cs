@@ -6,6 +6,7 @@ namespace PerfectMedia
     public interface IFileSystemService
     {
         Task<bool> FileExists(string filePath);
+        bool FileExistsSynchronously(string filePath);
         Task CreateFile(string filePath, params string[] content);
         void CreateFileSynchronously(string filePath, params string[] content);
         Task DeleteFile(string filePath);

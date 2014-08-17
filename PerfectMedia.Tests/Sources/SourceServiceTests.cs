@@ -21,7 +21,7 @@ namespace PerfectMedia.Sources
         [InlineData(SourceType.Movie)]
         [InlineData(SourceType.Music)]
         [InlineData(SourceType.TvShow)]
-        public async Task GetSources_Always_ReturnsSources(SourceType sourceType)
+        public void GetSources_Always_ReturnsSources(SourceType sourceType)
         {
             // Arrange
             IEnumerable<Source> expectedSources = new List<Source>
@@ -30,10 +30,10 @@ namespace PerfectMedia.Sources
                 new Source(sourceType, false, @"C:\Folder2\My Folder")
             };
             _sourceRepository.GetSources(sourceType)
-                .Returns(Task.FromResult(expectedSources));
+                .Returns(expectedSources);
 
             // Act
-            IEnumerable<Source> sources = await _service.GetSources(sourceType);
+            IEnumerable<Source> sources = _service.GetSources(sourceType);
 
             // Assert
             Assert.Equal(expectedSources, sources);

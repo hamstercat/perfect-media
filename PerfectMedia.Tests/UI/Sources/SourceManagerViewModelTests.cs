@@ -20,7 +20,7 @@ namespace PerfectMedia.UI.Sources
         }
 
         [Fact]
-        public async Task Load_WithAvailableSources_AddsRootFoldersAndSpecificFolders()
+        public void Load_WithAvailableSources_AddsRootFoldersAndSpecificFolders()
         {
             // Arrange
             Source rootFolder = new Source { IsRoot = true, SourceType = SourceType.Music, Folder = @"C:\Folder" };
@@ -28,10 +28,10 @@ namespace PerfectMedia.UI.Sources
             IEnumerable<Source> sources = new List<Source> { rootFolder, specificFolder };
 
             _sourceService.GetSources(SourceType.Music)
-                .Returns(Task.FromResult(sources));
+                .Returns(sources);
 
             // Act
-            await _viewModel.Load();
+            _viewModel.Load();
 
             // Assert
             Assert.Equal(1, _viewModel.RootFolders.Count);
@@ -42,17 +42,17 @@ namespace PerfectMedia.UI.Sources
         }
 
         [Fact]
-        public async Task Load_WithAvailableSources_DoesntSaveThoseSources()
+        public void Load_WithAvailableSources_DoesntSaveThoseSources()
         {
             Source rootFolder = new Source { IsRoot = true, SourceType = SourceType.Music, Folder = @"C:\Folder" };
             Source specificFolder = new Source { IsRoot = false, SourceType = SourceType.Music, Folder = @"C:\Folder\Music" };
             IEnumerable<Source> sources = new List<Source> { rootFolder, specificFolder };
 
             _sourceService.GetSources(SourceType.Music)
-                .Returns(Task.FromResult(sources));
+                .Returns(sources);
 
             // Act
-            await _viewModel.Load();
+            _viewModel.Load();
 
             // Assert
             _sourceService.DidNotReceiveWithAnyArgs()

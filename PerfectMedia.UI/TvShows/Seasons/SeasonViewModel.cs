@@ -22,23 +22,6 @@ namespace PerfectMedia.UI.TvShows.Seasons
         private bool _imagesLoaded;
         private bool _episodeLoaded;
 
-        private bool _isExpanded;
-        public bool IsExpanded
-        {
-            get
-            {
-                return _isExpanded;
-            }
-            set
-            {
-                _isExpanded = value;
-                if (_isExpanded)
-                {
-                    LoadEpisodes();
-                }
-            }
-        }
-
         public string DisplayName
         {
             get
@@ -92,7 +75,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
 
         public async Task<IEnumerable<ProgressItem>> FindNewEpisodes()
         {
-            await LoadEpisodes();
+            await LoadChildren();
             List<ProgressItem> items = new List<ProgressItem>();
             foreach (IEpisodeViewModel episode in Episodes)
             {
@@ -107,7 +90,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
             return Task.Delay(0);
         }
 
-        private async Task LoadEpisodes()
+        public async Task LoadChildren()
         {
             if (!_episodeLoaded)
             {

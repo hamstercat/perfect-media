@@ -18,23 +18,6 @@ namespace PerfectMedia.UI.TvShows.Shows
         private readonly ITvShowFileService _tvShowFileService;
         private readonly IBusyProvider _busyProvider;
 
-        private bool _isExpanded;
-        public bool IsExpanded
-        {
-            get
-            {
-                return _isExpanded;
-            }
-            set
-            {
-                _isExpanded = value;
-                if (_isExpanded)
-                {
-                    LoadSeasons();
-                }
-            }
-        }
-
         public string DisplayName
         {
             get
@@ -93,7 +76,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         {
             using (_busyProvider.DoWork())
             {
-                await LoadSeasons();
+                await LoadChildren();
                 List<ProgressItem> items = new List<ProgressItem>();
                 foreach (ISeasonViewModel season in Seasons)
                 {
@@ -108,7 +91,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             await Metadata.Load();
         }
 
-        private async Task LoadSeasons()
+        public async Task LoadChildren()
         {
             if (!_seasonLoaded)
             {

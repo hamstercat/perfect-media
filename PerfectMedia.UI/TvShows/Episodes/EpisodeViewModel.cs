@@ -40,9 +40,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
         public double? EpisodeBookmarks { get; set; }
         #endregion
 
-        // Do nothing with it, no children to show
-        public bool IsExpanded { get; set; }
-
         public string DisplayName
         {
             get
@@ -133,6 +130,12 @@ namespace PerfectMedia.UI.TvShows.Episodes
                 _lazyLoaded = true;
                 await Refresh();
             }
+        }
+
+        public Task LoadChildren()
+        {
+            // Nothing to do
+            return Task.Delay(0);
         }
 
         private void RefreshFromMetadata(EpisodeMetadata metadata)

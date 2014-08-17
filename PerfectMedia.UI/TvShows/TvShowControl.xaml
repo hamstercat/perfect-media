@@ -34,7 +34,8 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TreeView x:Name="TvShowsTreeView" ItemsSource="{Binding Source={StaticResource SortedTvShows}}" SelectedItemChanged="TvShowsSelectedItemChanged">
+            <TreeView x:Name="TvShowsTreeView" ItemsSource="{Binding Source={StaticResource SortedTvShows}}"
+                      SelectedItemChanged="TvShowsSelectedItemChanged" TreeViewItem.Expanded="TvShowsExpanded">
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
                         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />

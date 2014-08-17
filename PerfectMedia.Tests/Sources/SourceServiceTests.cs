@@ -21,7 +21,7 @@ namespace PerfectMedia.Sources
         [InlineData(SourceType.Movie)]
         [InlineData(SourceType.Music)]
         [InlineData(SourceType.TvShow)]
-        public void GetSources_Always_ReturnsSources(SourceType sourceType)
+        public void GetSources_AfterInitialization_ReturnsSources(SourceType sourceType)
         {
             // Arrange
             IEnumerable<Source> expectedSources = new List<Source>
@@ -31,6 +31,7 @@ namespace PerfectMedia.Sources
             };
             _sourceRepository.GetSources(sourceType)
                 .Returns(expectedSources);
+            ((ILifecycleService)_service).Initialize();
 
             // Act
             IEnumerable<Source> sources = _service.GetSources(sourceType);

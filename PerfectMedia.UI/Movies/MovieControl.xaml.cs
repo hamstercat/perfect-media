@@ -38,7 +38,7 @@ namespace PerfectMedia.UI.Movies
 
         private async void MoviesSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            var newItem = (ITreeViewItemViewModel)e.NewValue;
+            ITreeViewItemViewModel newItem = (ITreeViewItemViewModel)e.NewValue;
             await newItem.Load();
         }
     }

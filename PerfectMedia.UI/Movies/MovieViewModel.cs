@@ -51,9 +51,6 @@ namespace PerfectMedia.UI.Movies
         public ObservableCollection<ActorViewModel> Actors { get; set; }
         #endregion
 
-        // Do nothing since we have no children to show
-        public bool IsExpanded { get; set; }
-
         public string DisplayName
         {
             get
@@ -141,6 +138,12 @@ namespace PerfectMedia.UI.Movies
                 _lazyLoaded = true;
                 await Refresh();
             }
+        }
+
+        public Task LoadChildren()
+        {
+            // Do nothing
+            return Task.Delay(0);
         }
 
         public override string ToString()

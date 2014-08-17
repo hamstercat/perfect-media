@@ -21,9 +21,6 @@ namespace PerfectMedia.UI.Movies.Set
         public string SetName { get; set; }
         public string DisplayName { get; private set; }
 
-        // Do nothing since children are not lazy-loaded
-        public bool IsExpanded { get; set; }
-
         public IImageViewModel Fanart { get; private set; }
         public IImageViewModel Poster { get; private set; }
         public ObservableCollection<IMovieViewModel> Children { get; private set; }
@@ -116,6 +113,12 @@ namespace PerfectMedia.UI.Movies.Set
         }
 
         public Task Load()
+        {
+            // Nothing to do
+            return Task.Delay(0);
+        }
+
+        public Task LoadChildren()
         {
             // Nothing to do
             return Task.Delay(0);

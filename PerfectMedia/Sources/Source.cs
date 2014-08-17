@@ -6,6 +6,7 @@ namespace PerfectMedia.Sources
     /// Sources for a specific source type.
     /// </summary>
     [XmlRoot]
+    [Equals]
     public class Source
     {
         /// <summary>

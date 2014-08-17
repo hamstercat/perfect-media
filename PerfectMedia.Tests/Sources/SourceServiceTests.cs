@@ -38,39 +38,5 @@ namespace PerfectMedia.Sources
             // Assert
             Assert.Equal(expectedSources, sources);
         }
-
-        [Theory]
-        [InlineData(SourceType.Movie)]
-        [InlineData(SourceType.Music)]
-        [InlineData(SourceType.TvShow)]
-        public async Task Save_Always_PersistSource(SourceType sourceType)
-        {
-            // Arrange
-            Source source = new Source(sourceType, false, @"C:\Folder2\My Folder");
-
-            // Act
-            await _service.Save(source);
-
-            // Assert
-            _sourceRepository.Received()
-                .Save(source).Async();
-        }
-
-        [Theory]
-        [InlineData(SourceType.Movie)]
-        [InlineData(SourceType.Music)]
-        [InlineData(SourceType.TvShow)]
-        public async Task Delete_Always_PersistSource(SourceType sourceType)
-        {
-            // Arrange
-            Source source = new Source(sourceType, false, @"C:\Folder2\My Folder");
-
-            // Act
-            await _service.Delete(source);
-
-            // Assert
-            _sourceRepository.Received()
-                .Delete(source).Async();
-        }
     }
 }

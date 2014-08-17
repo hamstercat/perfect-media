@@ -1173,7 +1173,7 @@ class=""link"" >Get more at IMDbPro</a>
                 </li>
                 <li class=""subnav_item_main"">
 <a href=""https://secure.imdb.com/store/photos/?ref_=tt_ql_pro_2""
-class=""link"" >Add posters & stills to this title</a>
+class=""link"" >Save posters & stills to this title</a>
                 </li>
     </ul>
             <hr/>

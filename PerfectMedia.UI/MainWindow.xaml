@@ -6,6 +6,7 @@
                    xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                    Title="perfect-media" Height="800" Width="1400">
     <Grid>
+        <metro:ProgressRing IsActive="{Binding BusyProvider.IsBusy, Source={StaticResource ServiceLocator}, Mode=OneWay}" />
         <TabControl>
             <TabItem Header="TV Shows">
                 <tv:TvShowControl DataContext="{Binding TvShowManagerViewModel, Source={StaticResource ServiceLocator}}" />

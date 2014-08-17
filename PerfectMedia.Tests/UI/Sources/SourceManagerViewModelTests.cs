@@ -56,7 +56,7 @@ namespace PerfectMedia.UI.Sources
 
             // Assert
             _sourceService.DidNotReceiveWithAnyArgs()
-                .Save(null).Async();
+                .Add(null);
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace PerfectMedia.UI.Sources
 
             // Assert
             _sourceService.Received()
-                .Save(Arg.Is<Source>(source => source.Folder == folder && source.IsRoot && source.SourceType == SourceType.Music));
+                .Add(Arg.Is<Source>(source => source.Folder == folder && source.IsRoot && source.SourceType == SourceType.Music));
         }
 
         [Fact]
@@ -126,7 +126,7 @@ namespace PerfectMedia.UI.Sources
 
             // Assert
             _sourceService.Received()
-                .Save(Arg.Is<Source>(source => source.Folder == folder && !source.IsRoot && source.SourceType == SourceType.Music));
+                .Add(Arg.Is<Source>(source => source.Folder == folder && !source.IsRoot && source.SourceType == SourceType.Music));
         }
 
         [Fact]
@@ -169,7 +169,7 @@ namespace PerfectMedia.UI.Sources
 
             // Assert
             _sourceService.Received()
-                .Delete(Arg.Is<Source>(source => source.Folder == folder && source.IsRoot && source.SourceType == SourceType.Music));
+                .Remove(Arg.Is<Source>(source => source.Folder == folder && source.IsRoot && source.SourceType == SourceType.Music));
         }
 
         [Fact]
@@ -198,7 +198,7 @@ namespace PerfectMedia.UI.Sources
 
             // Assert
             _sourceService.Received()
-                .Delete(Arg.Is<Source>(source => source.Folder == folder && !source.IsRoot && source.SourceType == SourceType.Music));
+                .Remove(Arg.Is<Source>(source => source.Folder == folder && !source.IsRoot && source.SourceType == SourceType.Music));
         }
 
         [Fact]

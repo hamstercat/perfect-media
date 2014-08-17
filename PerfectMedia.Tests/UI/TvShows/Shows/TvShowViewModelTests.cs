@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NSubstitute;
 using PerfectMedia.TvShows;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.TvShows.Seasons;
 using Xunit;
 
@@ -13,14 +14,16 @@ namespace PerfectMedia.UI.TvShows.Shows
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowFileService _tvShowFileService;
         private readonly string _path;
+        private readonly IBusyProvider _busyProvider;
         private TvShowViewModel _viewModel;
 
         public TvShowViewModelTests()
         {
             _viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
             _tvShowFileService = Substitute.For<ITvShowFileService>();
+            _busyProvider = Substitute.For<IBusyProvider>();
             _path = @"C:\Folder\TV Shows\Game of Thrones";
-            _viewModel = new TvShowViewModel(_viewModelFactory, _tvShowFileService, _path);
+            _viewModel = new TvShowViewModel(_viewModelFactory, _tvShowFileService, _busyProvider, _path);
         }
 
         [Fact]
@@ -73,7 +76,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             ITvShowMetadataViewModel metadata = Substitute.For<ITvShowMetadataViewModel>();
             _viewModelFactory.GetTvShowMetadata(_path)
                 .Returns(metadata);
-            _viewModel = new TvShowViewModel(_viewModelFactory, _tvShowFileService, _path);
+            _viewModel = new TvShowViewModel(_viewModelFactory, _tvShowFileService, _busyProvider, _path);
 
             // Act
             await _viewModel.Update();

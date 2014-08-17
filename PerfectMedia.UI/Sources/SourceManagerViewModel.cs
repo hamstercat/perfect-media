@@ -2,7 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
+using System.Windows;
 using PerfectMedia.Sources;
 using PropertyChanged;
 
@@ -84,43 +86,43 @@ namespace PerfectMedia.UI.Sources
             }
         }
 
-        private async void RootFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void RootFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged("RootFolders");
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    await AddFolders(e.NewItems.Cast<string>(), true);
+                    AddFolders(e.NewItems.Cast<string>(), true);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    await RemoveFolders(e.OldItems.Cast<string>(), true);
+                    RemoveFolders(e.OldItems.Cast<string>(), true);
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    await RemoveFolders(e.OldItems.Cast<string>(), true);
-                    await AddFolders(e.NewItems.Cast<string>(), true);
+                    RemoveFolders(e.OldItems.Cast<string>(), true);
+                    AddFolders(e.NewItems.Cast<string>(), true);
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    await RemoveFolders(RootFolders, true);
+                    RemoveFolders(RootFolders, true);
                     break;
             }
         }
 
-        private async void SpecificFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void SpecificFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    await AddFolders(e.NewItems.Cast<string>(), false);
+                    AddFolders(e.NewItems.Cast<string>(), false);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    await RemoveFolders(e.OldItems.Cast<string>(), false);
+                    RemoveFolders(e.OldItems.Cast<string>(), false);
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    await RemoveFolders(e.OldItems.Cast<string>(), false);
-                    await AddFolders(e.NewItems.Cast<string>(), false);
+                    RemoveFolders(e.OldItems.Cast<string>(), false);
+                    AddFolders(e.NewItems.Cast<string>(), false);
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    await RemoveFolders(SpecificFolders, false);
+                    RemoveFolders(SpecificFolders, false);
                     break;
             }
         }
@@ -131,7 +133,7 @@ namespace PerfectMedia.UI.Sources
             {
                 if (source.IsRoot)
                 {
-                    AddRootFolder(source.Folder);
+                    AddRootFolder((source.Folder));
                 }
                 else
                 {
@@ -140,21 +142,21 @@ namespace PerfectMedia.UI.Sources
             }
         }
 
-        private async Task AddFolders(IEnumerable<string> newFolders, bool isRoot)
+        private void AddFolders(IEnumerable<string> newFolders, bool isRoot)
         {
             foreach (string folder in newFolders)
             {
                 Source source = new Source(_sourceType, isRoot, folder);
-                await _sourceService.Save(source);
+                _sourceService.Add(source);
             }
         }
 
-        private async Task RemoveFolders(IEnumerable<string> foldersToRemove, bool isRoot)
+        private void RemoveFolders(IEnumerable<string> foldersToRemove, bool isRoot)
         {
             foreach (string folder in foldersToRemove)
             {
                 Source source = new Source(_sourceType, isRoot, folder);
-                await _sourceService.Delete(source);
+                _sourceService.Remove(source);
             }
         }
     }

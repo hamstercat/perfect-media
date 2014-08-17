@@ -15,7 +15,7 @@ using PropertyChanged;
 namespace PerfectMedia.UI.Movies
 {
     [ImplementPropertyChanged]
-    public class MovieManagerViewModel : ISourceProvider, IStartupInitialization
+    public class MovieManagerViewModel : IMovieManagerViewModel, ISourceProvider, ILifecycleService
     {
         private readonly IFileSystemService _fileSystemService;
         private readonly IMovieViewModelFactory _viewModelFactory;
@@ -152,9 +152,14 @@ namespace PerfectMedia.UI.Movies
             return !fileName.EndsWith("-trailer");
         }
 
-        async Task IStartupInitialization.Initialize()
+        async Task ILifecycleService.Initialize()
         {
             await Sources.Load();
+        }
+
+        void ILifecycleService.Uninitialize()
+        {
+            // Do nothing
         }
     }
 }

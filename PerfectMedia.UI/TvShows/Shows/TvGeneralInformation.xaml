@@ -44,6 +44,7 @@
 
             <Label Grid.Row="4" Grid.Column="0" Content="MPAA Rating" />
             <ComboBox Grid.Row="4" Grid.Column="1" SelectedValue="{Binding MpaaRating, Mode=TwoWay}" SelectedValuePath="Tag">
+                <ComboBoxItem Tag="" FontStyle="Italic">(None)</ComboBoxItem>
                 <ComboBoxItem Tag="TV-Y">TV-Y</ComboBoxItem>
                 <ComboBoxItem Tag="TV-Y7">TV-Y7</ComboBoxItem>
                 <ComboBoxItem Tag="TV-G">TV-G</ComboBoxItem>
@@ -52,14 +53,14 @@
                 <ComboBoxItem Tag="TV-MA">TV-MA</ComboBoxItem>
             </ComboBox>
             <Label Grid.Row="4" Grid.Column="2" Content="Premiered Date" />
-            <DatePicker Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3" SelectedDate="{Binding PremieredDate}" />
+            <DatePicker Grid.Row="4" Grid.Column="3" SelectedDate="{Binding PremieredDate}" />
 
             <Label Grid.Row="5" Grid.Column="0" Content="Studio" />
             <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Studio}" />
             <Label Grid.Row="6" Grid.Column="0" Content="Plot" />
             <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Plot}" TextWrapping="Wrap" />
 
-            <img:SelectableImage Grid.Row="7" Grid.ColumnSpan="4" DataContext="{Binding Images.FanartUrl}" />
+            <img:SelectableImage Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" DataContext="{Binding Images.FanartUrl}" />
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>

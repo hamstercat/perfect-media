@@ -25,8 +25,11 @@ namespace PerfectMedia
         {
             if (await _fileSystemService.FileExists(_repositoryFile))
             {
-                XElement root = XElement.Load(_repositoryFile);
-                return root.Elements().ToDictionary(pair => pair.Attribute("key").Value, val => val.Value);
+                await Task.Run(() =>
+                {
+                    XElement root = XElement.Load(_repositoryFile);
+                    return root.Elements().ToDictionary(pair => pair.Attribute("key").Value, val => val.Value);
+                });
             }
             return new Dictionary<string, string>();
         }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PerfectMedia
 {
-    public class KeyDataStore : IKeyDataStore, IStartupInitialization, IDisposable
+    public class KeyDataStore : IKeyDataStore, ILifecycleService
     {
         private readonly IFileBackedRepository _fileBackedRepository;
         private IDictionary<string, string> _dataStore;
@@ -32,12 +32,12 @@ namespace PerfectMedia
             _dataStore[key] = value;
         }
 
-        async Task IStartupInitialization.Initialize()
+        async Task ILifecycleService.Initialize()
         {
             _dataStore = await _fileBackedRepository.Load();
         }
 
-        public void Dispose()
+        void ILifecycleService.Uninitialize()
         {
             if (_dataStore != null && _dataStore.Any())
             {

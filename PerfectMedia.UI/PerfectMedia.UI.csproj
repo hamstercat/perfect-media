@@ -87,6 +87,7 @@
     <Compile Include="..\ProjectAssemblyInfo.cs">
       <Link>Properties\ProjectAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Busy\BusyViewModel.cs" />
     <Compile Include="CachedPropertyViewModel.cs" />
     <Compile Include="Converters\IsEmptyToBooleanConverter.cs" />
     <Compile Include="Converters\NotZeroConverter.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Converters\SpecialsSeasonVisibilityConverter.cs" />
     <Compile Include="Converters\VisibleIfFalseConverter.cs" />
     <Compile Include="Converters\VisibleIfTrueConverter.cs" />
+    <Compile Include="Busy\IBusyProvider.cs" />
     <Compile Include="ICachedPropertyViewModel.cs" />
     <Compile Include="Images\ImageLoader.cs" />
     <Compile Include="Images\Selection\ChooseImageFileViewModel.cs" />
@@ -128,6 +130,7 @@
     </Compile>
     <Compile Include="MainContentHelper.cs" />
     <Compile Include="Movies\IMovieItem.cs" />
+    <Compile Include="Movies\IMovieManagerViewModel.cs" />
     <Compile Include="Movies\Set\IMovieSetViewModel.cs" />
     <Compile Include="Movies\Set\MovieSetControl.xaml.cs">
       <DependentUpon>MovieSetControl.xaml</DependentUpon>
@@ -185,6 +188,7 @@
     <Compile Include="ITreeViewItemViewModel.cs" />
     <Compile Include="TvShows\Episodes\IEpisodeViewModel.cs" />
     <Compile Include="TvShows\FindNewEpisodesCommand.cs" />
+    <Compile Include="TvShows\ITvShowManagerViewModel.cs" />
     <Compile Include="TvShows\ITvShowViewModelFactory.cs" />
     <Compile Include="TvShows\Seasons\ISeasonViewModel.cs" />
     <Compile Include="TvShows\Seasons\SeasonBannerImageStrategy.cs" />

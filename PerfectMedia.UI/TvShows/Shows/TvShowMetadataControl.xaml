@@ -6,7 +6,7 @@
              xmlns:shows="clr-namespace:PerfectMedia.UI.TvShows.Shows"
              xmlns:views="clr-namespace:PerfectMedia.UI"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="500">
     <TabControl>
         <TabItem Header="Information">
             <shows:TvGeneralInformation  />

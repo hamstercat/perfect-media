@@ -17,9 +17,19 @@ namespace PerfectMedia
             return Task.Run(() => File.Exists(filePath));
         }
 
-        public async Task CreateFile(string filePath, IEnumerable<string> content)
+        public async Task CreateFile(string filePath, params string[] content)
         {
             await Task.Run(() => File.WriteAllLines(filePath, content));
+        }
+
+        public void CreateFileSynchronously(string filePath, params string[] content)
+        {
+            File.WriteAllLines(filePath, content);
+        }
+
+        public async Task AppendAllLines(string file, params string[] content)
+        {
+            await Task.Run(() => File.AppendAllLines(file, content));
         }
 
         public async Task DeleteFile(string filePath)
@@ -61,7 +71,18 @@ namespace PerfectMedia
 
         public async Task CreateFolder(string folderName)
         {
-            await Task.Run(() => Directory.CreateDirectory(folderName));
+            if (!await FolderExists(folderName))
+            {
+                await Task.Run(() => Directory.CreateDirectory(folderName));
+            }
+        }
+
+        public void CreateFolderSynchronously(string folderName)
+        {
+            if (!Directory.Exists(folderName))
+            {
+                Directory.CreateDirectory(folderName);
+            }
         }
 
         // This method comes from https://stackoverflow.com/questions/4389775/what-is-a-good-way-to-remove-last-few-directory

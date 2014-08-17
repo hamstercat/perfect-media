@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using log4net.Config;
@@ -9,31 +10,32 @@ using Ninject;
 using Ninject.Extensions.Conventions;
 using PerfectMedia.Movies;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Movies;
 using PerfectMedia.UI.TvShows;
 
 namespace PerfectMedia.UI
 {
-    public class ServiceLocator : IDisposable
+    public class ServiceLocator
     {
         private static readonly List<ServiceLocator> Instances = new List<ServiceLocator>();
         private readonly IKernel _kernel;
         private bool _initialized;
 
-        public TvShowManagerViewModel TvShowManagerViewModel
+        public ITvShowManagerViewModel TvShowManagerViewModel
         {
-            get
-            {
-                return _kernel.Get<TvShowManagerViewModel>();
-            }
+            get { return _kernel.Get<ITvShowManagerViewModel>(); }
         }
 
-        public MovieManagerViewModel MovieManagerViewModel
+        public IMovieManagerViewModel MovieManagerViewModel
         {
             get
-            {
-                return _kernel.Get<MovieManagerViewModel>();
-            }
+            { return _kernel.Get<IMovieManagerViewModel>(); }
+        }
+
+        public IBusyProvider BusyProvider
+        {
+            get { return _kernel.Get<IBusyProvider>(); }
         }
 
         private IRestApiService ThetvdbRestApi
@@ -79,17 +81,12 @@ namespace PerfectMedia.UI
             }
         }
 
-        public static void DisposeInstances()
+        public static void UninitializeInstances()
         {
             foreach (ServiceLocator instance in Instances)
             {
-                instance.Dispose();
+                instance.Uninitialize();
             }
-        }
-
-        public void Dispose()
-        {
-            _kernel.Dispose();
         }
 
         private async Task Initialize()
@@ -97,10 +94,18 @@ namespace PerfectMedia.UI
             if (!_initialized)
             {
                 _initialized = true;
-                foreach (var dependency in _kernel.GetAll<IStartupInitialization>())
+                foreach (var svc in _kernel.GetAll<ILifecycleService>())
                 {
-                    await dependency.Initialize();
+                    await svc.Initialize();
                 }
+            }
+        }
+
+        private void Uninitialize()
+        {
+            foreach (var svc in _kernel.GetAll<ILifecycleService>())
+            {
+                svc.Uninitialize();
             }
         }
 
@@ -116,6 +121,7 @@ namespace PerfectMedia.UI
                 })
                 .SelectAllClasses()
                 .BindAllInterfaces()
+                .Configure(b => b.InSingletonScope())
                 .ConfigureFor<ThetvdbTvShowMetadataUpdater>(tvShowMetadataUpdater => tvShowMetadataUpdater.WithConstructorArgument(ThetvdbRestApi))
                 .ConfigureFor<ThemoviedbMovieMetadataUpdater>(movieMetadataUpdater => movieMetadataUpdater.WithConstructorArgument(ThemoviedbRestApi))
                 .ConfigureFor<ImdbMovieSynopsisService>(movieSynopsisService => movieSynopsisService.WithConstructorArgument(ImdbRestApi))

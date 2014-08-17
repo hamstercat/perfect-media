@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using PerfectMedia.Sources;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.Sources;
@@ -12,18 +13,20 @@ using PerfectMedia.UI.TvShows.Shows;
 
 namespace PerfectMedia.UI.TvShows
 {
-    public class TvShowManagerViewModel : ISourceProvider, IStartupInitialization
+    public class TvShowManagerViewModel : ITvShowManagerViewModel, ISourceProvider, ILifecycleService
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
+        private readonly IBusyProvider _busyProvider;
 
         public ISourceManagerViewModel Sources { get; private set; }
         public ObservableCollection<ITvShowViewModel> TvShows { get; private set; }
         public ICommand UpdateAll { get; private set; }
         public ICommand FindNewEpisodes { get; private set; }
 
-        public TvShowManagerViewModel(ITvShowViewModelFactory viewModelFactory, IProgressManagerViewModel progressManager)
+        public TvShowManagerViewModel(ITvShowViewModelFactory viewModelFactory, IProgressManagerViewModel progressManager, IBusyProvider busyProvider)
         {
             _viewModelFactory = viewModelFactory;
+            _busyProvider = busyProvider;
             TvShows = new ObservableCollection<ITvShowViewModel>();
 
             UpdateAll = new UpdateAllMetadataCommand<ITvShowViewModel>(TvShows, progressManager);
@@ -71,9 +74,17 @@ namespace PerfectMedia.UI.TvShows
             }
         }
 
-        async Task IStartupInitialization.Initialize()
+        async Task ILifecycleService.Initialize()
         {
-            await Sources.Load();
+            using (_busyProvider.DoWork())
+            {
+                await Sources.Load();
+            }
+        }
+
+        void ILifecycleService.Uninitialize()
+        {
+            // Do nothing
         }
     }
 }

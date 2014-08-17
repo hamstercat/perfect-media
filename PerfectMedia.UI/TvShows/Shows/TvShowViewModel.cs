@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using PerfectMedia.TvShows;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Seasons;
 using PerfectMedia.UI.TvShows.ShowSelection;
@@ -15,6 +16,7 @@ namespace PerfectMedia.UI.TvShows.Shows
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowFileService _tvShowFileService;
+        private readonly IBusyProvider _busyProvider;
 
         private bool _isExpanded;
         public bool IsExpanded
@@ -48,10 +50,11 @@ namespace PerfectMedia.UI.TvShows.Shows
         private bool _seasonLoaded;
         public ObservableCollection<ISeasonViewModel> Seasons { get; private set; }
 
-        public TvShowViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowFileService tvShowFileService, string path)
+        public TvShowViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowFileService tvShowFileService, IBusyProvider busyProvider, string path)
         {
             _viewModelFactory = viewModelFactory;
             _tvShowFileService = tvShowFileService;
+            _busyProvider = busyProvider;
             Path = path;
             Metadata = viewModelFactory.GetTvShowMetadata(Path);
             Metadata.PropertyChanged += (s, e) => OnPropertyChanged("DisplayName");
@@ -64,44 +67,59 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         public async Task Refresh()
         {
-            await Metadata.Refresh();
+            using (_busyProvider.DoWork())
+            {
+                await Metadata.Refresh();
+            }
         }
 
         public async Task<IEnumerable<ProgressItem>> Update()
         {
-            return await Metadata.Update();
+            using (_busyProvider.DoWork())
+            {
+                return await Metadata.Update();
+            }
         }
 
         public async Task Save()
         {
-            await Metadata.Save();
+            using (_busyProvider.DoWork())
+            {
+                await Metadata.Save();
+            }
         }
 
         public async Task<IEnumerable<ProgressItem>> FindNewEpisodes()
         {
-            await LoadSeasons();
-            List<ProgressItem> items = new List<ProgressItem>();
-            foreach (ISeasonViewModel season in Seasons)
+            using (_busyProvider.DoWork())
             {
-                items.AddRange(await season.FindNewEpisodes());
+                await LoadSeasons();
+                List<ProgressItem> items = new List<ProgressItem>();
+                foreach (ISeasonViewModel season in Seasons)
+                {
+                    items.AddRange(await season.FindNewEpisodes());
+                }
+                return items;
             }
-            return items;
         }
 
         private async Task LoadSeasons()
         {
             if (!_seasonLoaded)
             {
-                // Remove the dummy object
-                Seasons.Clear();
-
-                IEnumerable<Season> seasons = await _tvShowFileService.GetSeasons(Path);
-                foreach (Season season in seasons)
+                using (_busyProvider.DoWork())
                 {
-                    ISeasonViewModel seasonViewModel = _viewModelFactory.GetSeason(Metadata, season.Path);
-                    Seasons.Add(seasonViewModel);
+                    // Delete the dummy object
+                    Seasons.Clear();
+
+                    IEnumerable<Season> seasons = await _tvShowFileService.GetSeasons(Path);
+                    foreach (Season season in seasons)
+                    {
+                        ISeasonViewModel seasonViewModel = _viewModelFactory.GetSeason(Metadata, season.Path);
+                        Seasons.Add(seasonViewModel);
+                    }
+                    _seasonLoaded = true;
                 }
-                _seasonLoaded = true;
             }
         }
     }

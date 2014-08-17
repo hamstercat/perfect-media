@@ -2,6 +2,7 @@
 using PerfectMedia.Sources;
 using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.Sources;
@@ -21,6 +22,7 @@ namespace PerfectMedia.UI.TvShows
         private readonly IEpisodeMetadataService _episodeMetadataService;
         private readonly IProgressManagerViewModel _progressManagerViewModel;
         private readonly IKeyDataStore _keyDataStore;
+        private readonly IBusyProvider _busyProvider;
 
         public TvShowViewModelFactory(ISourceService sourceService,
             IFileSystemService fileSystemService,
@@ -28,7 +30,8 @@ namespace PerfectMedia.UI.TvShows
             ITvShowMetadataService tvShowMetadataService,
             IEpisodeMetadataService episodeMetadataService,
             IProgressManagerViewModel progressManagerViewModel,
-            IKeyDataStore keyDataStore)
+            IKeyDataStore keyDataStore,
+            IBusyProvider busyProvider)
         {
             _sourceService = sourceService;
             _fileSystemService = fileSystemService;
@@ -37,6 +40,7 @@ namespace PerfectMedia.UI.TvShows
             _episodeMetadataService = episodeMetadataService;
             _progressManagerViewModel = progressManagerViewModel;
             _keyDataStore = keyDataStore;
+            _busyProvider = busyProvider;
         }
 
         public ISourceManagerViewModel GetSourceManager(SourceType sourceType)
@@ -46,7 +50,7 @@ namespace PerfectMedia.UI.TvShows
 
         public ITvShowViewModel GetTvShow(string path)
         {
-            return new TvShowViewModel(this, _tvShowFileService, path);
+            return new TvShowViewModel(this, _tvShowFileService, _busyProvider, path);
         }
 
         public ITvShowMetadataViewModel GetTvShowMetadata(string path)

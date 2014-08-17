@@ -69,7 +69,7 @@
     <Compile Include="IFileBackedRepository.cs" />
     <Compile Include="IKeyDataStore.cs" />
     <Compile Include="IRestApiService.cs" />
-    <Compile Include="IStartupInitialization.cs" />
+    <Compile Include="ILifecycleService.cs" />
     <Compile Include="KeyDataStore.cs" />
     <Compile Include="Movies\AvailableMovieImages.cs" />
     <Compile Include="Movies\Cast.cs" />

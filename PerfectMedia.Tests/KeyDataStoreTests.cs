@@ -39,7 +39,7 @@ namespace PerfectMedia
             await InitializeKeyDataStore();
 
             // Act
-            _keyDataStore.Dispose();
+            ((ILifecycleService)_keyDataStore).Uninitialize();
 
             // Assert
             _fileBackedRepository.DidNotReceive()
@@ -55,7 +55,7 @@ namespace PerfectMedia
             _keyDataStore.SetValue("Key2", "Rawr!");
 
             // Act
-            _keyDataStore.Dispose();
+            ((ILifecycleService)_keyDataStore).Uninitialize();
 
             // Assert
             _fileBackedRepository.Received()
@@ -120,7 +120,7 @@ namespace PerfectMedia
 
         private async Task InitializeKeyDataStore()
         {
-            await ((IStartupInitialization)_keyDataStore).Initialize();
+            await ((ILifecycleService)_keyDataStore).Initialize();
         }
     }
 }

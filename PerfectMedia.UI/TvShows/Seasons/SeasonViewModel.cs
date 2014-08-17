@@ -105,7 +105,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
         {
             if (!_episodeLoaded)
             {
-                // Remove the dummy object
+                // Delete the dummy object
                 Episodes.Clear();
 
                 IEnumerable<PerfectMedia.TvShows.Episode> episodes = await _tvShowFileService.GetEpisodes(Path);

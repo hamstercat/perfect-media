@@ -6,7 +6,8 @@ namespace PerfectMedia
     public interface IFileSystemService
     {
         Task<bool> FileExists(string filePath);
-        Task CreateFile(string filePath, IEnumerable<string> content);
+        Task CreateFile(string filePath, params string[] content);
+        void CreateFileSynchronously(string filePath, params string[] content);
         Task DeleteFile(string filePath);
         Task CopyFile(string sourceFile, string destinationFile);
         Task MoveFile(string sourceFile, string destinationFile);
@@ -14,6 +15,7 @@ namespace PerfectMedia
 
         Task<bool> FolderExists(string folderName);
         Task CreateFolder(string folderName);
+        void CreateFolderSynchronously(string folderName);
         string GetParentFolder(string path, int parentCount);
 
         Task<IEnumerable<string>> FindDirectories(string path);

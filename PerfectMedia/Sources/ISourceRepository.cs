@@ -16,15 +16,11 @@ namespace PerfectMedia.Sources
         Task<IEnumerable<Source>> GetSources(SourceType sourceType);
 
         /// <summary>
-        /// Saves the specified source.
+        /// Saves the specified sources.
         /// </summary>
-        /// <param name="source">The source.</param>
-        Task Save(Source source);
-
-        /// <summary>
-        /// Deletes the specified source.
-        /// </summary>
-        /// <param name="source">The source.</param>
-        Task Delete(Source source);
+        /// <param name="sourceType">Type of the source.</param>
+        /// <param name="sources">The sources.</param>
+        /// <returns></returns>
+        void Save(SourceType sourceType, IEnumerable<Source> sources);
     }
 }

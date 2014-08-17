@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using NSubstitute;
 using PerfectMedia.Sources;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Sources;
 using PerfectMedia.UI.TvShows.Shows;
 using Xunit;
@@ -12,6 +13,7 @@ namespace PerfectMedia.UI.TvShows
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ISourceManagerViewModel _sourceManagerViewModel;
+        private readonly IBusyProvider _busyProvider;
         private readonly TvShowManagerViewModel _viewModel;
 
         public TvShowManagerViewModelTests()
@@ -24,14 +26,15 @@ namespace PerfectMedia.UI.TvShows
             _viewModelFactory.GetSourceManager(SourceType.TvShow)
                 .Returns(_sourceManagerViewModel);
 
-            _viewModel = new TvShowManagerViewModel(_viewModelFactory, null);
+            _busyProvider = Substitute.For<IBusyProvider>();
+            _viewModel = new TvShowManagerViewModel(_viewModelFactory, null, _busyProvider);
         }
 
         [Fact]
         public async Task Initializes_Always_LoadsSources()
         {
             // Act
-            await ((IStartupInitialization)_viewModel).Initialize();
+            await ((ILifecycleService)_viewModel).Initialize();
 
             // Assert
             _sourceManagerViewModel.Received()

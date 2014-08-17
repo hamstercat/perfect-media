@@ -4,10 +4,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using PerfectMedia.FileInformation;
 using PerfectMedia.Movies;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Movies.Selection;
@@ -22,6 +22,7 @@ namespace PerfectMedia.UI.Movies
         private readonly IMovieMetadataService _metadataService;
         private readonly IMovieViewModelFactory _viewModelFactory;
         private readonly IFileSystemService _fileSystemService;
+        private readonly IBusyProvider _busyProvider;
         private bool _lazyLoaded;
 
         #region Metadata
@@ -74,17 +75,19 @@ namespace PerfectMedia.UI.Movies
             IMovieViewModelFactory viewModelFactory,
             IFileSystemService fileSystemService,
             IProgressManagerViewModel progressManager,
+            IBusyProvider busyProvider,
             string path)
         {
             _metadataService = metadataService;
             _viewModelFactory = viewModelFactory;
             _fileSystemService = fileSystemService;
+            _busyProvider = busyProvider;
             Path = path;
             // Only used by collections
             Children = new ObservableCollection<IMovieViewModel>();
             Selection = viewModelFactory.GetSelection(this);
             RefreshCommand = new RefreshMetadataCommand(this);
-            UpdateCommand = new UpdateMetadataCommand(this, progressManager);
+            UpdateCommand = new UpdateMetadataCommand(this, progressManager, busyProvider);
             SaveCommand = new SaveMetadataCommand(this);
 
             Title = viewModelFactory.GetCachedProperty(Path + "?title", s => s, s => s);
@@ -110,25 +113,34 @@ namespace PerfectMedia.UI.Movies
 
         public async Task Refresh()
         {
-            MovieMetadata metadata = await _metadataService.Get(Path);
-            RefreshFromMetadata(metadata);
+            using (_busyProvider.DoWork())
+            {
+                MovieMetadata metadata = await _metadataService.Get(Path);
+                RefreshFromMetadata(metadata);
+            }
         }
 
         public async Task<IEnumerable<ProgressItem>> Update()
         {
-            MovieMetadata metadata = await _metadataService.Get(Path);
-            if (string.IsNullOrEmpty(metadata.Id))
+            using (_busyProvider.DoWork())
             {
-                Lazy<string> displayName = new Lazy<string>(() => DisplayName);
-                return new List<ProgressItem> { new ProgressItem(displayName, UpdateInternal) };
+                MovieMetadata metadata = await _metadataService.Get(Path);
+                if (string.IsNullOrEmpty(metadata.Id))
+                {
+                    Lazy<string> displayName = new Lazy<string>(() => DisplayName);
+                    return new List<ProgressItem> {new ProgressItem(displayName, UpdateInternal)};
+                }
+                return Enumerable.Empty<ProgressItem>();
             }
-            return Enumerable.Empty<ProgressItem>();
         }
 
         public async Task Save()
         {
-            MovieMetadata metadata = CreateMetadata();
-            await _metadataService.Save(Path, metadata);
+            using (_busyProvider.DoWork())
+            {
+                MovieMetadata metadata = CreateMetadata();
+                await _metadataService.Save(Path, metadata);
+            }
         }
 
         public async Task Load()
@@ -241,9 +253,11 @@ namespace PerfectMedia.UI.Movies
 
         private async Task UpdateInternal()
         {
-            await _metadataService.Update(Path);
-            //await Application.Current.Dispatcher.InvokeAsync(Refresh);
-            await Refresh();
+            using (_busyProvider.DoWork())
+            {
+                await _metadataService.Update(Path);
+                await Refresh();
+            }
         }
     }
 }

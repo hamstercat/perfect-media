@@ -14,7 +14,7 @@
         <TabItem Header="Actors">
             <views:Actors DataContext="{Binding Actors}" />
         </TabItem>
-        <TabItem Header="Posters">
+        <TabItem Header="Images">
             <shows:TvShowFanart DataContext="{Binding Images}" />
         </TabItem>
     </TabControl>

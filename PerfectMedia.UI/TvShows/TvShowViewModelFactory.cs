@@ -45,7 +45,7 @@ namespace PerfectMedia.UI.TvShows
 
         public ISourceManagerViewModel GetSourceManager(SourceType sourceType)
         {
-            return new SourceManagerViewModel(_sourceService, _fileSystemService, sourceType);
+            return new SourceManagerViewModel(_sourceService, _fileSystemService, _busyProvider, sourceType);
         }
 
         public ITvShowViewModel GetTvShow(string path)
@@ -55,37 +55,37 @@ namespace PerfectMedia.UI.TvShows
 
         public ITvShowMetadataViewModel GetTvShowMetadata(string path)
         {
-            return new TvShowMetadataViewModel(this, _tvShowMetadataService, _progressManagerViewModel, path);
+            return new TvShowMetadataViewModel(this, _tvShowMetadataService, _progressManagerViewModel, _busyProvider, path);
         }
 
         public ITvShowImagesViewModel GetTvShowImages(ITvShowMetadataViewModel metadataViewModel, string path)
         {
-            return new TvShowImagesViewModel(_tvShowFileService, _tvShowMetadataService, _fileSystemService, metadataViewModel, path);
+            return new TvShowImagesViewModel(_tvShowFileService, _tvShowMetadataService, _fileSystemService, metadataViewModel, _busyProvider, path);
         }
 
         public ISeasonViewModel GetSeason(ITvShowMetadataViewModel tvShowMetadata, string path)
         {
-            return new SeasonViewModel(this, _tvShowFileService, tvShowMetadata, _tvShowMetadataService, path);
+            return new SeasonViewModel(this, _tvShowFileService, tvShowMetadata, _tvShowMetadataService, _busyProvider, path);
         }
 
         public IEpisodeViewModel GetEpisode(ITvShowMetadataViewModel tvShowMetadata, string path)
         {
-            return new EpisodeViewModel(this, _episodeMetadataService, tvShowMetadata, _progressManagerViewModel, _fileSystemService, path);
+            return new EpisodeViewModel(this, _episodeMetadataService, tvShowMetadata, _progressManagerViewModel, _fileSystemService, _busyProvider, path);
         }
 
         public IImageViewModel GetImage(bool horizontalAlignement)
         {
-            return new ImageViewModel(_fileSystemService, horizontalAlignement);
+            return new ImageViewModel(_fileSystemService, _busyProvider, horizontalAlignement);
         }
 
         public IImageViewModel GetImage(bool horizontalAlignement, IImageStrategy imageStrategy)
         {
-            return new ImageViewModel(_fileSystemService, horizontalAlignement, imageStrategy);
+            return new ImageViewModel(_fileSystemService, _busyProvider, horizontalAlignement, imageStrategy);
         }
 
         public ITvShowSelectionViewModel GetTvShowSelection(ITvShowMetadataViewModel tvShowMetadata, string path)
         {
-            return new TvShowSelectionViewModel(_tvShowMetadataService, tvShowMetadata, path);
+            return new TvShowSelectionViewModel(_tvShowMetadataService, tvShowMetadata, _busyProvider, path);
         }
 
         public ICachedPropertyViewModel<T> GetCachedProperty<T>(string key, Func<T, string> converter, Func<string, T> otherConverter)

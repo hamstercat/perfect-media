@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Input;
 using PerfectMedia.Movies;
+using PerfectMedia.UI.Busy;
 using PropertyChanged;
 using System.Threading.Tasks;
 
@@ -15,10 +16,10 @@ namespace PerfectMedia.UI.Movies.Selection
         public SelectionViewModel<Movie> Selection { get; private set; }
         public ICommand SearchCommand { get; private set; }
 
-        public MovieSelectionViewModel(IMovieMetadataService metadataService, IMovieViewModel movieViewModel)
+        public MovieSelectionViewModel(IMovieMetadataService metadataService, IMovieViewModel movieViewModel, IBusyProvider busyProvider)
         {
-            SearchCommand = new SearchCommand(metadataService, this);
-            Selection = new SelectionViewModel<Movie>(async movie =>
+            SearchCommand = new SearchCommand(metadataService, this, busyProvider);
+            Selection = new SelectionViewModel<Movie>(busyProvider, async movie =>
             {
                 await SaveNewId(metadataService, movie.Id, movieViewModel.Path);
                 await Update(metadataService, movieViewModel, movieViewModel.Path);

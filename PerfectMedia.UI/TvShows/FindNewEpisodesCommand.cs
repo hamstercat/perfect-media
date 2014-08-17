@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Input;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Shows;
 
@@ -12,12 +13,14 @@ namespace PerfectMedia.UI.TvShows
         public event EventHandler CanExecuteChanged;
         private readonly ObservableCollection<ITvShowViewModel> _tvShows;
         private readonly IProgressManagerViewModel _progressManager;
+        private readonly IBusyProvider _busyProvider;
 
-        public FindNewEpisodesCommand(ObservableCollection<ITvShowViewModel> tvShows, IProgressManagerViewModel progressManager)
+        public FindNewEpisodesCommand(ObservableCollection<ITvShowViewModel> tvShows, IProgressManagerViewModel progressManager, IBusyProvider busyProvider)
         {
             _tvShows = tvShows;
             _tvShows.CollectionChanged += TvShowsCollectionChanged;
             _progressManager = progressManager;
+            _busyProvider = busyProvider;
         }
 
         public bool CanExecute(object parameter)
@@ -27,14 +30,17 @@ namespace PerfectMedia.UI.TvShows
 
         public async void Execute(object parameter)
         {
-            foreach (ITvShowViewModel tvShow in _tvShows)
+            using (_busyProvider.DoWork())
             {
-                foreach (ProgressItem item in await tvShow.FindNewEpisodes())
+                foreach (ITvShowViewModel tvShow in _tvShows)
                 {
-                    _progressManager.AddItem(item);
+                    foreach (ProgressItem item in await tvShow.FindNewEpisodes())
+                    {
+                        _progressManager.AddItem(item);
+                    }
                 }
+                await _progressManager.Start();
             }
-            await _progressManager.Start();
         }
 
         private void TvShowsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

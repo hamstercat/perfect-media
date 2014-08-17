@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Progress;
 using PropertyChanged;
@@ -18,6 +19,7 @@ namespace PerfectMedia.UI.TvShows.Shows
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowMetadataService _metadataService;
+        private readonly IBusyProvider _busyProvider;
         private bool _lazyLoaded;
 
         public string Path { get; private set; }
@@ -55,10 +57,15 @@ namespace PerfectMedia.UI.TvShows.Shows
         public string Language { get; set; }
         #endregion
 
-        public TvShowMetadataViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowMetadataService metadataService, IProgressManagerViewModel progressManager, string path)
+        public TvShowMetadataViewModel(ITvShowViewModelFactory viewModelFactory,
+            ITvShowMetadataService metadataService,
+            IProgressManagerViewModel progressManager,
+            IBusyProvider busyProvider,
+            string path)
         {
             _viewModelFactory = viewModelFactory;
             _metadataService = metadataService;
+            _busyProvider = busyProvider;
             Path = path;
             _lazyLoaded = false;
 
@@ -70,34 +77,43 @@ namespace PerfectMedia.UI.TvShows.Shows
             Genres = new DashDelimitedCollectionViewModel<string>(s => s);
 
             RefreshCommand = new RefreshMetadataCommand(this);
-            UpdateCommand = new UpdateMetadataCommand(this, progressManager);
+            UpdateCommand = new UpdateMetadataCommand(this, progressManager, busyProvider);
             SaveCommand = new SaveMetadataCommand(this);
         }
 
         public async Task Refresh()
         {
-            TvShowMetadata metadata = await _metadataService.Get(Path);
-            RefreshFromMetadata(metadata);
-            await Images.Refresh();
+            using (_busyProvider.DoWork())
+            {
+                TvShowMetadata metadata = await _metadataService.Get(Path);
+                RefreshFromMetadata(metadata);
+                await Images.Refresh();
+            }
         }
 
         public async Task<IEnumerable<ProgressItem>> Update()
         {
-            TvShowMetadata metadata = await _metadataService.Get(Path);
-            if (string.IsNullOrEmpty(metadata.Id))
+            using (_busyProvider.DoWork())
             {
-                Lazy<string> displayName = new Lazy<string>(() => DisplayName);
-                return new List<ProgressItem> { new ProgressItem(displayName, UpdateInternal) };
+                TvShowMetadata metadata = await _metadataService.Get(Path);
+                if (string.IsNullOrEmpty(metadata.Id))
+                {
+                    Lazy<string> displayName = new Lazy<string>(() => DisplayName);
+                    return new List<ProgressItem> {new ProgressItem(displayName, UpdateInternal)};
+                }
+                return Enumerable.Empty<ProgressItem>();
             }
-            return Enumerable.Empty<ProgressItem>();
         }
 
         public Task Save()
         {
             return Task.Run(() =>
             {
-                TvShowMetadata metadata = CreateMetadata();
-                _metadataService.Save(Path, metadata);
+                using (_busyProvider.DoWork())
+                {
+                    TvShowMetadata metadata = CreateMetadata();
+                    _metadataService.Save(Path, metadata);
+                }
             });
         }
 
@@ -184,9 +200,11 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         private async Task UpdateInternal()
         {
-            await _metadataService.Update(Path);
-            //await Application.Current.Dispatcher.InvokeAsync(Refresh);
-            await Refresh();
+            using (_busyProvider.DoWork())
+            {
+                await _metadataService.Update(Path);
+                await Refresh();
+            }
         }
     }
 }

@@ -34,7 +34,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         }
 
         [Fact]
-        public void IsExpanded_WhenSeasonsExists_LoadsThoseSeasons()
+        public async Task LoadChildren_WhenSeasonsExists_LoadsThoseSeasons()
         {
             // Arrange
             IEnumerable<Season> seasonPaths = new List<Season>
@@ -47,7 +47,7 @@ namespace PerfectMedia.UI.TvShows.Shows
                 .Returns(seasonPaths.ToTask());
 
             // Act
-            _viewModel.IsExpanded = true;
+            await _viewModel.LoadChildren();
 
             // Assert
             Assert.Equal(3, _viewModel.Seasons.Count);
@@ -60,10 +60,10 @@ namespace PerfectMedia.UI.TvShows.Shows
         }
 
         [Fact]
-        public void IsExpanded_WhenNoSeasonsExists_ClearsAllSeasons()
+        public async Task LoadChildren_WhenNoSeasonsExists_ClearsAllSeasons()
         {
             // Act
-            _viewModel.IsExpanded = true;
+            await _viewModel.LoadChildren();
 
             // Assert
             Assert.Empty(_viewModel.Seasons);

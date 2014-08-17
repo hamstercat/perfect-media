@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Input;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.TvShows.Shows;
 using PropertyChanged;
 using System.Threading.Tasks;
@@ -16,10 +17,13 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
         public SelectionViewModel<Series> Selection { get; private set; }
         public ICommand SearchCommand { get; private set; }
 
-        public TvShowSelectionViewModel(ITvShowMetadataService metadataService, ITvShowMetadataViewModel tvShowMetadata, string path)
+        public TvShowSelectionViewModel(ITvShowMetadataService metadataService,
+            ITvShowMetadataViewModel tvShowMetadata,
+            IBusyProvider busyProvider,
+            string path)
         {
-            SearchCommand = new SearchCommand(metadataService, this);
-            Selection = new SelectionViewModel<Series>(async serie =>
+            SearchCommand = new SearchCommand(metadataService, this, busyProvider);
+            Selection = new SelectionViewModel<Series>(busyProvider, async serie =>
             {
                 await SaveNewId(metadataService, serie.SeriesId, path);
                 await Update(metadataService, tvShowMetadata, path);

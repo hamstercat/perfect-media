@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using NSubstitute;
 using PerfectMedia.Sources;
+using PerfectMedia.UI.Busy;
 using Xunit;
 
 namespace PerfectMedia.UI.Sources
@@ -11,12 +12,14 @@ namespace PerfectMedia.UI.Sources
         private readonly ISourceService _sourceService;
         private readonly IFileSystemService _fileSystemService;
         private readonly SourceManagerViewModel _viewModel;
+        private readonly IBusyProvider _busyProvider;
 
         public SourceManagerViewModelTests()
         {
             _sourceService = Substitute.For<ISourceService>();
             _fileSystemService = Substitute.For<IFileSystemService>();
-            _viewModel = new SourceManagerViewModel(_sourceService, _fileSystemService, SourceType.Music);
+            _busyProvider = Substitute.For<IBusyProvider>();
+            _viewModel = new SourceManagerViewModel(_sourceService, _fileSystemService, _busyProvider, SourceType.Music);
         }
 
         [Fact]

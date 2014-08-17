@@ -4,10 +4,11 @@
                    xmlns:tv="clr-namespace:PerfectMedia.UI.TvShows"
                    xmlns:movies="clr-namespace:PerfectMedia.UI.Movies"
                    xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                   xmlns:busy="clr-namespace:PerfectMedia.UI.Busy"
                    Title="perfect-media" Height="800" Width="1400">
     <Grid>
-        <metro:ProgressRing IsActive="{Binding BusyProvider.IsBusy, Source={StaticResource ServiceLocator}, Mode=OneWay}" />
-        <TabControl>
+        <busy:BusyIndicator DataContext="{Binding BusyProvider, Source={StaticResource ServiceLocator}}" Panel.ZIndex="2" />
+        <TabControl Panel.ZIndex="1">
             <TabItem Header="TV Shows">
                 <tv:TvShowControl DataContext="{Binding TvShowManagerViewModel, Source={StaticResource ServiceLocator}}" />
             </TabItem>

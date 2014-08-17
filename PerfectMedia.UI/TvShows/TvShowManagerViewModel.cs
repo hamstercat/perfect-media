@@ -29,8 +29,8 @@ namespace PerfectMedia.UI.TvShows
             _busyProvider = busyProvider;
             TvShows = new ObservableCollection<ITvShowViewModel>();
 
-            UpdateAll = new UpdateAllMetadataCommand<ITvShowViewModel>(TvShows, progressManager);
-            FindNewEpisodes = new FindNewEpisodesCommand(TvShows, progressManager);
+            UpdateAll = new UpdateAllMetadataCommand<ITvShowViewModel>(TvShows, progressManager, busyProvider);
+            FindNewEpisodes = new FindNewEpisodesCommand(TvShows, progressManager, busyProvider);
 
             Sources = viewModelFactory.GetSourceManager(SourceType.TvShow);
             Sources.SpecificFolders.CollectionChanged += SourceFoldersCollectionChanged;

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Threading.Tasks;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Images.Selection;
 using PropertyChanged;
 
@@ -9,6 +10,7 @@ namespace PerfectMedia.UI.Images
     public class ImageViewModel : BaseViewModel, IImageViewModel
     {
         private readonly IFileSystemService _fileSystemService;
+        private readonly IBusyProvider _busyProvider;
         private readonly IImageStrategy _imageStrategy;
         private readonly bool _horizontalAlignement;
 
@@ -27,22 +29,26 @@ namespace PerfectMedia.UI.Images
             }
         }
 
-        public ImageViewModel(IFileSystemService fileSystemService, bool horizontalAlignement)
-            : this(fileSystemService, horizontalAlignement, new NoImageStrategy())
+        public ImageViewModel(IFileSystemService fileSystemService, IBusyProvider busyProvider, bool horizontalAlignement)
+            : this(fileSystemService, busyProvider, horizontalAlignement, new NoImageStrategy())
         { }
 
-        public ImageViewModel(IFileSystemService fileSystemService, bool horizontalAlignement, IImageStrategy imageStrategy)
+        public ImageViewModel(IFileSystemService fileSystemService, IBusyProvider busyProvider, bool horizontalAlignement, IImageStrategy imageStrategy)
         {
             _fileSystemService = fileSystemService;
+            _busyProvider = busyProvider;
             _imageStrategy = imageStrategy;
             _horizontalAlignement = horizontalAlignement;
         }
 
         public async Task LoadAvailableImages()
         {
-            ImageSelection = new ImageSelectionViewModel(_fileSystemService, _imageStrategy, Path, _horizontalAlignement);
-            await ImageSelection.LoadAvailableImages();
-            ImageSelection.PropertyChanged += ImageSelectionPropertyChanged;
+            using (_busyProvider.DoWork())
+            {
+                ImageSelection = new ImageSelectionViewModel(_fileSystemService, _imageStrategy, _busyProvider, Path, _horizontalAlignement);
+                await ImageSelection.LoadAvailableImages();
+                ImageSelection.PropertyChanged += ImageSelectionPropertyChanged;
+            }
         }
 
         public void RefreshImage()

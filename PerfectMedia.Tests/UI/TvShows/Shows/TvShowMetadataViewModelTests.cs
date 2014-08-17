@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NSubstitute;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Progress;
 using Xunit;
@@ -15,6 +16,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowMetadataService _metadataService;
         private readonly IProgressManagerViewModel _progressManager;
+        private readonly IBusyProvider _busyProvider;
         private readonly string _path;
         private TvShowMetadataViewModel _viewModel;
 
@@ -28,7 +30,8 @@ namespace PerfectMedia.UI.TvShows.Shows
 
             _metadataService = Substitute.For<ITvShowMetadataService>();
             _progressManager = Substitute.For<IProgressManagerViewModel>();
-            _viewModel = new TvShowMetadataViewModel(_viewModelFactory, _metadataService, _progressManager, _path);
+            _busyProvider = _busyProvider = Substitute.For<IBusyProvider>();
+            _viewModel = new TvShowMetadataViewModel(_viewModelFactory, _metadataService, _progressManager, _busyProvider, _path);
         }
 
         [Fact]
@@ -57,7 +60,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             _viewModelFactory.GetTvShowImages(Arg.Any<ITvShowMetadataViewModel>(), _path)
                 .Returns(imagesViewModel);
             // Recreate the ViewModel as the ImagesViewModel is retrieved in the constructor
-            _viewModel = new TvShowMetadataViewModel(_viewModelFactory, _metadataService, _progressManager, _path);
+            _viewModel = new TvShowMetadataViewModel(_viewModelFactory, _metadataService, _progressManager, _busyProvider, _path);
 
             // Act
             await _viewModel.Refresh();

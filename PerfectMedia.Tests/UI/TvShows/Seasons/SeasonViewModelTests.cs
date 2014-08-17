@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NSubstitute;
 using PerfectMedia.TvShows;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.TvShows.Episodes;
 using PerfectMedia.UI.TvShows.Shows;
 using Xunit;
@@ -16,14 +17,16 @@ namespace PerfectMedia.UI.TvShows.Seasons
         private readonly ITvShowMetadataViewModel _tvShowMetadata;
         private readonly string _path;
         private readonly SeasonViewModel _viewModel;
+        private readonly IBusyProvider _busyProvider;
 
         public SeasonViewModelTests()
         {
             _viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
             _tvShowFileService = Substitute.For<ITvShowFileService>();
             _tvShowMetadata = Substitute.For<ITvShowMetadataViewModel>();
+            _busyProvider = _busyProvider = Substitute.For<IBusyProvider>();
             _path = @"C:\Folder\TV Shows\Game of Thrones\Season 1";
-            _viewModel = new SeasonViewModel(_viewModelFactory, _tvShowFileService, _tvShowMetadata, null, _path);
+            _viewModel = new SeasonViewModel(_viewModelFactory, _tvShowFileService, _tvShowMetadata, null, _busyProvider, _path);
         }
 
         [Fact]
@@ -34,7 +37,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
         }
 
         [Fact]
-        public void IsExpanded_WhenEpisodesExists_LoadsThoseEpisodes()
+        public async Task IsExpanded_WhenEpisodesExists_LoadsThoseEpisodes()
         {
             // Arrange
             IEnumerable<Episode> episodePaths = new List<Episode>
@@ -47,7 +50,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
                 .Returns(episodePaths.ToTask());
 
             // Act
-            _viewModel.IsExpanded = true;
+            await _viewModel.LoadChildren();
 
             // Assert
             Assert.Equal(3, _viewModel.Episodes.Count);
@@ -60,10 +63,10 @@ namespace PerfectMedia.UI.TvShows.Seasons
         }
 
         [Fact]
-        public void IsExpanded_WhenNoEpisodesExists_ClearsAllEpisodes()
+        public async Task IsExpanded_WhenNoEpisodesExists_ClearsAllEpisodes()
         {
             // Act
-            _viewModel.IsExpanded = true;
+            await _viewModel.LoadChildren();
 
             // Assert
             Assert.Empty(_viewModel.Episodes);

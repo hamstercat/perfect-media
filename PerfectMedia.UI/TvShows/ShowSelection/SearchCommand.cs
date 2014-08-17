@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Input;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Busy;
 
 namespace PerfectMedia.UI.TvShows.ShowSelection
 {
@@ -12,11 +13,13 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
 
         private readonly ITvShowMetadataService _metadataService;
         private readonly ITvShowSelectionViewModel _tvShowSelectionViewModel;
+        private readonly IBusyProvider _busyProvider;
 
-        public SearchCommand(ITvShowMetadataService metadataService, ITvShowSelectionViewModel tvShowSelectionViewModel)
+        public SearchCommand(ITvShowMetadataService metadataService, ITvShowSelectionViewModel tvShowSelectionViewModel, IBusyProvider busyProvider)
         {
             _metadataService = metadataService;
             _tvShowSelectionViewModel = tvShowSelectionViewModel;
+            _busyProvider = busyProvider;
             _tvShowSelectionViewModel.PropertyChanged += TvShowSelectionPropertyChanged;
         }
 
@@ -27,8 +30,11 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
 
         public async void Execute(object parameter)
         {
-            IEnumerable<Series> series = await _metadataService.FindSeries(_tvShowSelectionViewModel.SearchTitle);
-            _tvShowSelectionViewModel.ReplaceSeries(series);
+            using (_busyProvider.DoWork())
+            {
+                IEnumerable<Series> series = await _metadataService.FindSeries(_tvShowSelectionViewModel.SearchTitle);
+                _tvShowSelectionViewModel.ReplaceSeries(series);
+            }
         }
 
         private void TvShowSelectionPropertyChanged(object sender, PropertyChangedEventArgs e)

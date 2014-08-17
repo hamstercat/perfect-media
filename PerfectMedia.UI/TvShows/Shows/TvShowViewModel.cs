@@ -88,7 +88,10 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         public async Task Load()
         {
-            await Metadata.Load();
+            using (_busyProvider.DoWork())
+            {
+                await Metadata.Load();
+            }
         }
 
         public async Task LoadChildren()

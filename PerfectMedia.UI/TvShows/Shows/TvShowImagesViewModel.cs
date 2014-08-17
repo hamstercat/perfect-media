@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.TvShows.Seasons;
 using PropertyChanged;
@@ -16,6 +17,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         private readonly ITvShowFileService _tvShowFileService;
         private readonly ITvShowMetadataService _metadataService;
         private readonly IFileSystemService _fileSystemService;
+        private readonly IBusyProvider _busyProvider;
         private readonly string _path;
 
         private bool _tvShowImagesLoaded;
@@ -67,31 +69,39 @@ namespace PerfectMedia.UI.TvShows.Shows
             ITvShowMetadataService metadataService,
             IFileSystemService fileSystemService,
             ITvShowMetadataViewModel metadataViewModel,
+            IBusyProvider busyProvider,
             string path)
         {
             _tvShowFileService = tvShowFileService;
             _metadataService = metadataService;
             _fileSystemService = fileSystemService;
+            _busyProvider = busyProvider;
             _path = path;
             _tvShowImagesLoaded = false;
 
-            _fanartUrl = new ImageViewModel(fileSystemService, true, new FanartImageStrategy(metadataService, metadataViewModel));
-            _posterUrl = new ImageViewModel(fileSystemService, true, new PosterImageStrategy(metadataService, metadataViewModel));
-            _bannerUrl = new ImageViewModel(fileSystemService, false, new BannerImageStrategy(metadataService, metadataViewModel));
+            _fanartUrl = new ImageViewModel(fileSystemService, _busyProvider, true, new FanartImageStrategy(metadataService, metadataViewModel));
+            _posterUrl = new ImageViewModel(fileSystemService, _busyProvider, true, new PosterImageStrategy(metadataService, metadataViewModel));
+            _bannerUrl = new ImageViewModel(fileSystemService, _busyProvider, false, new BannerImageStrategy(metadataService, metadataViewModel));
         }
 
         public async Task Refresh()
         {
-            ForceInitialLoadTvShowImages();
-            await InitialLoadSeasonImages();
+            using (_busyProvider.DoWork())
+            {
+                ForceInitialLoadTvShowImages();
+                await InitialLoadSeasonImages();
+            }
         }
 
         private void InitialLoadTvShowImages()
         {
-            if (!_tvShowImagesLoaded)
+            using (_busyProvider.DoWork())
             {
-                _tvShowImagesLoaded = true;
-                ForceInitialLoadTvShowImages();
+                if (!_tvShowImagesLoaded)
+                {
+                    _tvShowImagesLoaded = true;
+                    ForceInitialLoadTvShowImages();
+                }
             }
         }
 
@@ -118,7 +128,7 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         private void LoadSeason(Season season)
         {
-            SeasonImagesViewModel viewModel = new SeasonImagesViewModel(_fileSystemService, _metadataService, _path, season.Path);
+            SeasonImagesViewModel viewModel = new SeasonImagesViewModel(_fileSystemService, _metadataService, _busyProvider, _path, season.Path);
             viewModel.BannerUrl.Path = season.BannerUrl;
             viewModel.PosterUrl.Path = season.PosterUrl;
             viewModel.SeasonNumber = season.SeasonNumber;

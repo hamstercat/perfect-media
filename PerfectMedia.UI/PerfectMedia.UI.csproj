@@ -87,6 +87,9 @@
     <Compile Include="..\ProjectAssemblyInfo.cs">
       <Link>Properties\ProjectAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Busy\BusyIndicator.xaml.cs">
+      <DependentUpon>BusyIndicator.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Busy\BusyViewModel.cs" />
     <Compile Include="CachedPropertyViewModel.cs" />
     <Compile Include="Converters\IsEmptyToBooleanConverter.cs" />
@@ -239,6 +242,10 @@
       <DependentUpon>TvShowMetadataControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Metadata\UpdateAllMetadataCommand.cs" />
+    <Page Include="Busy\BusyIndicator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Images\Selection\ChooseImageFileWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -3,6 +3,7 @@ using System.Linq;
 using NSubstitute;
 using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Busy;
 using Xunit;
 
 namespace PerfectMedia.UI.TvShows.Shows
@@ -11,6 +12,7 @@ namespace PerfectMedia.UI.TvShows.Shows
     {
         private readonly ITvShowFileService _tvShowFileService;
         private readonly ITvShowMetadataService _metadataService;
+        private readonly IBusyProvider _busyProvider;
         private readonly string _path;
         private readonly TvShowImagesViewModel _viewModel;
 
@@ -18,8 +20,9 @@ namespace PerfectMedia.UI.TvShows.Shows
         {
             _tvShowFileService = Substitute.For<ITvShowFileService>();
             _metadataService = Substitute.For<ITvShowMetadataService>();
+            _busyProvider = Substitute.For<IBusyProvider>();
             _path = @"C:\Folder\TV Shows\Game of Thrones";
-            _viewModel = new TvShowImagesViewModel(_tvShowFileService, _metadataService, null, null, _path);
+            _viewModel = new TvShowImagesViewModel(_tvShowFileService, _metadataService, null, null, _busyProvider, _path);
         }
 
         [Fact]

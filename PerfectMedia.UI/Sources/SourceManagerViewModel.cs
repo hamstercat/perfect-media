@@ -6,6 +6,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using System.Windows;
 using PerfectMedia.Sources;
+using PerfectMedia.UI.Busy;
 using PropertyChanged;
 
 namespace PerfectMedia.UI.Sources
@@ -15,15 +16,17 @@ namespace PerfectMedia.UI.Sources
     {
         private readonly ISourceService _sourceService;
         private readonly IFileSystemService _fileSystemService;
+        private readonly IBusyProvider _busyProvider;
         private readonly SourceType _sourceType;
 
         public ObservableCollection<string> RootFolders { get; private set; }
         public ObservableCollection<string> SpecificFolders { get; private set; }
 
-        public SourceManagerViewModel(ISourceService sourceService, IFileSystemService fileSystemService, SourceType sourceType)
+        public SourceManagerViewModel(ISourceService sourceService, IFileSystemService fileSystemService, IBusyProvider busyProvider, SourceType sourceType)
         {
             _sourceService = sourceService;
             _fileSystemService = fileSystemService;
+            _busyProvider = busyProvider;
             _sourceType = sourceType;
 
             RootFolders = new ObservableCollection<string>();
@@ -35,16 +38,19 @@ namespace PerfectMedia.UI.Sources
 
         public void Load()
         {
-            IEnumerable<Source> sources = _sourceService.GetSources(_sourceType);
+            using (_busyProvider.DoWork())
+            {
+                IEnumerable<Source> sources = _sourceService.GetSources(_sourceType);
 
-            // Since we're loading the sources from the repo, don't save them back when adding them in the manager
-            RootFolders.CollectionChanged -= RootFoldersCollectionChanged;
-            SpecificFolders.CollectionChanged -= SpecificFoldersCollectionChanged;
+                // Since we're loading the sources from the repo, don't save them back when adding them in the manager
+                RootFolders.CollectionChanged -= RootFoldersCollectionChanged;
+                SpecificFolders.CollectionChanged -= SpecificFoldersCollectionChanged;
 
-            LoadFolders(sources);
+                LoadFolders(sources);
 
-            RootFolders.CollectionChanged += RootFoldersCollectionChanged;
-            SpecificFolders.CollectionChanged += SpecificFoldersCollectionChanged;
+                RootFolders.CollectionChanged += RootFoldersCollectionChanged;
+                SpecificFolders.CollectionChanged += SpecificFoldersCollectionChanged;
+            }
         }
 
         public void AddRootFolder(string folder)
@@ -76,12 +82,15 @@ namespace PerfectMedia.UI.Sources
         // TODO: turn this into a command
         public async Task RefreshSpecificFolders()
         {
-            foreach (string folder in RootFolders)
+            using (_busyProvider.DoWork())
             {
-                IEnumerable<string> specificFolders = await _fileSystemService.FindDirectories(folder);
-                foreach (string specificFolder in specificFolders)
+                foreach (string folder in RootFolders)
                 {
-                    AddSpecificFolder(specificFolder);
+                    IEnumerable<string> specificFolders = await _fileSystemService.FindDirectories(folder);
+                    foreach (string specificFolder in specificFolders)
+                    {
+                        AddSpecificFolder(specificFolder);
+                    }
                 }
             }
         }

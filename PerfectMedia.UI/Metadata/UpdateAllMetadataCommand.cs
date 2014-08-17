@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Input;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Progress;
 
 namespace PerfectMedia.UI.Metadata
@@ -13,12 +14,14 @@ namespace PerfectMedia.UI.Metadata
         public event EventHandler CanExecuteChanged;
         private readonly ObservableCollection<T> _items;
         private readonly IProgressManagerViewModel _progressManager;
+        private readonly IBusyProvider _busyProvider;
 
-        public UpdateAllMetadataCommand(ObservableCollection<T> items, IProgressManagerViewModel progressManager)
+        public UpdateAllMetadataCommand(ObservableCollection<T> items, IProgressManagerViewModel progressManager, IBusyProvider busyProvider)
         {
             _items = items;
             _items.CollectionChanged += TvShowsCollectionChanged;
             _progressManager = progressManager;
+            _busyProvider = busyProvider;
         }
 
         public bool CanExecute(object parameter)
@@ -28,14 +31,17 @@ namespace PerfectMedia.UI.Metadata
 
         public async void Execute(object parameter)
         {
-            foreach (T item in _items)
+            using (_busyProvider.DoWork())
             {
-                foreach (ProgressItem progressItem in await item.Update())
+                foreach (T item in _items)
                 {
-                    _progressManager.AddItem(progressItem);
+                    foreach (ProgressItem progressItem in await item.Update())
+                    {
+                        _progressManager.AddItem(progressItem);
+                    }
                 }
+                await _progressManager.Start();
             }
-            await _progressManager.Start();
         }
 
         private void TvShowsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

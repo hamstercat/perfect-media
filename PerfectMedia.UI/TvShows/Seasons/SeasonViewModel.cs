@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Episodes;
@@ -18,6 +19,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowFileService _tvShowFileService;
         private readonly ITvShowMetadataViewModel _tvShowMetadata;
+        private readonly IBusyProvider _busyProvider;
 
         private bool _imagesLoaded;
         private bool _episodeLoaded;
@@ -57,11 +59,13 @@ namespace PerfectMedia.UI.TvShows.Seasons
             ITvShowFileService tvShowFileService,
             ITvShowMetadataViewModel tvShowMetadata,
             ITvShowMetadataService metadataService,
+            IBusyProvider busyProvider,
             string path)
         {
             _viewModelFactory = viewModelFactory;
             _tvShowFileService = tvShowFileService;
             _tvShowMetadata = tvShowMetadata;
+            _busyProvider = busyProvider;
             Path = path;
 
             _posterUrl = viewModelFactory.GetImage(true, new SeasonPosterImageStrategy(metadataService, tvShowMetadata.Path, path));
@@ -75,13 +79,16 @@ namespace PerfectMedia.UI.TvShows.Seasons
 
         public async Task<IEnumerable<ProgressItem>> FindNewEpisodes()
         {
-            await LoadChildren();
-            List<ProgressItem> items = new List<ProgressItem>();
-            foreach (IEpisodeViewModel episode in Episodes)
+            using (_busyProvider.DoWork())
             {
-                items.AddRange(await episode.Update());
+                await LoadChildren();
+                List<ProgressItem> items = new List<ProgressItem>();
+                foreach (IEpisodeViewModel episode in Episodes)
+                {
+                    items.AddRange(await episode.Update());
+                }
+                return items;
             }
-            return items;
         }
 
         public Task Load()
@@ -94,27 +101,33 @@ namespace PerfectMedia.UI.TvShows.Seasons
         {
             if (!_episodeLoaded)
             {
-                // Delete the dummy object
-                Episodes.Clear();
-
-                IEnumerable<PerfectMedia.TvShows.Episode> episodes = await _tvShowFileService.GetEpisodes(Path);
-                foreach (PerfectMedia.TvShows.Episode episode in episodes)
+                using (_busyProvider.DoWork())
                 {
-                    IEpisodeViewModel episodeViewModel = _viewModelFactory.GetEpisode(_tvShowMetadata, episode.Path);
-                    Episodes.Add(episodeViewModel);
+                    // Delete the dummy object
+                    Episodes.Clear();
+
+                    IEnumerable<PerfectMedia.TvShows.Episode> episodes = await _tvShowFileService.GetEpisodes(Path);
+                    foreach (PerfectMedia.TvShows.Episode episode in episodes)
+                    {
+                        IEpisodeViewModel episodeViewModel = _viewModelFactory.GetEpisode(_tvShowMetadata, episode.Path);
+                        Episodes.Add(episodeViewModel);
+                    }
+                    _episodeLoaded = true;
                 }
-                _episodeLoaded = true;
             }
         }
 
         private void LoadImages()
         {
-            if (!_imagesLoaded)
+            using (_busyProvider.DoWork())
             {
-                Season season = _tvShowFileService.GetSeason(_tvShowMetadata.Path, Path);
-                _imagesLoaded = true;
-                PosterUrl.Path = season.PosterUrl;
-                BannerUrl.Path = season.BannerUrl;
+                if (!_imagesLoaded)
+                {
+                    Season season = _tvShowFileService.GetSeason(_tvShowMetadata.Path, Path);
+                    _imagesLoaded = true;
+                    PosterUrl.Path = season.PosterUrl;
+                    BannerUrl.Path = season.BannerUrl;
+                }
             }
         }
     }

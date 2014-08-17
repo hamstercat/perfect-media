@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using NSubstitute;
 using PerfectMedia.FileInformation;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Shows;
 using Xunit;
@@ -16,6 +17,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
         private readonly EpisodeViewModel _viewModel;
         private readonly IEpisodeMetadataService _metadataService;
         private readonly ITvShowMetadataViewModel _tvShowMetadata;
+        private readonly IBusyProvider _busyProvider;
         private readonly string _path;
 
         public EpisodeViewModelTests()
@@ -23,8 +25,9 @@ namespace PerfectMedia.UI.TvShows.Episodes
             _metadataService = Substitute.For<IEpisodeMetadataService>();
             _tvShowMetadata = Substitute.For<ITvShowMetadataViewModel>();
             ITvShowViewModelFactory viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
+            _busyProvider = _busyProvider = Substitute.For<IBusyProvider>();
             _path = @"C:\Folder\TV Shows\Game of Thrones\Season 2\3x09.mkv";
-            _viewModel = new EpisodeViewModel(viewModelFactory, _metadataService, _tvShowMetadata, null, null, _path);
+            _viewModel = new EpisodeViewModel(viewModelFactory, _metadataService, _tvShowMetadata, null, null, _busyProvider, _path);
         }
 
         [Fact]

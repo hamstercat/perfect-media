@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Movies.Set;
 using PerfectMedia.UI.Progress;
@@ -19,17 +20,22 @@ namespace PerfectMedia.UI.Movies
     {
         private readonly IFileSystemService _fileSystemService;
         private readonly IMovieViewModelFactory _viewModelFactory;
+        private readonly IBusyProvider _busyProvider;
 
         public ISourceManagerViewModel Sources { get; set; }
         public ObservableCollection<IMovieItem> Movies { get; private set; }
         public ICommand UpdateAll { get; private set; }
 
-        public MovieManagerViewModel(IFileSystemService fileSystemService, IMovieViewModelFactory viewModelFactory, IProgressManagerViewModel progressManager)
+        public MovieManagerViewModel(IFileSystemService fileSystemService,
+            IMovieViewModelFactory viewModelFactory,
+            IProgressManagerViewModel progressManager,
+            IBusyProvider busyProvider)
         {
             _fileSystemService = fileSystemService;
             _viewModelFactory = viewModelFactory;
+            _busyProvider = busyProvider;
             Movies = new ObservableCollection<IMovieItem>();
-            UpdateAll = new UpdateAllMetadataCommand<IMovieItem>(Movies, progressManager);
+            UpdateAll = new UpdateAllMetadataCommand<IMovieItem>(Movies, progressManager, busyProvider);
             Sources = _viewModelFactory.GetSourceManager();
             Sources.SpecificFolders.CollectionChanged += SourceFoldersCollectionChanged;
         }
@@ -56,13 +62,16 @@ namespace PerfectMedia.UI.Movies
 
         private async Task AddMovies(IEnumerable<string> movies)
         {
-            foreach (string path in movies)
+            using (_busyProvider.DoWork())
             {
-                foreach (string file in await FindMovieFiles(path))
+                foreach (string path in movies)
                 {
-                    IMovieViewModel newMovie = _viewModelFactory.GetMovie(file);
-                    AddMovie(newMovie);
-                    newMovie.PropertyChanged += MoviePropertyChanged;
+                    foreach (string file in await FindMovieFiles(path))
+                    {
+                        IMovieViewModel newMovie = _viewModelFactory.GetMovie(file);
+                        AddMovie(newMovie);
+                        newMovie.PropertyChanged += MoviePropertyChanged;
+                    }
                 }
             }
         }

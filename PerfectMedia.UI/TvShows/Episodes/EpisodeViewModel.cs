@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Progress;
@@ -19,6 +20,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
     {
         private readonly IEpisodeMetadataService _metadataService;
         private readonly ITvShowMetadataViewModel _tvShowMetadata;
+        private readonly IBusyProvider _busyProvider;
         private bool _lazyLoaded;
 
         #region Metadata
@@ -60,10 +62,17 @@ namespace PerfectMedia.UI.TvShows.Episodes
         public ICommand UpdateCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
 
-        public EpisodeViewModel(ITvShowViewModelFactory viewModelFactory, IEpisodeMetadataService metadataService, ITvShowMetadataViewModel tvShowMetadata, IProgressManagerViewModel progressManager, IFileSystemService fileSystemService, string path)
+        public EpisodeViewModel(ITvShowViewModelFactory viewModelFactory,
+            IEpisodeMetadataService metadataService,
+            ITvShowMetadataViewModel tvShowMetadata,
+            IProgressManagerViewModel progressManager,
+            IFileSystemService fileSystemService,
+            IBusyProvider busyProvider,
+            string path)
         {
             _metadataService = metadataService;
             _tvShowMetadata = tvShowMetadata;
+            _busyProvider = busyProvider;
             Path = path;
             _lazyLoaded = false;
 
@@ -76,10 +85,10 @@ namespace PerfectMedia.UI.TvShows.Episodes
 
             Credits = new DashDelimitedCollectionViewModel<string>(s => s);
             Directors = new DashDelimitedCollectionViewModel<string>(s => s);
-            ImagePath = new ImageViewModel(fileSystemService, true);
+            ImagePath = new ImageViewModel(fileSystemService, busyProvider, true);
 
             RefreshCommand = new RefreshMetadataCommand(this);
-            UpdateCommand = new UpdateMetadataCommand(this, progressManager);
+            UpdateCommand = new UpdateMetadataCommand(this, progressManager, busyProvider);
             SaveCommand = new SaveMetadataCommand(this);
         }
 
@@ -93,33 +102,42 @@ namespace PerfectMedia.UI.TvShows.Episodes
 
         public async Task Refresh()
         {
-            EpisodeMetadata metadata = await _metadataService.Get(Path);
-            RefreshFromMetadata(metadata);
+            using (_busyProvider.DoWork())
+            {
+                EpisodeMetadata metadata = await _metadataService.Get(Path);
+                RefreshFromMetadata(metadata);
+            }
         }
 
         public async Task<IEnumerable<ProgressItem>> Update()
         {
-            List<ProgressItem> items = new List<ProgressItem>();
-            foreach (ProgressItem item in await _tvShowMetadata.Update())
+            using (_busyProvider.DoWork())
             {
-                items.Add(item);
-            }
+                List<ProgressItem> items = new List<ProgressItem>();
+                foreach (ProgressItem item in await _tvShowMetadata.Update())
+                {
+                    items.Add(item);
+                }
 
-            EpisodeMetadata metadata = await _metadataService.Get(Path);
-            if (metadata.FileInformation == null)
-            {
-                Lazy<string> displayName = new Lazy<string>(() => DisplayName);
-                items.Add(new ProgressItem(displayName, UpdateInternal));
+                EpisodeMetadata metadata = await _metadataService.Get(Path);
+                if (metadata.FileInformation == null)
+                {
+                    Lazy<string> displayName = new Lazy<string>(() => DisplayName);
+                    items.Add(new ProgressItem(displayName, UpdateInternal));
+                }
+                return items;
             }
-            return items;
         }
 
         public Task Save()
         {
             return Task.Run(() =>
             {
-                EpisodeMetadata metadata = CreateMetadata();
-                _metadataService.Save(Path, metadata);
+                using (_busyProvider.DoWork())
+                {
+                    EpisodeMetadata metadata = CreateMetadata();
+                    _metadataService.Save(Path, metadata);
+                }
             });
         }
 
@@ -183,8 +201,11 @@ namespace PerfectMedia.UI.TvShows.Episodes
 
         private async Task UpdateInternal()
         {
-            await _metadataService.Update(Path, _tvShowMetadata.Id);
-            await Refresh();
+            using (_busyProvider.DoWork())
+            {
+                await _metadataService.Update(Path, _tvShowMetadata.Id);
+                await Refresh();
+            }
         }
     }
 }

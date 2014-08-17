@@ -1,6 +1,7 @@
 ﻿using System;
 using PerfectMedia.Movies;
 using PerfectMedia.Sources;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Movies.Selection;
 using PerfectMedia.UI.Movies.Set;
@@ -16,48 +17,51 @@ namespace PerfectMedia.UI.Movies
         private readonly IMovieMetadataService _metadataService;
         private readonly IProgressManagerViewModel _progressManager;
         private readonly IKeyDataStore _keyDataStore;
+        private readonly IBusyProvider _busyProvider;
 
         public MovieViewModelFactory(ISourceService sourceService,
             IMovieMetadataService metadataService,
             IFileSystemService fileSystemService,
             IProgressManagerViewModel progressManager,
-            IKeyDataStore keyDataStore)
+            IKeyDataStore keyDataStore,
+            IBusyProvider busyProvider)
         {
             _sourceService = sourceService;
             _fileSystemService = fileSystemService;
             _metadataService = metadataService;
             _progressManager = progressManager;
             _keyDataStore = keyDataStore;
+            _busyProvider = busyProvider;
         }
 
         public ISourceManagerViewModel GetSourceManager()
         {
-            return new SourceManagerViewModel(_sourceService, _fileSystemService, SourceType.Movie);
+            return new SourceManagerViewModel(_sourceService, _fileSystemService, _busyProvider, SourceType.Movie);
         }
 
         public IMovieViewModel GetMovie(string path)
         {
-            return new MovieViewModel(_metadataService, this, _fileSystemService, _progressManager, path);
+            return new MovieViewModel(_metadataService, this, _fileSystemService, _progressManager, _busyProvider, path);
         }
 
         public IImageViewModel GetImage()
         {
-            return new ImageViewModel(_fileSystemService, true);
+            return new ImageViewModel(_fileSystemService, _busyProvider, true);
         }
 
         public IImageViewModel GetImage(IImageStrategy imageStrategy)
         {
-            return new ImageViewModel(_fileSystemService, true, imageStrategy);
+            return new ImageViewModel(_fileSystemService, _busyProvider, true, imageStrategy);
         }
 
         public IMovieSelectionViewModel GetSelection(IMovieViewModel movieViewModel)
         {
-            return new MovieSelectionViewModel(_metadataService, movieViewModel);
+            return new MovieSelectionViewModel(_metadataService, movieViewModel, _busyProvider);
         }
 
         public IMovieSetViewModel GetMovieSet(string setName)
         {
-            return new MovieSetViewModel(_fileSystemService, this, _metadataService, _progressManager, setName);
+            return new MovieSetViewModel(_fileSystemService, this, _metadataService, _progressManager, _busyProvider, setName);
         }
 
         public ICachedPropertyViewModel<T> GetCachedProperty<T>(string key, Func<T, string> converter, Func<string, T> otherConverter)

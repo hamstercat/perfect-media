@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using NSubstitute;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Movies;
 using PerfectMedia.UI.Progress;
 using Xunit;
@@ -13,12 +14,14 @@ namespace PerfectMedia.UI.Metadata
         private readonly ObservableCollection<IMovieViewModel> _movies;
         private readonly IProgressManagerViewModel _progressManager;
         private readonly UpdateAllMetadataCommand<IMovieViewModel> _command;
+        private readonly IBusyProvider _busyProvider;
 
         public UpdateAllMetadataCommandTests()
         {
             _movies = new ObservableCollection<IMovieViewModel>();
             _progressManager = Substitute.For<IProgressManagerViewModel>();
-            _command = new UpdateAllMetadataCommand<IMovieViewModel>(_movies, _progressManager);
+            _busyProvider = Substitute.For<IBusyProvider>();
+            _command = new UpdateAllMetadataCommand<IMovieViewModel>(_movies, _progressManager, _busyProvider);
         }
 
         [Fact]

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using NSubstitute;
+using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Progress;
 using Xunit;
 
@@ -11,12 +12,14 @@ namespace PerfectMedia.UI.Metadata
         private readonly IMetadataProvider _metadataProvider;
         private readonly IProgressManagerViewModel _progressManager;
         private readonly UpdateMetadataCommand _command;
+        private readonly IBusyProvider _busyProvider;
 
         public UpdateMetadataCommandTests()
         {
             _metadataProvider = Substitute.For<IMetadataProvider>();
             _progressManager = Substitute.For<IProgressManagerViewModel>();
-            _command = new UpdateMetadataCommand(_metadataProvider, _progressManager);
+            _busyProvider = Substitute.For<IBusyProvider>();
+            _command = new UpdateMetadataCommand(_metadataProvider, _progressManager, _busyProvider);
         }
 
         [Fact]

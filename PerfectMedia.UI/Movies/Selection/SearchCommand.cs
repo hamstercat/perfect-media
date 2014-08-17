@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Input;
 using PerfectMedia.Movies;
+using PerfectMedia.UI.Busy;
 
 namespace PerfectMedia.UI.Movies.Selection
 {
@@ -12,11 +13,13 @@ namespace PerfectMedia.UI.Movies.Selection
 
         private readonly IMovieMetadataService _metadataService;
         private readonly IMovieSelectionViewModel _movieSelectionViewModel;
+        private readonly IBusyProvider _busyProvider;
 
-        public SearchCommand(IMovieMetadataService metadataService, IMovieSelectionViewModel movieSelectionViewModel)
+        public SearchCommand(IMovieMetadataService metadataService, IMovieSelectionViewModel movieSelectionViewModel, IBusyProvider busyProvider)
         {
             _metadataService = metadataService;
             _movieSelectionViewModel = movieSelectionViewModel;
+            _busyProvider = busyProvider;
             _movieSelectionViewModel.PropertyChanged += MovieSelectionPropertyChanged;
         }
 
@@ -27,8 +30,11 @@ namespace PerfectMedia.UI.Movies.Selection
 
         public async void Execute(object parameter)
         {
-            IEnumerable<Movie> series = await _metadataService.FindMovies(_movieSelectionViewModel.SearchTitle);
-            _movieSelectionViewModel.ReplaceMovies(series);
+            using (_busyProvider.DoWork())
+            {
+                IEnumerable<Movie> series = await _metadataService.FindMovies(_movieSelectionViewModel.SearchTitle);
+                _movieSelectionViewModel.ReplaceMovies(series);
+            }
         }
 
         private void MovieSelectionPropertyChanged(object sender, PropertyChangedEventArgs e)

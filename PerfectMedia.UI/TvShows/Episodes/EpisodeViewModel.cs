@@ -61,6 +61,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
         public ICommand RefreshCommand { get; private set; }
         public ICommand UpdateCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
+        public ICommand DeleteCommand { get; private set; }
 
         public EpisodeViewModel(ITvShowViewModelFactory viewModelFactory,
             IEpisodeMetadataService metadataService,
@@ -90,6 +91,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this, progressManager, busyProvider);
             SaveCommand = new SaveMetadataCommand(this);
+            DeleteCommand = new DeleteMetadataCommand(this);
         }
 
         private void CachedPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -144,6 +146,15 @@ namespace PerfectMedia.UI.TvShows.Episodes
                     _metadataService.Save(Path, metadata);
                 }
             });
+        }
+
+        public async Task Delete()
+        {
+            using (_busyProvider.DoWork())
+            {
+                await _metadataService.Delete(Path);
+                await Refresh();
+            }
         }
 
         public async Task Load()

@@ -70,6 +70,7 @@ namespace PerfectMedia.UI.Movies
         public ICommand RefreshCommand { get; private set; }
         public ICommand UpdateCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
+        public ICommand DeleteCommand { get; private set; }
 
         public MovieViewModel(IMovieMetadataService metadataService,
             IMovieViewModelFactory viewModelFactory,
@@ -89,6 +90,7 @@ namespace PerfectMedia.UI.Movies
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this, progressManager, busyProvider);
             SaveCommand = new SaveMetadataCommand(this);
+            DeleteCommand = new DeleteMetadataCommand(this);
 
             Title = viewModelFactory.GetCachedProperty(Path + "?title", s => s, s => s);
             Title.PropertyChanged += TitlePropertyChanged;
@@ -140,6 +142,15 @@ namespace PerfectMedia.UI.Movies
             {
                 MovieMetadata metadata = CreateMetadata();
                 await _metadataService.Save(Path, metadata);
+            }
+        }
+
+        public async Task Delete()
+        {
+            using (_busyProvider.DoWork())
+            {
+                await _metadataService.Delete(Path);
+                await Refresh();
             }
         }
 

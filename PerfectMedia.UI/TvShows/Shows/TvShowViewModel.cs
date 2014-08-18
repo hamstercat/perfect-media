@@ -80,6 +80,14 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
         }
 
+        public async Task Delete()
+        {
+            using (_busyProvider.DoWork())
+            {
+                await Metadata.Delete();
+            }
+        }
+
         public async Task<IEnumerable<ProgressItem>> FindNewEpisodes()
         {
             using (_busyProvider.DoWork())

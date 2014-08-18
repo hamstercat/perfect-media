@@ -71,6 +71,7 @@
                                 <Button Content="Refresh" Command="{Binding Metadata.RefreshCommand}" />
                                 <Button Content="Update" Command="{Binding Metadata.UpdateCommand}" />
                                 <Button Content="Save" Command="{Binding Metadata.SaveCommand}" />
+                                <Button Content="Delete" Command="{Binding Metadata.DeleteCommand}" />
                                 <Button Content="Change TV Show" Click="ShowTvShowSelection" />
                             </StackPanel>
                             <shows:TvShowMetadataControl Grid.Row="1" DataContext="{Binding Metadata}" />
@@ -89,6 +90,7 @@
                                 <Button Content="Refresh" Command="{Binding RefreshCommand}" />
                                 <Button Content="Update" Command="{Binding UpdateCommand}" />
                                 <Button Content="Save" Command="{Binding SaveCommand}" />
+                                <Button Content="Delete" Command="{Binding DeleteCommand}" />
                             </StackPanel>
                             <episodes:EpisodeMetadataControl Grid.Row="1" />
                         </Grid>

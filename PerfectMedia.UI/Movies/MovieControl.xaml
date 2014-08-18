@@ -61,6 +61,7 @@
                                 <Button Content="Refresh" Command="{Binding RefreshCommand}" />
                                 <Button Content="Update" Command="{Binding UpdateCommand}" />
                                 <Button Content="Save" Command="{Binding SaveCommand}" />
+                                <Button Content="Delete" Command="{Binding DeleteCommand}" />
                                 <Button Content="Change Movie" Click="ShowMovieSelection" />
                             </StackPanel>
                             <movies:MovieMetadataControl Grid.Row="1" />

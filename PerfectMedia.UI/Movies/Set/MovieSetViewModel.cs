@@ -126,6 +126,11 @@ namespace PerfectMedia.UI.Movies.Set
             }
         }
 
+        public Task Delete()
+        {
+            throw new NotSupportedException("Can't delete a Movie Set");
+        }
+
         public Task Load()
         {
             // Nothing to do

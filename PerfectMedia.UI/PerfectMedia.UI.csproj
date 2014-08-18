@@ -132,6 +132,7 @@
       <DependentUpon>SelectableImage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainContentHelper.cs" />
+    <Compile Include="Metadata\DeleteMetadataCommand.cs" />
     <Compile Include="Movies\IMovieItem.cs" />
     <Compile Include="Movies\IMovieManagerViewModel.cs" />
     <Compile Include="Movies\Set\IMovieSetViewModel.cs" />

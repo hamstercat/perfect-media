@@ -9,5 +9,6 @@ namespace PerfectMedia.UI.Metadata
         Task Refresh();
         Task<IEnumerable<ProgressItem>> Update();
         Task Save();
+        Task Delete();
     }
 }

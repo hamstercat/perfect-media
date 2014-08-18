@@ -20,7 +20,8 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <img:ImageLoader Grid.Row="0" Grid.Column="0" MaxHeight="140"
-                         ImageUri="{Binding Selection.SelectedItem.Url}" InitialImage="/PerfectMedia.UI;component/Images/Blank.png" />
+                         ImageUri="{Binding Selection.SelectedItem.Url}" InitialImage="/PerfectMedia.UI;component/Images/Blank.png"
+                         RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>
         <Grid Grid.Row="0" Grid.Column="1">
             <StackPanel>
                 <Button Content="Save" Command="{Binding Selection.SaveCommand}" />
@@ -36,7 +37,8 @@
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <img:ImageLoader MaxHeight="140" ImageUri="{Binding Url}" InitialImage="/PerfectMedia.UI;component/Images/Blank.png" />
+                    <img:ImageLoader MaxHeight="140" ImageUri="{Binding Url}" InitialImage="/PerfectMedia.UI;component/Images/Blank.png"
+                                     RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

@@ -8,7 +8,8 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Hyperlink TextDecorations="{x:Null}" MouseEnter="GridMouseEnter" MouseLeave="GridMouseLeave" Click="HyperlinkClick">
         <Grid>
-            <img:ImageLoader ImageUri="{Binding Path}" InitialImage="/PerfectMedia.UI;component/Images/Blank.png" />
+            <img:ImageLoader ImageUri="{Binding Path}" InitialImage="/PerfectMedia.UI;component/Images/Blank.png"
+                             RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
             <Grid x:Name="MouseOverOverlay" Visibility="Hidden">
                 <Rectangle Fill="LightBlue" Opacity="0.55" />
                 <TextBlock Text="Change" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Foreground="Black" Padding="5" />

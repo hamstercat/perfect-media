@@ -79,6 +79,22 @@ namespace PerfectMedia.UI.TvShows
             using (_busyProvider.DoWork())
             {
                 Sources.Load();
+                TvShows.CollectionChanged += RefreshNewItems;
+            }
+        }
+
+        private void RefreshNewItems(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Replace)
+            {
+                foreach (ITvShowViewModel tvShow in e.NewItems.Cast<ITvShowViewModel>())
+                {
+                    if (string.IsNullOrEmpty(tvShow.Title))
+                    {
+                        // Add to cache
+                        tvShow.Refresh();
+                    }
+                }
             }
         }
 

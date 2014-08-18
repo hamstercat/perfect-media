@@ -164,7 +164,26 @@ namespace PerfectMedia.UI.Movies
 
         void ILifecycleService.Initialize()
         {
-            Sources.Load();
+            using (_busyProvider.DoWork())
+            {
+                Sources.Load();
+                Movies.CollectionChanged += RefreshNewItems;
+            }
+        }
+
+        private void RefreshNewItems(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Replace)
+            {
+                foreach (IMovieViewModel movie in e.NewItems.OfType<IMovieViewModel>())
+                {
+                    if (string.IsNullOrEmpty(movie.Title.Value))
+                    {
+                        // Add to cache
+                        movie.Refresh();
+                    }
+                }
+            }
         }
 
         void ILifecycleService.Uninitialize()

@@ -3,8 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:movies="clr-namespace:PerfectMedia.UI.Movies"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance Type=movies:MovieViewModel}">
     <Grid Background="White" Grid.IsSharedSizeScope="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -26,7 +28,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Content="Title" />
-        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title}" />
+        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title.Value}" />
         <Label Grid.Row="1" Grid.Column="0" Content="Tagline" />
         <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Tagline}" TextWrapping="Wrap" />
         <Label Grid.Row="2" Grid.Column="0" Content="Outline" />
@@ -39,7 +41,7 @@
         <Label Grid.Row="5" Grid.Column="0" Content="Original Title" />
         <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding OriginalTitle}" />
         <Label Grid.Row="6" Grid.Column="0" Content="SetName" />
-        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding SetName}" />
+        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding SetName.Value}" />
         <Label Grid.Row="7" Grid.Column="0" Content="Rating" />
         <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Rating}" />
         <Label Grid.Row="8" Grid.Column="0" Content="Premiered Date" />

@@ -26,6 +26,14 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
         }
 
+        public string Title
+        {
+            get
+            {
+                return Metadata.Title.Value;
+            }
+        }
+
         public string Path { get; private set; }
         public ITvShowMetadataViewModel Metadata { get; private set; }
         public ITvShowSelectionViewModel Selection { get; private set; }

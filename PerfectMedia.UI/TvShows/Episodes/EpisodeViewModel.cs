@@ -125,6 +125,11 @@ namespace PerfectMedia.UI.TvShows.Episodes
                     Lazy<string> displayName = new Lazy<string>(() => DisplayName);
                     items.Add(new ProgressItem(displayName, UpdateInternal));
                 }
+                else if(string.IsNullOrEmpty(Title.Value))
+                {
+                    // Add to cache
+                    await Refresh();
+                }
                 return items;
             }
         }

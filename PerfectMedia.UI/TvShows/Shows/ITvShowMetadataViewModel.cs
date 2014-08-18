@@ -9,6 +9,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         string Id { get; }
         string Path { get; }
         string DisplayName { get; }
+        ICachedPropertyViewModel<string> Title { get; }
         Task Load();
     }
 }

@@ -76,6 +76,10 @@ namespace PerfectMedia.Movies
         /// <param name="metadata">The metadata.</param>
         public async Task Save(string path, MovieMetadata metadata)
         {
+            if (metadata.FileInformation == null)
+            {
+                metadata.FileInformation = _fileInformationService.GetVideoFileInformation(path);
+            }
             await _metadataRepository.Save(path, metadata);
         }
 

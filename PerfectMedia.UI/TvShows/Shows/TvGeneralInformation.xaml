@@ -30,7 +30,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Content="UniqueKey" />
+            <Label Grid.Row="0" Grid.Column="0" Content="Path" />
             <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Path}" IsReadOnly="True" />
             <Label Grid.Row="1" Grid.Column="0" Content="Title" />
             <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title.Value}" />
@@ -55,11 +55,13 @@
             <Label Grid.Row="4" Grid.Column="2" Content="Premiered Date" />
             <DatePicker Grid.Row="4" Grid.Column="3" SelectedDate="{Binding PremieredDate}" />
 
-            <Label Grid.Row="5" Grid.Column="0" Content="Studio" />
-            <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Studio}" />
+            <Label Grid.Row="5" Grid.Column="0" Content="Id" />
+            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Id}" />
+            <Label Grid.Row="5" Grid.Column="2" Content="Studio" />
+            <TextBox Grid.Row="5" Grid.Column="3" Text="{Binding Studio}" />
+
             <Label Grid.Row="6" Grid.Column="0" Content="Plot" />
             <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Plot}" TextWrapping="Wrap" />
-
             <img:SelectableImage Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" DataContext="{Binding Images.FanartUrl}" />
         </Grid>
         <Grid Grid.Column="1">

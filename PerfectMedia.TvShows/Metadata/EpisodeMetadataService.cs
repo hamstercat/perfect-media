@@ -28,6 +28,10 @@ namespace PerfectMedia.TvShows.Metadata
 
         public void Save(string episodeFile, EpisodeMetadata metadata)
         {
+            if (metadata.FileInformation == null)
+            {
+                metadata.FileInformation = _fileInformationService.GetVideoFileInformation(episodeFile);
+            }
             _metadataRepository.Save(episodeFile, metadata);
         }
 

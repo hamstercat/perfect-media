@@ -9,20 +9,17 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Expander Grid.Row="0" Header="General Information" IsExpanded="True">
-                <movies:GeneralInformation />
-            </Expander>
-            <Expander Grid.Row="1" Header="Fanart">
-                <movies:Fanart />
-            </Expander>
-            <Expander Grid.Row="2" Header="Actors">
-                <views:Actors DataContext="{Binding Actors}" />
-            </Expander>
+            <TabControl>
+                <TabItem Header="Information">
+                    <movies:GeneralInformation />
+                </TabItem>
+                <TabItem Header="Actors">
+                    <views:Actors DataContext="{Binding Actors}" />
+                </TabItem>
+                <TabItem Header="Images">
+                    <movies:Fanart />
+                </TabItem>
+            </TabControl>
         </Grid>
     </ScrollViewer>
 </UserControl>

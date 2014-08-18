@@ -119,6 +119,10 @@ namespace PerfectMedia.Movies
                     return null;
                 }
             }
+            if (string.IsNullOrEmpty(certification.Certification))
+            {
+                return null;
+            }
             return "Rated " + certification.Certification;
         }
 

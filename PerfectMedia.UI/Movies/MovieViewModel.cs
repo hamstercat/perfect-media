@@ -128,7 +128,7 @@ namespace PerfectMedia.UI.Movies
                 if (string.IsNullOrEmpty(metadata.Id))
                 {
                     Lazy<string> displayName = new Lazy<string>(() => DisplayName);
-                    return new List<ProgressItem> {new ProgressItem(displayName, UpdateInternal)};
+                    return new List<ProgressItem> {new ProgressItem(Path, displayName, UpdateInternal)};
                 }
                 return Enumerable.Empty<ProgressItem>();
             }

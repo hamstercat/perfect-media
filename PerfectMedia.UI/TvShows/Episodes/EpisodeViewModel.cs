@@ -123,7 +123,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
                 if (metadata.FileInformation == null)
                 {
                     Lazy<string> displayName = new Lazy<string>(() => DisplayName);
-                    items.Add(new ProgressItem(displayName, UpdateInternal));
+                    items.Add(new ProgressItem(Path, displayName, UpdateInternal));
                 }
                 else if(string.IsNullOrEmpty(Title.Value))
                 {

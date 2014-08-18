@@ -76,7 +76,7 @@ namespace PerfectMedia.UI.Metadata
 
         private ProgressItem CreateProgressItem()
         {
-            return new ProgressItem(null, null);
+            return new ProgressItem(null, null, null);
         }
     }
 }

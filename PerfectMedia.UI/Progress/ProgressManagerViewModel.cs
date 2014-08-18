@@ -1,7 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using PerfectMedia.UI.Busy;
+﻿using PerfectMedia.UI.Busy;
 using PropertyChanged;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PerfectMedia.UI.Progress
 {
@@ -34,7 +35,10 @@ namespace PerfectMedia.UI.Progress
                 ClearItems();
                 ShowProgressIndicator();
             }
-            Total.Add(item);
+            if (Total.All(i => i.UniqueKey != item.UniqueKey))
+            {
+                Total.Add(item);
+            }
         }
 
         public async Task Start()
@@ -65,7 +69,7 @@ namespace PerfectMedia.UI.Progress
 
         private void ShowProgressIndicator()
         {
-            var progressIndicator = _progressIndicatorFactory.CreateProgressIndicator();
+            IProgressIndicator progressIndicator = _progressIndicatorFactory.CreateProgressIndicator();
             progressIndicator.Show(this);
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Anotar.Log4Net;
 using PerfectMedia.TvShows;
 using PerfectMedia.Movies;
 
@@ -17,10 +18,12 @@ namespace PerfectMedia.UI.Progress
                 return _display.Value;
             }
         }
+        public string UniqueKey { get; private set; }
         public string Error { get; private set; }
 
-        public ProgressItem(Lazy<string> display, Func<Task> action)
+        public ProgressItem(string uniqueKey, Lazy<string> display, Func<Task> action)
         {
+            UniqueKey = uniqueKey;
             _display = display;
             _action = action;
         }
@@ -43,9 +46,10 @@ namespace PerfectMedia.UI.Progress
             {
                 Error = "Movie could not be located";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Error = "Unhandled exception (check the log for more information)";
+                LogTo.ErrorException(Display, ex);
             }
         }
     }

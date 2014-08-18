@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Anotar.Log4Net;
 using RestSharp;
@@ -19,7 +20,6 @@ namespace PerfectMedia
         public async Task<string> Get(string url)
         {
             IRestResponse response = await ExecuteRequest(url);
-            ValidateStatusCode(response, url);
             return response.Content;
         }
 
@@ -27,26 +27,30 @@ namespace PerfectMedia
             where T : new()
         {
             IRestResponse<T> response = await ExecuteRequest<T>(url);
-            ValidateStatusCode(response, url);
             return response.Data;
         }
 
         private Task<IRestResponse> ExecuteRequest(string url)
         {
-            RestRequest request = new RestRequest(url);
+            var request = new RestRequest(url);
             request.DateFormat = _dateFormat;
             return ExecuteAsync(request);
         }
 
         private Task<IRestResponse> ExecuteAsync(RestRequest request)
         {
-            TaskCompletionSource<IRestResponse> taskCompletionSource = new TaskCompletionSource<IRestResponse>();
+            var taskCompletionSource = new TaskCompletionSource<IRestResponse>();
             _restClient.ExecuteAsync(request, (response) =>
             {
                 if (response.ErrorException != null)
-                    taskCompletionSource.TrySetException(response.ErrorException);
+                {
+                    Exception ex = TransformStatusCodeToException(response, request.Resource);
+                    taskCompletionSource.TrySetException(ex);
+                }
                 else
+                {
                     taskCompletionSource.TrySetResult(response);
+                }
             });
             return taskCompletionSource.Task;
         }
@@ -54,7 +58,7 @@ namespace PerfectMedia
         private Task<IRestResponse<T>> ExecuteRequest<T>(string url)
             where T : new()
         {
-            RestRequest request = new RestRequest(url);
+            var request = new RestRequest(url);
             request.DateFormat = _dateFormat;
             return ExecuteAsync<T>(request);
         }
@@ -62,26 +66,28 @@ namespace PerfectMedia
         private Task<IRestResponse<T>> ExecuteAsync<T>(RestRequest request)
             where T : new()
         {
-            TaskCompletionSource<IRestResponse<T>> taskCompletionSource = new TaskCompletionSource<IRestResponse<T>>();
+            var taskCompletionSource = new TaskCompletionSource<IRestResponse<T>>();
             _restClient.ExecuteAsync<T>(request, (response) =>
             {
                 if (response.ErrorException != null)
-                    taskCompletionSource.TrySetException(response.ErrorException);
+                {
+                    Exception ex = TransformStatusCodeToException(response, request.Resource);
+                    taskCompletionSource.TrySetException(ex);
+                }
                 else
+                {
                     taskCompletionSource.TrySetResult(response);
+                }
             });
             return taskCompletionSource.Task;
         }
 
-        private void ValidateStatusCode(IRestResponse response, string url)
+        private Exception TransformStatusCodeToException(IRestResponse response, string url)
         {
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                string message = string.Format("Response code {0}: {1}", (int)response.StatusCode, response.ErrorMessage);
-                LogTo.Warn("API with base \"{0}\" on URL \"{1}\":", _restClient.BaseUrl, url);
-                LogTo.Warn("    {0}", message);
-                throw new ApiException(message);
-            }
+            string message = string.Format("Response code {0}: {1}", (int)response.StatusCode, response.ErrorMessage);
+            LogTo.Warn("API with base \"{0}\" on URL \"{1}\":", _restClient.BaseUrl, url);
+            LogTo.Warn("    {0}", message);
+            return new ApiException(message);
         }
     }
 }

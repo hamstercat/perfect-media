@@ -9,6 +9,8 @@
              xmlns:img="clr-namespace:PerfectMedia.UI.Images"
              xmlns:selectimg="clr-namespace:PerfectMedia.UI.Images.Selection"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ui="clr-namespace:PerfectMedia.UI"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="1000"
              d:DataContext="{d:DesignInstance Type=movies:MovieManagerViewModel}">
@@ -32,6 +34,9 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TreeView x:Name="MoviesTreeView" ItemsSource="{Binding Source={StaticResource SortedMovies}}" SelectedItemChanged="MoviesSelectedItemChanged">
+                <i:Interaction.Behaviors>
+                    <ui:BindableSelectedItemBehavior SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
+                </i:Interaction.Behaviors>
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                         <TextBlock Text="{Binding DisplayName}" />

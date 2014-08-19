@@ -24,6 +24,7 @@ namespace PerfectMedia.UI.Movies
 
         public ISourceManagerViewModel Sources { get; set; }
         public ObservableCollection<IMovieItem> Movies { get; private set; }
+        public IMovieItem SelectedItem { get; set; }
         public ICommand UpdateAll { get; private set; }
 
         public MovieManagerViewModel(IFileSystemService fileSystemService,
@@ -146,6 +147,7 @@ namespace PerfectMedia.UI.Movies
                 {
                     RemoveMovie(movie);
                     AddMovie(movie);
+                    SelectedItem = movie;
                 });
             }
         }

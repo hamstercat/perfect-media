@@ -34,11 +34,11 @@ namespace PerfectMedia.UI.TvShows.Shows
         {
             get
             {
-                if (string.IsNullOrEmpty(Title.Value))
+                if (string.IsNullOrEmpty(Title.CachedValue))
                 {
                     return System.IO.Path.GetFileName(Path);
                 }
-                return Title.Value;
+                return Title.CachedValue;
             }
         }
 
@@ -113,6 +113,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             {
                 using (_busyProvider.DoWork())
                 {
+                    Title.Save();
                     TvShowMetadata metadata = CreateMetadata();
                     _metadataService.Save(Path, metadata);
                 }

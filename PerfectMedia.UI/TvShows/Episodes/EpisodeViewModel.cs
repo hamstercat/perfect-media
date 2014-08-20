@@ -46,14 +46,14 @@ namespace PerfectMedia.UI.TvShows.Episodes
         {
             get
             {
-                if (string.IsNullOrEmpty(Title.Value))
+                if (string.IsNullOrEmpty(Title.CachedValue))
                 {
                     return System.IO.Path.GetFileName(Path);
                 }
                 return string.Format("{0}x{1:d2}: {2}",
-                    SeasonNumber.Value,
-                    EpisodeNumber.Value,
-                    Title.Value);
+                    SeasonNumber.CachedValue,
+                    EpisodeNumber.CachedValue,
+                    Title.CachedValue);
             }
         }
 
@@ -127,7 +127,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
                     Lazy<string> displayName = new Lazy<string>(() => DisplayName);
                     items.Add(new ProgressItem(Path, displayName, UpdateInternal));
                 }
-                else if(string.IsNullOrEmpty(Title.Value))
+                else if(string.IsNullOrEmpty(Title.CachedValue))
                 {
                     // Add to cache
                     await Refresh();
@@ -142,6 +142,9 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 using (_busyProvider.DoWork())
                 {
+                    Title.Save();
+                    SeasonNumber.Save();
+                    EpisodeNumber.Save();
                     EpisodeMetadata metadata = CreateMetadata();
                     _metadataService.Save(Path, metadata);
                 }

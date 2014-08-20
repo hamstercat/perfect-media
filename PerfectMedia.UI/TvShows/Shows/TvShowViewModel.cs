@@ -30,7 +30,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         {
             get
             {
-                return Metadata.Title.Value;
+                return Metadata.Title.CachedValue;
             }
         }
 

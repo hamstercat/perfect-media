@@ -11,36 +11,31 @@ namespace PerfectMedia.UI
         private readonly Func<T, string> _converter;
         private readonly Func<string, T> _otherConverter;
 
+        public T Value { get; set; }
+        public T CachedValue { get; private set; }
+
         public CachedPropertyViewModel(IKeyDataStore keyDataStore, string propertyKey, Func<T, string> converter, Func<string, T> otherConverter)
         {
             _keyDataStore = keyDataStore;
             _propertyKey = propertyKey;
             _converter = converter;
             _otherConverter = otherConverter;
+            InitializeValue();
         }
 
-        private bool _valueLoaded;
-        private T _value;
-        public T Value
+        public void Save()
         {
-            get
+            string serializedValue = _converter(Value);
+            _keyDataStore.SetValue(_propertyKey, serializedValue);
+            CachedValue = Value;
+        }
+
+        private void InitializeValue()
+        {
+            string serializedValue = _keyDataStore.GetValue(_propertyKey);
+            if (!string.IsNullOrEmpty(serializedValue))
             {
-                if (!_valueLoaded)
-                {
-                    string serializedValue = _keyDataStore.GetValue(_propertyKey);
-                    if (!string.IsNullOrEmpty(serializedValue))
-                    {
-                        _value = _otherConverter(serializedValue);
-                    }
-                    _valueLoaded = true;
-                }
-                return _value;
-            }
-            set
-            {
-                _value = value;
-                string serializedValue = _converter(_value);
-                _keyDataStore.SetValue(_propertyKey, serializedValue);
+                Value = CachedValue = _otherConverter(serializedValue);
             }
         }
     }

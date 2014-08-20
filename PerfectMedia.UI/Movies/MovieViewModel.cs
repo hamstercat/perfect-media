@@ -56,11 +56,11 @@ namespace PerfectMedia.UI.Movies
         {
             get
             {
-                if (string.IsNullOrEmpty(Title.Value))
+                if (string.IsNullOrEmpty(Title.CachedValue))
                 {
                     return System.IO.Path.GetFileNameWithoutExtension(Path);
                 }
-                return Title.Value;
+                return Title.CachedValue;
             }
         }
 
@@ -140,6 +140,8 @@ namespace PerfectMedia.UI.Movies
         {
             using (_busyProvider.DoWork())
             {
+                Title.Save();
+                SetName.Save();
                 MovieMetadata metadata = CreateMetadata();
                 await _metadataService.Save(Path, metadata);
             }

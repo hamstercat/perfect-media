@@ -12,6 +12,7 @@ namespace PerfectMedia.UI
         private readonly Func<string, T> _otherConverter;
 
         public T Value { get; set; }
+        public T CachedValue { get; private set; }
 
         public CachedPropertyViewModel(IKeyDataStore keyDataStore, string propertyKey, Func<T, string> converter, Func<string, T> otherConverter)
         {
@@ -26,6 +27,7 @@ namespace PerfectMedia.UI
         {
             string serializedValue = _converter(Value);
             _keyDataStore.SetValue(_propertyKey, serializedValue);
+            CachedValue = Value;
         }
 
         private void InitializeValue()
@@ -33,7 +35,7 @@ namespace PerfectMedia.UI
             string serializedValue = _keyDataStore.GetValue(_propertyKey);
             if (!string.IsNullOrEmpty(serializedValue))
             {
-                Value = _otherConverter(serializedValue);
+                Value = CachedValue = _otherConverter(serializedValue);
             }
         }
     }

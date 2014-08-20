@@ -56,11 +56,11 @@ namespace PerfectMedia.UI.Movies
         {
             get
             {
-                if (string.IsNullOrEmpty(Title.Value))
+                if (string.IsNullOrEmpty(Title.CachedValue))
                 {
                     return System.IO.Path.GetFileNameWithoutExtension(Path);
                 }
-                return Title.Value;
+                return Title.CachedValue;
             }
         }
 

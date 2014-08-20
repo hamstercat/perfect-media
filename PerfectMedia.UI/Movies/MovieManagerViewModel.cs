@@ -78,7 +78,7 @@ namespace PerfectMedia.UI.Movies
 
         private void AddMovie(IMovieViewModel movie)
         {
-            if (string.IsNullOrEmpty(movie.SetName.Value))
+            if (string.IsNullOrEmpty(movie.SetName.CachedValue))
             {
                 Movies.Add(movie);
             }
@@ -90,7 +90,7 @@ namespace PerfectMedia.UI.Movies
 
         private void AddMovieSet(IMovieViewModel movie)
         {
-            string setName = movie.SetName.Value;
+            string setName = movie.SetName.CachedValue;
             IMovieSetViewModel movieSet = Movies.OfType<IMovieSetViewModel>().FirstOrDefault(m => m.DisplayName == setName);
             if (movieSet == null)
             {
@@ -177,7 +177,7 @@ namespace PerfectMedia.UI.Movies
             {
                 foreach (IMovieViewModel movie in e.NewItems.OfType<IMovieViewModel>())
                 {
-                    if (string.IsNullOrEmpty(movie.Title.Value))
+                    if (string.IsNullOrEmpty(movie.Title.CachedValue))
                     {
                         // Add to cache
                         movie.Refresh();

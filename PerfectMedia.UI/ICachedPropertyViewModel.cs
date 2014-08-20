@@ -5,6 +5,7 @@ namespace PerfectMedia.UI
     public interface ICachedPropertyViewModel<T> : INotifyPropertyChanged
     {
         T Value { get; set; }
+        T CachedValue { get; }
         void Save();
     }
 }

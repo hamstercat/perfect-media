@@ -33,11 +33,11 @@ namespace PerfectMedia.UI.TvShows.Shows
         {
             get
             {
-                if (string.IsNullOrEmpty(Title.Value))
+                if (string.IsNullOrEmpty(Title.CachedValue))
                 {
                     return System.IO.Path.GetFileName(Path);
                 }
-                return Title.Value;
+                return Title.CachedValue;
             }
         }
 

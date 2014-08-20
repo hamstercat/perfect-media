@@ -140,6 +140,9 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 using (_busyProvider.DoWork())
                 {
+                    Title.Save();
+                    SeasonNumber.Save();
+                    EpisodeNumber.Save();
                     EpisodeMetadata metadata = CreateMetadata();
                     _metadataService.Save(Path, metadata);
                 }

@@ -138,6 +138,8 @@ namespace PerfectMedia.UI.Movies
         {
             using (_busyProvider.DoWork())
             {
+                Title.Save();
+                SetName.Save();
                 MovieMetadata metadata = CreateMetadata();
                 await _metadataService.Save(Path, metadata);
             }

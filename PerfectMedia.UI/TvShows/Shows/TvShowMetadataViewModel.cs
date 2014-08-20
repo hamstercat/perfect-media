@@ -111,6 +111,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             {
                 using (_busyProvider.DoWork())
                 {
+                    Title.Save();
                     TvShowMetadata metadata = CreateMetadata();
                     _metadataService.Save(Path, metadata);
                 }

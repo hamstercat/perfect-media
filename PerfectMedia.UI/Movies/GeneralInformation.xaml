@@ -43,7 +43,7 @@
 
         <Label Grid.Row="5" Grid.Column="0" Content="Original Title" />
         <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding OriginalTitle}" />
-        <Label Grid.Row="6" Grid.Column="0" Content="SetName" />
+        <Label Grid.Row="6" Grid.Column="0" Content="Set Name" />
         <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding SetName.Value}" />
         <Label Grid.Row="7" Grid.Column="0" Content="Rating" />
         <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Rating}" />

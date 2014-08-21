@@ -146,7 +146,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
                 ImagePath = @"C:\Folder\TV Shows\Game of Thrones\Season 2\3x09-thumb.png",
                 ImageUrl = "http://thetvdb.com/banners/seasons/79481-0.jpg",
                 LastPlayed = new DateTime(2013, 01, 13),
-                Playcount = 4,
+                PlayCount = 4,
                 Plot = "The best plot ever written in the history of men",
                 Rating = 9.5,
                 SeasonNumber = 3,
@@ -167,7 +167,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             Assert.Equal(metadata.ImagePath, _viewModel.ImagePath.Path);
             Assert.Equal(metadata.ImageUrl, _viewModel.ImageUrl);
             Assert.Equal(metadata.LastPlayed, _viewModel.LastPlayed);
-            Assert.Equal(metadata.Playcount, _viewModel.PlayCount);
+            Assert.Equal(metadata.PlayCount, _viewModel.PlayCount);
             Assert.Equal(metadata.Plot, _viewModel.Plot);
             Assert.Equal(metadata.Rating, _viewModel.Rating);
             Assert.Equal(metadata.SeasonNumber, _viewModel.SeasonNumber.Value);

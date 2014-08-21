@@ -29,7 +29,7 @@ namespace PerfectMedia.TvShows.Metadata
         public string Plot { get; set; }
 
         [XmlElement(ElementName = "runtime")]
-        public int RuntimeInMinutes { get; set; }
+        public int? RuntimeInMinutes { get; set; }
 
         [XmlElement(ElementName = "rating")]
         public double? Rating { get; set; }
@@ -62,6 +62,11 @@ namespace PerfectMedia.TvShows.Metadata
         public bool ShouldSerializeGenres()
         {
             return Genres != null;
+        }
+
+        public bool ShouldSerializeRuntimeInMinutes()
+        {
+            return RuntimeInMinutes.HasValue;
         }
 
         public bool ShouldSerializeRating()

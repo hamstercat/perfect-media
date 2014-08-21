@@ -28,11 +28,11 @@ namespace PerfectMedia.UI.TvShows.Episodes
         public ICachedPropertyViewModel<int> SeasonNumber { get; private set; }
         public ICachedPropertyViewModel<int> EpisodeNumber { get; private set; }
 
-        public double Rating { get; set; }
+        public double? Rating { get; set; }
         public string Plot { get; set; }
         public ImageViewModel ImagePath { get; set; }
         public string ImageUrl { get; set; }
-        public int PlayCount { get; set; }
+        public int? PlayCount { get; set; }
         public DateTime? LastPlayed { get; set; }
         public DashDelimitedCollectionViewModel<string> Credits { get; set; }
         public DashDelimitedCollectionViewModel<string> Directors { get; set; }
@@ -185,7 +185,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             ImagePath.Path = null;
             ImagePath.Path = metadata.ImagePath;
             ImageUrl = metadata.ImageUrl;
-            PlayCount = metadata.Playcount;
+            PlayCount = metadata.PlayCount;
             LastPlayed = metadata.LastPlayed;
             AiredDate = metadata.AiredDate;
             DisplaySeason = metadata.DisplaySeason;
@@ -207,7 +207,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
                 Plot = Plot,
                 ImagePath = ImagePath.Path,
                 ImageUrl = ImageUrl,
-                Playcount = PlayCount,
+                PlayCount = PlayCount,
                 LastPlayed = LastPlayed,
                 Credits = Credits.Collection.ToList(),
                 Director = Directors.Collection.ToList(),

@@ -33,13 +33,13 @@ namespace PerfectMedia.Movies
         public string Tagline { get; set; }
 
         [XmlElement(ElementName = "runtime")]
-        public int RuntimeInMinutes { get; set; }
+        public int? RuntimeInMinutes { get; set; }
 
         [XmlElement(ElementName = "mpaa")]
         public string Certification { get; set; }
 
         [XmlElement(ElementName = "playcount")]
-        public int PlayCount { get; set; }
+        public int? PlayCount { get; set; }
 
         [XmlElement(ElementName = "id")]
         public string Id { get; set; }
@@ -100,6 +100,16 @@ namespace PerfectMedia.Movies
         public bool ShouldSerializeYear()
         {
             return Year.HasValue;
+        }
+
+        public bool ShouldSerializeRuntimeInMinutes()
+        {
+            return RuntimeInMinutes.HasValue;
+        }
+
+        public bool ShouldSerializePlayCount()
+        {
+            return PlayCount.HasValue;
         }
 
         public bool ShouldSerializeGenres()

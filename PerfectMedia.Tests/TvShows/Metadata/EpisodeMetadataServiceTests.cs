@@ -136,7 +136,7 @@ namespace PerfectMedia.TvShows.Metadata
                 ImagePath = string.Format(@"C:\Folder\TV Shows\Game of Thrones\{0}\{1}x02-thumb.png", seasonFolder, seasonNumber),
                 ImageUrl = "http://thetvdb.com/banners/image.jpg",
                 LastPlayed = new DateTime(2013, 08, 13),
-                Playcount = 3,
+                PlayCount = 3,
                 Plot = "The best plot ever",
                 Rating = 8.7,
                 SeasonNumber = seasonNumber,

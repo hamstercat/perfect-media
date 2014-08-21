@@ -34,7 +34,7 @@ namespace PerfectMedia.Movies
                 MovieHelper.ThemoviedbApiKey,
                 HttpUtility.UrlEncode(name));
             SearchMovieResult result = await _restApiService.Get<SearchMovieResult>(url);
-            FixImagesUrl(result.Results);
+            await FixImagesUrl(result.Results);
             return result.Results;
         }
 
@@ -47,7 +47,7 @@ namespace PerfectMedia.Movies
         {
             string url = string.Format("3/movie/{0}?api_key={1}", movieId, MovieHelper.ThemoviedbApiKey);
             FullMovie fullMovie = await _restApiService.Get<FullMovie>(url);
-            FixImagesUrl(fullMovie);
+            await FixImagesUrl(fullMovie);
             return fullMovie;
         }
 
@@ -92,7 +92,7 @@ namespace PerfectMedia.Movies
         {
             string url = string.Format("3/movie/{0}/credits?api_key={1}", movieId, MovieHelper.ThemoviedbApiKey);
             MovieActorsResult actorsResult = await _restApiService.Get<MovieActorsResult>(url);
-            FixImagesUrl(actorsResult.Cast);
+            await FixImagesUrl(actorsResult.Cast);
             return actorsResult;
         }
 
@@ -154,38 +154,38 @@ namespace PerfectMedia.Movies
             };
         }
 
-        private void FixImagesUrl(IEnumerable<Movie> movies)
+        private async Task FixImagesUrl(IEnumerable<Movie> movies)
         {
             foreach (Movie movie in movies)
             {
                 if (!string.IsNullOrEmpty(movie.BackdropPath))
                 {
-                    movie.BackdropPath = GetImageBasePath() + "original" + movie.BackdropPath;
+                    movie.BackdropPath = await GetImageBasePath() + "original" + movie.BackdropPath;
                 }
                 if (!string.IsNullOrEmpty(movie.PosterPath))
                 {
-                    movie.PosterPath = GetImageBasePath() + "original" + movie.PosterPath;
+                    movie.PosterPath = await GetImageBasePath() + "original" + movie.PosterPath;
                 }
             }
         }
 
-        private void FixImagesUrl(FullMovie fullMovie)
+        private async Task FixImagesUrl(FullMovie fullMovie)
         {
             if (!string.IsNullOrEmpty(fullMovie.BackdropPath))
             {
-                fullMovie.BackdropPath = GetImageBasePath() + "original" + fullMovie.BackdropPath;
+                fullMovie.BackdropPath = await GetImageBasePath() + "original" + fullMovie.BackdropPath;
             }
             if (!string.IsNullOrEmpty(fullMovie.PosterPath))
             {
-                fullMovie.PosterPath = GetImageBasePath() + "original" + fullMovie.PosterPath;
+                fullMovie.PosterPath = await GetImageBasePath() + "original" + fullMovie.PosterPath;
             }
         }
 
-        private void FixImagesUrl(IEnumerable<Cast> actors)
+        private async Task FixImagesUrl(IEnumerable<Cast> actors)
         {
             foreach (Cast actor in actors)
             {
-                actor.ProfilePath = string.IsNullOrEmpty(actor.ProfilePath) ? null : GetImageBasePath() + "w300" + actor.ProfilePath;
+                actor.ProfilePath = string.IsNullOrEmpty(actor.ProfilePath) ? null : await GetImageBasePath() + "w300" + actor.ProfilePath;
             }
         }
 

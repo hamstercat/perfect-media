@@ -51,7 +51,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         public DashDelimitedCollectionViewModel<string> Genres { get; set; }
         public string ImdbId { get; set; }
         public string Plot { get; set; }
-        public int RuntimeInMinutes { get; set; }
+        public int? RuntimeInMinutes { get; set; }
         public double? Rating { get; set; }
         public DateTime? PremieredDate { get; set; }
         public string Studio { get; set; }

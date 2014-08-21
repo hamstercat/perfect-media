@@ -13,7 +13,7 @@ namespace PerfectMedia.TvShows.Metadata
         public string Title { get; set; }
 
         [XmlElement(ElementName = "rating")]
-        public double Rating { get; set; }
+        public double? Rating { get; set; }
 
         [XmlElement(ElementName = "season")]
         public int SeasonNumber { get; set; }
@@ -31,7 +31,7 @@ namespace PerfectMedia.TvShows.Metadata
         public string ImagePath { get; set; }
 
         [XmlElement(ElementName = "playcount")]
-        public int Playcount { get; set; }
+        public int? PlayCount { get; set; }
 
         [XmlElement(ElementName = "lastplayed")]
         public string LastPlayedString
@@ -93,6 +93,16 @@ namespace PerfectMedia.TvShows.Metadata
         public bool ShouldSerializeDisplayEpisode()
         {
             return DisplayEpisode.HasValue;
+        }
+
+        public bool ShouldSerializeRating()
+        {
+            return Rating.HasValue;
+        }
+
+        public bool ShouldSerializePlayCount()
+        {
+            return PlayCount.HasValue;
         }
 
         public bool ShouldSerializeFileInformation()

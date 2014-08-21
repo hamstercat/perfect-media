@@ -41,9 +41,9 @@ namespace PerfectMedia.UI.Movies
         public string Outline { get; set; }
         public string Plot { get; set; }
         public string Tagline { get; set; }
-        public int RuntimeInMinutes { get; set; }
+        public int? RuntimeInMinutes { get; set; }
         public string Certification { get; set; }
-        public int PlayCount { get; set; }
+        public int? PlayCount { get; set; }
         public string Id { get; set; }
         public DashDelimitedCollectionViewModel<string> Genres { get; set; }
         public string Country { get; set; }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace PerfectMedia.UI
+namespace PerfectMedia.UI.Cache
 {
     public interface ICachedPropertyViewModel<T> : INotifyPropertyChanged
     {

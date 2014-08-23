@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using PerfectMedia.Serialization;
 
 namespace PerfectMedia.Movies
 {
@@ -12,11 +13,12 @@ namespace PerfectMedia.Movies
         private readonly IFileSystemService _fileSystemService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MovieMetadataRepository"/> class.
+        /// Initializes a new instance of the <see cref="MovieMetadataRepository" /> class.
         /// </summary>
         /// <param name="fileSystemService">The file system service.</param>
-        public MovieMetadataRepository(IFileSystemService fileSystemService)
-            : base(fileSystemService)
+        /// <param name="xmlSerializerFactory">The XML serializer factory.</param>
+        public MovieMetadataRepository(IFileSystemService fileSystemService, IXmlSerializerFactory xmlSerializerFactory)
+            : base(fileSystemService, xmlSerializerFactory)
         {
             _fileSystemService = fileSystemService;
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using PerfectMedia.Serialization;
 using Xunit;
 using Xunit.Extensions;
 

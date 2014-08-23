@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Movies.Selection;
 
 namespace PerfectMedia.UI.Movies

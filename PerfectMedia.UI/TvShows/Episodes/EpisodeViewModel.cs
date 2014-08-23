@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Busy;
+using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Progress;
@@ -23,24 +25,35 @@ namespace PerfectMedia.UI.TvShows.Episodes
         private readonly IBusyProvider _busyProvider;
         private bool _lazyLoaded;
 
-        #region Metadata
-        public ICachedPropertyViewModel<string> Title { get; private set; }
-        public ICachedPropertyViewModel<int> SeasonNumber { get; private set; }
-        public ICachedPropertyViewModel<int> EpisodeNumber { get; private set; }
-
+        [Range(0, 10)]
         public double? Rating { get; set; }
+
+        [RequiredCached]
+        public ICachedPropertyViewModel<string> Title { get; private set; }
+
+        [RequiredCached]
+        public ICachedPropertyViewModel<int?> SeasonNumber { get; private set; }
+
+        [RequiredCached]
+        public ICachedPropertyViewModel<int?> EpisodeNumber { get; private set; }
+
+        [Positive]
+        public int? PlayCount { get; set; }
+
+        [Positive]
+        public int? DisplaySeason { get; set; }
+
+        [Positive]
+        public int? DisplayEpisode { get; set; }
+
         public string Plot { get; set; }
         public ImageViewModel ImagePath { get; set; }
         public string ImageUrl { get; set; }
-        public int? PlayCount { get; set; }
         public DateTime? LastPlayed { get; set; }
         public DashDelimitedCollectionViewModel<string> Credits { get; set; }
         public DashDelimitedCollectionViewModel<string> Directors { get; set; }
         public DateTime? AiredDate { get; set; }
-        public int? DisplaySeason { get; set; }
-        public int? DisplayEpisode { get; set; }
         public double? EpisodeBookmarks { get; set; }
-        #endregion
 
         public string DisplayName
         {
@@ -49,6 +62,10 @@ namespace PerfectMedia.UI.TvShows.Episodes
                 if (string.IsNullOrEmpty(Title.CachedValue))
                 {
                     return System.IO.Path.GetFileName(Path);
+                }
+                if (SeasonNumber == null || EpisodeNumber == null)
+                {
+                    return Title.CachedValue;
                 }
                 return string.Format("{0}x{1:d2}: {2}",
                     SeasonNumber.CachedValue,
@@ -74,15 +91,15 @@ namespace PerfectMedia.UI.TvShows.Episodes
             _metadataService = metadataService;
             _tvShowMetadata = tvShowMetadata;
             _busyProvider = busyProvider;
-            Path = path;
             _lazyLoaded = false;
 
-            Title = viewModelFactory.GetCachedProperty(path + "?title", s => s, s => s);
+            Title = viewModelFactory.GetStringCachedProperty(path + "?title");
             Title.PropertyChanged += CachedPropertyChanged;
-            SeasonNumber = viewModelFactory.GetCachedProperty(path + "?seasonNumber", i => i.ToString(CultureInfo.InvariantCulture), int.Parse);
+            SeasonNumber = viewModelFactory.GetIntCachedProperty(path + "?seasonNumber");
             SeasonNumber.PropertyChanged += CachedPropertyChanged;
-            EpisodeNumber = viewModelFactory.GetCachedProperty(path + "?episodeNumber", i => i.ToString(CultureInfo.InvariantCulture), int.Parse);
+            EpisodeNumber = viewModelFactory.GetIntCachedProperty(path + "?episodeNumber");
             EpisodeNumber.PropertyChanged += CachedPropertyChanged;
+            Path = path;
 
             Credits = new DashDelimitedCollectionViewModel<string>(s => s);
             Directors = new DashDelimitedCollectionViewModel<string>(s => s);
@@ -127,28 +144,24 @@ namespace PerfectMedia.UI.TvShows.Episodes
                     Lazy<string> displayName = new Lazy<string>(() => DisplayName);
                     items.Add(new ProgressItem(Path, displayName, UpdateInternal));
                 }
-                else if(string.IsNullOrEmpty(Title.CachedValue))
+                else
                 {
-                    // Add to cache
-                    await Refresh();
+                    RefreshFromMetadata(metadata);
                 }
                 return items;
             }
         }
 
-        public Task Save()
+        public async Task Save()
         {
-            return Task.Run(() =>
+            using (_busyProvider.DoWork())
             {
-                using (_busyProvider.DoWork())
-                {
-                    Title.Save();
-                    SeasonNumber.Save();
-                    EpisodeNumber.Save();
-                    EpisodeMetadata metadata = CreateMetadata();
-                    _metadataService.Save(Path, metadata);
-                }
-            });
+                Title.Save();
+                SeasonNumber.Save();
+                EpisodeNumber.Save();
+                EpisodeMetadata metadata = CreateMetadata();
+                await _metadataService.Save(Path, metadata);
+            }
         }
 
         public async Task Delete()
@@ -178,9 +191,12 @@ namespace PerfectMedia.UI.TvShows.Episodes
         private void RefreshFromMetadata(EpisodeMetadata metadata)
         {
             Title.Value = metadata.Title;
+            Title.Save();
             Rating = metadata.Rating;
             SeasonNumber.Value = metadata.SeasonNumber;
+            SeasonNumber.Save();
             EpisodeNumber.Value = metadata.EpisodeNumber;
+            EpisodeNumber.Save();
             Plot = metadata.Plot;
             ImagePath.Path = null;
             ImagePath.Path = metadata.ImagePath;
@@ -202,8 +218,8 @@ namespace PerfectMedia.UI.TvShows.Episodes
             {
                 Title = Title.Value,
                 Rating = Rating,
-                SeasonNumber = SeasonNumber.Value,
-                EpisodeNumber = EpisodeNumber.Value,
+                SeasonNumber = SeasonNumber.Value.Value,
+                EpisodeNumber = EpisodeNumber.Value.Value,
                 Plot = Plot,
                 ImagePath = ImagePath.Path,
                 ImageUrl = ImageUrl,

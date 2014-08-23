@@ -44,7 +44,7 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
         {
             TvShowMetadata metadata = await metadataService.Get(path);
             metadata.Id = serieId;
-            metadataService.Save(path, metadata);
+            await metadataService.Save(path, metadata);
         }
 
         private async Task Update(ITvShowMetadataService metadataService, ITvShowMetadataViewModel tvShowMetadata, string path)

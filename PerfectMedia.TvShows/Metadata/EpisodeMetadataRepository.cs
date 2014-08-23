@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using PerfectMedia.Serialization;
 
 namespace PerfectMedia.TvShows.Metadata
 {
@@ -11,11 +12,12 @@ namespace PerfectMedia.TvShows.Metadata
         private readonly IFileSystemService _fileSystemService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EpisodeMetadataRepository"/> class.
+        /// Initializes a new instance of the <see cref="EpisodeMetadataRepository" /> class.
         /// </summary>
         /// <param name="fileSystemService">The file system service.</param>
-        public EpisodeMetadataRepository(IFileSystemService fileSystemService)
-            : base(fileSystemService)
+        /// <param name="xmlSerializerFactory">The XML serializer factory.</param>
+        public EpisodeMetadataRepository(IFileSystemService fileSystemService, IXmlSerializerFactory xmlSerializerFactory)
+            : base(fileSystemService, xmlSerializerFactory)
         {
             _fileSystemService = fileSystemService;
         }

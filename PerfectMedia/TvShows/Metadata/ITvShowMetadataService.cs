@@ -6,7 +6,7 @@ namespace PerfectMedia.TvShows.Metadata
     public interface ITvShowMetadataService
     {
         Task<TvShowMetadata> Get(string path);
-        void Save(string path, TvShowMetadata metadata);
+        Task Save(string path, TvShowMetadata metadata);
         Task Update(string path);
         Task Delete(string path);
         Task<IEnumerable<Series>> FindSeries(string name);

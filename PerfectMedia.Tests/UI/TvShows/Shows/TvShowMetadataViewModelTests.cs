@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using NSubstitute;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Busy;
+using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Progress;
 using Xunit;
@@ -25,7 +26,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             _path = @"C:\Folder\TV Shows";
             ICachedPropertyViewModel<string> cachedProperty = Substitute.For<ICachedPropertyViewModel<string>>();
             _viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
-            _viewModelFactory.GetCachedProperty(_path, Arg.Any<Func<string, string>>(), Arg.Any<Func<string, string>>())
+            _viewModelFactory.GetStringCachedProperty(_path)
                 .Returns(cachedProperty);
 
             _metadataService = Substitute.For<ITvShowMetadataService>();

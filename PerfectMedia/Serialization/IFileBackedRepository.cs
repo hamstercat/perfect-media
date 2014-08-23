@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace PerfectMedia
+namespace PerfectMedia.Serialization
 {
     public interface IFileBackedRepository
     {

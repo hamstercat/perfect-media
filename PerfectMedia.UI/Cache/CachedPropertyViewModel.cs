@@ -1,31 +1,30 @@
 ﻿using System;
 using PropertyChanged;
 
-namespace PerfectMedia.UI
+namespace PerfectMedia.UI.Cache
 {
     [ImplementPropertyChanged]
-    public class CachedPropertyViewModel<T> : BaseViewModel, ICachedPropertyViewModel<T>
+    public abstract class CachedPropertyViewModel<T> : BaseViewModel, ICachedPropertyViewModel<T>
     {
         private readonly IKeyDataStore _keyDataStore;
         private readonly string _propertyKey;
-        private readonly Func<T, string> _converter;
-        private readonly Func<string, T> _otherConverter;
 
         public T Value { get; set; }
         public T CachedValue { get; private set; }
 
-        public CachedPropertyViewModel(IKeyDataStore keyDataStore, string propertyKey, Func<T, string> converter, Func<string, T> otherConverter)
+        protected CachedPropertyViewModel(IKeyDataStore keyDataStore, string propertyKey)
         {
             _keyDataStore = keyDataStore;
             _propertyKey = propertyKey;
-            _converter = converter;
-            _otherConverter = otherConverter;
             InitializeValue();
         }
 
+        protected abstract string ConvertToString(T item);
+        protected abstract T ConvertFromString(string str);
+
         public void Save()
         {
-            string serializedValue = _converter(Value);
+            string serializedValue = ConvertToString(Value);
             _keyDataStore.SetValue(_propertyKey, serializedValue);
             CachedValue = Value;
         }
@@ -35,7 +34,7 @@ namespace PerfectMedia.UI
             string serializedValue = _keyDataStore.GetValue(_propertyKey);
             if (!string.IsNullOrEmpty(serializedValue))
             {
-                Value = CachedValue = _otherConverter(serializedValue);
+                Value = CachedValue = ConvertFromString(serializedValue);
             }
         }
     }

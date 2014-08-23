@@ -3,6 +3,7 @@ using PerfectMedia.Sources;
 using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Busy;
+using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.Sources;
@@ -88,9 +89,14 @@ namespace PerfectMedia.UI.TvShows
             return new TvShowSelectionViewModel(_tvShowMetadataService, tvShowMetadata, _busyProvider, path);
         }
 
-        public ICachedPropertyViewModel<T> GetCachedProperty<T>(string key, Func<T, string> converter, Func<string, T> otherConverter)
+        public ICachedPropertyViewModel<string> GetStringCachedProperty(string key)
         {
-            return new CachedPropertyViewModel<T>(_keyDataStore, key, converter, otherConverter);
+            return new StringCachedPropertyViewModel(_keyDataStore, key);
+        }
+
+        public ICachedPropertyViewModel<int?> GetIntCachedProperty(string key)
+        {
+            return new IntCachedPropertyViewModel(_keyDataStore, key);
         }
     }
 }

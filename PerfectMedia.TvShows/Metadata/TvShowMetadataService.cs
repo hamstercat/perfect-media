@@ -30,9 +30,9 @@ namespace PerfectMedia.TvShows.Metadata
             return metadata;
         }
 
-        public void Save(string path, TvShowMetadata metadata)
+        public Task Save(string path, TvShowMetadata metadata)
         {
-            _metadataRepository.Save(path, metadata);
+            return _metadataRepository.Save(path, metadata);
         }
 
         public async Task Update(string path)
@@ -115,7 +115,7 @@ namespace PerfectMedia.TvShows.Metadata
         {
             TvShowMetadata metadata = MapFullSerieToMetadata(serie);
             await UpdateActorsMetadata(path, metadata);
-            Save(path, metadata);
+            await Save(path, metadata);
         }
 
         private TvShowMetadata MapFullSerieToMetadata(FullSerie serie)

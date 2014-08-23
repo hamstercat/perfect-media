@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 using PerfectMedia.FileInformation;
+using PerfectMedia.Serialization;
 
 namespace PerfectMedia.Movies
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -14,15 +15,16 @@ using PropertyChanged;
 namespace PerfectMedia.UI.Movies.Set
 {
     [ImplementPropertyChanged]
-    public class MovieSetViewModel : IMovieSetViewModel, ITreeViewItemViewModel
+    public class MovieSetViewModel : BaseViewModel, IMovieSetViewModel, ITreeViewItemViewModel
     {
         private readonly IFileSystemService _fileSystemService;
         private readonly IMovieMetadataService _metadataService;
         private readonly IBusyProvider _busyProvider;
 
+        [Required]
         public string SetName { get; set; }
-        public string DisplayName { get; private set; }
 
+        public string DisplayName { get; private set; }
         public IImageViewModel Fanart { get; private set; }
         public IImageViewModel Poster { get; private set; }
         public ObservableCollection<IMovieViewModel> Children { get; private set; }

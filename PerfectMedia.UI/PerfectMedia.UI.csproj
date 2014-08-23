@@ -60,6 +60,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -92,7 +93,9 @@
       <DependentUpon>BusyIndicator.xaml</DependentUpon>
     </Compile>
     <Compile Include="Busy\BusyViewModel.cs" />
-    <Compile Include="CachedPropertyViewModel.cs" />
+    <Compile Include="Cache\CachedPropertyViewModel.cs" />
+    <Compile Include="Cache\IntCachedPropertyViewModel.cs" />
+    <Compile Include="Cache\StringCachedPropertyViewModel.cs" />
     <Compile Include="Converters\IsEmptyToBooleanConverter.cs" />
     <Compile Include="Converters\NotZeroConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
@@ -103,7 +106,7 @@
     <Compile Include="Converters\VisibleIfFalseConverter.cs" />
     <Compile Include="Converters\VisibleIfTrueConverter.cs" />
     <Compile Include="Busy\IBusyProvider.cs" />
-    <Compile Include="ICachedPropertyViewModel.cs" />
+    <Compile Include="Cache\ICachedPropertyViewModel.cs" />
     <Compile Include="Images\ImageLoader.cs" />
     <Compile Include="Images\Selection\ChooseImageFileViewModel.cs" />
     <Compile Include="Images\Selection\ChooseImageFileWindow.xaml.cs">
@@ -169,11 +172,13 @@
     </Compile>
     <Compile Include="Movies\Set\SetFanartImageStrategy.cs" />
     <Compile Include="Movies\Set\SetPosterImageStrategy.cs" />
+    <Compile Include="PositiveAttribute.cs" />
     <Compile Include="Progress\IProgressIndicator.cs" />
     <Compile Include="Progress\IProgressIndicatorFactory.cs" />
     <Compile Include="Progress\ProgressIndicatorFactory.cs" />
     <Compile Include="Progress\ProgressItem.cs" />
     <Compile Include="Progress\IProgressManagerViewModel.cs" />
+    <Compile Include="Cache\RequiredCachedAttribute.cs" />
     <Compile Include="SelectionViewModel.cs" />
     <Compile Include="Progress\ProgressManagerViewModel.cs" />
     <Compile Include="Progress\ProgressWindow.xaml.cs">

@@ -2,6 +2,7 @@
 using PerfectMedia.Movies;
 using PerfectMedia.Sources;
 using PerfectMedia.UI.Busy;
+using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Movies.Selection;
 using PerfectMedia.UI.Movies.Set;
@@ -64,9 +65,9 @@ namespace PerfectMedia.UI.Movies
             return new MovieSetViewModel(_fileSystemService, this, _metadataService, _progressManager, _busyProvider, setName);
         }
 
-        public ICachedPropertyViewModel<T> GetCachedProperty<T>(string key, Func<T, string> converter, Func<string, T> otherConverter)
+        public ICachedPropertyViewModel<string> GetStringCachedProperty(string key)
         {
-            return new CachedPropertyViewModel<T>(_keyDataStore, key, converter, otherConverter);
+            return new StringCachedPropertyViewModel(_keyDataStore, key);
         }
     }
 }

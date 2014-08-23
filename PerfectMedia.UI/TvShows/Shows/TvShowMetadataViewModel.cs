@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Busy;
+using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Progress;
 using PropertyChanged;
@@ -42,21 +44,27 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
         }
 
-        #region Metadata
+        [Range(0, 10)]
+        public double? Rating { get; set; }
+
+        [RequiredCached]
         public ICachedPropertyViewModel<string> Title { get; private set; }
+
+        [Required]
+        public string Id { get; set; }
+
+        [Positive]
+        public int? RuntimeInMinutes { get; set; }
+
         public ObservableCollection<ActorViewModel> Actors { get; set; }
         public int State { get; set; }
-        public string Id { get; set; }
         public string MpaaRating { get; set; }
         public DashDelimitedCollectionViewModel<string> Genres { get; set; }
         public string ImdbId { get; set; }
         public string Plot { get; set; }
-        public int? RuntimeInMinutes { get; set; }
-        public double? Rating { get; set; }
         public DateTime? PremieredDate { get; set; }
         public string Studio { get; set; }
         public string Language { get; set; }
-        #endregion
 
         public TvShowMetadataViewModel(ITvShowViewModelFactory viewModelFactory,
             ITvShowMetadataService metadataService,
@@ -67,11 +75,11 @@ namespace PerfectMedia.UI.TvShows.Shows
             _viewModelFactory = viewModelFactory;
             _metadataService = metadataService;
             _busyProvider = busyProvider;
-            Path = path;
             _lazyLoaded = false;
 
-            Title = viewModelFactory.GetCachedProperty(path, s => s, s => s);
+            Title = viewModelFactory.GetStringCachedProperty(path);
             Title.PropertyChanged += TitleValueChanged;
+            Path = path;
 
             Images = viewModelFactory.GetTvShowImages(this, path);
             Actors = new ObservableCollection<ActorViewModel>();
@@ -88,8 +96,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             using (_busyProvider.DoWork())
             {
                 TvShowMetadata metadata = await _metadataService.Get(Path);
-                RefreshFromMetadata(metadata);
-                await Images.Refresh();
+                await RefreshFromMetadata(metadata);
             }
         }
 
@@ -101,23 +108,21 @@ namespace PerfectMedia.UI.TvShows.Shows
                 if (string.IsNullOrEmpty(metadata.Id))
                 {
                     Lazy<string> displayName = new Lazy<string>(() => DisplayName);
-                    return new List<ProgressItem> {new ProgressItem(Path, displayName, UpdateInternal)};
+                    return new List<ProgressItem> { new ProgressItem(Path, displayName, UpdateInternal) };
                 }
+                await RefreshFromMetadata(metadata);
                 return Enumerable.Empty<ProgressItem>();
             }
         }
 
-        public Task Save()
+        public async Task Save()
         {
-            return Task.Run(() =>
+            using (_busyProvider.DoWork())
             {
-                using (_busyProvider.DoWork())
-                {
-                    Title.Save();
-                    TvShowMetadata metadata = CreateMetadata();
-                    _metadataService.Save(Path, metadata);
-                }
-            });
+                Title.Save();
+                TvShowMetadata metadata = CreateMetadata();
+                await _metadataService.Save(Path, metadata);
+            }
         }
 
         public async Task Delete()
@@ -144,10 +149,11 @@ namespace PerfectMedia.UI.TvShows.Shows
             OnPropertyChanged("DisplayName");
         }
 
-        private void RefreshFromMetadata(TvShowMetadata metadata)
+        private async Task RefreshFromMetadata(TvShowMetadata metadata)
         {
             State = metadata.State;
             Title.Value = metadata.Title;
+            Title.Save();
             Id = metadata.Id;
             MpaaRating = metadata.MpaaRating;
             ImdbId = metadata.ImdbId;
@@ -160,6 +166,7 @@ namespace PerfectMedia.UI.TvShows.Shows
 
             Genres.ReplaceWith(metadata.Genres);
             AddActors(metadata.Actors);
+            await Images.Refresh();
         }
 
         private void AddActors(IEnumerable<ActorMetadata> actors)

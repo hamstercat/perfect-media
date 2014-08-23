@@ -2,10 +2,9 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace PerfectMedia
+namespace PerfectMedia.Serialization
 {
     public class FileBackedRepository : IFileBackedRepository
     {

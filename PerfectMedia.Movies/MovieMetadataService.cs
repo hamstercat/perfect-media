@@ -247,6 +247,7 @@ namespace PerfectMedia.Movies
             metadata.RuntimeInMinutes = movie.Runtime;
             metadata.Tagline = movie.Tagline;
             metadata.Title = movie.Title;
+            metadata.PlayCount = 0;
 
             if (movie.BelongsToCollection != null)
             {

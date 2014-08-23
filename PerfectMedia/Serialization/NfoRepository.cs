@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace PerfectMedia
+namespace PerfectMedia.Serialization
 {
     /// <summary>
     /// Provides utility methods when working with .nfo files.
@@ -50,6 +50,7 @@ namespace PerfectMedia
         protected abstract string GetNfoFile(string path);
 
         private readonly IFileSystemService _fileSystemService;
+        private readonly IXmlSerializerFactory _xmlSerializerFactory;
 
         private static XmlSerializerNamespaces NoNamespaces
         {
@@ -61,9 +62,10 @@ namespace PerfectMedia
             }
         }
 
-        protected NfoRepository(IFileSystemService fileSystemService)
+        protected NfoRepository(IFileSystemService fileSystemService, IXmlSerializerFactory xmlSerializerFactory)
         {
             _fileSystemService = fileSystemService;
+            _xmlSerializerFactory = xmlSerializerFactory;
         }
 
         /// <summary>
@@ -109,19 +111,19 @@ namespace PerfectMedia
             await _fileSystemService.DeleteFile(nfoFileFullPath);
         }
 
-        private static TMetadata Deserialize(string nfoFileFullPath)
+        private TMetadata Deserialize(string nfoFileFullPath)
         {
             using (XmlReader reader = XmlReader.Create(nfoFileFullPath))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(TMetadata));
+                XmlSerializer serializer = _xmlSerializerFactory.GetXmlSerializer<TMetadata>();
                 return (TMetadata)serializer.Deserialize(reader);
             }
         }
 
-        private static void Serialize(XmlWriter writer, TMetadata metadata)
+        private void Serialize(XmlWriter writer, TMetadata metadata)
         {
             WriteXmlDeclaration(writer);
-            XmlSerializer serializer = new XmlSerializer(typeof(TMetadata));
+            XmlSerializer serializer = _xmlSerializerFactory.GetXmlSerializer<TMetadata>();
             serializer.Serialize(writer, metadata, NoNamespaces);
         }
 

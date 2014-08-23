@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using PerfectMedia.FileInformation;
 using PerfectMedia.Movies;
 using PerfectMedia.UI.Busy;
+using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Movies.Selection;
@@ -25,32 +27,38 @@ namespace PerfectMedia.UI.Movies
         private readonly IBusyProvider _busyProvider;
         private bool _lazyLoaded;
 
-        #region Metadata
+        [RequiredCached]
         public ICachedPropertyViewModel<string> Title { get; private set; }
-        public ICachedPropertyViewModel<string> SetName { get; private set; }
 
+        [Required]
+        public string Id { get; set; }
+
+        [Range(0, 10)]
+        public double? Rating { get; set; }
+
+        [Positive]
+        public int? RuntimeInMinutes { get; set; }
+
+        [Positive]
+        public int? PlayCount { get; set; }
+
+        public ICachedPropertyViewModel<string> SetName { get; private set; }
         public IImageViewModel Poster { get; private set; }
         public IImageViewModel Fanart { get; private set; }
-
         public string OriginalTitle { get; set; }
         public DashDelimitedCollectionViewModel<string> Credits { get; set; }
         public DashDelimitedCollectionViewModel<string> Directors { get; set; }
-        public double? Rating { get; set; }
         public int? Year { get; set; }
         public DateTime? PremieredDate { get; set; }
         public string Outline { get; set; }
         public string Plot { get; set; }
         public string Tagline { get; set; }
-        public int? RuntimeInMinutes { get; set; }
         public string Certification { get; set; }
-        public int? PlayCount { get; set; }
-        public string Id { get; set; }
         public DashDelimitedCollectionViewModel<string> Genres { get; set; }
         public string Country { get; set; }
         public VideoFileInformation FileInformation { get; set; }
         public string Studio { get; set; }
         public ObservableCollection<ActorViewModel> Actors { get; set; }
-        #endregion
 
         public string DisplayName
         {
@@ -83,8 +91,7 @@ namespace PerfectMedia.UI.Movies
             _viewModelFactory = viewModelFactory;
             _fileSystemService = fileSystemService;
             _busyProvider = busyProvider;
-            Path = path;
-            // Only used by collections
+            // Only used by movie sets
             Children = new ObservableCollection<IMovieViewModel>();
             Selection = viewModelFactory.GetSelection(this);
             RefreshCommand = new RefreshMetadataCommand(this);
@@ -92,10 +99,11 @@ namespace PerfectMedia.UI.Movies
             SaveCommand = new SaveMetadataCommand(this);
             DeleteCommand = new DeleteMetadataCommand(this);
 
-            Title = viewModelFactory.GetCachedProperty(Path + "?title", s => s, s => s);
+            Title = viewModelFactory.GetStringCachedProperty(Path + "?title");
             Title.PropertyChanged += TitlePropertyChanged;
-            SetName = viewModelFactory.GetCachedProperty(Path + "?setName", s => s, s => s);
+            SetName = viewModelFactory.GetStringCachedProperty(Path + "?setName");
             SetName.PropertyChanged += TitlePropertyChanged;
+            Path = path;
             Poster = viewModelFactory.GetImage(new PosterImageStrategy(metadataService, this));
             Fanart = viewModelFactory.GetImage(new FanartImageStrategy(metadataService, this));
             Credits = new DashDelimitedCollectionViewModel<string>(s => s);
@@ -130,8 +138,9 @@ namespace PerfectMedia.UI.Movies
                 if (string.IsNullOrEmpty(metadata.Id))
                 {
                     Lazy<string> displayName = new Lazy<string>(() => DisplayName);
-                    return new List<ProgressItem> {new ProgressItem(Path, displayName, UpdateInternal)};
+                    return new List<ProgressItem> { new ProgressItem(Path, displayName, UpdateInternal) };
                 }
+                RefreshFromMetadata(metadata);
                 return Enumerable.Empty<ProgressItem>();
             }
         }
@@ -196,9 +205,11 @@ namespace PerfectMedia.UI.Movies
             RuntimeInMinutes = metadata.RuntimeInMinutes;
             Country = metadata.Country;
             SetName.Value = metadata.SetName;
+            SetName.Save();
             Studio = metadata.Studio;
             Tagline = metadata.Tagline;
             Title.Value = metadata.Title;
+            Title.Save();
             Year = metadata.Year;
             Poster.Path = metadata.ImagePosterPath;
             Fanart.Path = metadata.ImageFanartPath;

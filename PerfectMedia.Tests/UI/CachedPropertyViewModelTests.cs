@@ -1,4 +1,5 @@
 ﻿using NSubstitute;
+using PerfectMedia.UI.Cache;
 using Xunit;
 
 namespace PerfectMedia.UI
@@ -13,7 +14,7 @@ namespace PerfectMedia.UI
         {
             _filePath = @"C:\Folder\TV Shows\Game of Thrones";
             _keyDataStore = Substitute.For<IKeyDataStore>();
-            _viewModel = new CachedPropertyViewModel<string>(_keyDataStore, _filePath, s => s, s => s);
+            _viewModel = new StringCachedPropertyViewModel(_keyDataStore, _filePath);
         }
 
         [Fact]

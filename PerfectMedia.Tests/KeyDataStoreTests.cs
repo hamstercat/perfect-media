@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NSubstitute;
+using PerfectMedia.Serialization;
 using Xunit;
 using Xunit.Extensions;
 

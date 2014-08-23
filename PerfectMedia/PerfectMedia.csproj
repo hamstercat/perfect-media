@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -62,11 +63,11 @@
     <Compile Include="..\ProjectAssemblyInfo.cs">
       <Link>Properties\ProjectAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="FileBackedRepository.cs" />
+    <Compile Include="Serialization\FileBackedRepository.cs" />
     <Compile Include="FileInformation\IFileInformationService.cs" />
     <Compile Include="FileInformation\Subtitle.cs" />
     <Compile Include="FileSystemService.cs" />
-    <Compile Include="IFileBackedRepository.cs" />
+    <Compile Include="Serialization\IFileBackedRepository.cs" />
     <Compile Include="IKeyDataStore.cs" />
     <Compile Include="IRestApiService.cs" />
     <Compile Include="ILifecycleService.cs" />
@@ -87,9 +88,11 @@
     <Compile Include="Movies\MovieMetadata.cs" />
     <Compile Include="Movies\Movie.cs" />
     <Compile Include="Movies\MovieSynopsis.cs" />
-    <Compile Include="NfoRepository.cs" />
+    <Compile Include="Serialization\IXmlSerializerFactory.cs" />
+    <Compile Include="Serialization\NfoRepository.cs" />
     <Compile Include="RestApiService.cs" />
     <Compile Include="ApiException.cs" />
+    <Compile Include="Serialization\XmlSerializerFactory.cs" />
     <Compile Include="Sources\ISourceRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sources\ISourceService.cs" />

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+using PerfectMedia.Serialization;
 
 namespace PerfectMedia.Sources
 {
@@ -15,15 +16,18 @@ namespace PerfectMedia.Sources
     public class SourceRepository : ISourceRepository
     {
         private readonly IFileSystemService _fileSystemService;
+        private readonly IXmlSerializerFactory _xmlSerializerFactory;
         private readonly string _basePath;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SourceRepository"/> class.
+        /// Initializes a new instance of the <see cref="SourceRepository" /> class.
         /// </summary>
         /// <param name="fileSystemService">The file system service.</param>
-        public SourceRepository(IFileSystemService fileSystemService)
+        /// <param name="xmlSerializerFactory">The XML serializer factory.</param>
+        public SourceRepository(IFileSystemService fileSystemService, IXmlSerializerFactory xmlSerializerFactory)
         {
             _fileSystemService = fileSystemService;
+            _xmlSerializerFactory = xmlSerializerFactory;
             // Save the file in an XML located in the same folder as the executable
             string assemblyFolder = Assembly.GetExecutingAssembly().Location;
             _basePath = Path.GetDirectoryName(assemblyFolder);
@@ -71,22 +75,22 @@ namespace PerfectMedia.Sources
             return folder;
         }
 
-        private static IEnumerable<Source> Deserialize(string path)
+        private IEnumerable<Source> Deserialize(string path)
         {
             using (XmlReader reader = XmlReader.Create(path))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Source>));
+                XmlSerializer serializer = _xmlSerializerFactory.GetXmlSerializer<List<Source>>();
                 return (List<Source>)serializer.Deserialize(reader);
             }
         }
 
-        private static string GetSerializedSource(List<Source> sources)
+        private string GetSerializedSource(List<Source> sources)
         {
             StringBuilder str = new StringBuilder();
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings { OmitXmlDeclaration = true, Indent = true };
             using (XmlWriter writer = XmlWriter.Create(str, xmlWriterSettings))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Source>));
+                XmlSerializer serializer = _xmlSerializerFactory.GetXmlSerializer<List<Source>>();
                 serializer.Serialize(writer, sources);
             }
             return str.ToString();

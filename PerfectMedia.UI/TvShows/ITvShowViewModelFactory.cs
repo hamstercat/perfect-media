@@ -1,5 +1,6 @@
 ﻿using System;
 using PerfectMedia.Sources;
+using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Sources;
 using PerfectMedia.UI.TvShows.Episodes;
@@ -20,6 +21,7 @@ namespace PerfectMedia.UI.TvShows
         IImageViewModel GetImage(bool horizontalAlignement);
         IImageViewModel GetImage(bool horizontalAlignement, IImageStrategy imageStrategy);
         ITvShowSelectionViewModel GetTvShowSelection(ITvShowMetadataViewModel tvShowMetadata, string path);
-        ICachedPropertyViewModel<T> GetCachedProperty<T>(string key, Func<T, string> converter, Func<string, T> otherConverter);
+        ICachedPropertyViewModel<string> GetStringCachedProperty(string key);
+        ICachedPropertyViewModel<int?> GetIntCachedProperty(string key);
     }
 }

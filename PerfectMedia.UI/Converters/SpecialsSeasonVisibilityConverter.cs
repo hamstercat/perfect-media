@@ -9,8 +9,8 @@ namespace PerfectMedia.UI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            int seasonNumber = (int)value;
-            if (seasonNumber == 0)
+            var seasonNumber = (int?)value;
+            if (seasonNumber.HasValue && seasonNumber == 0)
             {
                 return Visibility.Visible;
             }

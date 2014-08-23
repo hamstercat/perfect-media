@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using PerfectMedia.FileInformation;
+using PerfectMedia.Serialization;
 
 namespace PerfectMedia.TvShows.Metadata
 {
@@ -16,10 +17,10 @@ namespace PerfectMedia.TvShows.Metadata
         public double? Rating { get; set; }
 
         [XmlElement(ElementName = "season")]
-        public int SeasonNumber { get; set; }
+        public int? SeasonNumber { get; set; }
 
         [XmlElement(ElementName = "episode")]
-        public int EpisodeNumber { get; set; }
+        public int? EpisodeNumber { get; set; }
 
         [XmlElement(ElementName = "plot")]
         public string Plot { get; set; }
@@ -98,6 +99,16 @@ namespace PerfectMedia.TvShows.Metadata
         public bool ShouldSerializeRating()
         {
             return Rating.HasValue;
+        }
+
+        public bool ShouldSerializeSeasonNumber()
+        {
+            return SeasonNumber.HasValue;
+        }
+
+        public bool ShouldSerializeEpisodeNumber()
+        {
+            return EpisodeNumber.HasValue;
         }
 
         public bool ShouldSerializePlayCount()

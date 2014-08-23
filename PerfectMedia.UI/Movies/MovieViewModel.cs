@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -14,6 +13,7 @@ using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Movies.Selection;
 using PerfectMedia.UI.Progress;
+using PerfectMedia.UI.Validation;
 using PropertyChanged;
 
 namespace PerfectMedia.UI.Movies
@@ -30,10 +30,10 @@ namespace PerfectMedia.UI.Movies
         [RequiredCached]
         public ICachedPropertyViewModel<string> Title { get; private set; }
 
-        [Required]
+        [LocalizedRequired]
         public string Id { get; set; }
 
-        [Range(0, 10)]
+        [Rating]
         public double? Rating { get; set; }
 
         [Positive]
@@ -99,9 +99,9 @@ namespace PerfectMedia.UI.Movies
             SaveCommand = new SaveMetadataCommand(this);
             DeleteCommand = new DeleteMetadataCommand(this);
 
-            Title = viewModelFactory.GetStringCachedProperty(Path + "?title");
+            Title = viewModelFactory.GetStringCachedProperty(path + "?title");
             Title.PropertyChanged += TitlePropertyChanged;
-            SetName = viewModelFactory.GetStringCachedProperty(Path + "?setName");
+            SetName = viewModelFactory.GetStringCachedProperty(path + "?setName");
             SetName.PropertyChanged += TitlePropertyChanged;
             Path = path;
             Poster = viewModelFactory.GetImage(new PosterImageStrategy(metadataService, this));

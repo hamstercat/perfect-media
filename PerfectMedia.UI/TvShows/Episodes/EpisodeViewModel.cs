@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,6 +11,7 @@ using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Shows;
+using PerfectMedia.UI.Validation;
 using PropertyChanged;
 
 namespace PerfectMedia.UI.TvShows.Episodes
@@ -25,7 +24,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
         private readonly IBusyProvider _busyProvider;
         private bool _lazyLoaded;
 
-        [Range(0, 10)]
+        [Rating]
         public double? Rating { get; set; }
 
         [RequiredCached]

@@ -51,8 +51,8 @@
         <DatePicker Grid.Row="8" Grid.Column="1" SelectedDate="{Binding PremieredDate}" />
         <Label Grid.Row="9" Grid.Column="0" Content="Year" />
         <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding Year}" />
-        <Label Grid.Row="10" Grid.Column="0" Content="Playcount" />
-        <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding PlayCount, ValidatesOnDataErrors=True}" />
+        <Label Grid.Row="10" Grid.Column="0" Content="Play Count" />
+        <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding PlayCount, TargetNullValue='', ValidatesOnDataErrors=True}" />
         <Label Grid.Row="11" Grid.Column="0" Content="Id" />
         <TextBox Grid.Row="11" Grid.Column="1" Text="{Binding Id, ValidatesOnDataErrors=True}" />
 

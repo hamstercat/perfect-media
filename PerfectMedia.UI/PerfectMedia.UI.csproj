@@ -172,13 +172,15 @@
     </Compile>
     <Compile Include="Movies\Set\SetFanartImageStrategy.cs" />
     <Compile Include="Movies\Set\SetPosterImageStrategy.cs" />
-    <Compile Include="PositiveAttribute.cs" />
+    <Compile Include="Validation\LocalizedRequiredAttribute.cs" />
+    <Compile Include="Validation\PositiveAttribute.cs" />
     <Compile Include="Progress\IProgressIndicator.cs" />
     <Compile Include="Progress\IProgressIndicatorFactory.cs" />
     <Compile Include="Progress\ProgressIndicatorFactory.cs" />
     <Compile Include="Progress\ProgressItem.cs" />
     <Compile Include="Progress\IProgressManagerViewModel.cs" />
-    <Compile Include="Cache\RequiredCachedAttribute.cs" />
+    <Compile Include="Validation\RatingAttribute.cs" />
+    <Compile Include="Validation\RequiredCachedAttribute.cs" />
     <Compile Include="SelectionViewModel.cs" />
     <Compile Include="Progress\ProgressManagerViewModel.cs" />
     <Compile Include="Progress\ProgressWindow.xaml.cs">

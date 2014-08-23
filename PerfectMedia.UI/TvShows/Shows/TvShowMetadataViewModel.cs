@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Progress;
+using PerfectMedia.UI.Validation;
 using PropertyChanged;
 
 namespace PerfectMedia.UI.TvShows.Shows
@@ -44,13 +43,13 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
         }
 
-        [Range(0, 10)]
+        [Rating]
         public double? Rating { get; set; }
 
         [RequiredCached]
         public ICachedPropertyViewModel<string> Title { get; private set; }
 
-        [Required]
+        [LocalizedRequired]
         public string Id { get; set; }
 
         [Positive]

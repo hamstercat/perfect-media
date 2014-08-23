@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PerfectMedia.UI.Properties
-{
-
-
+namespace PerfectMedia.UI.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -57,6 +57,33 @@ namespace PerfectMedia.UI.Properties
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rating must be between 0 and 10..
+        /// </summary>
+        internal static string InvalidRating {
+            get {
+                return ResourceManager.GetString("InvalidRating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value must be a positive number..
+        /// </summary>
+        internal static string MustBePositive {
+            get {
+                return ResourceManager.GetString("MustBePositive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field is required..
+        /// </summary>
+        internal static string RequiredField {
+            get {
+                return ResourceManager.GetString("RequiredField", resourceCulture);
             }
         }
     }

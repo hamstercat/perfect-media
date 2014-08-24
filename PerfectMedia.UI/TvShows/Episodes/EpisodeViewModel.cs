@@ -92,11 +92,11 @@ namespace PerfectMedia.UI.TvShows.Episodes
             _busyProvider = busyProvider;
             _lazyLoaded = false;
 
-            Title = viewModelFactory.GetStringCachedProperty(path + "?title");
+            Title = viewModelFactory.GetStringCachedProperty(path + "?title", true);
             Title.PropertyChanged += CachedPropertyChanged;
-            SeasonNumber = viewModelFactory.GetIntCachedProperty(path + "?seasonNumber");
+            SeasonNumber = viewModelFactory.GetIntCachedProperty(path + "?seasonNumber", true);
             SeasonNumber.PropertyChanged += CachedPropertyChanged;
-            EpisodeNumber = viewModelFactory.GetIntCachedProperty(path + "?episodeNumber");
+            EpisodeNumber = viewModelFactory.GetIntCachedProperty(path + "?episodeNumber", true);
             EpisodeNumber.PropertyChanged += CachedPropertyChanged;
             Path = path;
 

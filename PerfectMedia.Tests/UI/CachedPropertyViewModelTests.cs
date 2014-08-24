@@ -14,7 +14,7 @@ namespace PerfectMedia.UI
         {
             _filePath = @"C:\Folder\TV Shows\Game of Thrones";
             _keyDataStore = Substitute.For<IKeyDataStore>();
-            _viewModel = new StringCachedPropertyViewModel(_keyDataStore, _filePath);
+            _viewModel = new StringCachedPropertyViewModel(_keyDataStore, _filePath, false);
         }
 
         [Fact]

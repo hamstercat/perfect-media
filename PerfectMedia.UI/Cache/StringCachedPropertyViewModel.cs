@@ -8,8 +8,8 @@ namespace PerfectMedia.UI.Cache
 {
     public class StringCachedPropertyViewModel : CachedPropertyViewModel<string>
     {
-        public StringCachedPropertyViewModel(IKeyDataStore keyDataStore, string propertyKey)
-            : base(keyDataStore, propertyKey)
+        public StringCachedPropertyViewModel(IKeyDataStore keyDataStore, string propertyKey, bool isRequired)
+            : base(keyDataStore, propertyKey, isRequired)
         { }
 
         protected override string ConvertToString(string item)

@@ -89,14 +89,14 @@ namespace PerfectMedia.UI.TvShows
             return new TvShowSelectionViewModel(_tvShowMetadataService, tvShowMetadata, _busyProvider, path);
         }
 
-        public ICachedPropertyViewModel<string> GetStringCachedProperty(string key)
+        public ICachedPropertyViewModel<string> GetStringCachedProperty(string key, bool isRequired)
         {
-            return new StringCachedPropertyViewModel(_keyDataStore, key);
+            return new StringCachedPropertyViewModel(_keyDataStore, key, isRequired);
         }
 
-        public ICachedPropertyViewModel<int?> GetIntCachedProperty(string key)
+        public ICachedPropertyViewModel<int?> GetIntCachedProperty(string key, bool isRequired)
         {
-            return new IntCachedPropertyViewModel(_keyDataStore, key);
+            return new IntCachedPropertyViewModel(_keyDataStore, key, isRequired);
         }
     }
 }

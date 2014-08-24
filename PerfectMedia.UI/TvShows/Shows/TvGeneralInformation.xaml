@@ -33,14 +33,14 @@
             <Label Grid.Row="0" Grid.Column="0" Content="Path" />
             <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Path}" IsReadOnly="True" />
             <Label Grid.Row="1" Grid.Column="0" Content="Title" />
-            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title.Value, ValidatesOnDataErrors=True}" />
+            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title.Value}" />
             <Label Grid.Row="2" Grid.Column="0" Content="Genre" />
             <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Genres.String}" />
 
             <Label Grid.Row="3" Grid.Column="0" Content="Rating" />
-            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Rating, TargetNullValue='', ValidatesOnDataErrors=True}" />
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Rating, TargetNullValue=''}" />
             <Label Grid.Row="3" Grid.Column="2" Content="Runtime (in minutes)" />
-            <TextBox Grid.Row="3" Grid.Column="3" Text="{Binding RuntimeInMinutes, TargetNullValue='', ValidatesOnDataErrors=True}" />
+            <TextBox Grid.Row="3" Grid.Column="3" Text="{Binding RuntimeInMinutes, TargetNullValue=''}" />
 
             <Label Grid.Row="4" Grid.Column="0" Content="MPAA Rating" />
             <ComboBox Grid.Row="4" Grid.Column="1" SelectedValue="{Binding MpaaRating, Mode=TwoWay}" SelectedValuePath="Tag">
@@ -56,7 +56,7 @@
             <DatePicker Grid.Row="4" Grid.Column="3" SelectedDate="{Binding PremieredDate}" />
 
             <Label Grid.Row="5" Grid.Column="0" Content="Id" />
-            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Id, ValidatesOnDataErrors=True}" />
+            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Id}" />
             <Label Grid.Row="5" Grid.Column="2" Content="Studio" />
             <TextBox Grid.Row="5" Grid.Column="3" Text="{Binding Studio}" />
 

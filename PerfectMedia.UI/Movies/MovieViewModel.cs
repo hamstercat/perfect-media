@@ -99,9 +99,9 @@ namespace PerfectMedia.UI.Movies
             SaveCommand = new SaveMetadataCommand(this);
             DeleteCommand = new DeleteMetadataCommand(this);
 
-            Title = viewModelFactory.GetStringCachedProperty(path + "?title");
+            Title = viewModelFactory.GetStringCachedProperty(path + "?title", true);
             Title.PropertyChanged += TitlePropertyChanged;
-            SetName = viewModelFactory.GetStringCachedProperty(path + "?setName");
+            SetName = viewModelFactory.GetStringCachedProperty(path + "?setName", false);
             SetName.PropertyChanged += TitlePropertyChanged;
             Path = path;
             Poster = viewModelFactory.GetImage(new PosterImageStrategy(metadataService, this));

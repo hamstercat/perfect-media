@@ -21,7 +21,7 @@ namespace PerfectMedia.UI.TvShows
         IImageViewModel GetImage(bool horizontalAlignement);
         IImageViewModel GetImage(bool horizontalAlignement, IImageStrategy imageStrategy);
         ITvShowSelectionViewModel GetTvShowSelection(ITvShowMetadataViewModel tvShowMetadata, string path);
-        ICachedPropertyViewModel<string> GetStringCachedProperty(string key);
-        ICachedPropertyViewModel<int?> GetIntCachedProperty(string key);
+        ICachedPropertyViewModel<string> GetStringCachedProperty(string key, bool isRequired);
+        ICachedPropertyViewModel<int?> GetIntCachedProperty(string key, bool isRequired);
     }
 }

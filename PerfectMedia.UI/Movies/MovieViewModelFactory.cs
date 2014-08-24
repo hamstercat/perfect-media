@@ -65,9 +65,9 @@ namespace PerfectMedia.UI.Movies
             return new MovieSetViewModel(_fileSystemService, this, _metadataService, _progressManager, _busyProvider, setName);
         }
 
-        public ICachedPropertyViewModel<string> GetStringCachedProperty(string key)
+        public ICachedPropertyViewModel<string> GetStringCachedProperty(string key, bool isRequired)
         {
-            return new StringCachedPropertyViewModel(_keyDataStore, key);
+            return new StringCachedPropertyViewModel(_keyDataStore, key, isRequired);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using PerfectMedia.UI.Validation;
 using PropertyChanged;
 
 namespace PerfectMedia.UI.Cache
@@ -8,19 +9,32 @@ namespace PerfectMedia.UI.Cache
     {
         private readonly IKeyDataStore _keyDataStore;
         private readonly string _propertyKey;
+        private readonly bool _isRequired;
 
+        [LocalizedRequired]
         public T Value { get; set; }
+
         public T CachedValue { get; private set; }
 
-        protected CachedPropertyViewModel(IKeyDataStore keyDataStore, string propertyKey)
+        protected CachedPropertyViewModel(IKeyDataStore keyDataStore, string propertyKey, bool isRequired)
         {
             _keyDataStore = keyDataStore;
             _propertyKey = propertyKey;
+            _isRequired = isRequired;
             InitializeValue();
         }
 
         protected abstract string ConvertToString(T item);
         protected abstract T ConvertFromString(string str);
+
+        protected override string ValidateProperty(string propertyName)
+        {
+            if (_isRequired)
+            {
+                return base.ValidateProperty(propertyName);
+            }
+            return string.Empty;
+        }
 
         public void Save()
         {

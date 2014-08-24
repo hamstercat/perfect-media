@@ -76,7 +76,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             _busyProvider = busyProvider;
             _lazyLoaded = false;
 
-            Title = viewModelFactory.GetStringCachedProperty(path);
+            Title = viewModelFactory.GetStringCachedProperty(path, true);
             Title.PropertyChanged += TitleValueChanged;
             Path = path;
 

@@ -13,22 +13,25 @@ namespace PerfectMedia.UI.Metadata
         public SaveMetadataCommand(IMetadataProvider metadataProvider)
         {
             _metadataProvider = metadataProvider;
-            _metadataProvider.PropertyChanged += MetadataProviderPropertyChanged;
+            _metadataProvider.ErrorsChanged += MetadataProviderErrorsChanged;
         }
 
         public bool CanExecute(object parameter)
         {
-            return _metadataProvider.IsValid;
+            return !_metadataProvider.HasErrors;
         }
 
         public async void Execute(object parameter)
         {
-            await _metadataProvider.Save();
+            if (CanExecute(parameter))
+            {
+                await _metadataProvider.Save();
+            }
         }
 
-        private void MetadataProviderPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void MetadataProviderErrorsChanged(object sender, DataErrorsChangedEventArgs e)
         {
-            if (e.PropertyName == "IsValid" && CanExecuteChanged != null)
+            if (CanExecuteChanged != null)
             {
                 CanExecuteChanged(this, new EventArgs());
             }

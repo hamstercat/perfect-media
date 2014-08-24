@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -8,9 +9,10 @@ using System.Reflection;
 namespace PerfectMedia.UI
 {
     // Only used when Fody.PropertyChanged isn't enough
-    public abstract class BaseViewModel : INotifyPropertyChanged, IDataErrorInfo
+    public abstract class BaseViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         private readonly IDictionary<string, string> _errors;
 
@@ -19,24 +21,21 @@ namespace PerfectMedia.UI
             _errors = new Dictionary<string, string>();
         }
 
-        public string this[string columnName]
+        public bool HasErrors
         {
-            get
-            {
-                string error;
-                if (_errors.TryGetValue(columnName, out error))
-                {
-                    return error;
-                }
-                return null;
-            }
+            get { return _errors.Any(err => !string.IsNullOrEmpty(err.Value)); }
         }
 
-        public string Error { get; private set; }
-
-        public bool IsValid
+        public IEnumerable GetErrors(string propertyName)
         {
-            get { return _errors.All(err => string.IsNullOrEmpty(err.Value)); }
+            string error;
+            if (_errors.TryGetValue(propertyName, out error))
+            {
+                if (!string.IsNullOrEmpty(error))
+                {
+                    yield return error;
+                }
+            }
         }
 
         protected void OnPropertyChanged(string propertyName)
@@ -47,7 +46,7 @@ namespace PerfectMedia.UI
 #endif
             _errors[propertyName] = ValidateProperty(propertyName);
             RaisePropertyChanged(propertyName);
-            RaisePropertyChanged("IsValid");
+            RaiseErrorsChanged(propertyName);
         }
 
         private void ValidatePropertyExists(string propertyName)
@@ -59,7 +58,7 @@ namespace PerfectMedia.UI
             }
         }
 
-        private string ValidateProperty(string propertyName)
+        protected virtual string ValidateProperty(string propertyName)
         {
             PropertyInfo property = GetType().GetProperty(propertyName);
             object value = property.GetValue(this);
@@ -78,6 +77,14 @@ namespace PerfectMedia.UI
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private void RaiseErrorsChanged(string propertyName)
+        {
+            if (ErrorsChanged != null)
+            {
+                ErrorsChanged(this, new DataErrorsChangedEventArgs(propertyName));
             }
         }
     }

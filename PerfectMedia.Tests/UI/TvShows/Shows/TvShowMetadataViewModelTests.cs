@@ -26,7 +26,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             _path = @"C:\Folder\TV Shows";
             ICachedPropertyViewModel<string> cachedProperty = Substitute.For<ICachedPropertyViewModel<string>>();
             _viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
-            _viewModelFactory.GetStringCachedProperty(_path)
+            _viewModelFactory.GetStringCachedProperty(_path, Arg.Any<bool>())
                 .Returns(cachedProperty);
 
             _metadataService = Substitute.For<ITvShowMetadataService>();

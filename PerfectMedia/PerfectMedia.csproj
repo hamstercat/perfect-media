@@ -63,6 +63,14 @@
     <Compile Include="..\ProjectAssemblyInfo.cs">
       <Link>Properties\ProjectAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Music\Album.cs" />
+    <Compile Include="Music\AlbumMetadata.cs" />
+    <Compile Include="Music\ArtistMetadata.cs" />
+    <Compile Include="Music\ArtistSummary.cs" />
+    <Compile Include="Music\IArtistMetadataRepository.cs" />
+    <Compile Include="Music\IArtistMetadataService.cs" />
+    <Compile Include="Music\IMusicMetadataUpdater.cs" />
+    <Compile Include="Music\Track.cs" />
     <Compile Include="Serialization\FileBackedRepository.cs" />
     <Compile Include="FileInformation\IFileInformationService.cs" />
     <Compile Include="FileInformation\Subtitle.cs" />

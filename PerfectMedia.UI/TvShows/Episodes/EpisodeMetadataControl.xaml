@@ -27,14 +27,14 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="Title" />
+        <Label Grid.Row="0" Grid.Column="0" Content="Title *" />
         <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title.Value}" />
         <Label Grid.Row="1" Grid.Column="0" Content="Plot" />
         <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Plot}" TextWrapping="Wrap" />
 
-        <Label Grid.Row="2" Grid.Column="0" Content="Season" />
+        <Label Grid.Row="2" Grid.Column="0" Content="Season *" />
         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SeasonNumber.Value, TargetNullValue=''}" />
-        <Label Grid.Row="3" Grid.Column="0" Content="Episode" />
+        <Label Grid.Row="3" Grid.Column="0" Content="Episode *" />
         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding EpisodeNumber.Value, TargetNullValue=''}" />
         <Label Grid.Row="4" Grid.Column="0" Content="Rating" />
         <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Rating, TargetNullValue=''}" />

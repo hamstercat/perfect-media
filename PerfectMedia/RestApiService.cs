@@ -17,6 +17,11 @@ namespace PerfectMedia
             _dateFormat = dateFormat;
         }
 
+        public void SetHeader(string header, string value)
+        {
+            _restClient.AddDefaultHeader(header, value);
+        }
+
         public async Task<string> Get(string url)
         {
             IRestResponse response = await ExecuteRequest(url);

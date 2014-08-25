@@ -9,9 +9,11 @@ using log4net.Config;
 using Ninject;
 using Ninject.Extensions.Conventions;
 using PerfectMedia.Movies;
+using PerfectMedia.Music;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Movies;
+using PerfectMedia.UI.Music;
 using PerfectMedia.UI.TvShows;
 
 namespace PerfectMedia.UI
@@ -29,8 +31,12 @@ namespace PerfectMedia.UI
 
         public IMovieManagerViewModel MovieManagerViewModel
         {
-            get
-            { return _kernel.Get<IMovieManagerViewModel>(); }
+            get { return _kernel.Get<IMovieManagerViewModel>(); }
+        }
+
+        public IMusicManagerViewModel MusicManagerViewModel
+        {
+            get { return _kernel.Get<IMusicManagerViewModel>(); }
         }
 
         public IBusyProvider BusyProvider
@@ -61,7 +67,16 @@ namespace PerfectMedia.UI
             get
             {
                 string imdbBaseUrl = ConfigurationManager.AppSettings["ImdbUrl"];
-                return new RestApiService(imdbBaseUrl, "yyy-MM-dd");
+                return new RestApiService(imdbBaseUrl, "yyyy-MM-dd");
+            }
+        }
+
+        private IRestApiService MusicBrainzRestApi
+        {
+            get
+            {
+                string imdbBaseUrl = ConfigurationManager.AppSettings["MusicBrainzUrl"];
+                return new RestApiService(imdbBaseUrl, "yyyy-MM-dd");
             }
         }
 
@@ -125,6 +140,7 @@ namespace PerfectMedia.UI
                 .ConfigureFor<ThetvdbTvShowMetadataUpdater>(tvShowMetadataUpdater => tvShowMetadataUpdater.WithConstructorArgument(ThetvdbRestApi))
                 .ConfigureFor<ThemoviedbMovieMetadataUpdater>(movieMetadataUpdater => movieMetadataUpdater.WithConstructorArgument(ThemoviedbRestApi))
                 .ConfigureFor<ImdbMovieSynopsisService>(movieSynopsisService => movieSynopsisService.WithConstructorArgument(ImdbRestApi))
+                .ConfigureFor<MusicBrainzMetadataUpdater>(musicBrainzMetadataUpdater => musicBrainzMetadataUpdater.WithConstructorArgument(MusicBrainzRestApi))
                 .ConfigureFor<KeyDataStore>(keyDataStore => keyDataStore.InSingletonScope()));
         }
     }

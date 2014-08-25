@@ -172,6 +172,19 @@
     </Compile>
     <Compile Include="Movies\Set\SetFanartImageStrategy.cs" />
     <Compile Include="Movies\Set\SetPosterImageStrategy.cs" />
+    <Compile Include="Music\Albums\IAlbumViewModel.cs" />
+    <Compile Include="Music\Artists\ArtistControl.xaml.cs">
+      <DependentUpon>ArtistControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Music\Artists\ArtistViewModel.cs" />
+    <Compile Include="Music\Artists\IArtistViewModel.cs" />
+    <Compile Include="Music\IMusicManagerViewModel.cs" />
+    <Compile Include="Music\IMusicViewModelFactory.cs" />
+    <Compile Include="Music\MusicControl.xaml.cs">
+      <DependentUpon>MusicControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Music\MusicManagerViewModel.cs" />
+    <Compile Include="Music\MusicViewModelFactory.cs" />
     <Compile Include="Validation\LocalizedRequiredAttribute.cs" />
     <Compile Include="Validation\PositiveAttribute.cs" />
     <Compile Include="Progress\IProgressIndicator.cs" />
@@ -311,6 +324,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Music\Artists\ArtistControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Music\MusicControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Progress\ProgressWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -395,6 +416,10 @@
       <Project>{1386d6e4-c4dd-4aa1-b5bd-dde9e5a91911}</Project>
       <Name>PerfectMedia.Movies</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PerfectMedia.Music\PerfectMedia.Music.csproj">
+      <Project>{97f91672-d2c1-4989-84f4-2ab9d90f77b3}</Project>
+      <Name>PerfectMedia.Music</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PerfectMedia.Sources\PerfectMedia.Sources.csproj">
       <Project>{77409bbd-9696-4912-8a3f-9a0ca28d5cfc}</Project>
       <Name>PerfectMedia.Sources</Name>
@@ -414,6 +439,7 @@
   <ItemGroup>
     <Resource Include="Images\Blank.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.1.24.0\build\Fody.targets" Condition="Exists('..\packages\Fody.1.24.0\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -28,6 +28,7 @@ namespace PerfectMedia.UI
 
         public IEnumerable GetErrors(string propertyName)
         {
+            propertyName = propertyName ?? string.Empty;
             string error;
             if (_errors.TryGetValue(propertyName, out error))
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using PerfectMedia.UI.Busy;
@@ -8,10 +9,10 @@ using PerfectMedia.UI.Progress;
 
 namespace PerfectMedia.UI.Metadata
 {
-    public class UpdateAllMetadataCommand<T> : ICommand
+    public class UpdateAllMetadataCommand<T> : AsyncCommand
         where T : IMetadataProvider
     {
-        public event EventHandler CanExecuteChanged;
+        public override event EventHandler CanExecuteChanged;
         private readonly ObservableCollection<T> _items;
         private readonly IProgressManagerViewModel _progressManager;
         private readonly IBusyProvider _busyProvider;
@@ -24,12 +25,12 @@ namespace PerfectMedia.UI.Metadata
             _busyProvider = busyProvider;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             return _items.Count != 0;
         }
 
-        public async void Execute(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
             using (_busyProvider.DoWork())
             {
@@ -46,9 +47,10 @@ namespace PerfectMedia.UI.Metadata
 
         private void TvShowsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (CanExecuteChanged != null)
+            var handler = CanExecuteChanged;
+            if (handler != null)
             {
-                Application.Current.Dispatcher.InvokeAsync(()=> CanExecuteChanged(this, new EventArgs()));
+                Application.Current.Dispatcher.InvokeAsync(()=> handler(this, new EventArgs()));
             }
         }
     }

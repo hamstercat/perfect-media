@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Progress;
@@ -8,9 +9,9 @@ using PerfectMedia.UI.TvShows.Shows;
 
 namespace PerfectMedia.UI.TvShows
 {
-    public class FindNewEpisodesCommand : ICommand
+    public class FindNewEpisodesCommand : AsyncCommand
     {
-        public event EventHandler CanExecuteChanged;
+        public override event EventHandler CanExecuteChanged;
         private readonly ObservableCollection<ITvShowViewModel> _tvShows;
         private readonly IProgressManagerViewModel _progressManager;
         private readonly IBusyProvider _busyProvider;
@@ -23,12 +24,12 @@ namespace PerfectMedia.UI.TvShows
             _busyProvider = busyProvider;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             return _tvShows.Count != 0;
         }
 
-        public async void Execute(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
             using (_busyProvider.DoWork())
             {
@@ -45,9 +46,10 @@ namespace PerfectMedia.UI.TvShows
 
         private void TvShowsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (CanExecuteChanged != null)
+            EventHandler handler = CanExecuteChanged;
+            if (handler != null)
             {
-                CanExecuteChanged(this, new EventArgs());
+                handler(this, new EventArgs());
             }
         }
     }

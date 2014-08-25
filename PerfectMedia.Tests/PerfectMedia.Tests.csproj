@@ -45,6 +45,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -69,7 +70,9 @@
     <Compile Include="Movies\ImdbMovieSynopsisServiceTests.cs" />
     <Compile Include="NfoRepositoryTests.cs" />
     <Compile Include="NSubstituteExtensions.cs" />
-    <Compile Include="UI\CachedPropertyViewModelTests.cs" />
+    <Compile Include="UI\Busy\BusyViewModelTests.cs" />
+    <Compile Include="UI\Cache\IntCachedPropertyViewModelTests.cs" />
+    <Compile Include="UI\Cache\StringCachedPropertyViewModelTests.cs" />
     <Compile Include="FileInformation\CodecHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sources\SourceServiceTests.cs" />
@@ -81,7 +84,11 @@
     <Compile Include="UI\Converters\NotZeroConverterTests.cs" />
     <Compile Include="UI\Converters\ShowIfNotEmptyConverterTests.cs" />
     <Compile Include="UI\Converters\SpecialsSeasonVisibilityConverterTests.cs" />
+    <Compile Include="UI\Converters\VisibleIfTrueConverterTests.cs" />
+    <Compile Include="UI\Converters\VisibleIfFalseConverterTests.cs" />
     <Compile Include="UI\Images\ImageViewModelTests.cs" />
+    <Compile Include="UI\Images\Selection\ChooseImageFileViewModelTests.cs" />
+    <Compile Include="UI\Images\Selection\DownloadCommandTests.cs" />
     <Compile Include="UI\Metadata\UpdateMetadataCommandTests.cs" />
     <Compile Include="UI\Metadata\SaveMetadataCommandTests.cs" />
     <Compile Include="UI\Metadata\RefreshMetadataCommandTests.cs" />

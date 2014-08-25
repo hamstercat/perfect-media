@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace PerfectMedia.UI.Metadata
 {
-    public class RefreshMetadataCommand : ICommand
+    public class RefreshMetadataCommand : AsyncCommand
     {
-        public event EventHandler CanExecuteChanged
+        public override event EventHandler CanExecuteChanged
         {
             add { }
             remove { }
@@ -18,12 +19,12 @@ namespace PerfectMedia.UI.Metadata
             _metadataProvider = metadataProvider;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             return true;
         }
 
-        public async void Execute(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
             await _metadataProvider.Refresh();
         }

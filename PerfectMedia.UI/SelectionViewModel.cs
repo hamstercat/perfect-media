@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 namespace PerfectMedia.UI
 {
     [ImplementPropertyChanged]
-    public class SelectionViewModel<T> : ICommand
+    public class SelectionViewModel<T> : AsyncCommand
         where T : class
     {
-        public event EventHandler CanExecuteChanged;
+        public override event EventHandler CanExecuteChanged;
         private readonly IBusyProvider _busyProvider;
         private readonly Func<T, Task> _save;
 
@@ -25,8 +25,11 @@ namespace PerfectMedia.UI
             set
             {
                 _selectedItem = value;
-                if (CanExecuteChanged != null)
-                    CanExecuteChanged(this, new EventArgs());
+                EventHandler handler = CanExecuteChanged;
+                if (handler != null)
+                {
+                    handler(this, new EventArgs());
+                }
             }
         }
 
@@ -46,12 +49,12 @@ namespace PerfectMedia.UI
             SaveCommand = this;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             return SelectedItem != null;
         }
 
-        public async void Execute(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
             using (_busyProvider.DoWork())
             {

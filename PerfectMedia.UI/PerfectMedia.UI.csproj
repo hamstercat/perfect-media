@@ -88,6 +88,7 @@
     <Compile Include="..\ProjectAssemblyInfo.cs">
       <Link>Properties\ProjectAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AsyncCommand.cs" />
     <Compile Include="BindableSelectedItemBehavior.cs" />
     <Compile Include="Busy\BusyIndicator.xaml.cs">
       <DependentUpon>BusyIndicator.xaml</DependentUpon>
@@ -107,6 +108,7 @@
     <Compile Include="Converters\VisibleIfTrueConverter.cs" />
     <Compile Include="Busy\IBusyProvider.cs" />
     <Compile Include="Cache\ICachedPropertyViewModel.cs" />
+    <Compile Include="IAsyncCommand.cs" />
     <Compile Include="Images\ImageLoader.cs" />
     <Compile Include="Images\Selection\ChooseImageFileViewModel.cs" />
     <Compile Include="Images\Selection\ChooseImageFileWindow.xaml.cs">

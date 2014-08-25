@@ -8,24 +8,46 @@ using System.Reflection;
 
 namespace PerfectMedia.UI
 {
-    // Only used when Fody.PropertyChanged isn't enough
+    /// <summary>
+    /// Base ViewModel when Fody.PropertyChanged isn't enough. Also allows data validation through ASP.NET MVC Data Annotations.
+    /// </summary>
     public abstract class BaseViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Occurs when the validation errors have changed for a property or for the entire entity.
+        /// </summary>
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         private readonly IDictionary<string, string> _errors;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseViewModel"/> class.
+        /// </summary>
         protected BaseViewModel()
         {
             _errors = new Dictionary<string, string>();
         }
 
+        /// <summary>
+        /// Gets a value that indicates whether the entity has validation errors.
+        /// </summary>
         public bool HasErrors
         {
             get { return _errors.Any(err => !string.IsNullOrEmpty(err.Value)); }
         }
 
+        /// <summary>
+        /// Gets the validation errors for a specified property or for the entire entity.
+        /// </summary>
+        /// <param name="propertyName">The name of the property to retrieve validation errors for; or null or <see cref="F:System.String.Empty" />, to retrieve entity-level errors.</param>
+        /// <returns>
+        /// The validation errors for the property or entity.
+        /// </returns>
         public IEnumerable GetErrors(string propertyName)
         {
             string error;
@@ -38,6 +60,10 @@ namespace PerfectMedia.UI
             }
         }
 
+        /// <summary>
+        /// Raises the PropertyChanged event for the given property and validate its value.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
         protected void OnPropertyChanged(string propertyName)
         {
 #if DEBUG
@@ -49,15 +75,11 @@ namespace PerfectMedia.UI
             RaiseErrorsChanged(propertyName);
         }
 
-        private void ValidatePropertyExists(string propertyName)
-        {
-            PropertyInfo property = GetType().GetProperty(propertyName);
-            if (property == null)
-            {
-                throw new ArgumentException("Unknown property " + propertyName);
-            }
-        }
-
+        /// <summary>
+        /// Validates the property.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <returns></returns>
         protected virtual string ValidateProperty(string propertyName)
         {
             PropertyInfo property = GetType().GetProperty(propertyName);
@@ -71,6 +93,15 @@ namespace PerfectMedia.UI
             return errorInfos.FirstOrDefault();
         }
 
+        private void ValidatePropertyExists(string propertyName)
+        {
+            PropertyInfo property = GetType().GetProperty(propertyName);
+            if (property == null)
+            {
+                throw new ArgumentException("Unknown property " + propertyName);
+            }
+        }
+
         private void RaisePropertyChanged(string propertyName)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
@@ -82,9 +113,10 @@ namespace PerfectMedia.UI
 
         private void RaiseErrorsChanged(string propertyName)
         {
-            if (ErrorsChanged != null)
+            EventHandler<DataErrorsChangedEventArgs> handler = ErrorsChanged;
+            if (handler != null)
             {
-                ErrorsChanged(this, new DataErrorsChangedEventArgs(propertyName));
+                handler(this, new DataErrorsChangedEventArgs(propertyName));
             }
         }
     }

@@ -73,9 +73,8 @@ namespace PerfectMedia.TvShows.Metadata
             await _service.Update(path, "123");
 
             // Assert
-            EpisodeMetadata expectedMetadata = CreateEpisodeMetadataWithFileInformation(0, "Specials");
             _metadataRepository.Received()
-                .Save(path, Arg.Is<EpisodeMetadata>(m => m == expectedMetadata)).Async();
+                .Save(path, metadata).Async();
         }
 
         [Fact]
@@ -95,9 +94,8 @@ namespace PerfectMedia.TvShows.Metadata
             await _service.Update(path, "123");
 
             // Assert
-            EpisodeMetadata expectedMetadata = CreateEpisodeMetadataWithFileInformation(3, "Season 3");
             _metadataRepository.Received()
-                .Save(path, Arg.Is<EpisodeMetadata>(m => m == expectedMetadata)).Async();
+                .Save(path, metadata).Async();
         }
 
         [Fact]
@@ -142,13 +140,6 @@ namespace PerfectMedia.TvShows.Metadata
                 SeasonNumber = seasonNumber,
                 Title = "Game of Thrones"
             };
-        }
-
-        private EpisodeMetadata CreateEpisodeMetadataWithFileInformation(int seasonNumber, string seasonFolder)
-        {
-            EpisodeMetadata metadata = CreateEpisodeMetadata(seasonNumber, seasonFolder);
-            metadata.FileInformation = CreateFileInformation();
-            return metadata;
         }
 
         private VideoFileInformation CreateFileInformation()

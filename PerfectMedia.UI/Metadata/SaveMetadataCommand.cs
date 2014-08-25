@@ -1,12 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace PerfectMedia.UI.Metadata
 {
-    public class SaveMetadataCommand : ICommand
+    public class SaveMetadataCommand : AsyncCommand
     {
-        public event EventHandler CanExecuteChanged;
+        public override event EventHandler CanExecuteChanged;
 
         private readonly IMetadataProvider _metadataProvider;
 
@@ -16,12 +17,12 @@ namespace PerfectMedia.UI.Metadata
             _metadataProvider.ErrorsChanged += MetadataProviderErrorsChanged;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             return !_metadataProvider.HasErrors;
         }
 
-        public async void Execute(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
             if (CanExecute(parameter))
             {
@@ -31,9 +32,10 @@ namespace PerfectMedia.UI.Metadata
 
         private void MetadataProviderErrorsChanged(object sender, DataErrorsChangedEventArgs e)
         {
-            if (CanExecuteChanged != null)
+            EventHandler handler = CanExecuteChanged;
+            if (handler != null)
             {
-                CanExecuteChanged(this, new EventArgs());
+                handler(this, new EventArgs());
             }
         }
     }

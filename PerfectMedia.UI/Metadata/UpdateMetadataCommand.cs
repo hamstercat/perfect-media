@@ -1,17 +1,18 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Progress;
 
 namespace PerfectMedia.UI.Metadata
 {
-    public class UpdateMetadataCommand : ICommand
+    public class UpdateMetadataCommand : AsyncCommand
     {
         private readonly IMetadataProvider _metadataProvider;
         private readonly IProgressManagerViewModel _progressManager;
         private readonly IBusyProvider _busyProvider;
 
-        public event EventHandler CanExecuteChanged
+        public override event EventHandler CanExecuteChanged
         {
             add { }
             remove { }
@@ -24,12 +25,12 @@ namespace PerfectMedia.UI.Metadata
             _busyProvider = busyProvider;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             return true;
         }
 
-        public async void Execute(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
             using (_busyProvider.DoWork())
             {

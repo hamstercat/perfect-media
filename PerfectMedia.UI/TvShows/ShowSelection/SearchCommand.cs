@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Busy;
 
 namespace PerfectMedia.UI.TvShows.ShowSelection
 {
-    public class SearchCommand : ICommand
+    public class SearchCommand : AsyncCommand
     {
-        public event EventHandler CanExecuteChanged;
+        public override event EventHandler CanExecuteChanged;
 
         private readonly ITvShowMetadataService _metadataService;
         private readonly ITvShowSelectionViewModel _tvShowSelectionViewModel;
@@ -23,12 +24,12 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
             _tvShowSelectionViewModel.PropertyChanged += TvShowSelectionPropertyChanged;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             return !string.IsNullOrEmpty(_tvShowSelectionViewModel.SearchTitle);
         }
 
-        public async void Execute(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
             using (_busyProvider.DoWork())
             {
@@ -39,9 +40,10 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
 
         private void TvShowSelectionPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "SearchTitle" && CanExecuteChanged != null)
+            var handler = CanExecuteChanged;
+            if (e.PropertyName == "SearchTitle" && handler != null)
             {
-                CanExecuteChanged(this, new EventArgs());
+                handler(this, new EventArgs());
             }
         }
     }

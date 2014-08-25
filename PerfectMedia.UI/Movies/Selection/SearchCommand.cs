@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using PerfectMedia.Movies;
 using PerfectMedia.UI.Busy;
 
 namespace PerfectMedia.UI.Movies.Selection
 {
-    public class SearchCommand : ICommand
+    public class SearchCommand : AsyncCommand
     {
-        public event EventHandler CanExecuteChanged;
+        public override event EventHandler CanExecuteChanged;
 
         private readonly IMovieMetadataService _metadataService;
         private readonly IMovieSelectionViewModel _movieSelectionViewModel;
@@ -23,12 +24,12 @@ namespace PerfectMedia.UI.Movies.Selection
             _movieSelectionViewModel.PropertyChanged += MovieSelectionPropertyChanged;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             return !string.IsNullOrEmpty(_movieSelectionViewModel.SearchTitle);
         }
 
-        public async void Execute(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
             using (_busyProvider.DoWork())
             {
@@ -39,9 +40,10 @@ namespace PerfectMedia.UI.Movies.Selection
 
         private void MovieSelectionPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "SearchTitle" && CanExecuteChanged != null)
+            EventHandler handler = CanExecuteChanged;
+            if (e.PropertyName == "SearchTitle" && handler != null)
             {
-                CanExecuteChanged(this, new EventArgs());
+                handler(this, new EventArgs());
             }
         }
     }

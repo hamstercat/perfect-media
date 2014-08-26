@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Anotar.Log4Net</name>
+    </assembly>
+    <members>
+        <member name="T:Anotar.Log4Net.LogTo">
+            <summary>
+            Provides logging functions.
+            </summary>
+        </member>
+        <member name="M:Anotar.Log4Net.LogTo.Trace">
+            <summary>
+            Writes the diagnostic message at the <c>Trace</c> level.
+            </summary>
+        </member>
+        <member name="M:Anotar.Log4Net.LogTo.Trace(System.String,System.Object[])">
+            <summary>
+            Writes the diagnostic message at the <c>Trace</c> level.
+            </summary>
+            <param name="format">A <see langword="string" /> containing format items.</param>
+            <param name="args">Arguments to format.</param>
+        </member>
+        <member name="M:Anotar.Log4Net.LogTo.TraceException(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message and exception at the <c>Trace</c> level.
+            </summary>
+            <param name="message">A <see langword="string" /> containing format items.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:Anotar.Log4Net.LogTo.Debug">
+            <summary>
+            Writes the diagnostic message at the <c>Debug</c> level.
+            </summary>
+        </member>
+        <member name="M:Anotar.Log4Net.LogTo.Debug(System.String,System.Object[])">
+            <summary>
+            Writes the diagnostic message at the <c>Debug</c> level.
+            </summary>
+            <param name="format">A <see langword="string" /> containing format items.</param>
+            <param name="args">Arguments to format.</param>
+        </member>
+        <member name="M:Anotar.Log4Net.LogTo.DebugException(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message and exception at the <c>Debug</c> level.
+            </summary>
+            <param name="message">A <see langword="string" /> containing format items.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:Anotar.Log4Net.LogTo.Info">
+            <summary>
+            Writes the diagnostic message at the <c>Info</c> level.
+            </summary>
+        </member>
+        <member name="M:Anotar.Log4Net.LogTo.Info(System.String,System.Object[])">
+            <summary>
+            Writes the diagnostic message at the <c>Info</c> level.
+            </summary>
+            <param name="format">A <see langword="string" /> containing format items.</param>
+            <param name="args">Arguments to format.</param>
+        </member>
+        <member name="M:Anotar.Log4Net.LogTo.InfoException(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message and exception at the <c>Info</c> level.
+            </summary>
+            <param name="message">A <see langword="string" /> containing format items.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:Anotar.Log4Net.LogTo.Warn">
+            <summary>
+            Writes the diagnostic message at the <c>Warn</c> level.
+            </summary>
+        </member>
+        <member name="M:Anotar.Log4Net.LogTo.Warn(System.String,System.Object[])">
+            <summary>
+            Writes the diagnostic message at the <c>Warn</c> level.
+            </summary>
+            <param name="format">A <see langword="string" /> containing format items.</param>
+            <param name="args">Arguments to format.</param>
+        </member>
+        <member name="M:Anotar.Log4Net.LogTo.WarnException(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message and exception at the <c>Warn</c> level.
+            </summary>
+            <param name="message">A <see langword="string" /> containing format items.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:Anotar.Log4Net.LogTo.Error">
+            <summary>
+            Writes the diagnostic message at the <c>Error</c> level.
+            </summary>
+        </member>
+        <member name="M:Anotar.Log4Net.LogTo.Error(System.String,System.Object[])">
+            <summary>
+            Writes the diagnostic message at the <c>Error</c> level.
+            </summary>
+            <param name="format">A <see langword="string" /> containing format items.</param>
+            <param name="args">Arguments to format.</param>
+        </member>
+        <member name="M:Anotar.Log4Net.LogTo.ErrorException(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message and exception at the <c>Error</c> level.
+            </summary>
+            <param name="message">A <see langword="string" /> containing format items.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="M:Anotar.Log4Net.LogTo.Fatal">
+            <summary>
+            Writes the diagnostic message at the <c>Fatal</c> level.
+            </summary>
+        </member>
+        <member name="M:Anotar.Log4Net.LogTo.Fatal(System.String,System.Object[])">
+            <summary>
+            Writes the diagnostic message at the <c>Fatal</c> level.
+            </summary>
+            <param name="format">A <see langword="string" /> containing format items.</param>
+            <param name="args">Arguments to format.</param>
+        </member>
+        <member name="M:Anotar.Log4Net.LogTo.FatalException(System.String,System.Exception)">
+            <summary>
+            Writes the diagnostic message and exception at the <c>Fatal</c> level.
+            </summary>
+            <param name="message">A <see langword="string" /> containing format items.</param>
+            <param name="exception">An exception to be logged.</param>
+        </member>
+        <member name="T:Anotar.Log4Net.LogToFatalOnExceptionAttribute">
+            <summary>
+            If an <see cref="T:System.Exception"/> occurs in the applied method then log it to <c>Fatal</c>.
+            </summary>
+        </member>
+        <member name="T:Anotar.Log4Net.LogMinimalMessageAttribute">
+            <summary>
+            Used to suppress message prefixing.
+            </summary>
+        </member>
+        <member name="T:Anotar.Log4Net.LogToDebugOnExceptionAttribute">
+            <summary>
+            If an <see cref="T:System.Exception"/> occurs in the applied method then log it to <c>Debug</c>.
+            </summary>
+        </member>
+        <member name="T:Anotar.Log4Net.LogToErrorOnExceptionAttribute">
+            <summary>
+            If an <see cref="T:System.Exception"/> occurs in the applied method then log it to <c>Error</c>.
+            </summary>
+        </member>
+        <member name="T:Anotar.Log4Net.LogToInfoOnExceptionAttribute">
+            <summary>
+            If an <see cref="T:System.Exception"/> occurs in the applied method then log it to <c>Info</c>.
+            </summary>
+        </member>
+        <member name="T:Anotar.Log4Net.LogToWarnOnExceptionAttribute">
+            <summary>
+            If an <see cref="T:System.Exception"/> occurs in the applied method then log it to <c>Warn</c>.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.StringFormatMethodAttribute">
+            <summary>
+            Not for external use.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Annotations.StringFormatMethodAttribute.#ctor(System.String)">
+            <summary>
+            Not for external use.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -86,9 +86,12 @@
     <Compile Include="UI\Converters\SpecialsSeasonVisibilityConverterTests.cs" />
     <Compile Include="UI\Converters\VisibleIfTrueConverterTests.cs" />
     <Compile Include="UI\Converters\VisibleIfFalseConverterTests.cs" />
-    <Compile Include="UI\Images\ImageViewModelTests.cs" />
     <Compile Include="UI\Images\Selection\ChooseImageFileViewModelTests.cs" />
+    <Compile Include="UI\Images\Selection\ImageSelectionViewModelTests.cs" />
+    <Compile Include="UI\Images\Selection\LoadFileCommandTests.cs" />
     <Compile Include="UI\Images\Selection\DownloadCommandTests.cs" />
+    <Compile Include="UI\Images\Selection\NoImageStrategyTests.cs" />
+    <Compile Include="UI\Metadata\DeleteMetadataCommandTests.cs" />
     <Compile Include="UI\Metadata\UpdateMetadataCommandTests.cs" />
     <Compile Include="UI\Metadata\SaveMetadataCommandTests.cs" />
     <Compile Include="UI\Metadata\RefreshMetadataCommandTests.cs" />
@@ -96,6 +99,7 @@
     <Compile Include="UI\Converters\NullToBooleanConverterTests.cs" />
     <Compile Include="UI\Converters\PathFolderNameConverterTests.cs" />
     <Compile Include="UI\Converters\SeasonNumberToNameConverterTests.cs" />
+    <Compile Include="UI\ProgressIndicatorFactoryTests.cs" />
     <Compile Include="UI\Sources\SourceManagerViewModelTests.cs" />
     <Compile Include="UI\DashDelimitedCollectionViewModelTests.cs" />
     <Compile Include="UI\TvShows\Episodes\EpisodeViewModelTests.cs" />

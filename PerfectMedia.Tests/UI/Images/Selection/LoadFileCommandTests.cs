@@ -9,15 +9,15 @@ using Xunit;
 
 namespace PerfectMedia.UI.Images.Selection
 {
-    public class DownloadCommandTests
+    public class LoadFileCommandTests
     {
-        private readonly DownloadCommand _command;
+        private readonly LoadFileCommand _command;
         private readonly IChooseImageFileViewModel _chooseImageViewModel;
 
-        public DownloadCommandTests()
+        public LoadFileCommandTests()
         {
             _chooseImageViewModel = Substitute.For<IChooseImageFileViewModel>();
-            _command = new DownloadCommand(_chooseImageViewModel);
+            _command = new LoadFileCommand(_chooseImageViewModel);
         }
 
         [Fact]
@@ -39,7 +39,7 @@ namespace PerfectMedia.UI.Images.Selection
         {
             // Arrange
             _chooseImageViewModel.Url
-                .Returns("http://google.ca/image.jpg");
+                .Returns(@"C:\Users\Finn\Pictures\image.jpg");
 
             // Act
             bool canExecute = _command.CanExecute(null);
@@ -70,7 +70,7 @@ namespace PerfectMedia.UI.Images.Selection
 
             // Assert
             _chooseImageViewModel.Received()
-                .DownloadFile().Async();
+                .SaveLocalFile().Async();
         }
     }
 }

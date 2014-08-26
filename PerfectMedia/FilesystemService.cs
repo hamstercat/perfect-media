@@ -3,7 +3,6 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
-using ImageMagick;
 using System.Threading.Tasks;
 
 namespace PerfectMedia
@@ -57,16 +56,10 @@ namespace PerfectMedia
 
         public async Task DownloadImage(string filePath, string url)
         {
-            await Task.Run(() =>
+            using (WebClient client = new WebClient())
             {
-                using (WebClient client = new WebClient())
-                using (Stream stream = client.OpenRead(url))
-                using (MagickImage image = new MagickImage(stream))
-                {
-                    image.Quality = 80;
-                    image.Write(filePath);
-                }
-            });
+                await client.DownloadFileTaskAsync(url, filePath);
+            }
         }
 
         public async Task<bool> FolderExists(string folderName)

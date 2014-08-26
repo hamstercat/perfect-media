@@ -14,9 +14,19 @@ It can retrieve information from the following sources automatically:
 - thetvdb.org
 - themoviedb.org
 
-# How to install
+# Download
 
-There is no compiled version of perfect-media yet, you will have to build it from sources to try it. To do so, follow these steps:
+### Stable release
+
+(None yet).
+
+### Unstable versions
+
+[![Build status](https://ci.appveyor.com/api/projects/status/29x50udv8hwl118u/branch/master)](https://ci.appveyor.com/project/hamstercat/perfect-media/branch/master)
+
+[Download](https://ci.appveyor.com/project/hamstercat/perfect-media/branch/master/artifacts) and unzip the release to run the application. You need a Windows OS and the latest .NET Framework for it to work.
+
+# How to compile from sources
 
 1. First, make sure you have the following requirements installed on your computer:
     - Windows OS
@@ -25,8 +35,6 @@ There is no compiled version of perfect-media yet, you will have to build it fro
 2. Open the solution PerfectMedia.sln found at the root of the repositories.
 3. Build in Visual Studio (CTRL + B).
 4. Run PerfectMedia.UI.exe.
-
-A compiled version will be provided when a free continuous integration server for open-source C# project is found.
 
 # License
 

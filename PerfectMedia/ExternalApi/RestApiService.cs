@@ -1,25 +1,33 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using Anotar.Log4Net;
 using RestSharp;
 
-namespace PerfectMedia
+namespace PerfectMedia.ExternalApi
 {
-    public class RestApiService : IRestApiService
+    public class RestApiService : IRestApiService, IDisposable
     {
         private readonly IRestClient _restClient;
         private readonly string _dateFormat;
+        private IRateGate _rateGate;
 
         public RestApiService(string baseUrl, string dateFormat)
         {
             _restClient = new RestClient(baseUrl);
             _dateFormat = dateFormat;
+            _rateGate = new NullRateGate();
         }
 
         public void SetHeader(string header, string value)
         {
             _restClient.AddDefaultHeader(header, value);
+        }
+
+        public void SetRateLimiter(int maximumNumberOfCallsBySecond)
+        {
+            if (maximumNumberOfCallsBySecond < 1)
+                throw new ArgumentOutOfRangeException("maximumNumberOfCallsBySecond", maximumNumberOfCallsBySecond, "Must be a strictly positive number");
+            _rateGate = new RateGate(maximumNumberOfCallsBySecond, TimeSpan.FromSeconds(1));
         }
 
         public async Task<string> Get(string url)
@@ -45,6 +53,7 @@ namespace PerfectMedia
         private Task<IRestResponse> ExecuteAsync(RestRequest request)
         {
             var taskCompletionSource = new TaskCompletionSource<IRestResponse>();
+            _rateGate.WaitToProceed();
             _restClient.ExecuteAsync(request, (response) =>
             {
                 if (response.ErrorException != null)
@@ -72,6 +81,7 @@ namespace PerfectMedia
             where T : new()
         {
             var taskCompletionSource = new TaskCompletionSource<IRestResponse<T>>();
+            _rateGate.WaitToProceed();
             _restClient.ExecuteAsync<T>(request, (response) =>
             {
                 if (response.ErrorException != null)
@@ -93,6 +103,11 @@ namespace PerfectMedia
             LogTo.Warn("API with base \"{0}\" on URL \"{1}\":", _restClient.BaseUrl, url);
             LogTo.Warn("    {0}", message);
             return new ApiException(message);
+        }
+
+        public void Dispose()
+        {
+            _rateGate.Dispose();
         }
     }
 }

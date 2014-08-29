@@ -1,4 +1,5 @@
 ﻿using PerfectMedia.Music;
+using PerfectMedia.Music.Artists;
 using PerfectMedia.Sources;
 using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Cache;

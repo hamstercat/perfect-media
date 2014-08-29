@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using PerfectMedia.Music;
+using PerfectMedia.Music.Artists;
 using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Metadata;

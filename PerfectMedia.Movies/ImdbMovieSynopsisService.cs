@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Anotar.Log4Net;
 using HtmlAgilityPack;
+using PerfectMedia.ExternalApi;
 
 namespace PerfectMedia.Movies
 {

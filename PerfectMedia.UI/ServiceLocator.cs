@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using log4net.Config;
 using Ninject;
 using Ninject.Extensions.Conventions;
+using PerfectMedia.ExternalApi;
 using PerfectMedia.Movies;
 using PerfectMedia.Music;
 using PerfectMedia.TvShows.Metadata;

@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace PerfectMedia.Music
+namespace PerfectMedia.Music.Artists
 {
     public interface IArtistMetadataService
     {

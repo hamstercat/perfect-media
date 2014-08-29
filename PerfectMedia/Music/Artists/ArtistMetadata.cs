@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using PerfectMedia.Serialization;
 
-namespace PerfectMedia.Music
+namespace PerfectMedia.Music.Artists
 {
     [XmlRoot(ElementName = "artist")]
     public class ArtistMetadata
     {
+        [XmlElement(ElementName = "id")]
+        public string Mbid { get; set; }
+
         [XmlElement(ElementName = "name")]
         public string Name { get; set; }
 

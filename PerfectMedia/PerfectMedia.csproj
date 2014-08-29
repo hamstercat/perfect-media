@@ -61,21 +61,28 @@
     <Compile Include="..\ProjectAssemblyInfo.cs">
       <Link>Properties\ProjectAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ExternalApi\IRateGate.cs" />
+    <Compile Include="ExternalApi\NullRateGate.cs" />
     <Compile Include="Music\Album.cs" />
     <Compile Include="Music\AlbumMetadata.cs" />
-    <Compile Include="Music\ArtistMetadata.cs" />
-    <Compile Include="Music\ArtistSummary.cs" />
-    <Compile Include="Music\IArtistMetadataRepository.cs" />
-    <Compile Include="Music\IArtistMetadataService.cs" />
+    <Compile Include="Music\Artists\Artist.cs" />
+    <Compile Include="Music\Artists\ArtistMetadata.cs" />
+    <Compile Include="Music\Artists\ArtistNotFoundException.cs" />
+    <Compile Include="Music\Artists\ArtistSummary.cs" />
+    <Compile Include="Music\Artists\IArtistMetadataRepository.cs" />
+    <Compile Include="Music\Artists\IArtistMetadataService.cs" />
+    <Compile Include="Music\Artists\Tag.cs" />
     <Compile Include="Music\IMusicMetadataUpdater.cs" />
+    <Compile Include="Music\Artists\LifeSpan.cs" />
     <Compile Include="Music\Track.cs" />
+    <Compile Include="ExternalApi\RateGate.cs" />
     <Compile Include="Serialization\FileBackedRepository.cs" />
     <Compile Include="FileInformation\IFileInformationService.cs" />
     <Compile Include="FileInformation\Subtitle.cs" />
     <Compile Include="FileSystemService.cs" />
     <Compile Include="Serialization\IFileBackedRepository.cs" />
     <Compile Include="IKeyDataStore.cs" />
-    <Compile Include="IRestApiService.cs" />
+    <Compile Include="ExternalApi\IRestApiService.cs" />
     <Compile Include="ILifecycleService.cs" />
     <Compile Include="KeyDataStore.cs" />
     <Compile Include="Movies\AvailableMovieImages.cs" />
@@ -96,7 +103,7 @@
     <Compile Include="Movies\MovieSynopsis.cs" />
     <Compile Include="Serialization\IXmlSerializerFactory.cs" />
     <Compile Include="Serialization\NfoRepository.cs" />
-    <Compile Include="RestApiService.cs" />
+    <Compile Include="ExternalApi\RestApiService.cs" />
     <Compile Include="ApiException.cs" />
     <Compile Include="Serialization\XmlSerializerFactory.cs" />
     <Compile Include="Sources\ISourceRepository.cs" />

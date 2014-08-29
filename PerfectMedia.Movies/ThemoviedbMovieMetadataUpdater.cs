@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using Anotar.Log4Net;
+using PerfectMedia.ExternalApi;
 
 namespace PerfectMedia.Movies
 {

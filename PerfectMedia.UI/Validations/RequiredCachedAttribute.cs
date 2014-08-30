@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using PerfectMedia.UI.Properties;
-
-namespace PerfectMedia.UI.Validation
+﻿namespace PerfectMedia.UI.Validations
 {
     public class RequiredCachedAttribute : LocalizedRequiredAttribute
     {

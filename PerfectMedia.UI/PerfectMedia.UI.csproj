@@ -187,15 +187,15 @@
     </Compile>
     <Compile Include="Music\MusicManagerViewModel.cs" />
     <Compile Include="Music\MusicViewModelFactory.cs" />
-    <Compile Include="Validation\LocalizedRequiredAttribute.cs" />
-    <Compile Include="Validation\PositiveAttribute.cs" />
+    <Compile Include="Validations\LocalizedRequiredAttribute.cs" />
+    <Compile Include="Validations\PositiveAttribute.cs" />
     <Compile Include="Progress\IProgressIndicator.cs" />
     <Compile Include="Progress\IProgressIndicatorFactory.cs" />
     <Compile Include="Progress\ProgressIndicatorFactory.cs" />
     <Compile Include="Progress\ProgressItem.cs" />
     <Compile Include="Progress\IProgressManagerViewModel.cs" />
-    <Compile Include="Validation\RatingAttribute.cs" />
-    <Compile Include="Validation\RequiredCachedAttribute.cs" />
+    <Compile Include="Validations\RatingAttribute.cs" />
+    <Compile Include="Validations\RequiredCachedAttribute.cs" />
     <Compile Include="SelectionViewModel.cs" />
     <Compile Include="Progress\ProgressManagerViewModel.cs" />
     <Compile Include="Progress\ProgressWindow.xaml.cs">

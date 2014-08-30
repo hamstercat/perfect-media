@@ -10,7 +10,7 @@ using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Progress;
-using PerfectMedia.UI.Validation;
+using PerfectMedia.UI.Validations;
 using PropertyChanged;
 
 namespace PerfectMedia.UI.TvShows.Shows

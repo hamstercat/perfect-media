@@ -13,7 +13,7 @@ using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Movies.Selection;
 using PerfectMedia.UI.Progress;
-using PerfectMedia.UI.Validation;
+using PerfectMedia.UI.Validations;
 using PropertyChanged;
 
 namespace PerfectMedia.UI.Movies

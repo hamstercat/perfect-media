@@ -1,5 +1,5 @@
 ﻿using System;
-using PerfectMedia.UI.Validation;
+using PerfectMedia.UI.Validations;
 using PropertyChanged;
 
 namespace PerfectMedia.UI.Cache

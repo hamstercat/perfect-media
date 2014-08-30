@@ -11,7 +11,7 @@ using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Music.Albums;
 using PerfectMedia.UI.Progress;
-using PerfectMedia.UI.Validation;
+using PerfectMedia.UI.Validations;
 using PropertyChanged;
 
 namespace PerfectMedia.UI.Music.Artists

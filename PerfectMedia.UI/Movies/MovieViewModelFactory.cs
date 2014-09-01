@@ -19,13 +19,15 @@ namespace PerfectMedia.UI.Movies
         private readonly IProgressManagerViewModel _progressManager;
         private readonly IKeyDataStore _keyDataStore;
         private readonly IBusyProvider _busyProvider;
+        private readonly IDialogViewer _dialogViewer;
 
         public MovieViewModelFactory(ISourceService sourceService,
             IMovieMetadataService metadataService,
             IFileSystemService fileSystemService,
             IProgressManagerViewModel progressManager,
             IKeyDataStore keyDataStore,
-            IBusyProvider busyProvider)
+            IBusyProvider busyProvider,
+            IDialogViewer dialogViewer)
         {
             _sourceService = sourceService;
             _fileSystemService = fileSystemService;
@@ -33,6 +35,7 @@ namespace PerfectMedia.UI.Movies
             _progressManager = progressManager;
             _keyDataStore = keyDataStore;
             _busyProvider = busyProvider;
+            _dialogViewer = dialogViewer;
         }
 
         public ISourceManagerViewModel GetSourceManager()
@@ -42,7 +45,7 @@ namespace PerfectMedia.UI.Movies
 
         public IMovieViewModel GetMovie(string path)
         {
-            return new MovieViewModel(_metadataService, this, _fileSystemService, _progressManager, _busyProvider, path);
+            return new MovieViewModel(_metadataService, this, _fileSystemService, _progressManager, _busyProvider, _dialogViewer, path);
         }
 
         public IImageViewModel GetImage()
@@ -62,7 +65,7 @@ namespace PerfectMedia.UI.Movies
 
         public IMovieSetViewModel GetMovieSet(string setName)
         {
-            return new MovieSetViewModel(_fileSystemService, this, _metadataService, _progressManager, _busyProvider, setName);
+            return new MovieSetViewModel(_fileSystemService, this, _metadataService, _progressManager, _busyProvider, _dialogViewer, setName);
         }
 
         public ICachedPropertyViewModel<string> GetStringCachedProperty(string key, bool isRequired)

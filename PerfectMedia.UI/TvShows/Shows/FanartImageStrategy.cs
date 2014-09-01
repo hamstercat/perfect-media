@@ -8,9 +8,9 @@ namespace PerfectMedia.UI.TvShows.Shows
     public class FanartImageStrategy : IImageStrategy
     {
         private readonly ITvShowMetadataService _metadataService;
-        private readonly ITvShowMetadataViewModel _metadataViewModel;
+        private readonly ITvShowViewModel _metadataViewModel;
 
-        public FanartImageStrategy(ITvShowMetadataService metadataService, ITvShowMetadataViewModel metadataViewModel)
+        public FanartImageStrategy(ITvShowMetadataService metadataService, ITvShowViewModel metadataViewModel)
         {
             _metadataService = metadataService;
             _metadataViewModel = metadataViewModel;

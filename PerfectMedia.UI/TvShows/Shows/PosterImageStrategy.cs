@@ -9,9 +9,9 @@ namespace PerfectMedia.UI.TvShows.Shows
     public class PosterImageStrategy : IImageStrategy
     {
         private readonly ITvShowMetadataService _metadataService;
-        private readonly ITvShowMetadataViewModel _metadataViewModel;
+        private readonly ITvShowViewModel _metadataViewModel;
 
-        public PosterImageStrategy(ITvShowMetadataService metadataService, ITvShowMetadataViewModel metadataViewModel)
+        public PosterImageStrategy(ITvShowMetadataService metadataService, ITvShowViewModel metadataViewModel)
         {
             _metadataService = metadataService;
             _metadataViewModel = metadataViewModel;

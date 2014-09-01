@@ -68,7 +68,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         public TvShowImagesViewModel(ITvShowFileService tvShowFileService,
             ITvShowMetadataService metadataService,
             IFileSystemService fileSystemService,
-            ITvShowMetadataViewModel metadataViewModel,
+            ITvShowViewModel metadataViewModel,
             IBusyProvider busyProvider,
             string path)
         {

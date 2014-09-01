@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="ExternalApi\IRateGate.cs" />
     <Compile Include="ExternalApi\NullRateGate.cs" />
+    <Compile Include="IDialogViewer.cs" />
     <Compile Include="Music\Album.cs" />
     <Compile Include="Music\AlbumMetadata.cs" />
     <Compile Include="Music\Artists\ArtistMetadata.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Movies\MovieMetadata.cs" />
     <Compile Include="Movies\Movie.cs" />
     <Compile Include="Movies\MovieSynopsis.cs" />
+    <Compile Include="Serialization\InvalidNfoException.cs" />
     <Compile Include="Serialization\IXmlSerializerFactory.cs" />
     <Compile Include="Serialization\NfoRepository.cs" />
     <Compile Include="ExternalApi\RestApiService.cs" />

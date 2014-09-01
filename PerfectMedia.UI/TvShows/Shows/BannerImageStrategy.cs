@@ -9,9 +9,9 @@ namespace PerfectMedia.UI.TvShows.Shows
     public class BannerImageStrategy : IImageStrategy
     {
         private readonly ITvShowMetadataService _metadataService;
-        private readonly ITvShowMetadataViewModel _metadataViewModel;
+        private readonly ITvShowViewModel _metadataViewModel;
 
-        public BannerImageStrategy(ITvShowMetadataService metadataService, ITvShowMetadataViewModel metadataViewModel)
+        public BannerImageStrategy(ITvShowMetadataService metadataService, ITvShowViewModel metadataViewModel)
         {
             _metadataService = metadataService;
             _metadataViewModel = metadataViewModel;

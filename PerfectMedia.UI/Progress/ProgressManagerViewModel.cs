@@ -77,7 +77,7 @@ namespace PerfectMedia.UI.Progress
         {
             await item.Execute();
             Completed.Add(item);
-            if (!string.IsNullOrEmpty(item.Error))
+            if (!string.IsNullOrEmpty(item.Message))
             {
                 InError.Add(item);
             }

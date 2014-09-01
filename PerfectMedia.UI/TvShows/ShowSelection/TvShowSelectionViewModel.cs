@@ -18,7 +18,7 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
         public ICommand SearchCommand { get; private set; }
 
         public TvShowSelectionViewModel(ITvShowMetadataService metadataService,
-            ITvShowMetadataViewModel tvShowMetadata,
+            ITvShowViewModel tvShowMetadata,
             IBusyProvider busyProvider,
             string path)
         {
@@ -47,7 +47,7 @@ namespace PerfectMedia.UI.TvShows.ShowSelection
             await metadataService.Save(path, metadata);
         }
 
-        private async Task Update(ITvShowMetadataService metadataService, ITvShowMetadataViewModel tvShowMetadata, string path)
+        private async Task Update(ITvShowMetadataService metadataService, ITvShowViewModel tvShowMetadata, string path)
         {
             await metadataService.DeleteImages(path);
             await metadataService.Update(path);

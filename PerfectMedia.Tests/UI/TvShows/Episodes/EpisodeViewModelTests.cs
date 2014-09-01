@@ -16,18 +16,18 @@ namespace PerfectMedia.UI.TvShows.Episodes
     {
         private readonly EpisodeViewModel _viewModel;
         private readonly IEpisodeMetadataService _metadataService;
-        private readonly ITvShowMetadataViewModel _tvShowMetadata;
+        private readonly ITvShowViewModel _tvShowMetadata;
         private readonly IBusyProvider _busyProvider;
         private readonly string _path;
 
         public EpisodeViewModelTests()
         {
             _metadataService = Substitute.For<IEpisodeMetadataService>();
-            _tvShowMetadata = Substitute.For<ITvShowMetadataViewModel>();
+            _tvShowMetadata = Substitute.For<ITvShowViewModel>();
             ITvShowViewModelFactory viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
             _busyProvider = _busyProvider = Substitute.For<IBusyProvider>();
             _path = @"C:\Folder\TV Shows\Game of Thrones\Season 2\3x09.mkv";
-            _viewModel = new EpisodeViewModel(viewModelFactory, _metadataService, _tvShowMetadata, null, null, _busyProvider, _path);
+            _viewModel = new EpisodeViewModel(viewModelFactory, _metadataService, _tvShowMetadata, null, null, _busyProvider, null, _path);
         }
 
         [Fact]

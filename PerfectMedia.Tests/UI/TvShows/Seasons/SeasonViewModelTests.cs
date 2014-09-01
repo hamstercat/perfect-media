@@ -14,7 +14,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowFileService _tvShowFileService;
-        private readonly ITvShowMetadataViewModel _tvShowMetadata;
+        private readonly ITvShowViewModel _tvShowMetadata;
         private readonly string _path;
         private readonly SeasonViewModel _viewModel;
         private readonly IBusyProvider _busyProvider;
@@ -23,7 +23,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
         {
             _viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
             _tvShowFileService = Substitute.For<ITvShowFileService>();
-            _tvShowMetadata = Substitute.For<ITvShowMetadataViewModel>();
+            _tvShowMetadata = Substitute.For<ITvShowViewModel>();
             _busyProvider = _busyProvider = Substitute.For<IBusyProvider>();
             _path = @"C:\Folder\TV Shows\Game of Thrones\Season 1";
             _viewModel = new SeasonViewModel(_viewModelFactory, _tvShowFileService, _tvShowMetadata, null, _busyProvider, _path);
@@ -55,11 +55,11 @@ namespace PerfectMedia.UI.TvShows.Seasons
             // Assert
             Assert.Equal(3, _viewModel.Episodes.Count);
             _viewModelFactory.Received()
-                .GetEpisode(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is(episodePaths.ElementAt(0).Path));
+                .GetEpisode(Arg.Any<ITvShowViewModel>(), Arg.Is(episodePaths.ElementAt(0).Path));
             _viewModelFactory.Received()
-                .GetEpisode(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is(episodePaths.ElementAt(1).Path));
+                .GetEpisode(Arg.Any<ITvShowViewModel>(), Arg.Is(episodePaths.ElementAt(1).Path));
             _viewModelFactory.Received()
-                .GetEpisode(Arg.Any<ITvShowMetadataViewModel>(), Arg.Is(episodePaths.ElementAt(2).Path));
+                .GetEpisode(Arg.Any<ITvShowViewModel>(), Arg.Is(episodePaths.ElementAt(2).Path));
         }
 
         [Fact]
@@ -118,7 +118,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
                 .Returns(episodes.ToTask());
 
             IEpisodeViewModel episodeViewModel1 = Substitute.For<IEpisodeViewModel>();
-            _viewModelFactory.GetEpisode(Arg.Any<ITvShowMetadataViewModel>(), Arg.Any<string>())
+            _viewModelFactory.GetEpisode(Arg.Any<ITvShowViewModel>(), Arg.Any<string>())
                 .Returns(episodeViewModel1);
 
             // Act

@@ -137,7 +137,9 @@
     <Compile Include="Images\SelectableImage.xaml.cs">
       <DependentUpon>SelectableImage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MahAppsDialogViewer.cs" />
     <Compile Include="MainContentHelper.cs" />
+    <Compile Include="MediaViewModel.cs" />
     <Compile Include="Metadata\DeleteMetadataCommand.cs" />
     <Compile Include="Movies\IMovieItem.cs" />
     <Compile Include="Movies\IMovieManagerViewModel.cs" />
@@ -233,12 +235,10 @@
     <Compile Include="TvShows\Shows\BannerImageStrategy.cs" />
     <Compile Include="TvShows\Shows\FanartImageStrategy.cs" />
     <Compile Include="TvShows\Shows\ITvShowImagesViewModel.cs" />
-    <Compile Include="TvShows\Shows\ITvShowMetadataViewModel.cs" />
     <Compile Include="TvShows\Shows\ITvShowViewModel.cs" />
     <Compile Include="TvShows\Shows\PosterImageStrategy.cs" />
     <Compile Include="TvShows\Shows\TvShowImagesViewModel.cs" />
     <Compile Include="TvShows\TvShowManagerViewModel.cs" />
-    <Compile Include="TvShows\Shows\TvShowMetadataViewModel.cs" />
     <Compile Include="TvShows\Shows\TvShowViewModel.cs" />
     <Compile Include="TvShows\TvShowViewModelFactory.cs" />
     <Compile Include="Sources\SourcesWindow.xaml.cs">

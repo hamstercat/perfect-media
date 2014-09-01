@@ -20,7 +20,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
     public class EpisodeViewModel : BaseViewModel, IEpisodeViewModel, ITreeViewItemViewModel, IMetadataProvider
     {
         private readonly IEpisodeMetadataService _metadataService;
-        private readonly ITvShowMetadataViewModel _tvShowMetadata;
+        private readonly ITvShowViewModel _tvShowMetadata;
         private readonly IBusyProvider _busyProvider;
         private bool _lazyLoaded;
 
@@ -81,10 +81,11 @@ namespace PerfectMedia.UI.TvShows.Episodes
 
         public EpisodeViewModel(ITvShowViewModelFactory viewModelFactory,
             IEpisodeMetadataService metadataService,
-            ITvShowMetadataViewModel tvShowMetadata,
+            ITvShowViewModel tvShowMetadata,
             IProgressManagerViewModel progressManager,
             IFileSystemService fileSystemService,
             IBusyProvider busyProvider,
+            IDialogViewer dialogViewer,
             string path)
         {
             _metadataService = metadataService;

@@ -45,6 +45,7 @@ namespace PerfectMedia.UI.Movies.Set
             IMovieMetadataService metadataService,
             IProgressManagerViewModel progressManager,
             IBusyProvider busyProvider,
+            IDialogViewer dialogViewer,
             string setName)
         {
             _fileSystemService = fileSystemService;

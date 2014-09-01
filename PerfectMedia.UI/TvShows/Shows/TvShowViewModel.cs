@@ -1,90 +1,146 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using PerfectMedia.TvShows;
+using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Busy;
+using PerfectMedia.UI.Cache;
+using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.TvShows.Seasons;
 using PerfectMedia.UI.TvShows.ShowSelection;
+using PerfectMedia.UI.Validations;
 using PropertyChanged;
 
 namespace PerfectMedia.UI.TvShows.Shows
 {
     [ImplementPropertyChanged]
-    public class TvShowViewModel : BaseViewModel, ITvShowViewModel, ITreeViewItemViewModel
+    public class TvShowViewModel : MediaViewModel, ITvShowViewModel
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowFileService _tvShowFileService;
+        private readonly ITvShowMetadataService _metadataService;
         private readonly IBusyProvider _busyProvider;
 
-        public string DisplayName
+        public override string DisplayName
         {
             get
             {
-                return Metadata.DisplayName;
+                if (string.IsNullOrEmpty(Title.CachedValue))
+                {
+                    return System.IO.Path.GetFileName(Path);
+                }
+                return Title.CachedValue;
             }
         }
 
-        public string Title
-        {
-            get
-            {
-                return Metadata.Title.CachedValue;
-            }
-        }
+        [Rating]
+        public double? Rating { get; set; }
+
+        [RequiredCached]
+        public ICachedPropertyViewModel<string> Title { get; private set; }
+
+        [LocalizedRequired]
+        public string Id { get; set; }
+
+        [Positive]
+        public int? RuntimeInMinutes { get; set; }
+
+        public ObservableCollection<ActorViewModel> Actors { get; set; }
+        public int State { get; set; }
+        public string MpaaRating { get; set; }
+        public DashDelimitedCollectionViewModel<string> Genres { get; set; }
+        public string ImdbId { get; set; }
+        public string Plot { get; set; }
+        public DateTime? PremieredDate { get; set; }
+        public string Studio { get; set; }
+        public string Language { get; set; }
+
+        public ICommand RefreshCommand { get; private set; }
+        public ICommand UpdateCommand { get; private set; }
+        public ICommand SaveCommand { get; private set; }
+        public ICommand DeleteCommand { get; private set; }
 
         public string Path { get; private set; }
-        public ITvShowMetadataViewModel Metadata { get; private set; }
+        public ITvShowImagesViewModel Images { get; private set; }
         public ITvShowSelectionViewModel Selection { get; private set; }
-
-        private bool _seasonLoaded;
         public ObservableCollection<ISeasonViewModel> Seasons { get; private set; }
 
-        public TvShowViewModel(ITvShowViewModelFactory viewModelFactory, ITvShowFileService tvShowFileService, IBusyProvider busyProvider, string path)
+        public TvShowViewModel(ITvShowViewModelFactory viewModelFactory,
+            ITvShowFileService tvShowFileService,
+            ITvShowMetadataService metadataService,
+            IBusyProvider busyProvider,
+            IDialogViewer dialogViewer,
+            IProgressManagerViewModel progressManager,
+            string path)
+            : base(busyProvider, dialogViewer)
         {
             _viewModelFactory = viewModelFactory;
             _tvShowFileService = tvShowFileService;
+            _metadataService = metadataService;
             _busyProvider = busyProvider;
+            Title = viewModelFactory.GetStringCachedProperty(path, true);
+            Title.PropertyChanged += TitleValueChanged;
             Path = path;
-            Metadata = viewModelFactory.GetTvShowMetadata(Path);
-            Metadata.PropertyChanged += (s, e) => OnPropertyChanged("DisplayName");
-            Selection = viewModelFactory.GetTvShowSelection(Metadata, path);
+            Selection = viewModelFactory.GetTvShowSelection(this, path);
+
+            RefreshCommand = new RefreshMetadataCommand(this);
+            UpdateCommand = new UpdateMetadataCommand(this, progressManager, busyProvider);
+            SaveCommand = new SaveMetadataCommand(this);
+            DeleteCommand = new DeleteMetadataCommand(this);
+
+            Images = viewModelFactory.GetTvShowImages(this, path);
+            Actors = new ObservableCollection<ActorViewModel>();
+            Genres = new DashDelimitedCollectionViewModel<string>(s => s);
 
             // We need to set a "dummy" item in the collection for an arrow to appear in the TreeView since we're lazy-loading the items under it
-            _seasonLoaded = false;
-            Seasons = new ObservableCollection<ISeasonViewModel> { _viewModelFactory.GetSeason(Metadata, "dummy") };
+            Seasons = new ObservableCollection<ISeasonViewModel> { _viewModelFactory.GetSeason(this, "dummy") };
         }
 
-        public async Task Refresh()
+        protected override async Task RefreshInternal()
         {
-            using (_busyProvider.DoWork())
+            TvShowMetadata metadata = await _metadataService.Get(Path);
+            await RefreshFromMetadata(metadata);
+        }
+
+        protected override async Task<IEnumerable<ProgressItem>> UpdateInternal()
+        {
+            await Refresh();
+            if (string.IsNullOrEmpty(Id))
             {
-                await Metadata.Refresh();
+                Lazy<string> displayName = new Lazy<string>(() => DisplayName);
+                return new List<ProgressItem> { new ProgressItem(Path, displayName, UpdateMethod) };
             }
+            return Enumerable.Empty<ProgressItem>();
         }
 
-        public async Task<IEnumerable<ProgressItem>> Update()
+        protected override async Task SaveInternal()
         {
-            using (_busyProvider.DoWork())
-            {
-                return await Metadata.Update();
-            }
+            Title.Save();
+            TvShowMetadata metadata = CreateMetadata();
+            await _metadataService.Save(Path, metadata);
         }
 
-        public async Task Save()
+        protected override async Task DeleteInternal()
         {
-            using (_busyProvider.DoWork())
-            {
-                await Metadata.Save();
-            }
+            await _metadataService.Delete(Path);
+            await Refresh();
         }
 
-        public async Task Delete()
+        protected override async Task LoadChildrenInternal()
         {
-            using (_busyProvider.DoWork())
+            // Delete the dummy object
+            Seasons.Clear();
+
+            IEnumerable<Season> seasons = await _tvShowFileService.GetSeasons(Path);
+            foreach (Season season in seasons)
             {
-                await Metadata.Delete();
+                ISeasonViewModel seasonViewModel = _viewModelFactory.GetSeason(this, season.Path);
+                Seasons.Add(seasonViewModel);
             }
         }
 
@@ -102,31 +158,86 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
         }
 
-        public async Task Load()
+        private void TitleValueChanged(object sender, PropertyChangedEventArgs e)
         {
-            using (_busyProvider.DoWork())
+            OnPropertyChanged("Title");
+            OnPropertyChanged("DisplayName");
+        }
+
+        private async Task RefreshFromMetadata(TvShowMetadata metadata)
+        {
+            State = metadata.State;
+            Title.Value = metadata.Title;
+            Title.Save();
+            Id = metadata.Id;
+            MpaaRating = metadata.MpaaRating;
+            ImdbId = metadata.ImdbId;
+            Plot = metadata.Plot;
+            RuntimeInMinutes = metadata.RuntimeInMinutes;
+            Rating = metadata.Rating;
+            PremieredDate = metadata.Premiered;
+            Studio = metadata.Studio;
+            Language = metadata.Language;
+
+            Genres.ReplaceWith(metadata.Genres);
+            AddActors(metadata.Actors);
+            await Images.Refresh();
+        }
+
+        private void AddActors(IEnumerable<ActorMetadata> actors)
+        {
+            Actors.Clear();
+            foreach (ActorMetadata actor in actors)
             {
-                await Metadata.Load();
+                ActorViewModel actorViewModel = new ActorViewModel(_viewModelFactory.GetImage(true));
+                actorViewModel.Name = actor.Name;
+                actorViewModel.Role = actor.Role;
+                actorViewModel.ThumbUrl = actor.Thumb;
+                actorViewModel.ThumbPath.Path = actor.ThumbPath;
+                Actors.Add(actorViewModel);
             }
         }
 
-        public async Task LoadChildren()
+        private TvShowMetadata CreateMetadata()
         {
-            if (!_seasonLoaded)
+            TvShowMetadata metadata = new TvShowMetadata
             {
-                using (_busyProvider.DoWork())
-                {
-                    // Delete the dummy object
-                    Seasons.Clear();
+                State = State,
+                Title = Title.Value,
+                Id = Id,
+                MpaaRating = MpaaRating,
+                ImdbId = ImdbId,
+                Plot = Plot,
+                RuntimeInMinutes = RuntimeInMinutes,
+                Rating = Rating,
+                Premiered = PremieredDate,
+                Studio = Studio,
+                Language = Language,
+                Genres = new List<string>(Genres.Collection)
+            };
 
-                    IEnumerable<Season> seasons = await _tvShowFileService.GetSeasons(Path);
-                    foreach (Season season in seasons)
-                    {
-                        ISeasonViewModel seasonViewModel = _viewModelFactory.GetSeason(Metadata, season.Path);
-                        Seasons.Add(seasonViewModel);
-                    }
-                    _seasonLoaded = true;
-                }
+            metadata.Actors = new List<ActorMetadata>();
+            foreach (ActorViewModel actorViewModel in Actors)
+            {
+                ActorMetadata actor = new ActorMetadata
+                {
+                    Name = actorViewModel.Name,
+                    Role = actorViewModel.Role,
+                    Thumb = actorViewModel.ThumbUrl,
+                    ThumbPath = actorViewModel.ThumbPath.Path
+                };
+                metadata.Actors.Add(actor);
+            }
+
+            return metadata;
+        }
+
+        private async Task UpdateMethod()
+        {
+            using (_busyProvider.DoWork())
+            {
+                await _metadataService.Update(Path);
+                await Refresh();
             }
         }
     }

@@ -14,13 +14,12 @@ namespace PerfectMedia.UI.TvShows
     {
         ISourceManagerViewModel GetSourceManager(SourceType sourceType);
         ITvShowViewModel GetTvShow(string path);
-        ITvShowMetadataViewModel GetTvShowMetadata(string path);
-        ITvShowImagesViewModel GetTvShowImages(ITvShowMetadataViewModel metadataViewModel, string path);
-        ISeasonViewModel GetSeason(ITvShowMetadataViewModel tvShowMetadata, string path);
-        IEpisodeViewModel GetEpisode(ITvShowMetadataViewModel tvShowMetadata, string path);
+        ITvShowImagesViewModel GetTvShowImages(ITvShowViewModel tvShow, string path);
+        ISeasonViewModel GetSeason(ITvShowViewModel tvShow, string path);
+        IEpisodeViewModel GetEpisode(ITvShowViewModel tvShow, string path);
         IImageViewModel GetImage(bool horizontalAlignement);
         IImageViewModel GetImage(bool horizontalAlignement, IImageStrategy imageStrategy);
-        ITvShowSelectionViewModel GetTvShowSelection(ITvShowMetadataViewModel tvShowMetadata, string path);
+        ITvShowSelectionViewModel GetTvShowSelection(ITvShowViewModel tvShow, string path);
         ICachedPropertyViewModel<string> GetStringCachedProperty(string key, bool isRequired);
         ICachedPropertyViewModel<int?> GetIntCachedProperty(string key, bool isRequired);
     }

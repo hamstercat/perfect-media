@@ -24,6 +24,7 @@ namespace PerfectMedia.UI.TvShows
         private readonly IProgressManagerViewModel _progressManagerViewModel;
         private readonly IKeyDataStore _keyDataStore;
         private readonly IBusyProvider _busyProvider;
+        private readonly IDialogViewer _dialogViewer;
 
         public TvShowViewModelFactory(ISourceService sourceService,
             IFileSystemService fileSystemService,
@@ -32,7 +33,8 @@ namespace PerfectMedia.UI.TvShows
             IEpisodeMetadataService episodeMetadataService,
             IProgressManagerViewModel progressManagerViewModel,
             IKeyDataStore keyDataStore,
-            IBusyProvider busyProvider)
+            IBusyProvider busyProvider,
+            IDialogViewer dialogViewer)
         {
             _sourceService = sourceService;
             _fileSystemService = fileSystemService;
@@ -42,6 +44,7 @@ namespace PerfectMedia.UI.TvShows
             _progressManagerViewModel = progressManagerViewModel;
             _keyDataStore = keyDataStore;
             _busyProvider = busyProvider;
+            _dialogViewer = dialogViewer;
         }
 
         public ISourceManagerViewModel GetSourceManager(SourceType sourceType)
@@ -51,27 +54,22 @@ namespace PerfectMedia.UI.TvShows
 
         public ITvShowViewModel GetTvShow(string path)
         {
-            return new TvShowViewModel(this, _tvShowFileService, _busyProvider, path);
+            return new TvShowViewModel(this, _tvShowFileService, _tvShowMetadataService, _busyProvider, _dialogViewer, _progressManagerViewModel, path);
         }
 
-        public ITvShowMetadataViewModel GetTvShowMetadata(string path)
-        {
-            return new TvShowMetadataViewModel(this, _tvShowMetadataService, _progressManagerViewModel, _busyProvider, path);
-        }
-
-        public ITvShowImagesViewModel GetTvShowImages(ITvShowMetadataViewModel metadataViewModel, string path)
+        public ITvShowImagesViewModel GetTvShowImages(ITvShowViewModel metadataViewModel, string path)
         {
             return new TvShowImagesViewModel(_tvShowFileService, _tvShowMetadataService, _fileSystemService, metadataViewModel, _busyProvider, path);
         }
 
-        public ISeasonViewModel GetSeason(ITvShowMetadataViewModel tvShowMetadata, string path)
+        public ISeasonViewModel GetSeason(ITvShowViewModel tvShowMetadata, string path)
         {
             return new SeasonViewModel(this, _tvShowFileService, tvShowMetadata, _tvShowMetadataService, _busyProvider, path);
         }
 
-        public IEpisodeViewModel GetEpisode(ITvShowMetadataViewModel tvShowMetadata, string path)
+        public IEpisodeViewModel GetEpisode(ITvShowViewModel tvShowMetadata, string path)
         {
-            return new EpisodeViewModel(this, _episodeMetadataService, tvShowMetadata, _progressManagerViewModel, _fileSystemService, _busyProvider, path);
+            return new EpisodeViewModel(this, _episodeMetadataService, tvShowMetadata, _progressManagerViewModel, _fileSystemService, _busyProvider, _dialogViewer, path);
         }
 
         public IImageViewModel GetImage(bool horizontalAlignement)
@@ -84,7 +82,7 @@ namespace PerfectMedia.UI.TvShows
             return new ImageViewModel(_fileSystemService, _busyProvider, horizontalAlignement, imageStrategy);
         }
 
-        public ITvShowSelectionViewModel GetTvShowSelection(ITvShowMetadataViewModel tvShowMetadata, string path)
+        public ITvShowSelectionViewModel GetTvShowSelection(ITvShowViewModel tvShowMetadata, string path)
         {
             return new TvShowSelectionViewModel(_tvShowMetadataService, tvShowMetadata, _busyProvider, path);
         }

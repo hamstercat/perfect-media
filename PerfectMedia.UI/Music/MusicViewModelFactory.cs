@@ -17,13 +17,15 @@ namespace PerfectMedia.UI.Music
         private readonly IBusyProvider _busyProvider;
         private readonly IKeyDataStore _keyDataStore;
         private readonly IProgressManagerViewModel _progressManager;
+        private readonly IDialogViewer _dialogViewer;
 
         public MusicViewModelFactory(IArtistMetadataService metadataService,
             ISourceService sourceService,
             IFileSystemService fileSystemService,
             IBusyProvider busyProvider,
             IKeyDataStore keyDataStore,
-            IProgressManagerViewModel progressManager)
+            IProgressManagerViewModel progressManager,
+            IDialogViewer dialogViewer)
         {
             _metadataService = metadataService;
             _sourceService = sourceService;
@@ -31,6 +33,7 @@ namespace PerfectMedia.UI.Music
             _busyProvider = busyProvider;
             _keyDataStore = keyDataStore;
             _progressManager = progressManager;
+            _dialogViewer = dialogViewer;
         }
 
         public ISourceManagerViewModel GetSourceManager()
@@ -40,7 +43,7 @@ namespace PerfectMedia.UI.Music
 
         public IArtistViewModel GetArtistViewModel(string path)
         {
-            return new ArtistViewModel(_metadataService, this, _progressManager, _busyProvider, path);
+            return new ArtistViewModel(_metadataService, this, _progressManager, _busyProvider, _dialogViewer, path);
         }
 
         public ICachedPropertyViewModel<string> GetStringCachedProperty(string key, bool isRequired)

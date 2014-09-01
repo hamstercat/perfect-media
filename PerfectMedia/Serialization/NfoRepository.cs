@@ -116,7 +116,20 @@ namespace PerfectMedia.Serialization
             using (XmlReader reader = XmlReader.Create(nfoFileFullPath))
             {
                 XmlSerializer serializer = _xmlSerializerFactory.GetXmlSerializer<TMetadata>();
-                return (TMetadata)serializer.Deserialize(reader);
+                return TryDeserialize(nfoFileFullPath, serializer, reader);
+            }
+        }
+
+        private TMetadata TryDeserialize(string nfoFileFullPath, XmlSerializer serializer, XmlReader reader)
+        {
+            try
+            {
+                return (TMetadata) serializer.Deserialize(reader);
+            }
+            catch (Exception ex)
+            {
+                _fileSystemService.MoveFile(nfoFileFullPath, nfoFileFullPath + ".bak");
+                throw new InvalidNfoException(nfoFileFullPath, ex);
             }
         }
 

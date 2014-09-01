@@ -18,7 +18,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowFileService _tvShowFileService;
-        private readonly ITvShowMetadataViewModel _tvShowMetadata;
+        private readonly ITvShowViewModel _tvShowMetadata;
         private readonly IBusyProvider _busyProvider;
 
         private bool _imagesLoaded;
@@ -57,7 +57,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
 
         public SeasonViewModel(ITvShowViewModelFactory viewModelFactory,
             ITvShowFileService tvShowFileService,
-            ITvShowMetadataViewModel tvShowMetadata,
+            ITvShowViewModel tvShowMetadata,
             ITvShowMetadataService metadataService,
             IBusyProvider busyProvider,
             string path)

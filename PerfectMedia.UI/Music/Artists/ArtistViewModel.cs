@@ -60,6 +60,7 @@ namespace PerfectMedia.UI.Music.Artists
             IMusicViewModelFactory viewModelFactory,
             IProgressManagerViewModel progressManager,
             IBusyProvider busyProvider,
+            IDialogViewer dialogViewer,
             string path)
         {
             _metadataService = metadataService;

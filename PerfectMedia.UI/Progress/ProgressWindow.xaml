@@ -41,7 +41,7 @@
                         <TextBlock.Text>
                             <MultiBinding StringFormat="{}{0}: {1}">
                                 <Binding Path="Display" />
-                                <Binding Path="Error" />
+                                <Binding Path="Message" />
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>

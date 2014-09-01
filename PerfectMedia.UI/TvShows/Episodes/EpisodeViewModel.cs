@@ -17,12 +17,12 @@ using PropertyChanged;
 namespace PerfectMedia.UI.TvShows.Episodes
 {
     [ImplementPropertyChanged]
-    public class EpisodeViewModel : BaseViewModel, IEpisodeViewModel, ITreeViewItemViewModel, IMetadataProvider
+    public class EpisodeViewModel : MediaViewModel, IEpisodeViewModel
     {
         private readonly IEpisodeMetadataService _metadataService;
         private readonly ITvShowViewModel _tvShowMetadata;
         private readonly IBusyProvider _busyProvider;
-        private bool _lazyLoaded;
+        private bool _localMetadataExists;
 
         [Rating]
         public double? Rating { get; set; }
@@ -54,7 +54,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
         public DateTime? AiredDate { get; set; }
         public double? EpisodeBookmarks { get; set; }
 
-        public string DisplayName
+        public override string DisplayName
         {
             get
             {
@@ -87,11 +87,11 @@ namespace PerfectMedia.UI.TvShows.Episodes
             IBusyProvider busyProvider,
             IDialogViewer dialogViewer,
             string path)
+            : base(busyProvider, dialogViewer)
         {
             _metadataService = metadataService;
             _tvShowMetadata = tvShowMetadata;
             _busyProvider = busyProvider;
-            _lazyLoaded = false;
 
             Title = viewModelFactory.GetStringCachedProperty(path + "?title", true);
             Title.PropertyChanged += CachedPropertyChanged;
@@ -119,70 +119,45 @@ namespace PerfectMedia.UI.TvShows.Episodes
             OnPropertyChanged("DisplayName");
         }
 
-        public async Task Refresh()
+        protected override async Task RefreshInternal()
         {
-            using (_busyProvider.DoWork())
-            {
-                EpisodeMetadata metadata = await _metadataService.Get(Path);
-                RefreshFromMetadata(metadata);
-            }
+            EpisodeMetadata metadata = await _metadataService.Get(Path);
+            RefreshFromMetadata(metadata);
         }
 
-        public async Task<IEnumerable<ProgressItem>> Update()
+        protected override async Task<IEnumerable<ProgressItem>> UpdateInternal()
         {
-            using (_busyProvider.DoWork())
+            List<ProgressItem> items = new List<ProgressItem>();
+            foreach (ProgressItem item in await _tvShowMetadata.Update())
             {
-                List<ProgressItem> items = new List<ProgressItem>();
-                foreach (ProgressItem item in await _tvShowMetadata.Update())
-                {
-                    items.Add(item);
-                }
-
-                EpisodeMetadata metadata = await _metadataService.Get(Path);
-                if (metadata.FileInformation == null)
-                {
-                    Lazy<string> displayName = new Lazy<string>(() => DisplayName);
-                    items.Add(new ProgressItem(Path, displayName, UpdateInternal));
-                }
-                else
-                {
-                    RefreshFromMetadata(metadata);
-                }
-                return items;
+                items.Add(item);
             }
+
+            await Refresh();
+            if (!_localMetadataExists)
+            {
+                Lazy<string> displayName = new Lazy<string>(() => DisplayName);
+                items.Add(new ProgressItem(Path, displayName, UpdateMethod));
+            }
+            return items;
         }
 
-        public async Task Save()
+        protected override async Task SaveInternal()
         {
-            using (_busyProvider.DoWork())
-            {
-                Title.Save();
-                SeasonNumber.Save();
-                EpisodeNumber.Save();
-                EpisodeMetadata metadata = CreateMetadata();
-                await _metadataService.Save(Path, metadata);
-            }
+            Title.Save();
+            SeasonNumber.Save();
+            EpisodeNumber.Save();
+            EpisodeMetadata metadata = CreateMetadata();
+            await _metadataService.Save(Path, metadata);
         }
 
-        public async Task Delete()
+        protected override async Task DeleteInternal()
         {
-            using (_busyProvider.DoWork())
-            {
-                await _metadataService.Delete(Path);
-                await Refresh();
-            }
+            await _metadataService.Delete(Path);
+            await Refresh();
         }
 
-        public async Task Load()
-        {
-            if (!_lazyLoaded)
-            {
-                _lazyLoaded = true;
-                await Refresh();
-            }
-        }
-
-        public Task LoadChildren()
+        protected override Task LoadChildrenInternal()
         {
             // Nothing to do
             return Task.Delay(0);
@@ -210,6 +185,8 @@ namespace PerfectMedia.UI.TvShows.Episodes
 
             Credits.ReplaceWith(metadata.Credits);
             Directors.ReplaceWith(metadata.Director);
+
+            _localMetadataExists = metadata.FileInformation != null;
         }
 
         private EpisodeMetadata CreateMetadata()
@@ -234,7 +211,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             };
         }
 
-        private async Task UpdateInternal()
+        private async Task UpdateMethod()
         {
             using (_busyProvider.DoWork())
             {

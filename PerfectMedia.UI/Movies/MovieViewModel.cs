@@ -19,13 +19,12 @@ using PropertyChanged;
 namespace PerfectMedia.UI.Movies
 {
     [ImplementPropertyChanged]
-    public class MovieViewModel : BaseViewModel, IMovieViewModel, ITreeViewItemViewModel
+    public class MovieViewModel : MediaViewModel, IMovieViewModel
     {
         private readonly IMovieMetadataService _metadataService;
         private readonly IMovieViewModelFactory _viewModelFactory;
         private readonly IFileSystemService _fileSystemService;
         private readonly IBusyProvider _busyProvider;
-        private bool _lazyLoaded;
 
         [RequiredCached]
         public ICachedPropertyViewModel<string> Title { get; private set; }
@@ -60,7 +59,7 @@ namespace PerfectMedia.UI.Movies
         public string Studio { get; set; }
         public ObservableCollection<ActorViewModel> Actors { get; set; }
 
-        public string DisplayName
+        public override string DisplayName
         {
             get
             {
@@ -87,6 +86,7 @@ namespace PerfectMedia.UI.Movies
             IBusyProvider busyProvider,
             IDialogViewer dialogViewer,
             string path)
+            : base(busyProvider, dialogViewer)
         {
             _metadataService = metadataService;
             _viewModelFactory = viewModelFactory;
@@ -122,68 +122,41 @@ namespace PerfectMedia.UI.Movies
             }
         }
 
-        public async Task Refresh()
+        protected override async Task RefreshInternal()
         {
-            using (_busyProvider.DoWork())
-            {
-                MovieMetadata metadata = await _metadataService.Get(Path);
-                RefreshFromMetadata(metadata);
-            }
+            MovieMetadata metadata = await _metadataService.Get(Path);
+            RefreshFromMetadata(metadata);
         }
 
-        public async Task<IEnumerable<ProgressItem>> Update()
+        protected override async Task<IEnumerable<ProgressItem>> UpdateInternal()
         {
-            using (_busyProvider.DoWork())
+            await Refresh();
+            if (string.IsNullOrEmpty(Id))
             {
-                MovieMetadata metadata = await _metadataService.Get(Path);
-                if (string.IsNullOrEmpty(metadata.Id))
-                {
-                    Lazy<string> displayName = new Lazy<string>(() => DisplayName);
-                    return new List<ProgressItem> { new ProgressItem(Path, displayName, UpdateInternal) };
-                }
-                RefreshFromMetadata(metadata);
-                return Enumerable.Empty<ProgressItem>();
+                Lazy<string> displayName = new Lazy<string>(() => DisplayName);
+                return new List<ProgressItem> { new ProgressItem(Path, displayName, UpdateMethod) };
             }
+            return Enumerable.Empty<ProgressItem>();
         }
 
-        public async Task Save()
+        protected override async Task SaveInternal()
         {
-            using (_busyProvider.DoWork())
-            {
-                Title.Save();
-                SetName.Save();
-                MovieMetadata metadata = CreateMetadata();
-                await _metadataService.Save(Path, metadata);
-            }
+            Title.Save();
+            SetName.Save();
+            MovieMetadata metadata = CreateMetadata();
+            await _metadataService.Save(Path, metadata);
         }
 
-        public async Task Delete()
+        protected override async Task DeleteInternal()
         {
-            using (_busyProvider.DoWork())
-            {
-                await _metadataService.Delete(Path);
-                await Refresh();
-            }
+            await _metadataService.Delete(Path);
+            await Refresh();
         }
 
-        public async Task Load()
-        {
-            if (!_lazyLoaded)
-            {
-                _lazyLoaded = true;
-                await Refresh();
-            }
-        }
-
-        public Task LoadChildren()
+        protected override Task LoadChildrenInternal()
         {
             // Do nothing
             return Task.Delay(0);
-        }
-
-        public override string ToString()
-        {
-            return DisplayName;
         }
 
         private void TitlePropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -276,7 +249,7 @@ namespace PerfectMedia.UI.Movies
             return metadata;
         }
 
-        private async Task UpdateInternal()
+        private async Task UpdateMethod()
         {
             using (_busyProvider.DoWork())
             {

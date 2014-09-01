@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using PerfectMedia.Music;
 using PerfectMedia.Music.Artists;
 using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Cache;
@@ -17,11 +16,10 @@ using PropertyChanged;
 namespace PerfectMedia.UI.Music.Artists
 {
     [ImplementPropertyChanged]
-    public class ArtistViewModel : BaseViewModel, IArtistViewModel, ITreeViewItemViewModel
+    public class ArtistViewModel : MediaViewModel, IArtistViewModel
     {
         private readonly IArtistMetadataService _metadataService;
         private readonly IBusyProvider _busyProvider;
-        private bool _lazyLoaded;
 
         public string Path { get; private set; }
         public ICommand RefreshCommand { get; private set; }
@@ -30,7 +28,7 @@ namespace PerfectMedia.UI.Music.Artists
         public ICommand DeleteCommand { get; private set; }
         public ObservableCollection<IAlbumViewModel> Albums { get; private set; }
 
-        public string DisplayName
+        public override string DisplayName
         {
             get
             {
@@ -62,6 +60,7 @@ namespace PerfectMedia.UI.Music.Artists
             IBusyProvider busyProvider,
             IDialogViewer dialogViewer,
             string path)
+            : base(busyProvider, dialogViewer)
         {
             _metadataService = metadataService;
             _busyProvider = busyProvider;
@@ -80,59 +79,37 @@ namespace PerfectMedia.UI.Music.Artists
             DeleteCommand = new DeleteMetadataCommand(this);
         }
 
-        public async Task Refresh()
+        protected override async Task RefreshInternal()
         {
-            using (_busyProvider.DoWork())
-            {
-                ArtistMetadata metadata = await _metadataService.Get(Path);
-                RefreshFromMetadata(metadata);
-            }
+            ArtistMetadata metadata = await _metadataService.Get(Path);
+            RefreshFromMetadata(metadata);
         }
 
-        public async Task<IEnumerable<ProgressItem>> Update()
+        protected override async Task<IEnumerable<ProgressItem>> UpdateInternal()
         {
-            using (_busyProvider.DoWork())
+            await Refresh();
+            if (string.IsNullOrEmpty(Name.Value))
             {
-                ArtistMetadata metadata = await _metadataService.Get(Path);
-                if (string.IsNullOrEmpty(metadata.Name))
-                {
-                    Lazy<string> displayName = new Lazy<string>(() => DisplayName);
-                    return new List<ProgressItem> { new ProgressItem(Path, displayName, UpdateInternal) };
-                }
-                RefreshFromMetadata(metadata);
-                return Enumerable.Empty<ProgressItem>();
+                Lazy<string> displayName = new Lazy<string>(() => DisplayName);
+                return new List<ProgressItem> { new ProgressItem(Path, displayName, UpdateMethod) };
             }
+            return Enumerable.Empty<ProgressItem>();
         }
 
-        public async Task Save()
+        protected override async Task SaveInternal()
         {
-            using (_busyProvider.DoWork())
-            {
-                Name.Save();
-                ArtistMetadata metadata = CreateMetadata();
-                await _metadataService.Save(Path, metadata);
-            }
+            Name.Save();
+            ArtistMetadata metadata = CreateMetadata();
+            await _metadataService.Save(Path, metadata);
         }
 
-        public async Task Delete()
+        protected override async Task DeleteInternal()
         {
-            using (_busyProvider.DoWork())
-            {
-                await _metadataService.Delete(Path);
-                await Refresh();
-            }
+            await _metadataService.Delete(Path);
+            await Refresh();
         }
 
-        public async Task Load()
-        {
-            if (!_lazyLoaded)
-            {
-                _lazyLoaded = true;
-                await Refresh();
-            }
-        }
-
-        public Task LoadChildren()
+        protected override Task LoadChildrenInternal()
         {
             // TODO: load albums
             return Task.Delay(0);
@@ -173,7 +150,7 @@ namespace PerfectMedia.UI.Music.Artists
             };
         }
 
-        private async Task UpdateInternal()
+        private async Task UpdateMethod()
         {
             using (_busyProvider.DoWork())
             {

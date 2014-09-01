@@ -14,21 +14,20 @@ using PropertyChanged;
 namespace PerfectMedia.UI.TvShows.Seasons
 {
     [ImplementPropertyChanged]
-    public class SeasonViewModel : ISeasonViewModel, ITreeViewItemViewModel
+    public class SeasonViewModel : TreeViewItemViewModel, ISeasonViewModel
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowFileService _tvShowFileService;
         private readonly ITvShowViewModel _tvShowMetadata;
         private readonly IBusyProvider _busyProvider;
-
+        private readonly string _path;
         private bool _imagesLoaded;
-        private bool _episodeLoaded;
 
-        public string DisplayName
+        public override string DisplayName
         {
             get
             {
-                return System.IO.Path.GetFileName(Path);
+                return System.IO.Path.GetFileName(_path);
             }
         }
 
@@ -52,7 +51,6 @@ namespace PerfectMedia.UI.TvShows.Seasons
             }
         }
 
-        public string Path { get; private set; }
         public ObservableCollection<IEpisodeViewModel> Episodes { get; private set; }
 
         public SeasonViewModel(ITvShowViewModelFactory viewModelFactory,
@@ -61,19 +59,19 @@ namespace PerfectMedia.UI.TvShows.Seasons
             ITvShowMetadataService metadataService,
             IBusyProvider busyProvider,
             string path)
+            : base(busyProvider)
         {
             _viewModelFactory = viewModelFactory;
             _tvShowFileService = tvShowFileService;
             _tvShowMetadata = tvShowMetadata;
             _busyProvider = busyProvider;
-            Path = path;
+            _path = path;
 
             _posterUrl = viewModelFactory.GetImage(true, new SeasonPosterImageStrategy(metadataService, tvShowMetadata.Path, path));
             _bannerUrl = viewModelFactory.GetImage(false, new SeasonBannerImageStrategy(metadataService, tvShowMetadata.Path, path));
 
             // We need to set a "dummy" item in the collection for an arrow to appear in the TreeView since we're lazy-loading the items under it
             _imagesLoaded = false;
-            _episodeLoaded = false;
             Episodes = new ObservableCollection<IEpisodeViewModel> { _viewModelFactory.GetEpisode(_tvShowMetadata, "dummy") };
         }
 
@@ -91,29 +89,22 @@ namespace PerfectMedia.UI.TvShows.Seasons
             }
         }
 
-        public Task Load()
+        protected override Task LoadInternal()
         {
             // Do nothing
             return Task.Delay(0);
         }
 
-        public async Task LoadChildren()
+        protected override async Task LoadChildrenInternal()
         {
-            if (!_episodeLoaded)
-            {
-                using (_busyProvider.DoWork())
-                {
-                    // Delete the dummy object
-                    Episodes.Clear();
+            // Delete the dummy object
+            Episodes.Clear();
 
-                    IEnumerable<PerfectMedia.TvShows.Episode> episodes = await _tvShowFileService.GetEpisodes(Path);
-                    foreach (PerfectMedia.TvShows.Episode episode in episodes)
-                    {
-                        IEpisodeViewModel episodeViewModel = _viewModelFactory.GetEpisode(_tvShowMetadata, episode.Path);
-                        Episodes.Add(episodeViewModel);
-                    }
-                    _episodeLoaded = true;
-                }
+            IEnumerable<PerfectMedia.TvShows.Episode> episodes = await _tvShowFileService.GetEpisodes(_path);
+            foreach (PerfectMedia.TvShows.Episode episode in episodes)
+            {
+                IEpisodeViewModel episodeViewModel = _viewModelFactory.GetEpisode(_tvShowMetadata, episode.Path);
+                Episodes.Add(episodeViewModel);
             }
         }
 
@@ -123,7 +114,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
             {
                 if (!_imagesLoaded)
                 {
-                    Season season = _tvShowFileService.GetSeason(_tvShowMetadata.Path, Path);
+                    Season season = _tvShowFileService.GetSeason(_tvShowMetadata.Path, _path);
                     _imagesLoaded = true;
                     PosterUrl.Path = season.PosterUrl;
                     BannerUrl.Path = season.BannerUrl;

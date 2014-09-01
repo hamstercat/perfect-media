@@ -15,16 +15,21 @@ using PropertyChanged;
 namespace PerfectMedia.UI.Movies.Set
 {
     [ImplementPropertyChanged]
-    public class MovieSetViewModel : BaseViewModel, IMovieSetViewModel, ITreeViewItemViewModel
+    public class MovieSetViewModel : MediaViewModel, IMovieSetViewModel
     {
         private readonly IFileSystemService _fileSystemService;
         private readonly IMovieMetadataService _metadataService;
         private readonly IBusyProvider _busyProvider;
 
+        public override string DisplayName
+        {
+            get { return DisplayNameInternal; }
+        }
+
         [Required]
         public string SetName { get; set; }
 
-        public string DisplayName { get; private set; }
+        public string DisplayNameInternal { get; private set; }
         public IImageViewModel Fanart { get; private set; }
         public IImageViewModel Poster { get; private set; }
         public ObservableCollection<IMovieViewModel> Children { get; private set; }
@@ -47,11 +52,12 @@ namespace PerfectMedia.UI.Movies.Set
             IBusyProvider busyProvider,
             IDialogViewer dialogViewer,
             string setName)
+            : base(busyProvider, dialogViewer)
         {
             _fileSystemService = fileSystemService;
             _metadataService = metadataService;
             _busyProvider = busyProvider;
-            SetName = DisplayName = setName;
+            SetName = DisplayNameInternal = setName;
             Fanart = viewModelFactory.GetImage(new SetFanartImageStrategy(metadataService, this));
             Poster = viewModelFactory.GetImage(new SetPosterImageStrategy(metadataService, this));
             Children = new ObservableCollection<IMovieViewModel>();
@@ -60,7 +66,7 @@ namespace PerfectMedia.UI.Movies.Set
             UpdateCommand = new UpdateMetadataCommand(this, progressManager, busyProvider);
             SaveCommand = new SaveMetadataCommand(this);
 
-            Refresh();
+            RefreshSynchronously();
         }
 
         public void AddMovie(IMovieViewModel movie)
@@ -78,77 +84,59 @@ namespace PerfectMedia.UI.Movies.Set
             return Children.Where(movie => MovieIsInPath(movie, path));
         }
 
-        public Task Refresh()
+        protected override Task RefreshInternal()
         {
-            return Task.Run(() =>
-            {
-                using (_busyProvider.DoWork())
-                {
-                    MovieSet set = _metadataService.GetMovieSet(DisplayName);
-                    SetName = DisplayName = set.Name;
-                    Fanart.Path = set.BackdropPath;
-                    Poster.Path = set.PosterPath;
-                    Fanart.RefreshImage();
-                    Poster.RefreshImage();
-                }
-            });
+            return Task.Run(() => RefreshSynchronously());
         }
 
-        public async Task<IEnumerable<ProgressItem>> Update()
+        protected override async Task<IEnumerable<ProgressItem>> UpdateInternal()
         {
-            using (_busyProvider.DoWork())
+            List<ProgressItem> result = new List<ProgressItem>();
+            if (!await _fileSystemService.FileExists(Fanart.Path) ||
+                await _fileSystemService.FileExists(Poster.Path))
             {
-                List<ProgressItem> result = new List<ProgressItem>();
-                if (!await _fileSystemService.FileExists(Fanart.Path) ||
-                    await _fileSystemService.FileExists(Poster.Path))
-                {
-                    result.Add(UpdateImages());
-                }
-                foreach (IMovieViewModel movie in Children)
-                {
-                    result.AddRange(await movie.Update());
-                }
-                return result;
+                result.Add(UpdateImages());
             }
+            foreach (IMovieViewModel movie in Children)
+            {
+                result.AddRange(await movie.Update());
+            }
+            return result;
         }
 
-        public async Task Save()
+        protected override async Task SaveInternal()
         {
-            using (_busyProvider.DoWork())
+            if (SetName != DisplayName)
             {
-                if (SetName != DisplayName)
+                await MoveImages();
+                DisplayNameInternal = SetName;
+                foreach (IMovieViewModel movie in Children.ToList())
                 {
-                    await MoveImages();
-                    DisplayName = SetName;
-                    foreach (IMovieViewModel movie in Children.ToList())
-                    {
-                        movie.SetName.Value = SetName;
-                        await movie.Save();
-                    }
+                    movie.SetName.Value = SetName;
+                    await movie.Save();
                 }
             }
         }
 
-        public Task Delete()
+        protected override Task DeleteInternal()
         {
             throw new NotSupportedException("Can't delete a Movie Set");
         }
 
-        public Task Load()
+        protected override Task LoadChildrenInternal()
         {
             // Nothing to do
             return Task.Delay(0);
         }
 
-        public Task LoadChildren()
+        private void RefreshSynchronously()
         {
-            // Nothing to do
-            return Task.Delay(0);
-        }
-
-        public override string ToString()
-        {
-            return DisplayName;
+            MovieSet set = _metadataService.GetMovieSet(DisplayName);
+            SetName = DisplayNameInternal = set.Name;
+            Fanart.Path = set.BackdropPath;
+            Poster.Path = set.PosterPath;
+            Fanart.RefreshImage();
+            Poster.RefreshImage();
         }
 
         private async Task MoveImages()

@@ -7,24 +7,23 @@ using PerfectMedia.Serialization;
 using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Progress;
+using PropertyChanged;
 
 namespace PerfectMedia.UI
 {
-    public abstract class MediaViewModel : BaseViewModel, IMetadataProvider, ITreeViewItemViewModel
+    [ImplementPropertyChanged]
+    public abstract class MediaViewModel : TreeViewItemViewModel, IMetadataProvider
     {
-        public abstract string DisplayName { get; }
         protected abstract Task RefreshInternal();
         protected abstract Task<IEnumerable<ProgressItem>> UpdateInternal();
         protected abstract Task SaveInternal();
         protected abstract Task DeleteInternal();
-        protected abstract Task LoadChildrenInternal();
 
         private readonly IBusyProvider _busyProvider;
         private readonly IDialogViewer _dialogViewer;
-        private bool _childrenLoaded;
-        private bool _loaded;
 
         protected MediaViewModel(IBusyProvider busyProvider, IDialogViewer dialogViewer)
+            : base(busyProvider)
         {
             _busyProvider = busyProvider;
             _dialogViewer = dialogViewer;
@@ -32,7 +31,7 @@ namespace PerfectMedia.UI
 
         public async Task Refresh()
         {
-            _loaded = true;
+            LazyLoaded();
             using (_busyProvider.DoWork())
             {
                 await TryRefreshInternal();
@@ -63,27 +62,9 @@ namespace PerfectMedia.UI
             }
         }
 
-        public async Task Load()
+        protected override async Task LoadInternal()
         {
-            if (!_loaded)
-            {
-                using (_busyProvider.DoWork())
-                {
-                    await Refresh();
-                }
-            }
-        }
-
-        public async Task LoadChildren()
-        {
-            if (!_childrenLoaded)
-            {
-                using (_busyProvider.DoWork())
-                {
-                    _childrenLoaded = true;
-                    await LoadChildrenInternal();
-                }
-            }
+            await Refresh();
         }
 
         private async Task TryRefreshInternal()

@@ -189,6 +189,7 @@
     </Compile>
     <Compile Include="Music\MusicManagerViewModel.cs" />
     <Compile Include="Music\MusicViewModelFactory.cs" />
+    <Compile Include="TreeViewItemViewModel.cs" />
     <Compile Include="Validations\LocalizedRequiredAttribute.cs" />
     <Compile Include="Validations\PositiveAttribute.cs" />
     <Compile Include="Progress\IProgressIndicator.cs" />

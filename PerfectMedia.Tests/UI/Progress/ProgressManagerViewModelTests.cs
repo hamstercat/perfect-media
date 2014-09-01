@@ -58,7 +58,7 @@ namespace PerfectMedia.UI.Progress
         }
 
         [Fact]
-        public async Task AddItem_WhenNotCollecting_ClearOldItems()
+        public void AddItem_WhenNotCollecting_ClearOldItems()
         {
             // Arrange
             ProgressItem progressItem1 = CreateProgressItem();
@@ -77,7 +77,7 @@ namespace PerfectMedia.UI.Progress
         }
 
         [Fact]
-        public async Task AddItem_WhenNotCollecting_ShowProgressIndicator()
+        public void AddItem_WhenNotCollecting_ShowProgressIndicator()
         {
             // Arrange
             ProgressItem progressItem1 = CreateProgressItem();

@@ -10,6 +10,6 @@ namespace PerfectMedia.Music
     public interface IMusicMetadataUpdater
     {
         Task<IEnumerable<ArtistSummary>> FindArtists(string name);
-        Task<Artist> GetArtistMetadata(string artistId);
+        Task<ArtistSummary> GetArtistMetadata(string artistId);
     }
 }

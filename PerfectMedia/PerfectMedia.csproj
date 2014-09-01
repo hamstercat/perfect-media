@@ -65,7 +65,6 @@
     <Compile Include="ExternalApi\NullRateGate.cs" />
     <Compile Include="Music\Album.cs" />
     <Compile Include="Music\AlbumMetadata.cs" />
-    <Compile Include="Music\Artists\Artist.cs" />
     <Compile Include="Music\Artists\ArtistMetadata.cs" />
     <Compile Include="Music\Artists\ArtistNotFoundException.cs" />
     <Compile Include="Music\Artists\ArtistSummary.cs" />

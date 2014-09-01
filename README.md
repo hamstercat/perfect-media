@@ -13,6 +13,7 @@ It can retrieve information from the following sources automatically:
 - Existing local .nfo files and images
 - thetvdb.org
 - themoviedb.org
+- musicbrainz.org
 
 # Download
 

@@ -29,7 +29,7 @@ namespace PerfectMedia.Music.Artists
         public async Task Update(string path)
         {
             string artistId = await FindArtistId(path);
-            Artist metadata = await _metadataUpdater.GetArtistMetadata(artistId);
+            ArtistSummary metadata = await _metadataUpdater.GetArtistMetadata(artistId);
             ArtistMetadata artistMetadata = ConvertMetadata(metadata);
             await Save(path, artistMetadata);
         }
@@ -51,9 +51,13 @@ namespace PerfectMedia.Music.Artists
             await _metadataRepository.Delete(path);
         }
 
-        private ArtistMetadata ConvertMetadata(Artist artist)
+        private ArtistMetadata ConvertMetadata(ArtistSummary artist)
         {
-            throw new System.NotImplementedException();
+            return new ArtistMetadata
+            {
+                Mbid = artist.Id,
+                Name = artist.Name
+            };
         }
     }
 }

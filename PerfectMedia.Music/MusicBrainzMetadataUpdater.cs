@@ -22,7 +22,7 @@ namespace PerfectMedia.Music
                 Assembly assembly = Assembly.GetExecutingAssembly();
                 FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
                 string version = fileVersionInfo.FileVersion;
-                return string.Format("perfect-media/v{0} (https://github.com/hamstercat/perfect-media)", version);
+                return string.Format("perfect-media/{0} +https://github.com/hamstercat/perfect-media", version);
             }
         }
 
@@ -39,6 +39,14 @@ namespace PerfectMedia.Music
             string url = string.Format("/ws/2/artist?query={0}", HttpUtility.HtmlEncode(name));
             ArtistQueryMetadata metadata = await _restApiService.Get<ArtistQueryMetadata>(url);
             return metadata.ArtistList;
+        }
+
+        public async Task<ArtistSummary> GetArtistMetadata(string artistId)
+        {
+            string url = string.Format("/ws/2/artist/{0}?inc=tags", artistId);
+            ArtistSummary metadata = await _restApiService.Get<ArtistSummary>(url);
+            metadata.Id = artistId;
+            return metadata;
         }
     }
 }

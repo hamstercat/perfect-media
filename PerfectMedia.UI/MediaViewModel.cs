@@ -12,7 +12,8 @@ using PropertyChanged;
 namespace PerfectMedia.UI
 {
     [ImplementPropertyChanged]
-    public abstract class MediaViewModel : TreeViewItemViewModel, IMetadataProvider
+    public abstract class MediaViewModel<TChild> : TreeViewItemViewModel<TChild>, IMetadataProvider
+        where TChild : class
     {
         protected abstract Task RefreshInternal();
         protected abstract Task<IEnumerable<ProgressItem>> UpdateInternal();
@@ -23,7 +24,11 @@ namespace PerfectMedia.UI
         private readonly IDialogViewer _dialogViewer;
 
         protected MediaViewModel(IBusyProvider busyProvider, IDialogViewer dialogViewer)
-            : base(busyProvider)
+            : this(busyProvider, dialogViewer, null)
+        { }
+
+        protected MediaViewModel(IBusyProvider busyProvider, IDialogViewer dialogViewer, TChild dummyChild)
+            : base(busyProvider, dummyChild)
         {
             _busyProvider = busyProvider;
             _dialogViewer = dialogViewer;

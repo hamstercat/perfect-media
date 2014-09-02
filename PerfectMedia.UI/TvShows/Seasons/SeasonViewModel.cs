@@ -14,7 +14,7 @@ using PropertyChanged;
 namespace PerfectMedia.UI.TvShows.Seasons
 {
     [ImplementPropertyChanged]
-    public class SeasonViewModel : TreeViewItemViewModel, ISeasonViewModel
+    public class SeasonViewModel : TreeViewItemViewModel<IEpisodeViewModel>, ISeasonViewModel
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowFileService _tvShowFileService;
@@ -51,15 +51,13 @@ namespace PerfectMedia.UI.TvShows.Seasons
             }
         }
 
-        public ObservableCollection<IEpisodeViewModel> Episodes { get; private set; }
-
         public SeasonViewModel(ITvShowViewModelFactory viewModelFactory,
             ITvShowFileService tvShowFileService,
             ITvShowViewModel tvShowMetadata,
             ITvShowMetadataService metadataService,
             IBusyProvider busyProvider,
             string path)
-            : base(busyProvider)
+            : base(busyProvider, viewModelFactory.GetEpisode(tvShowMetadata, "dummy"))
         {
             _viewModelFactory = viewModelFactory;
             _tvShowFileService = tvShowFileService;
@@ -69,10 +67,6 @@ namespace PerfectMedia.UI.TvShows.Seasons
 
             _posterUrl = viewModelFactory.GetImage(true, new SeasonPosterImageStrategy(metadataService, tvShowMetadata.Path, path));
             _bannerUrl = viewModelFactory.GetImage(false, new SeasonBannerImageStrategy(metadataService, tvShowMetadata.Path, path));
-
-            // We need to set a "dummy" item in the collection for an arrow to appear in the TreeView since we're lazy-loading the items under it
-            _imagesLoaded = false;
-            Episodes = new ObservableCollection<IEpisodeViewModel> { _viewModelFactory.GetEpisode(_tvShowMetadata, "dummy") };
         }
 
         public async Task<IEnumerable<ProgressItem>> FindNewEpisodes()
@@ -81,7 +75,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
             {
                 await LoadChildren();
                 List<ProgressItem> items = new List<ProgressItem>();
-                foreach (IEpisodeViewModel episode in Episodes)
+                foreach (IEpisodeViewModel episode in Children)
                 {
                     items.AddRange(await episode.Update());
                 }
@@ -97,14 +91,11 @@ namespace PerfectMedia.UI.TvShows.Seasons
 
         protected override async Task LoadChildrenInternal()
         {
-            // Delete the dummy object
-            Episodes.Clear();
-
             IEnumerable<PerfectMedia.TvShows.Episode> episodes = await _tvShowFileService.GetEpisodes(_path);
             foreach (PerfectMedia.TvShows.Episode episode in episodes)
             {
                 IEpisodeViewModel episodeViewModel = _viewModelFactory.GetEpisode(_tvShowMetadata, episode.Path);
-                Episodes.Add(episodeViewModel);
+                Children.Add(episodeViewModel);
             }
         }
 

@@ -4,7 +4,7 @@ using PerfectMedia.UI.Movies.Selection;
 
 namespace PerfectMedia.UI.Movies
 {
-    public interface IMovieViewModel : IMovieItem, INotifyPropertyChanged
+    public interface IMovieViewModel : IMovieItem
     {
         string Path { get; }
         string Id { get; }

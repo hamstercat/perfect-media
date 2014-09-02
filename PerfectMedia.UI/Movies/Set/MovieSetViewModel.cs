@@ -15,7 +15,7 @@ using PropertyChanged;
 namespace PerfectMedia.UI.Movies.Set
 {
     [ImplementPropertyChanged]
-    public class MovieSetViewModel : MediaViewModel, IMovieSetViewModel
+    public class MovieSetViewModel : MediaViewModel<IMovieViewModel>, IMovieSetViewModel
     {
         private readonly IFileSystemService _fileSystemService;
         private readonly IMovieMetadataService _metadataService;
@@ -32,7 +32,6 @@ namespace PerfectMedia.UI.Movies.Set
         public string DisplayNameInternal { get; private set; }
         public IImageViewModel Fanart { get; private set; }
         public IImageViewModel Poster { get; private set; }
-        public ObservableCollection<IMovieViewModel> Children { get; private set; }
         public ICommand RefreshCommand { get; private set; }
         public ICommand UpdateCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
@@ -52,7 +51,7 @@ namespace PerfectMedia.UI.Movies.Set
             IBusyProvider busyProvider,
             IDialogViewer dialogViewer,
             string setName)
-            : base(busyProvider, dialogViewer)
+            : base(busyProvider, dialogViewer, null)
         {
             _fileSystemService = fileSystemService;
             _metadataService = metadataService;
@@ -60,7 +59,6 @@ namespace PerfectMedia.UI.Movies.Set
             SetName = DisplayNameInternal = setName;
             Fanart = viewModelFactory.GetImage(new SetFanartImageStrategy(metadataService, this));
             Poster = viewModelFactory.GetImage(new SetPosterImageStrategy(metadataService, this));
-            Children = new ObservableCollection<IMovieViewModel>();
 
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this, progressManager, busyProvider);

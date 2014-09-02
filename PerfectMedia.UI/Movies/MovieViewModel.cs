@@ -19,7 +19,7 @@ using PropertyChanged;
 namespace PerfectMedia.UI.Movies
 {
     [ImplementPropertyChanged]
-    public class MovieViewModel : MediaViewModel, IMovieViewModel
+    public class MovieViewModel : MediaViewModel<IMovieViewModel>, IMovieViewModel
     {
         private readonly IMovieMetadataService _metadataService;
         private readonly IMovieViewModelFactory _viewModelFactory;
@@ -72,7 +72,6 @@ namespace PerfectMedia.UI.Movies
         }
 
         public string Path { get; private set; }
-        public ObservableCollection<IMovieViewModel> Children { get; private set; }
         public IMovieSelectionViewModel Selection { get; private set; }
         public ICommand RefreshCommand { get; private set; }
         public ICommand UpdateCommand { get; private set; }
@@ -92,8 +91,6 @@ namespace PerfectMedia.UI.Movies
             _viewModelFactory = viewModelFactory;
             _fileSystemService = fileSystemService;
             _busyProvider = busyProvider;
-            // Only used by movie sets
-            Children = new ObservableCollection<IMovieViewModel>();
             Selection = viewModelFactory.GetSelection(this);
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this, progressManager, busyProvider);

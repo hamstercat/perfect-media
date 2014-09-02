@@ -33,7 +33,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
         public void Constructor_Always_CreatesDummyEpisodeForTreeView()
         {
             // Assert
-            Assert.NotEmpty(_viewModel.Episodes);
+            Assert.NotEmpty(_viewModel.Children);
         }
 
         [Fact]
@@ -53,7 +53,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
             await _viewModel.LoadChildren();
 
             // Assert
-            Assert.Equal(3, _viewModel.Episodes.Count);
+            Assert.Equal(3, _viewModel.Children.Count);
             _viewModelFactory.Received()
                 .GetEpisode(Arg.Any<ITvShowViewModel>(), Arg.Is(episodePaths.ElementAt(0).Path));
             _viewModelFactory.Received()
@@ -69,7 +69,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
             await _viewModel.LoadChildren();
 
             // Assert
-            Assert.Empty(_viewModel.Episodes);
+            Assert.Empty(_viewModel.Children);
         }
 
         [Fact]

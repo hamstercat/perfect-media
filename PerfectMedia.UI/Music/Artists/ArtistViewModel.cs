@@ -16,7 +16,7 @@ using PropertyChanged;
 namespace PerfectMedia.UI.Music.Artists
 {
     [ImplementPropertyChanged]
-    public class ArtistViewModel : MediaViewModel, IArtistViewModel
+    public class ArtistViewModel : MediaViewModel<IAlbumViewModel>, IArtistViewModel
     {
         private readonly IArtistMetadataService _metadataService;
         private readonly IBusyProvider _busyProvider;
@@ -26,7 +26,6 @@ namespace PerfectMedia.UI.Music.Artists
         public ICommand UpdateCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
-        public ObservableCollection<IAlbumViewModel> Albums { get; private set; }
 
         public override string DisplayName
         {
@@ -60,13 +59,13 @@ namespace PerfectMedia.UI.Music.Artists
             IBusyProvider busyProvider,
             IDialogViewer dialogViewer,
             string path)
-            : base(busyProvider, dialogViewer)
+            // TODO: add dummy album
+            : base(busyProvider, dialogViewer, null)
         {
             _metadataService = metadataService;
             _busyProvider = busyProvider;
             Name = viewModelFactory.GetStringCachedProperty(path, true);
             Path = path;
-            Albums = new ObservableCollection<IAlbumViewModel>();
 
             Genres = new DashDelimitedCollectionViewModel<string>(s => s);
             Moods = new DashDelimitedCollectionViewModel<string>(s => s);

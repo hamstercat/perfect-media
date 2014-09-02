@@ -36,10 +36,10 @@
             <TreeView x:Name="TvShowsTreeView" ItemsSource="{Binding Source={StaticResource SortedTvShows}}"
                       SelectedItemChanged="TvShowsSelectedItemChanged" TreeViewItem.Expanded="TvShowsExpanded">
                 <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding Seasons}">
+                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                         <TextBlock Text="{Binding DisplayName}" />
                         <HierarchicalDataTemplate.ItemTemplate>
-                            <HierarchicalDataTemplate ItemsSource="{Binding Episodes}">
+                            <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                                 <TextBlock Text="{Binding DisplayName}" />
                                 <HierarchicalDataTemplate.ItemTemplate>
                                     <DataTemplate>

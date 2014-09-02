@@ -19,7 +19,7 @@ using PropertyChanged;
 namespace PerfectMedia.UI.TvShows.Shows
 {
     [ImplementPropertyChanged]
-    public class TvShowViewModel : MediaViewModel, ITvShowViewModel
+    public class TvShowViewModel : MediaViewModel<ISeasonViewModel>, ITvShowViewModel
     {
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly ITvShowFileService _tvShowFileService;
@@ -68,7 +68,6 @@ namespace PerfectMedia.UI.TvShows.Shows
         public string Path { get; private set; }
         public ITvShowImagesViewModel Images { get; private set; }
         public ITvShowSelectionViewModel Selection { get; private set; }
-        public ObservableCollection<ISeasonViewModel> Seasons { get; private set; }
 
         public TvShowViewModel(ITvShowViewModelFactory viewModelFactory,
             ITvShowFileService tvShowFileService,
@@ -98,7 +97,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             Genres = new DashDelimitedCollectionViewModel<string>(s => s);
 
             // We need to set a "dummy" item in the collection for an arrow to appear in the TreeView since we're lazy-loading the items under it
-            Seasons = new ObservableCollection<ISeasonViewModel> { _viewModelFactory.GetSeason(this, "dummy") };
+            Children.Add(_viewModelFactory.GetSeason(this, "dummy"));
         }
 
         protected override async Task RefreshInternal()
@@ -133,14 +132,11 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         protected override async Task LoadChildrenInternal()
         {
-            // Delete the dummy object
-            Seasons.Clear();
-
             IEnumerable<Season> seasons = await _tvShowFileService.GetSeasons(Path);
             foreach (Season season in seasons)
             {
                 ISeasonViewModel seasonViewModel = _viewModelFactory.GetSeason(this, season.Path);
-                Seasons.Add(seasonViewModel);
+                Children.Add(seasonViewModel);
             }
         }
 
@@ -150,7 +146,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             {
                 await LoadChildren();
                 List<ProgressItem> items = new List<ProgressItem>();
-                foreach (ISeasonViewModel season in Seasons)
+                foreach (ISeasonViewModel season in Children)
                 {
                     items.AddRange(await season.FindNewEpisodes());
                 }

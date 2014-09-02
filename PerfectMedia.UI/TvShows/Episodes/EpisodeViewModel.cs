@@ -17,7 +17,7 @@ using PropertyChanged;
 namespace PerfectMedia.UI.TvShows.Episodes
 {
     [ImplementPropertyChanged]
-    public class EpisodeViewModel : MediaViewModel, IEpisodeViewModel
+    public class EpisodeViewModel : MediaViewModel<object>, IEpisodeViewModel
     {
         private readonly IEpisodeMetadataService _metadataService;
         private readonly ITvShowViewModel _tvShowMetadata;

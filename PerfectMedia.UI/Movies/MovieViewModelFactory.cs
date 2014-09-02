@@ -1,6 +1,7 @@
 ﻿using System;
 using PerfectMedia.Movies;
 using PerfectMedia.Sources;
+using PerfectMedia.UI.Actors;
 using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Images;
@@ -20,6 +21,7 @@ namespace PerfectMedia.UI.Movies
         private readonly IKeyDataStore _keyDataStore;
         private readonly IBusyProvider _busyProvider;
         private readonly IDialogViewer _dialogViewer;
+        private readonly IActorViewModelFactory _actorViewModelFactory;
 
         public MovieViewModelFactory(ISourceService sourceService,
             IMovieMetadataService metadataService,
@@ -27,7 +29,8 @@ namespace PerfectMedia.UI.Movies
             IProgressManagerViewModel progressManager,
             IKeyDataStore keyDataStore,
             IBusyProvider busyProvider,
-            IDialogViewer dialogViewer)
+            IDialogViewer dialogViewer,
+            IActorViewModelFactory actorViewModelFactory)
         {
             _sourceService = sourceService;
             _fileSystemService = fileSystemService;
@@ -36,6 +39,7 @@ namespace PerfectMedia.UI.Movies
             _keyDataStore = keyDataStore;
             _busyProvider = busyProvider;
             _dialogViewer = dialogViewer;
+            _actorViewModelFactory = actorViewModelFactory;
         }
 
         public ISourceManagerViewModel GetSourceManager()
@@ -71,6 +75,11 @@ namespace PerfectMedia.UI.Movies
         public ICachedPropertyViewModel<string> GetStringCachedProperty(string key, bool isRequired)
         {
             return new StringCachedPropertyViewModel(_keyDataStore, key, isRequired);
+        }
+
+        public IActorManagerViewModel GetActorManager()
+        {
+            return new ActorManagerViewModel(_actorViewModelFactory);
         }
     }
 }

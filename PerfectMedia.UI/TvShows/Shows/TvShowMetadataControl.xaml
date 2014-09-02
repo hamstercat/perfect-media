@@ -4,15 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:shows="clr-namespace:PerfectMedia.UI.TvShows.Shows"
-             xmlns:views="clr-namespace:PerfectMedia.UI"
+             xmlns:actors="clr-namespace:PerfectMedia.UI.Actors"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="500">
+             d:DesignHeight="300" d:DesignWidth="500"
+             d:DataContext="{d:DesignInstance Type=shows:TvShowViewModel}">
     <TabControl>
         <TabItem Header="Information">
             <shows:TvGeneralInformation  />
         </TabItem>
         <TabItem Header="Actors">
-            <views:Actors DataContext="{Binding Actors}" />
+            <actors:ActorsControl DataContext="{Binding ActorManager}" />
         </TabItem>
         <TabItem Header="Images">
             <shows:TvShowFanart DataContext="{Binding Images}" />

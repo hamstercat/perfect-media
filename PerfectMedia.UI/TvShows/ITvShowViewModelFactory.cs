@@ -1,5 +1,6 @@
 ﻿using System;
 using PerfectMedia.Sources;
+using PerfectMedia.UI.Actors;
 using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Sources;
@@ -22,5 +23,6 @@ namespace PerfectMedia.UI.TvShows
         ITvShowSelectionViewModel GetTvShowSelection(ITvShowViewModel tvShow, string path);
         ICachedPropertyViewModel<string> GetStringCachedProperty(string key, bool isRequired);
         ICachedPropertyViewModel<int?> GetIntCachedProperty(string key, bool isRequired);
+        IActorManagerViewModel GetActorManager();
     }
 }

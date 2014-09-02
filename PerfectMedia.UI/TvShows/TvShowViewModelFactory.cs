@@ -2,6 +2,7 @@
 using PerfectMedia.Sources;
 using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Actors;
 using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Images;
@@ -25,6 +26,7 @@ namespace PerfectMedia.UI.TvShows
         private readonly IKeyDataStore _keyDataStore;
         private readonly IBusyProvider _busyProvider;
         private readonly IDialogViewer _dialogViewer;
+        private readonly IActorViewModelFactory _actorViewModelFactory;
 
         public TvShowViewModelFactory(ISourceService sourceService,
             IFileSystemService fileSystemService,
@@ -34,7 +36,8 @@ namespace PerfectMedia.UI.TvShows
             IProgressManagerViewModel progressManagerViewModel,
             IKeyDataStore keyDataStore,
             IBusyProvider busyProvider,
-            IDialogViewer dialogViewer)
+            IDialogViewer dialogViewer,
+            IActorViewModelFactory actorViewModelFactory)
         {
             _sourceService = sourceService;
             _fileSystemService = fileSystemService;
@@ -45,6 +48,7 @@ namespace PerfectMedia.UI.TvShows
             _keyDataStore = keyDataStore;
             _busyProvider = busyProvider;
             _dialogViewer = dialogViewer;
+            _actorViewModelFactory = actorViewModelFactory;
         }
 
         public ISourceManagerViewModel GetSourceManager(SourceType sourceType)
@@ -95,6 +99,11 @@ namespace PerfectMedia.UI.TvShows
         public ICachedPropertyViewModel<int?> GetIntCachedProperty(string key, bool isRequired)
         {
             return new IntCachedPropertyViewModel(_keyDataStore, key, isRequired);
+        }
+
+        public IActorManagerViewModel GetActorManager()
+        {
+            return new ActorManagerViewModel(_actorViewModelFactory);
         }
     }
 }

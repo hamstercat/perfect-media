@@ -3,10 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:views="clr-namespace:PerfectMedia.UI"
              xmlns:movies="clr-namespace:PerfectMedia.UI.Movies"
+             xmlns:actors="clr-namespace:PerfectMedia.UI.Actors"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance Type=movies:MovieViewModel}">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid>
             <TabControl>
@@ -14,7 +15,7 @@
                     <movies:GeneralInformation />
                 </TabItem>
                 <TabItem Header="Actors">
-                    <views:Actors DataContext="{Binding Actors}" />
+                    <actors:ActorsControl DataContext="{Binding ActorManager}" />
                 </TabItem>
                 <TabItem Header="Images">
                     <movies:Fanart />

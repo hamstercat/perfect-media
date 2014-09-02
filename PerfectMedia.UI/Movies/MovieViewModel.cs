@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using PerfectMedia.FileInformation;
 using PerfectMedia.Movies;
+using PerfectMedia.UI.Actors;
 using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Images;
@@ -57,7 +57,7 @@ namespace PerfectMedia.UI.Movies
         public string Country { get; set; }
         public VideoFileInformation FileInformation { get; set; }
         public string Studio { get; set; }
-        public ObservableCollection<ActorViewModel> Actors { get; set; }
+        public IActorManagerViewModel ActorManager { get; private set; }
 
         public override string DisplayName
         {
@@ -107,7 +107,7 @@ namespace PerfectMedia.UI.Movies
             Credits = new DashDelimitedCollectionViewModel<string>(s => s);
             Directors = new DashDelimitedCollectionViewModel<string>(s => s);
             Genres = new DashDelimitedCollectionViewModel<string>(s => s);
-            Actors = new ObservableCollection<ActorViewModel>();
+            ActorManager = viewModelFactory.GetActorManager();
         }
 
         public IEnumerable<IMovieViewModel> FindMovie(string path)
@@ -193,7 +193,7 @@ namespace PerfectMedia.UI.Movies
 
         private void AddActors(IEnumerable<ActorMetadata> actors)
         {
-            Actors.Clear();
+            ActorManager.Actors.Clear();
             foreach (ActorMetadata actor in actors)
             {
                 ActorViewModel actorViewModel = new ActorViewModel(_viewModelFactory.GetImage());
@@ -201,7 +201,7 @@ namespace PerfectMedia.UI.Movies
                 actorViewModel.Role = actor.Role;
                 actorViewModel.ThumbUrl = actor.Thumb;
                 actorViewModel.ThumbPath.Path = actor.ThumbPath;
-                Actors.Add(actorViewModel);
+                ActorManager.Actors.Add(actorViewModel);
             }
         }
 
@@ -231,7 +231,7 @@ namespace PerfectMedia.UI.Movies
             };
 
             metadata.Actors = new List<ActorMetadata>();
-            foreach (ActorViewModel actorViewModel in Actors)
+            foreach (ActorViewModel actorViewModel in ActorManager.Actors)
             {
                 ActorMetadata actor = new ActorMetadata
                 {

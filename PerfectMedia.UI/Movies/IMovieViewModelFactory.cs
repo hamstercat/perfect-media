@@ -1,4 +1,5 @@
 ﻿using System;
+using PerfectMedia.UI.Actors;
 using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Movies.Selection;
@@ -16,5 +17,6 @@ namespace PerfectMedia.UI.Movies
         IMovieSelectionViewModel GetSelection(IMovieViewModel movieViewModel);
         IMovieSetViewModel GetMovieSet(string setName);
         ICachedPropertyViewModel<string> GetStringCachedProperty(string key, bool isRequired);
+        IActorManagerViewModel GetActorManager();
     }
 }

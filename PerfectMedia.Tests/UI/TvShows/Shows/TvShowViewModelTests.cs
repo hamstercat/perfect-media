@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using NSubstitute;
 using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Actors;
 using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Images;
@@ -35,6 +37,11 @@ namespace PerfectMedia.UI.TvShows.Shows
             _viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
             _viewModelFactory.GetStringCachedProperty(_path, Arg.Any<bool>())
                 .Returns(cachedProperty);
+            IActorManagerViewModel actorManager = Substitute.For<IActorManagerViewModel>();
+            actorManager.Actors
+                .Returns(new ObservableCollection<IActorViewModel>());
+            _viewModelFactory.GetActorManager()
+                .Returns(actorManager);
 
             _viewModel = new TvShowViewModel(_viewModelFactory, _tvShowFileService, _metadataService, _busyProvider, null, null, _path);
         }
@@ -187,8 +194,8 @@ namespace PerfectMedia.UI.TvShows.Shows
             _metadataService.Get(Arg.Any<string>())
                 .Returns(new TvShowMetadata().ToTask());
 
-            _viewModel.Actors.Add(CreateActorViewModel(1));
-            _viewModel.Actors.Add(CreateActorViewModel(2));
+            _viewModel.ActorManager.Actors.Add(CreateActorViewModel(1));
+            _viewModel.ActorManager.Actors.Add(CreateActorViewModel(2));
             _viewModel.Genres.Collection.Add("Animation");
             _viewModel.Genres.Collection.Add("Action");
             _viewModel.Id = "Good ID";
@@ -247,12 +254,7 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         private bool AssertMetadataEqualsViewModel(TvShowMetadata metadata)
         {
-            Assert.Equal(2, _viewModel.Actors.Count);
-            ActorViewModel actorViewModel = _viewModel.Actors[0];
-            Assert.Equal("ActorName1", actorViewModel.Name);
-            Assert.Equal("ActorRole1", actorViewModel.Role);
-            Assert.Equal("ActorThumb1", actorViewModel.ThumbUrl);
-
+            Assert.Equal(2, _viewModel.ActorManager.Actors.Count);
             Assert.Equal(metadata.Genres, _viewModel.Genres.Collection);
             Assert.Equal(metadata.Id, _viewModel.Id);
             Assert.Equal(metadata.ImdbId, _viewModel.ImdbId);
@@ -265,7 +267,6 @@ namespace PerfectMedia.UI.TvShows.Shows
             Assert.Equal(metadata.State, _viewModel.State);
             Assert.Equal(metadata.Studio, _viewModel.Studio);
             Assert.Equal(metadata.Title, _viewModel.Title.Value);
-
             return true;
         }
     }

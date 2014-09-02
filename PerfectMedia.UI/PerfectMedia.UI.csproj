@@ -88,6 +88,13 @@
     <Compile Include="..\ProjectAssemblyInfo.cs">
       <Link>Properties\ProjectAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Actors\ActorManagerViewModel.cs" />
+    <Compile Include="Actors\ActorViewModelFactory.cs" />
+    <Compile Include="Actors\AddCommand.cs" />
+    <Compile Include="Actors\IActorManagerViewModel.cs" />
+    <Compile Include="Actors\IActorViewModel.cs" />
+    <Compile Include="Actors\IActorViewModelFactory.cs" />
+    <Compile Include="Actors\RemoveCommand.cs" />
     <Compile Include="AsyncCommand.cs" />
     <Compile Include="AsyncHelper.cs" />
     <Compile Include="BindableSelectedItemBehavior.cs" />
@@ -216,7 +223,7 @@
     <Compile Include="DashDelimitedCollectionViewModel.cs" />
     <Compile Include="Metadata\IMetadataProvider.cs" />
     <Compile Include="Sources\ISourceManagerViewModel.cs" />
-    <Compile Include="ActorViewModel.cs" />
+    <Compile Include="Actors\ActorViewModel.cs" />
     <Compile Include="TvShows\Episodes\EpisodeViewModel.cs" />
     <Compile Include="Sources\ISourceProvider.cs" />
     <Compile Include="ITreeViewItemViewModel.cs" />
@@ -249,8 +256,8 @@
     <Compile Include="Sources\SourcesWindow.xaml.cs">
       <DependentUpon>SourcesWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Actors.xaml.cs">
-      <DependentUpon>Actors.xaml</DependentUpon>
+    <Compile Include="Actors\ActorsControl.xaml.cs">
+      <DependentUpon>ActorsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="TvShows\Episodes\EpisodeMetadataControl.xaml.cs">
       <DependentUpon>EpisodeMetadataControl.xaml</DependentUpon>
@@ -351,7 +358,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Actors.xaml">
+    <Page Include="Actors\ActorsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

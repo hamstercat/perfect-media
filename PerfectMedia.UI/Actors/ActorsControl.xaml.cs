@@ -1,13 +1,11 @@
-﻿using System.Windows.Controls;
-
-namespace PerfectMedia.UI
+﻿namespace PerfectMedia.UI.Actors
 {
     /// <summary>
     /// Interaction logic for Actors.xaml
     /// </summary>
-    public partial class Actors : UserControl
+    public partial class ActorsControl
     {
-        public Actors()
+        public ActorsControl()
         {
             InitializeComponent();
         }

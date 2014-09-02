@@ -34,10 +34,13 @@ namespace PerfectMedia.UI.Images
 
         private async void HyperlinkClick(object sender, RoutedEventArgs e)
         {
-            IImageViewModel images = await FindAvailableImages();
-            ContentControl control = FindParentMainContentControl(this);
-            images.OriginalContent = BindingOperations.GetBinding(control, ContentProperty);
-            control.Content = images;
+            await AsyncHelper.ExecuteEventHandlerTask(this, async () =>
+            {
+                IImageViewModel images = await FindAvailableImages();
+                ContentControl control = FindParentMainContentControl(this);
+                images.OriginalContent = BindingOperations.GetBinding(control, ContentProperty);
+                control.Content = images;
+            });
         }
 
         private ContentControl FindParentMainContentControl(FrameworkElement frameworkElement)

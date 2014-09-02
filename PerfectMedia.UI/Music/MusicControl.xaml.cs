@@ -34,15 +34,21 @@ namespace PerfectMedia.UI.Music
 
         private async void MusicSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            ITreeViewItemViewModel newItem = (ITreeViewItemViewModel)e.NewValue;
-            await newItem.Load();
+            await AsyncHelper.ExecuteEventHandlerTask(this, async () =>
+            {
+                ITreeViewItemViewModel newItem = (ITreeViewItemViewModel) e.NewValue;
+                await newItem.Load();
+            });
         }
 
         private async void MusicExpanded(object sender, RoutedEventArgs e)
         {
-            TreeViewItem treeViewItem = (TreeViewItem)e.OriginalSource;
-            ITreeViewItemViewModel treeViewItemViewModel = (ITreeViewItemViewModel)treeViewItem.DataContext;
-            await treeViewItemViewModel.LoadChildren();
+            await AsyncHelper.ExecuteEventHandlerTask(this, async () =>
+            {
+                TreeViewItem treeViewItem = (TreeViewItem) e.OriginalSource;
+                ITreeViewItemViewModel treeViewItemViewModel = (ITreeViewItemViewModel) treeViewItem.DataContext;
+                await treeViewItemViewModel.LoadChildren();
+            });
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Images;
@@ -18,8 +19,12 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         public async Task<IEnumerable<Image>> FindImages()
         {
-            AvailableTvShowImages images = await _metadataService.FindImages(_metadataViewModel.Id);
-            return images.Fanarts;
+            if (!string.IsNullOrEmpty(_metadataViewModel.Id))
+            {
+                AvailableTvShowImages images = await _metadataService.FindImages(_metadataViewModel.Id);
+                return images.Fanarts;
+            }
+            return Enumerable.Empty<Image>();
         }
     }
 }

@@ -7,7 +7,7 @@
              xmlns:shows="clr-namespace:PerfectMedia.UI.TvShows.Shows"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance Type=shows:TvShowMetadataViewModel}">
+             d:DataContext="{d:DesignInstance Type=shows:TvShowViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="700" />

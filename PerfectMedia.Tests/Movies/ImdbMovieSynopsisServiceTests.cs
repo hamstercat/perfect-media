@@ -4022,7 +4022,7 @@ c15:""""
         }
 
         [Fact]
-        public async void GetSynopsis_WhenMovieIsFound_ReturnsPlot()
+        public async Task GetSynopsis_WhenMovieIsFound_ReturnsPlot()
         {
             // Arrange
             _restApiService.Get("title/tt0446029/")

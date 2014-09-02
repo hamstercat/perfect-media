@@ -43,22 +43,25 @@ namespace PerfectMedia.UI.Movies
 
         private async void SourceFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            switch (e.Action)
+            await AsyncHelper.ExecuteEventHandlerTask(this, async () =>
             {
-                case NotifyCollectionChangedAction.Add:
-                    await AddMovies(e.NewItems.Cast<string>());
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    RemoveMovies(e.OldItems.Cast<string>());
-                    break;
-                case NotifyCollectionChangedAction.Replace:
-                    RemoveMovies(e.OldItems.Cast<string>());
-                    await AddMovies(e.NewItems.Cast<string>());
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    Movies.Clear();
-                    break;
-            }
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        await AddMovies(e.NewItems.Cast<string>());
+                        break;
+                    case NotifyCollectionChangedAction.Remove:
+                        RemoveMovies(e.OldItems.Cast<string>());
+                        break;
+                    case NotifyCollectionChangedAction.Replace:
+                        RemoveMovies(e.OldItems.Cast<string>());
+                        await AddMovies(e.NewItems.Cast<string>());
+                        break;
+                    case NotifyCollectionChangedAction.Reset:
+                        Movies.Clear();
+                        break;
+                }
+            });
         }
 
         private async Task AddMovies(IEnumerable<string> movies)

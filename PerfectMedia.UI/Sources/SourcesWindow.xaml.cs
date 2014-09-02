@@ -39,7 +39,7 @@ namespace PerfectMedia.UI.Sources
 
         private async void RefreshSpecificFolders(object sender, RoutedEventArgs e)
         {
-            await Sources.RefreshSpecificFolders();
+            await AsyncHelper.ExecuteEventHandlerTask(this, Sources.RefreshSpecificFolders);
         }
 
         private void AddSpecificFolder(object sender, RoutedEventArgs e)

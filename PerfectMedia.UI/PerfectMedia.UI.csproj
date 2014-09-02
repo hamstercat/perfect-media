@@ -89,6 +89,7 @@
       <Link>Properties\ProjectAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AsyncCommand.cs" />
+    <Compile Include="AsyncHelper.cs" />
     <Compile Include="BindableSelectedItemBehavior.cs" />
     <Compile Include="Busy\BusyIndicator.xaml.cs">
       <DependentUpon>BusyIndicator.xaml</DependentUpon>

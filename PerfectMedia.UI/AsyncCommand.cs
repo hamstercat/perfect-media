@@ -36,14 +36,7 @@ namespace PerfectMedia.UI
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
         public async void Execute(object parameter)
         {
-            try
-            {
-                await ExecuteAsync(parameter);
-            }
-            catch (Exception ex)
-            {
-                LogTo.ErrorException("Unhandled exception in async command " + GetType().FullName, ex);
-            }
+            await AsyncHelper.ExecuteEventHandlerTask(this, () => ExecuteAsync(parameter));
         }
     }
 }

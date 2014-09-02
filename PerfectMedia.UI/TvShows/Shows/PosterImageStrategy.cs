@@ -19,10 +19,14 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         public async Task<IEnumerable<Image>> FindImages()
         {
-            AvailableTvShowImages images = await _metadataService.FindImages(_metadataViewModel.Id);
-            IEnumerable<Image> allSeasonsImages = images.Seasons.SelectMany(s => s.Value.Posters);
-            return images.Posters
-                .Union(allSeasonsImages);
+            if (!string.IsNullOrEmpty(_metadataViewModel.Id))
+            {
+                AvailableTvShowImages images = await _metadataService.FindImages(_metadataViewModel.Id);
+                IEnumerable<Image> allSeasonsImages = images.Seasons.SelectMany(s => s.Value.Posters);
+                return images.Posters
+                    .Union(allSeasonsImages);
+            }
+            return Enumerable.Empty<Image>();
         }
     }
 }

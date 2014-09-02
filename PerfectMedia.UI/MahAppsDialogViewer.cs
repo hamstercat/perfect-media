@@ -9,6 +9,11 @@ namespace PerfectMedia.UI
     {
         public async Task ShowMessage(string title, string message)
         {
+            await ShowMessageStatic(title, message);
+        }
+
+        public static async Task ShowMessageStatic(string title, string message)
+        {
             var metroWindow = Application.Current.MainWindow as MetroWindow;
             await metroWindow.ShowMessageAsync(title, message);
         }

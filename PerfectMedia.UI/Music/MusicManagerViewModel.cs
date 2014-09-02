@@ -52,7 +52,7 @@ namespace PerfectMedia.UI.Music
         {
             foreach (string path in artists)
             {
-                IArtistViewModel newArtist = _viewModelFactory.GetArtistViewModel(path);
+                IArtistViewModel newArtist = _viewModelFactory.GetArtist(path);
                 Artists.Add(newArtist);
             }
         }

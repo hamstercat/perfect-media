@@ -22,5 +22,6 @@ namespace PerfectMedia
         Task<IEnumerable<string>> FindDirectories(string path);
         Task<IEnumerable<string>> FindDirectories(string path, string searchPattern);
         Task<IEnumerable<string>> FindVideoFiles(string path);
+        Task<IEnumerable<string>> FindAudioFiles(string path);
     }
 }

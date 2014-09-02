@@ -1,5 +1,7 @@
 ﻿using PerfectMedia.UI.Cache;
+using PerfectMedia.UI.Music.Albums;
 using PerfectMedia.UI.Music.Artists;
+using PerfectMedia.UI.Music.Tracks;
 using PerfectMedia.UI.Sources;
 
 namespace PerfectMedia.UI.Music
@@ -7,7 +9,9 @@ namespace PerfectMedia.UI.Music
     public interface IMusicViewModelFactory
     {
         ISourceManagerViewModel GetSourceManager();
-        IArtistViewModel GetArtistViewModel(string path);
+        IArtistViewModel GetArtist(string path);
         ICachedPropertyViewModel<string> GetStringCachedProperty(string key, bool isRequired);
+        IAlbumViewModel GetAlbum(string path);
+        ITrackViewModel GetTrack(string path);
     }
 }

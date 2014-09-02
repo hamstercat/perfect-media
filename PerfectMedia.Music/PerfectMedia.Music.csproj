@@ -44,6 +44,7 @@
     <Compile Include="Artists\ArtistMetadataService.cs" />
     <Compile Include="MusicBrainzMetadataUpdater.cs" />
     <Compile Include="Artists\ArtistQueryMetadata.cs" />
+    <Compile Include="MusicFileService.cs" />
     <Compile Include="MusicHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

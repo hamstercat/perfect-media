@@ -10,6 +10,7 @@ namespace PerfectMedia
     public class FileSystemService : IFileSystemService
     {
         private static readonly string[] VideoFileExtensions = ConfigurationManager.AppSettings["VideoFileExtensions"].Split(',');
+        private static readonly string[] AudioFileExtensionx = ConfigurationManager.AppSettings["AudioFileExtensions"].Split(',');
 
         public Task<bool> FileExists(string filePath)
         {
@@ -111,6 +112,11 @@ namespace PerfectMedia
         public async Task<IEnumerable<string>> FindVideoFiles(string path)
         {
             return await FindFiles(path, VideoFileExtensions);
+        }
+
+        public async Task<IEnumerable<string>> FindAudioFiles(string path)
+        {
+            return await FindFiles(path, AudioFileExtensionx);
         }
 
         private static async Task<IEnumerable<string>> FindFiles(string path, params string[] extensions)

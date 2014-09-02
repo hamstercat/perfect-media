@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using PerfectMedia.Music;
 using PerfectMedia.Music.Artists;
 using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Cache;
@@ -19,6 +20,8 @@ namespace PerfectMedia.UI.Music.Artists
     public class ArtistViewModel : MediaViewModel<IAlbumViewModel>, IArtistViewModel
     {
         private readonly IArtistMetadataService _metadataService;
+        private readonly IMusicViewModelFactory _viewModelFactory;
+        private readonly IMusicFileService _musicFileService;
         private readonly IBusyProvider _busyProvider;
 
         public string Path { get; private set; }
@@ -55,14 +58,16 @@ namespace PerfectMedia.UI.Music.Artists
 
         public ArtistViewModel(IArtistMetadataService metadataService,
             IMusicViewModelFactory viewModelFactory,
+            IMusicFileService musicFileService,
             IProgressManagerViewModel progressManager,
             IBusyProvider busyProvider,
             IDialogViewer dialogViewer,
             string path)
-            // TODO: add dummy album
-            : base(busyProvider, dialogViewer, null)
+            : base(busyProvider, dialogViewer, viewModelFactory.GetAlbum("dummy"))
         {
             _metadataService = metadataService;
+            _viewModelFactory = viewModelFactory;
+            _musicFileService = musicFileService;
             _busyProvider = busyProvider;
             Name = viewModelFactory.GetStringCachedProperty(path, true);
             Path = path;
@@ -108,10 +113,14 @@ namespace PerfectMedia.UI.Music.Artists
             await Refresh();
         }
 
-        protected override Task LoadChildrenInternal()
+        protected override async Task LoadChildrenInternal()
         {
-            // TODO: load albums
-            return Task.Delay(0);
+            IEnumerable<AlbumFile> albums = await _musicFileService.GetAlbums(Path);
+            foreach (AlbumFile album in albums)
+            {
+                IAlbumViewModel albumViewModel = _viewModelFactory.GetAlbum(album.Path);
+                Children.Add(albumViewModel);
+            }
         }
 
         private void RefreshFromMetadata(ArtistMetadata metadata)

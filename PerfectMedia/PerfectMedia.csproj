@@ -65,6 +65,7 @@
     <Compile Include="ExternalApi\NullRateGate.cs" />
     <Compile Include="IDialogViewer.cs" />
     <Compile Include="Music\Album.cs" />
+    <Compile Include="Music\AlbumFile.cs" />
     <Compile Include="Music\AlbumMetadata.cs" />
     <Compile Include="Music\Artists\ArtistMetadata.cs" />
     <Compile Include="Music\Artists\ArtistNotFoundException.cs" />
@@ -72,10 +73,12 @@
     <Compile Include="Music\Artists\IArtistMetadataRepository.cs" />
     <Compile Include="Music\Artists\IArtistMetadataService.cs" />
     <Compile Include="Music\Artists\Tag.cs" />
+    <Compile Include="Music\IMusicFileService.cs" />
     <Compile Include="Music\IMusicMetadataUpdater.cs" />
     <Compile Include="Music\Artists\LifeSpan.cs" />
     <Compile Include="Music\Track.cs" />
     <Compile Include="ExternalApi\RateGate.cs" />
+    <Compile Include="Music\TrackFile.cs" />
     <Compile Include="Serialization\FileBackedRepository.cs" />
     <Compile Include="FileInformation\IFileInformationService.cs" />
     <Compile Include="FileInformation\Subtitle.cs" />

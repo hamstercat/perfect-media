@@ -145,6 +145,7 @@
     <Compile Include="Images\SelectableImage.xaml.cs">
       <DependentUpon>SelectableImage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ListBoxExtenders.cs" />
     <Compile Include="MahAppsDialogViewer.cs" />
     <Compile Include="MainContentHelper.cs" />
     <Compile Include="MediaViewModel.cs" />

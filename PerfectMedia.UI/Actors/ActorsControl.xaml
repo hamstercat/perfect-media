@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:img="clr-namespace:PerfectMedia.UI.Images"
              xmlns:actors="clr-namespace:PerfectMedia.UI.Actors"
+             xmlns:ui="clr-namespace:PerfectMedia.UI"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance Type=actors:ActorManagerViewModel}">
@@ -31,7 +32,8 @@
             <Button Content="Add" Command="{Binding AddCommand}" />
             <Button Content="Delete" Command="{Binding RemoveCommand}" />
         </StackPanel>
-        <ListView Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Actors}" SelectedItem="{Binding SelectedActor}" x:Name="ActorsList">
+        <ListView Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Actors}" SelectedItem="{Binding SelectedActor}" IsSynchronizedWithCurrentItem="True"
+                  ui:SelectorExtenders.IsAutoscroll="True" x:Name="ActorsList">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name">

@@ -201,6 +201,7 @@
     <Compile Include="Music\Tracks\ITrackViewModel.cs" />
     <Compile Include="Music\Tracks\TrackViewModel.cs" />
     <Compile Include="TreeViewItemViewModel.cs" />
+    <Compile Include="Validations\ActorsValidAttribute.cs" />
     <Compile Include="Validations\LocalizedRequiredAttribute.cs" />
     <Compile Include="Validations\PositiveAttribute.cs" />
     <Compile Include="Progress\IProgressIndicator.cs" />

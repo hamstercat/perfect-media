@@ -1,6 +1,10 @@
-﻿namespace PerfectMedia.UI.Actors
+﻿using System.ComponentModel;
+
+namespace PerfectMedia.UI.Actors
 {
-    public interface IActorViewModel
+    public interface IActorViewModel : INotifyPropertyChanged
     {
+        string Name { get; }
+        string Role { get; }
     }
 }

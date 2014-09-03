@@ -23,6 +23,6 @@ namespace PerfectMedia.UI.TvShows
         ITvShowSelectionViewModel GetTvShowSelection(ITvShowViewModel tvShow, string path);
         ICachedPropertyViewModel<string> GetStringCachedProperty(string key, bool isRequired);
         ICachedPropertyViewModel<int?> GetIntCachedProperty(string key, bool isRequired);
-        IActorManagerViewModel GetActorManager();
+        IActorManagerViewModel GetActorManager(Action onPropertyChanged);
     }
 }

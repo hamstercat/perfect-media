@@ -77,9 +77,9 @@ namespace PerfectMedia.UI.Movies
             return new StringCachedPropertyViewModel(_keyDataStore, key, isRequired);
         }
 
-        public IActorManagerViewModel GetActorManager()
+        public IActorManagerViewModel GetActorManager(Action onPropertyChanged)
         {
-            return new ActorManagerViewModel(_actorViewModelFactory);
+            return new ActorManagerViewModel(_actorViewModelFactory, onPropertyChanged);
         }
     }
 }

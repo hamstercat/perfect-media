@@ -101,9 +101,9 @@ namespace PerfectMedia.UI.TvShows
             return new IntCachedPropertyViewModel(_keyDataStore, key, isRequired);
         }
 
-        public IActorManagerViewModel GetActorManager()
+        public IActorManagerViewModel GetActorManager(Action onPropertyChanged)
         {
-            return new ActorManagerViewModel(_actorViewModelFactory);
+            return new ActorManagerViewModel(_actorViewModelFactory, onPropertyChanged);
         }
     }
 }

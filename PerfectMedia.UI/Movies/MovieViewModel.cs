@@ -41,6 +41,9 @@ namespace PerfectMedia.UI.Movies
         [Positive]
         public int? PlayCount { get; set; }
 
+        [ActorsValid]
+        public IActorManagerViewModel ActorManager { get; private set; }
+
         public ICachedPropertyViewModel<string> SetName { get; private set; }
         public IImageViewModel Poster { get; private set; }
         public IImageViewModel Fanart { get; private set; }
@@ -57,7 +60,6 @@ namespace PerfectMedia.UI.Movies
         public string Country { get; set; }
         public VideoFileInformation FileInformation { get; set; }
         public string Studio { get; set; }
-        public IActorManagerViewModel ActorManager { get; private set; }
 
         public override string DisplayName
         {
@@ -107,7 +109,7 @@ namespace PerfectMedia.UI.Movies
             Credits = new DashDelimitedCollectionViewModel<string>(s => s);
             Directors = new DashDelimitedCollectionViewModel<string>(s => s);
             Genres = new DashDelimitedCollectionViewModel<string>(s => s);
-            ActorManager = viewModelFactory.GetActorManager();
+            ActorManager = viewModelFactory.GetActorManager(() => OnPropertyChanged("ActorManager"));
         }
 
         public IEnumerable<IMovieViewModel> FindMovie(string path)

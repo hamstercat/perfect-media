@@ -40,7 +40,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             IActorManagerViewModel actorManager = Substitute.For<IActorManagerViewModel>();
             actorManager.Actors
                 .Returns(new ObservableCollection<IActorViewModel>());
-            _viewModelFactory.GetActorManager()
+            _viewModelFactory.GetActorManager(Arg.Any<Action>())
                 .Returns(actorManager);
 
             _viewModel = new TvShowViewModel(_viewModelFactory, _tvShowFileService, _metadataService, _busyProvider, null, null, _path);

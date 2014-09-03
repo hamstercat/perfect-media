@@ -50,7 +50,9 @@ namespace PerfectMedia.UI.TvShows.Shows
         [Positive]
         public int? RuntimeInMinutes { get; set; }
 
+        [ActorsValid]
         public IActorManagerViewModel ActorManager { get; private set; }
+
         public int State { get; set; }
         public string MpaaRating { get; set; }
         public DashDelimitedCollectionViewModel<string> Genres { get; set; }
@@ -93,7 +95,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             DeleteCommand = new DeleteMetadataCommand(this);
 
             Images = viewModelFactory.GetTvShowImages(this, path);
-            ActorManager = viewModelFactory.GetActorManager();
+            ActorManager = viewModelFactory.GetActorManager(() => OnPropertyChanged("ActorManager"));
             Genres = new DashDelimitedCollectionViewModel<string>(s => s);
 
             // We need to set a "dummy" item in the collection for an arrow to appear in the TreeView since we're lazy-loading the items under it

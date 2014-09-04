@@ -19,6 +19,7 @@
             <conv:NotZeroConverter x:Key="NotZeroConverter" />
             <conv:VisibleIfTrueConverter x:Key="VisibleIfTrueConverter" />
             <conv:VisibleIfFalseConverter x:Key="VisibleIfFalseConverter" />
+            <conv:RequiredLabelConverter x:Key="RequiredLabelConverter" />
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />

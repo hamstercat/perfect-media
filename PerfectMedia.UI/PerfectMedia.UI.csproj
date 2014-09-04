@@ -121,6 +121,7 @@
     <Compile Include="Converters\NotZeroConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
     <Compile Include="Converters\PathFolderNameConverter.cs" />
+    <Compile Include="Converters\RequiredLabelConverter.cs" />
     <Compile Include="Converters\SeasonNumberToNameConverter.cs" />
     <Compile Include="Converters\ShowIfNotEmptyConverter.cs" />
     <Compile Include="Converters\SpecialsSeasonVisibilityConverter.cs" />
@@ -215,6 +216,11 @@
       <DependentUpon>MusicControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Music\MusicManagerViewModel.cs" />
+    <Compile Include="Music\MusicResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MusicResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Music\MusicViewModelFactory.cs" />
     <Compile Include="Music\Tracks\ITrackViewModel.cs" />
     <Compile Include="Music\Tracks\TrackViewModel.cs" />
@@ -457,6 +463,10 @@
     <EmbeddedResource Include="Images\ImagesResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ImagesResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Music\MusicResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MusicResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Progress\ProgressResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

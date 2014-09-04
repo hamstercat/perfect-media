@@ -4,6 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:artists="clr-namespace:PerfectMedia.UI.Music.Artists"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="en"
+             lex:ResxLocalizationProvider.DefaultAssembly="PerfectMedia.UI"
+             lex:ResxLocalizationProvider.DefaultDictionary="MusicResources"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance Type=artists:ArtistViewModel}">
@@ -29,34 +33,34 @@
             <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Content="Path" />
+        <Label Grid.Row="0" Grid.Column="0" Content="{lex:Loc Path}" />
         <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Path}" IsReadOnly="True" />
-        <Label Grid.Row="1" Grid.Column="0" Content="Name *" />
+        <Label Grid.Row="1" Grid.Column="0" Content="{lex:Loc Name, Converter={StaticResource RequiredLabelConverter}}" />
         <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Name.Value}" />
-        <Label Grid.Row="2" Grid.Column="0" Content="Biography" />
+        <Label Grid.Row="2" Grid.Column="0" Content="{lex:Loc Biography}" />
         <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Biography}" TextWrapping="Wrap" />
 
-        <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="(For a single artist)" FontStyle="Italic" HorizontalAlignment="Center" Foreground="Gray" />
-        <Label Grid.Row="4" Grid.Column="0" Content="Date of Birth" />
+        <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="{lex:Loc ForSingleArtist}" FontStyle="Italic" HorizontalAlignment="Center" Foreground="Gray" />
+        <Label Grid.Row="4" Grid.Column="0" Content="{lex:Loc DateOfBirth}" />
         <DatePicker Grid.Row="4" Grid.Column="1" SelectedDate="{Binding BornOn}" />
-        <Label Grid.Row="5" Grid.Column="0" Content="Deceased Date" />
+        <Label Grid.Row="5" Grid.Column="0" Content="{lex:Loc DeceasedDate}" />
         <DatePicker Grid.Row="5" Grid.Column="1" SelectedDate="{Binding DiedOn}" />
 
-        <Label Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Content="(For a band)" FontStyle="Italic" HorizontalAlignment="Center" Foreground="Gray" />
-        <Label Grid.Row="4" Grid.Column="2" Content="Date of Formation" />
+        <Label Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Content="{lex:Loc ForBand}" FontStyle="Italic" HorizontalAlignment="Center" Foreground="Gray" />
+        <Label Grid.Row="4" Grid.Column="2" Content="{lex:Loc DateOfFormation}" />
         <DatePicker Grid.Row="4" Grid.Column="3" SelectedDate="{Binding FormedOn}" />
-        <Label Grid.Row="5" Grid.Column="2" Content="Disband Date" />
+        <Label Grid.Row="5" Grid.Column="2" Content="{lex:Loc DisbandDate}" />
         <DatePicker Grid.Row="5" Grid.Column="3" SelectedDate="{Binding DisbandedOn}" />
 
-        <Label Grid.Row="6" Grid.Column="0" Content="Instruments" />
+        <Label Grid.Row="6" Grid.Column="0" Content="{lex:Loc Instruments}" />
         <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Instruments}" />
-        <Label Grid.Row="7" Grid.Column="0" Content="Genres" />
+        <Label Grid.Row="7" Grid.Column="0" Content="{lex:Loc Genres}" />
         <TextBox Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Genres.String}" />
-        <Label Grid.Row="8" Grid.Column="0" Content="Moods" />
+        <Label Grid.Row="8" Grid.Column="0" Content="{lex:Loc Moods}" />
         <TextBox Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Moods.String}" />
-        <Label Grid.Row="9" Grid.Column="0" Content="Styles" />
+        <Label Grid.Row="9" Grid.Column="0" Content="{lex:Loc Styles}" />
         <TextBox Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Styles.String}" />
-        <Label Grid.Row="10" Grid.Column="0" Content="Years Active" />
+        <Label Grid.Row="10" Grid.Column="0" Content="{lex:Loc YearsActive}" />
         <TextBox Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding YearsActive.String}" />
     </Grid>
 </UserControl>

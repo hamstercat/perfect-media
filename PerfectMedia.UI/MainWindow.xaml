@@ -6,23 +6,28 @@
                    xmlns:music="clr-namespace:PerfectMedia.UI.Music"
                    xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                    xmlns:busy="clr-namespace:PerfectMedia.UI.Busy"
+                   xmlns:lex="http://wpflocalizeextension.codeplex.com"
+                   lex:LocalizeDictionary.DesignCulture="en"
+                   lex:ResxLocalizationProvider.DefaultAssembly="PerfectMedia.UI"
+                   lex:ResxLocalizationProvider.DefaultDictionary="General"
                    GlowBrush="{DynamicResource AccentColorBrush}"
-                   Title="perfect-media" Height="800" Width="1400">
+                   Title="{lex:Loc Title}"
+                   Height="800" Width="1400">
     <metro:MetroWindow.WindowCommands>
         <metro:WindowCommands>
-            <Button Content="settings" Click="ShowSettings" DataContext="{Binding SettingsViewModel, Source={StaticResource ServiceLocator}}" />
+            <Button Content="{lex:Loc Settings}" Click="ShowSettings" DataContext="{Binding SettingsViewModel, Source={StaticResource ServiceLocator}}" />
         </metro:WindowCommands>
     </metro:MetroWindow.WindowCommands>
     <Grid>
         <busy:BusyIndicator DataContext="{Binding BusyProvider, Source={StaticResource ServiceLocator}}" Panel.ZIndex="2" />
         <TabControl Panel.ZIndex="1">
-            <TabItem Header="TV Shows">
+            <TabItem Header="{lex:Loc TvShows}">
                 <tv:TvShowControl DataContext="{Binding TvShowManagerViewModel, Source={StaticResource ServiceLocator}}" />
             </TabItem>
-            <TabItem Header="Movies">
+            <TabItem Header="{lex:Loc Movies}">
                 <movies:MovieControl DataContext="{Binding MovieManagerViewModel, Source={StaticResource ServiceLocator}}" />
             </TabItem>
-            <TabItem Header="Music">
+            <TabItem Header="{lex:Loc Music}">
                 <music:MusicControl DataContext="{Binding MusicManagerViewModel, Source={StaticResource ServiceLocator}}" />
             </TabItem>
         </TabControl>

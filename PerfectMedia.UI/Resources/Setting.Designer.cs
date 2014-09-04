@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PerfectMedia.UI.Properties {
+namespace PerfectMedia.UI.Resources {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace PerfectMedia.UI.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Setting {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal Setting() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PerfectMedia.UI.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PerfectMedia.UI.Resources.Setting", typeof(Setting).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace PerfectMedia.UI.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,38 +61,38 @@ namespace PerfectMedia.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Folder doesn&apos;t exist..
+        ///   Looks up a localized string similar to Language.
         /// </summary>
-        internal static string FolderDoesntExist {
+        public static string Language {
             get {
-                return ResourceManager.GetString("FolderDoesntExist", resourceCulture);
+                return ResourceManager.GetString("Language", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rating must be between 0 and 10..
+        ///   Looks up a localized string similar to Movie Set Artwork Folder.
         /// </summary>
-        internal static string InvalidRating {
+        public static string MovieSetArtworkFolder {
             get {
-                return ResourceManager.GetString("InvalidRating", resourceCulture);
+                return ResourceManager.GetString("MovieSetArtworkFolder", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Value must be a positive number..
+        ///   Looks up a localized string similar to Save.
         /// </summary>
-        internal static string MustBePositive {
+        public static string Save {
             get {
-                return ResourceManager.GetString("MustBePositive", resourceCulture);
+                return ResourceManager.GetString("Save", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Field is required..
+        ///   Looks up a localized string similar to Settings.
         /// </summary>
-        internal static string RequiredField {
+        public static string Title {
             get {
-                return ResourceManager.GetString("RequiredField", resourceCulture);
+                return ResourceManager.GetString("Title", resourceCulture);
             }
         }
     }

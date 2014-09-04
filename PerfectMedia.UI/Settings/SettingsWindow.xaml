@@ -5,8 +5,12 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
                    xmlns:settings="clr-namespace:PerfectMedia.UI.Settings"
+                   xmlns:lex="http://wpflocalizeextension.codeplex.com"
+                   lex:LocalizeDictionary.DesignCulture="en"
+                   lex:ResxLocalizationProvider.DefaultAssembly="PerfectMedia.UI"
+                   lex:ResxLocalizationProvider.DefaultDictionary="Setting"
                    GlowBrush="{DynamicResource AccentColorBrush}"
-                   Title="Settings"
+                   Title="{lex:Loc Title}"
                    Height="300" Width="600"
                    mc:Ignorable="d"
                    d:DataContext="{d:DesignInstance Type=settings:SettingsViewModel}">
@@ -20,14 +24,14 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Content="Movie Set Artwork Folder" />
+        <Label Grid.Row="0" Grid.Column="0" Content="{lex:Loc MovieSetArtworkFolder}" />
         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding MovieSetArtworkFolder}" />
-        <Label Grid.Row="1" Grid.Column="0" Content="Language" />
+        <Label Grid.Row="1" Grid.Column="0" Content="{lex:Loc Language}" />
         <ComboBox Grid.Row="1" Grid.Column="1" SelectedValue="{Binding Language, Mode=TwoWay}" SelectedValuePath="Tag">
             <ComboBoxItem Tag="en-CA">English</ComboBoxItem>
         </ComboBox>
         <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Save" Command="{Binding SaveCommand}" />
+            <Button Content="{lex:Loc Save}" Command="{Binding SaveCommand}" />
         </StackPanel>
     </Grid>
 </metro:MetroWindow>

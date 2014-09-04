@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PerfectMedia.UI.Properties;
+using PerfectMedia.UI.Resources;
 
 namespace PerfectMedia.UI.Validations
 {
@@ -13,7 +8,7 @@ namespace PerfectMedia.UI.Validations
     {
         public FolderExistsAttribute()
         {
-            ErrorMessageResourceType = typeof(Resources);
+            ErrorMessageResourceType = typeof(Validation);
             ErrorMessageResourceName = "FolderDoesntExist";
         }
 

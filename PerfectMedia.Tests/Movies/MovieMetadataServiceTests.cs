@@ -98,10 +98,13 @@ namespace PerfectMedia.Movies
         }
 
         [Fact]
-        public void GetMovieSet_Always_SetsAppropriateProperties()
+        public async Task GetMovieSet_Always_SetsAppropriateProperties()
         {
+            _fileSystemService.FolderExists(@"C:\Movies\_Artwork")
+                .Returns(true.ToTask());
+
             // Act
-            MovieSet set = _service.GetMovieSet("Star Wars");
+            MovieSet set = await _service.GetMovieSet("Star Wars");
 
             // Assert
             Assert.Equal("Star Wars", set.Name);

@@ -233,7 +233,7 @@ namespace PerfectMedia.UI.Movies
             };
 
             metadata.Actors = new List<ActorMetadata>();
-            foreach (ActorViewModel actorViewModel in ActorManager.Actors)
+            foreach (IActorViewModel actorViewModel in ActorManager.Actors)
             {
                 ActorMetadata actor = new ActorMetadata
                 {

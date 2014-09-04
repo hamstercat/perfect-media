@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using PerfectMedia.UI.Images;
 
 namespace PerfectMedia.UI.Actors
 {
@@ -6,5 +7,7 @@ namespace PerfectMedia.UI.Actors
     {
         string Name { get; }
         string Role { get; }
+        string ThumbUrl { get; }
+        IImageViewModel ThumbPath { get; }
     }
 }

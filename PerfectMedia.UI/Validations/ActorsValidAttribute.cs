@@ -9,7 +9,7 @@ namespace PerfectMedia.UI.Validations
     {
         public override bool IsValid(object value)
         {
-            var actorManager = (ActorManagerViewModel)value;
+            var actorManager = (IActorManagerViewModel)value;
             return actorManager.Actors.All(ActorIsValid);
         }
 

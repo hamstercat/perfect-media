@@ -63,7 +63,10 @@
     </Compile>
     <Compile Include="ExternalApi\IRateGate.cs" />
     <Compile Include="ExternalApi\NullRateGate.cs" />
+    <Compile Include="GeneralSettings.cs" />
     <Compile Include="IDialogViewer.cs" />
+    <Compile Include="IGeneralSettings.cs" />
+    <Compile Include="Movies\IMovieSettingsService.cs" />
     <Compile Include="Music\Album.cs" />
     <Compile Include="Music\AlbumFile.cs" />
     <Compile Include="Music\AlbumMetadata.cs" />
@@ -79,6 +82,11 @@
     <Compile Include="Music\Track.cs" />
     <Compile Include="ExternalApi\RateGate.cs" />
     <Compile Include="Music\TrackFile.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Serialization\FileBackedRepository.cs" />
     <Compile Include="FileInformation\IFileInformationService.cs" />
     <Compile Include="FileInformation\Subtitle.cs" />
@@ -110,6 +118,7 @@
     <Compile Include="ExternalApi\RestApiService.cs" />
     <Compile Include="ApiException.cs" />
     <Compile Include="Serialization\XmlSerializerFactory.cs" />
+    <Compile Include="SettingsHelper.cs" />
     <Compile Include="Sources\ISourceRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sources\ISourceService.cs" />
@@ -144,7 +153,12 @@
     <Compile Include="TvShows\TvShowNotFoundException.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />

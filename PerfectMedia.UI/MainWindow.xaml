@@ -6,7 +6,13 @@
                    xmlns:music="clr-namespace:PerfectMedia.UI.Music"
                    xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                    xmlns:busy="clr-namespace:PerfectMedia.UI.Busy"
+                   GlowBrush="{DynamicResource AccentColorBrush}"
                    Title="perfect-media" Height="800" Width="1400">
+    <metro:MetroWindow.WindowCommands>
+        <metro:WindowCommands>
+            <Button Content="settings" Click="ShowSettings" DataContext="{Binding SettingsViewModel, Source={StaticResource ServiceLocator}}" />
+        </metro:WindowCommands>
+    </metro:MetroWindow.WindowCommands>
     <Grid>
         <busy:BusyIndicator DataContext="{Binding BusyProvider, Source={StaticResource ServiceLocator}}" Panel.ZIndex="2" />
         <TabControl Panel.ZIndex="1">

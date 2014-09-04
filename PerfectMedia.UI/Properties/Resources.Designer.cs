@@ -61,6 +61,15 @@ namespace PerfectMedia.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Folder doesn&apos;t exist..
+        /// </summary>
+        internal static string FolderDoesntExist {
+            get {
+                return ResourceManager.GetString("FolderDoesntExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rating must be between 0 and 10..
         /// </summary>
         internal static string InvalidRating {

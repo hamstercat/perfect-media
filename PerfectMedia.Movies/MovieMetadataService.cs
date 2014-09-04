@@ -60,12 +60,12 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="setName">Name of the set.</param>
         /// <returns></returns>
-        public MovieSet GetMovieSet(string setName)
+        public async Task<MovieSet> GetMovieSet(string setName)
         {
             MovieSet set = new MovieSet();
             set.Name = setName;
-            set.BackdropPath = MovieHelper.GetMovieSetFanartPath(setName);
-            set.PosterPath = MovieHelper.GetMovieSetPosterPath(setName);
+            set.BackdropPath = await MovieHelper.GetMovieSetFanartPath(_fileSystemService, setName);
+            set.PosterPath = await MovieHelper.GetMovieSetPosterPath(_fileSystemService, setName);
             return set;
         }
 

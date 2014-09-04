@@ -5,6 +5,7 @@
                    xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                    Title="Download Image" Height="100" Width="600"
                    WindowStartupLocation="CenterOwner"
+                   GlowBrush="{DynamicResource AccentColorBrush}"
                    views:IsClosedAttachedBehavior.IsClosedView="{Binding IsClosed}">
     <Grid>
         <Grid.RowDefinitions>

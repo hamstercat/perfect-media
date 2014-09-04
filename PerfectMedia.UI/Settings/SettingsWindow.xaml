@@ -1,0 +1,33 @@
+﻿<metro:MetroWindow x:Class="PerfectMedia.UI.Settings.SettingsWindow"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+                   xmlns:settings="clr-namespace:PerfectMedia.UI.Settings"
+                   GlowBrush="{DynamicResource AccentColorBrush}"
+                   Title="Settings"
+                   Height="300" Width="600"
+                   mc:Ignorable="d"
+                   d:DataContext="{d:DesignInstance Type=settings:SettingsViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="Movie Set Artwork Folder" />
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding MovieSetArtworkFolder}" />
+        <Label Grid.Row="1" Grid.Column="0" Content="Language" />
+        <ComboBox Grid.Row="1" Grid.Column="1" SelectedValue="{Binding Language, Mode=TwoWay}" SelectedValuePath="Tag">
+            <ComboBoxItem Tag="en-CA">English</ComboBoxItem>
+        </ComboBox>
+        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Save" Command="{Binding SaveCommand}" />
+        </StackPanel>
+    </Grid>
+</metro:MetroWindow>

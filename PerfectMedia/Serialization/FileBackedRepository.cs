@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -14,10 +15,7 @@ namespace PerfectMedia.Serialization
         public FileBackedRepository(IFileSystemService fileSystemService)
         {
             _fileSystemService = fileSystemService;
-            // Save the file in an XML located in the same folder as the executable
-            string assemblyLocation = Assembly.GetExecutingAssembly().Location;
-            string assemblyFolder = Path.GetDirectoryName(assemblyLocation);
-            _repositoryFile = Path.Combine(assemblyFolder, "Cache.xml");
+            _repositoryFile = SettingsHelper.GetAppDataFilePath("Cache.xml");
         }
 
         public IDictionary<string, string> Load()

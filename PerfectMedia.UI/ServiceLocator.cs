@@ -15,6 +15,7 @@ using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Movies;
 using PerfectMedia.UI.Music;
+using PerfectMedia.UI.Settings;
 using PerfectMedia.UI.TvShows;
 
 namespace PerfectMedia.UI
@@ -43,6 +44,11 @@ namespace PerfectMedia.UI
         public IBusyProvider BusyProvider
         {
             get { return _kernel.Get<IBusyProvider>(); }
+        }
+
+        public ISettingsViewModel SettingsViewModel
+        {
+            get { return _kernel.Get<ISettingsViewModel>(); }
         }
 
         private IRestApiService ThetvdbRestApi

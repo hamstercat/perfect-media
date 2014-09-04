@@ -17,7 +17,6 @@ namespace PerfectMedia.Sources
     {
         private readonly IFileSystemService _fileSystemService;
         private readonly IXmlSerializerFactory _xmlSerializerFactory;
-        private readonly string _basePath;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SourceRepository" /> class.
@@ -28,9 +27,6 @@ namespace PerfectMedia.Sources
         {
             _fileSystemService = fileSystemService;
             _xmlSerializerFactory = xmlSerializerFactory;
-            // Save the file in an XML located in the same folder as the executable
-            string assemblyFolder = Assembly.GetExecutingAssembly().Location;
-            _basePath = Path.GetDirectoryName(assemblyFolder);
         }
 
         /// <summary>
@@ -70,7 +66,7 @@ namespace PerfectMedia.Sources
 
         private string GetFolder()
         {
-            string folder = Path.Combine(_basePath, "Sources");
+            string folder = SettingsHelper.GetAppDataFilePath("Sources");
             _fileSystemService.CreateFolderSynchronously(folder);
             return folder;
         }

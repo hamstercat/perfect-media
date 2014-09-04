@@ -64,7 +64,10 @@ namespace PerfectMedia.UI.Movies.Set
             UpdateCommand = new UpdateMetadataCommand(this, progressManager, busyProvider);
             SaveCommand = new SaveMetadataCommand(this);
 
-            RefreshSynchronously();
+#pragma warning disable 4014
+            // Fire and forget the refresh
+            AsyncHelper.ExecuteEventHandlerTask(this, Refresh);
+#pragma warning restore 4014
         }
 
         public void AddMovie(IMovieViewModel movie)
@@ -82,9 +85,14 @@ namespace PerfectMedia.UI.Movies.Set
             return Children.Where(movie => MovieIsInPath(movie, path));
         }
 
-        protected override Task RefreshInternal()
+        protected override async Task RefreshInternal()
         {
-            return Task.Run(() => RefreshSynchronously());
+            MovieSet set = await _metadataService.GetMovieSet(DisplayName);
+            SetName = DisplayNameInternal = set.Name;
+            Fanart.Path = set.BackdropPath;
+            Poster.Path = set.PosterPath;
+            Fanart.RefreshImage();
+            Poster.RefreshImage();
         }
 
         protected override async Task<IEnumerable<ProgressItem>> UpdateInternal()
@@ -127,20 +135,10 @@ namespace PerfectMedia.UI.Movies.Set
             return Task.Delay(0);
         }
 
-        private void RefreshSynchronously()
-        {
-            MovieSet set = _metadataService.GetMovieSet(DisplayName);
-            SetName = DisplayNameInternal = set.Name;
-            Fanart.Path = set.BackdropPath;
-            Poster.Path = set.PosterPath;
-            Fanart.RefreshImage();
-            Poster.RefreshImage();
-        }
-
         private async Task MoveImages()
         {
-            MovieSet oldSet = _metadataService.GetMovieSet(DisplayName);
-            MovieSet newSet = _metadataService.GetMovieSet(SetName);
+            MovieSet oldSet = await _metadataService.GetMovieSet(DisplayName);
+            MovieSet newSet = await _metadataService.GetMovieSet(SetName);
             await _fileSystemService.MoveFile(oldSet.BackdropPath, newSet.BackdropPath);
             await _fileSystemService.MoveFile(oldSet.PosterPath, newSet.PosterPath);
             Fanart.Path = newSet.BackdropPath;

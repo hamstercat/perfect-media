@@ -63,6 +63,12 @@
     <Compile Include="MovieImagesService.cs" />
     <Compile Include="MovieMetadataRepository.cs" />
     <Compile Include="MovieMetadataService.cs" />
+    <Compile Include="MovieSettingsService.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="SearchCollectionResult.cs" />
     <Compile Include="SearchMovieResult.cs" />
     <Compile Include="ThemoviedbConfiguration.cs" />
@@ -77,7 +83,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />

@@ -20,7 +20,7 @@ namespace PerfectMedia.Movies
         /// </summary>
         /// <param name="setName">Name of the set.</param>
         /// <returns></returns>
-        MovieSet GetMovieSet(string setName);
+        Task<MovieSet> GetMovieSet(string setName);
 
         /// <summary>
         /// Saves the metadata to the movie located at the specified path.

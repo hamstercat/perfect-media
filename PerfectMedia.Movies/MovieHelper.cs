@@ -1,5 +1,8 @@
 ﻿using System.Configuration;
 using System.IO;
+using System.Threading.Tasks;
+using Anotar.Log4Net;
+using PerfectMedia.Movies.Properties;
 
 namespace PerfectMedia.Movies
 {
@@ -13,14 +16,6 @@ namespace PerfectMedia.Movies
             }
         }
 
-        private static string MovieSetFolder
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["MovieSetArtworkFolder"];
-            }
-        }
-
         internal static string GetMoviePosterPath(string path)
         {
             return GetMovieImagePath(path, "poster");
@@ -31,14 +26,26 @@ namespace PerfectMedia.Movies
             return GetMovieImagePath(path, "fanart");
         }
 
-        internal static string GetMovieSetFanartPath(string setName)
+        internal static async Task<string> GetMovieSetFanartPath(IFileSystemService fileSystemService, string setName)
         {
-            return Path.Combine(MovieSetFolder, setName + "-fanart.jpg");
+            string movieSetFolder = await GetMovieSetFolder(fileSystemService);
+            return Path.Combine(movieSetFolder, setName + "-fanart.jpg");
         }
 
-        internal static string GetMovieSetPosterPath(string setName)
+        internal static async Task<string> GetMovieSetPosterPath(IFileSystemService fileSystemService, string setName)
         {
-            return Path.Combine(MovieSetFolder, setName + "-poster.jpg");
+            string movieSetFolder = await GetMovieSetFolder(fileSystemService);
+            return Path.Combine(movieSetFolder, setName + "-poster.jpg");
+        }
+
+        internal static async Task<string> GetMovieSetFolder(IFileSystemService fileSystemService)
+        {
+            string movieSetFolder = Settings.Default.MovieSetArtworkFolder;
+            if (string.IsNullOrEmpty(movieSetFolder) || !await fileSystemService.FolderExists(movieSetFolder))
+            {
+                movieSetFolder = SettingsHelper.GetAppDataFilePath("MovieSetArtwork");
+            }
+            return movieSetFolder;
         }
 
         private static string GetMovieImagePath(string path, string imageType)

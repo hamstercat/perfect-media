@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.IO;
-using PerfectMedia.UI.Resources;
 
 namespace PerfectMedia.UI.Validations
 {
@@ -8,7 +7,7 @@ namespace PerfectMedia.UI.Validations
     {
         public FolderExistsAttribute()
         {
-            ErrorMessageResourceType = typeof(Validation);
+            ErrorMessageResourceType = typeof(ValidationsResources);
             ErrorMessageResourceName = "FolderDoesntExist";
         }
 

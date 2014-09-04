@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PerfectMedia.UI.Resources {
+namespace PerfectMedia.UI {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace PerfectMedia.UI.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PerfectMedia.UI.Resources.General", typeof(General).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PerfectMedia.UI.General", typeof(General).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

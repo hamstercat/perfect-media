@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PerfectMedia.UI.Resources {
+namespace PerfectMedia.UI.Validations {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace PerfectMedia.UI.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Validation {
+    public class ValidationsResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Validation() {
+        internal ValidationsResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace PerfectMedia.UI.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PerfectMedia.UI.Resources.Validation", typeof(Validation).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PerfectMedia.UI.Validations.ValidationsResources", typeof(ValidationsResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

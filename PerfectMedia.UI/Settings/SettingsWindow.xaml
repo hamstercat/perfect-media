@@ -8,7 +8,7 @@
                    xmlns:lex="http://wpflocalizeextension.codeplex.com"
                    lex:LocalizeDictionary.DesignCulture="en"
                    lex:ResxLocalizationProvider.DefaultAssembly="PerfectMedia.UI"
-                   lex:ResxLocalizationProvider.DefaultDictionary="Setting"
+                   lex:ResxLocalizationProvider.DefaultDictionary="SettingsResources"
                    GlowBrush="{DynamicResource AccentColorBrush}"
                    Title="{lex:Loc Title}"
                    Height="300" Width="600"

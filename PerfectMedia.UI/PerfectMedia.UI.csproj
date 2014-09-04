@@ -208,15 +208,15 @@
     <Compile Include="Music\MusicViewModelFactory.cs" />
     <Compile Include="Music\Tracks\ITrackViewModel.cs" />
     <Compile Include="Music\Tracks\TrackViewModel.cs" />
-    <Compile Include="Resources\General.Designer.cs">
+    <Compile Include="General.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>General.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Setting.Designer.cs">
+    <Compile Include="Settings\SettingsResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Setting.resx</DependentUpon>
+      <DependentUpon>SettingsResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Settings\ISettingsViewModel.cs" />
     <Compile Include="Settings\SaveCommand.cs" />
@@ -425,20 +425,20 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Resources\Validation.Designer.cs">
+    <Compile Include="Validations\ValidationsResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Validation.resx</DependentUpon>
+      <DependentUpon>ValidationsResources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Resources\Setting.resx">
+    <EmbeddedResource Include="Settings\SettingsResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Setting.Designer.cs</LastGenOutput>
+      <LastGenOutput>SettingsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Validation.resx">
+    <EmbeddedResource Include="Validations\ValidationsResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Validation.Designer.cs</LastGenOutput>
+      <LastGenOutput>ValidationsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\General.resx">
+    <EmbeddedResource Include="General.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>General.Designer.cs</LastGenOutput>
     </EmbeddedResource>

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using PerfectMedia.UI.Resources;
 
 namespace PerfectMedia.UI.Validations
 {
@@ -8,7 +7,7 @@ namespace PerfectMedia.UI.Validations
         public PositiveAttribute()
             : base(0, int.MaxValue)
         {
-            ErrorMessageResourceType = typeof(Validation);
+            ErrorMessageResourceType = typeof(ValidationsResources);
             ErrorMessageResourceName = "MustBePositive";
         }
     }

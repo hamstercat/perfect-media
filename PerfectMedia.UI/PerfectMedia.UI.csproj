@@ -223,6 +223,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>General.resx</DependentUpon>
     </Compile>
+    <Compile Include="Progress\ProgressResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProgressResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Settings\SettingsResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -233,6 +238,11 @@
     <Compile Include="Settings\SettingsViewModel.cs" />
     <Compile Include="Settings\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Sources\SourcesResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SourcesResources.resx</DependentUpon>
     </Compile>
     <Compile Include="TreeViewItemViewModel.cs" />
     <Compile Include="Validations\ActorsValidAttribute.cs" />
@@ -448,9 +458,17 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ImagesResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Progress\ProgressResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProgressResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Settings\SettingsResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SettingsResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\SourcesResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SourcesResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Validations\ValidationsResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

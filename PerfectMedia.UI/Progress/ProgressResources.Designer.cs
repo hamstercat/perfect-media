@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PerfectMedia.UI {
+namespace PerfectMedia.UI.Progress {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace PerfectMedia.UI {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class General {
+    internal class ProgressResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal General() {
+        internal ProgressResources() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PerfectMedia.UI.General", typeof(General).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PerfectMedia.UI.Progress.ProgressResources", typeof(ProgressResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace PerfectMedia.UI {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,56 +61,20 @@ namespace PerfectMedia.UI {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Movies.
+        ///   Looks up a localized string similar to Errors.
         /// </summary>
-        public static string Movies {
+        internal static string Errors {
             get {
-                return ResourceManager.GetString("Movies", resourceCulture);
+                return ResourceManager.GetString("Errors", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Music.
+        ///   Looks up a localized string similar to Progress.
         /// </summary>
-        public static string Music {
-            get {
-                return ResourceManager.GetString("Music", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to : .
-        /// </summary>
-        public static string Semicolon {
-            get {
-                return ResourceManager.GetString("Semicolon", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to settings.
-        /// </summary>
-        public static string Settings {
-            get {
-                return ResourceManager.GetString("Settings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to perfect-media.
-        /// </summary>
-        public static string Title {
+        internal static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to TV Shows.
-        /// </summary>
-        public static string TvShows {
-            get {
-                return ResourceManager.GetString("TvShows", resourceCulture);
             }
         }
     }

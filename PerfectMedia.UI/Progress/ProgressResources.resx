@@ -117,22 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Movies" xml:space="preserve">
-    <value>Movies</value>
-  </data>
-  <data name="Music" xml:space="preserve">
-    <value>Music</value>
-  </data>
-  <data name="Semicolon" xml:space="preserve">
-    <value>: </value>
-  </data>
-  <data name="Settings" xml:space="preserve">
-    <value>settings</value>
+  <data name="Errors" xml:space="preserve">
+    <value>Errors</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>perfect-media</value>
-  </data>
-  <data name="TvShows" xml:space="preserve">
-    <value>TV Shows</value>
+    <value>Progress</value>
   </data>
 </root>

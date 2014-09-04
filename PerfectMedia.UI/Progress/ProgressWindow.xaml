@@ -5,8 +5,13 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:progress="clr-namespace:PerfectMedia.UI.Progress"
                    xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                   xmlns:lex="http://wpflocalizeextension.codeplex.com"
+                   lex:LocalizeDictionary.DesignCulture="en"
+                   lex:ResxLocalizationProvider.DefaultAssembly="PerfectMedia.UI"
+                   lex:ResxLocalizationProvider.DefaultDictionary="ProgressResources"
                    mc:Ignorable="d"
-                   Title="Progress" Height="300" Width="600"
+                   Title="{lex:Loc Title}"
+                   Height="300" Width="600"
                    GlowBrush="{DynamicResource AccentColorBrush}"
                    d:DataContext="{d:DesignInstance Type=progress:ProgressManagerViewModel}">
     <Grid>
@@ -30,7 +35,9 @@
         </TextBlock>
         <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <TextBlock.Text>
-                <MultiBinding StringFormat="{}Errors: ({0})">
+                <MultiBinding StringFormat="{}{0}{1}({2})">
+                    <lex:BLoc Key="PerfectMedia.UI:ProgressResources:Errors" />
+                    <lex:BLoc Key="PerfectMedia.UI:General:Semicolon" />
                     <Binding Path="InError.Count" Mode="OneWay" />
                 </MultiBinding>
             </TextBlock.Text>
@@ -40,8 +47,9 @@
                 <DataTemplate>
                     <TextBlock>
                         <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}: {1}">
+                            <MultiBinding StringFormat="{}{0}{1}">
                                 <Binding Path="Display" />
+                                <lex:BLoc Key="PerfectMedia.UI:General:Semicolon" />
                                 <Binding Path="Message" />
                             </MultiBinding>
                         </TextBlock.Text>

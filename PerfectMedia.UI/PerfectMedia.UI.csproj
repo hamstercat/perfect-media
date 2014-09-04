@@ -96,6 +96,11 @@
       <Link>Properties\ProjectAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Actors\ActorManagerViewModel.cs" />
+    <Compile Include="Actors\ActorsResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ActorsResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Actors\ActorViewModelFactory.cs" />
     <Compile Include="Actors\AddCommand.cs" />
     <Compile Include="Actors\IActorManagerViewModel.cs" />
@@ -125,6 +130,11 @@
     <Compile Include="Cache\ICachedPropertyViewModel.cs" />
     <Compile Include="IAsyncCommand.cs" />
     <Compile Include="Images\ImageLoader.cs" />
+    <Compile Include="Images\ImagesResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ImagesResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Images\Selection\ChooseImageFileViewModel.cs" />
     <Compile Include="Images\Selection\ChooseImageFileWindow.xaml.cs">
       <DependentUpon>ChooseImageFileWindow.xaml</DependentUpon>
@@ -430,6 +440,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ValidationsResources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Actors\ActorsResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ActorsResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\ImagesResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ImagesResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Settings\SettingsResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SettingsResources.Designer.cs</LastGenOutput>

@@ -6,6 +6,10 @@
              xmlns:img="clr-namespace:PerfectMedia.UI.Images"
              xmlns:actors="clr-namespace:PerfectMedia.UI.Actors"
              xmlns:ui="clr-namespace:PerfectMedia.UI"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="en"
+             lex:ResxLocalizationProvider.DefaultAssembly="PerfectMedia.UI"
+             lex:ResxLocalizationProvider.DefaultDictionary="ActorsResources"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance Type=actors:ActorManagerViewModel}">
@@ -29,14 +33,14 @@
             <ColumnDefinition Width="300" />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
-            <Button Content="Add" Command="{Binding AddCommand}" />
-            <Button Content="Delete" Command="{Binding RemoveCommand}" />
+            <Button Content="{lex:Loc Add}" Command="{Binding AddCommand}" />
+            <Button Content="{lex:Loc Delete}" Command="{Binding RemoveCommand}" />
         </StackPanel>
         <ListView Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Actors}" SelectedItem="{Binding SelectedActor}" IsSynchronizedWithCurrentItem="True"
                   ui:SelectorExtenders.IsAutoscroll="True" x:Name="ActorsList">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name">
+                    <GridViewColumn Header="{lex:Loc Name, Assembly=PerfectMedia.UI, Dict=ActorsResources}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -46,7 +50,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Role">
+                    <GridViewColumn Header="{lex:Loc Role, Assembly=PerfectMedia.UI, Dict=ActorsResources}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid>

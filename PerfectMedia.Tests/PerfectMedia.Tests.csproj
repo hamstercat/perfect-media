@@ -99,7 +99,6 @@
     <Compile Include="UI\Converters\NullToBooleanConverterTests.cs" />
     <Compile Include="UI\Converters\PathFolderNameConverterTests.cs" />
     <Compile Include="UI\Converters\SeasonNumberToNameConverterTests.cs" />
-    <Compile Include="UI\Progress\ProgressIndicatorFactoryTests.cs" />
     <Compile Include="UI\Progress\ProgressItemTests.cs" />
     <Compile Include="UI\Progress\ProgressManagerViewModelTests.cs" />
     <Compile Include="UI\Sources\SourceManagerViewModelTests.cs" />

@@ -170,6 +170,11 @@
     <Compile Include="Metadata\DeleteMetadataCommand.cs" />
     <Compile Include="Movies\IMovieItem.cs" />
     <Compile Include="Movies\IMovieManagerViewModel.cs" />
+    <Compile Include="Movies\MovieResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MovieResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Movies\Set\IMovieSetViewModel.cs" />
     <Compile Include="Movies\Set\MovieSetControl.xaml.cs">
       <DependentUpon>MovieSetControl.xaml</DependentUpon>
@@ -463,6 +468,10 @@
     <EmbeddedResource Include="Images\ImagesResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ImagesResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movies\MovieResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MovieResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Music\MusicResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

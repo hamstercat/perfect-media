@@ -11,6 +11,10 @@
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:ui="clr-namespace:PerfectMedia.UI"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="en"
+             lex:ResxLocalizationProvider.DefaultAssembly="PerfectMedia.UI"
+             lex:ResxLocalizationProvider.DefaultDictionary="MovieResources"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="1000"
              d:DataContext="{d:DesignInstance Type=movies:MovieManagerViewModel}">
@@ -49,8 +53,8 @@
                 </TreeView.ItemTemplate>
             </TreeView>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <Button Content="Sources" Click="ShowSources" />
-                <Button Content="Update All" Command="{Binding UpdateAll}" />
+                <Button Content="{lex:Loc Sources}" Click="ShowSources" />
+                <Button Content="{lex:Loc UpdateAll}" Command="{Binding UpdateAll}" />
             </StackPanel>
         </Grid>
         <Grid Grid.Column="1">
@@ -63,11 +67,11 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                <Button Content="Refresh" Command="{Binding RefreshCommand}" />
-                                <Button Content="Update" Command="{Binding UpdateCommand}" />
-                                <Button Content="Save" Command="{Binding SaveCommand}" />
-                                <Button Content="Delete" Command="{Binding DeleteCommand}" />
-                                <Button Content="Change Movie" Click="ShowMovieSelection" />
+                                <Button Content="{lex:Loc Refresh}" Command="{Binding RefreshCommand}" />
+                                <Button Content="{lex:Loc Update}" Command="{Binding UpdateCommand}" />
+                                <Button Content="{lex:Loc Save}" Command="{Binding SaveCommand}" />
+                                <Button Content="{lex:Loc Delete}" Command="{Binding DeleteCommand}" />
+                                <Button Content="{lex:Loc ChangeMovie}" Click="ShowMovieSelection" />
                             </StackPanel>
                             <movies:MovieMetadataControl Grid.Row="1" />
                         </Grid>
@@ -85,9 +89,9 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                <Button Content="Refresh" Command="{Binding RefreshCommand}" />
-                                <Button Content="Update" Command="{Binding UpdateCommand}" />
-                                <Button Content="Save" Command="{Binding SaveCommand}" />
+                                <Button Content="{lex:Loc Refresh}" Command="{Binding RefreshCommand}" />
+                                <Button Content="{lex:Loc Update}" Command="{Binding UpdateCommand}" />
+                                <Button Content="{lex:Loc Save}" Command="{Binding SaveCommand}" />
                             </StackPanel>
                             <set:MovieSetControl Grid.Row="1" />
                         </Grid>

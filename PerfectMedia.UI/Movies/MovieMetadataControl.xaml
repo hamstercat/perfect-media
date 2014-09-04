@@ -5,19 +5,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:movies="clr-namespace:PerfectMedia.UI.Movies"
              xmlns:actors="clr-namespace:PerfectMedia.UI.Actors"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="en"
+             lex:ResxLocalizationProvider.DefaultAssembly="PerfectMedia.UI"
+             lex:ResxLocalizationProvider.DefaultDictionary="MovieResources"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance Type=movies:MovieViewModel}">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid>
             <TabControl>
-                <TabItem Header="Information">
+                <TabItem Header="{lex:Loc Information}">
                     <movies:GeneralInformation />
                 </TabItem>
-                <TabItem Header="Actors">
+                <TabItem Header="{lex:Loc Actors}">
                     <actors:ActorsControl DataContext="{Binding ActorManager}" />
                 </TabItem>
-                <TabItem Header="Images">
+                <TabItem Header="{lex:Loc Images}">
                     <movies:Fanart />
                 </TabItem>
             </TabControl>

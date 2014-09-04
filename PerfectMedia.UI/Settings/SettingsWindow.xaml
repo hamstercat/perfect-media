@@ -25,7 +25,14 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Content="{lex:Loc MovieSetArtworkFolder}" />
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding MovieSetArtworkFolder}" />
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="{Binding MovieSetArtworkFolder}" x:Name="MovieSetArtworkFolder" />
+            <Button Grid.Column="1" Content="{lex:Loc Browse}" Click="BrowseClick" />
+        </Grid>
         <Label Grid.Row="1" Grid.Column="0" Content="{lex:Loc Language}" />
         <ComboBox Grid.Row="1" Grid.Column="1" SelectedValue="{Binding Language, Mode=TwoWay}" SelectedValuePath="Tag">
             <ComboBoxItem Tag="en-CA">English</ComboBoxItem>

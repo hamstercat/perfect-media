@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Ookii.Dialogs.Wpf;
 
 namespace PerfectMedia.UI.Settings
 {
@@ -22,6 +23,17 @@ namespace PerfectMedia.UI.Settings
         public SettingsWindow()
         {
             InitializeComponent();
+        }
+
+        private void BrowseClick(object sender, RoutedEventArgs e)
+        {
+            VistaFolderBrowserDialog folderDialog = new VistaFolderBrowserDialog();
+            folderDialog.SelectedPath = MovieSetArtworkFolder.Text;
+            bool? dialogResult = folderDialog.ShowDialog();
+            if (dialogResult.GetValueOrDefault(false))
+            {
+                MovieSetArtworkFolder.Text = folderDialog.SelectedPath;
+            }
         }
     }
 }

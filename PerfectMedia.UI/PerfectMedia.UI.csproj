@@ -256,6 +256,7 @@
       <DependentUpon>SourcesResources.resx</DependentUpon>
     </Compile>
     <Compile Include="TreeViewItemViewModel.cs" />
+    <Compile Include="TvShows\Seasons\ISeasonImagesViewModel.cs" />
     <Compile Include="TvShows\TvShowResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

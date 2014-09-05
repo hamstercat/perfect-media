@@ -12,18 +12,17 @@ using PropertyChanged;
 namespace PerfectMedia.UI.TvShows.Shows
 {
     [ImplementPropertyChanged]
-    public class TvShowImagesViewModel : ITvShowImagesViewModel
+    public class TvShowImagesViewModel : BaseViewModel, ITvShowImagesViewModel
     {
         private readonly ITvShowFileService _tvShowFileService;
-        private readonly ITvShowMetadataService _metadataService;
-        private readonly IFileSystemService _fileSystemService;
+        private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly IBusyProvider _busyProvider;
         private readonly string _path;
 
         private bool _tvShowImagesLoaded;
 
-        private readonly ImageViewModel _fanartUrl;
-        public ImageViewModel FanartUrl
+        private readonly IImageViewModel _fanartUrl;
+        public IImageViewModel FanartUrl
         {
             get
             {
@@ -32,8 +31,8 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
         }
 
-        private readonly ImageViewModel _posterUrl;
-        public ImageViewModel PosterUrl
+        private readonly IImageViewModel _posterUrl;
+        public IImageViewModel PosterUrl
         {
             get
             {
@@ -42,8 +41,8 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
         }
 
-        private readonly ImageViewModel _bannerUrl;
-        public ImageViewModel BannerUrl
+        private readonly IImageViewModel _bannerUrl;
+        public IImageViewModel BannerUrl
         {
             get
             {
@@ -52,8 +51,8 @@ namespace PerfectMedia.UI.TvShows.Shows
             }
         }
 
-        private ObservableCollection<SeasonImagesViewModel> _seasonImages;
-        public ObservableCollection<SeasonImagesViewModel> SeasonImages
+        private ObservableCollection<ISeasonImagesViewModel> _seasonImages;
+        public ObservableCollection<ISeasonImagesViewModel> SeasonImages
         {
             get
             {
@@ -67,21 +66,20 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         public TvShowImagesViewModel(ITvShowFileService tvShowFileService,
             ITvShowMetadataService metadataService,
-            IFileSystemService fileSystemService,
+            ITvShowViewModelFactory viewModelFactory,
             ITvShowViewModel metadataViewModel,
             IBusyProvider busyProvider,
             string path)
         {
             _tvShowFileService = tvShowFileService;
-            _metadataService = metadataService;
-            _fileSystemService = fileSystemService;
+            _viewModelFactory = viewModelFactory;
             _busyProvider = busyProvider;
             _path = path;
             _tvShowImagesLoaded = false;
 
-            _fanartUrl = new ImageViewModel(fileSystemService, _busyProvider, true, new FanartImageStrategy(metadataService, metadataViewModel));
-            _posterUrl = new ImageViewModel(fileSystemService, _busyProvider, true, new PosterImageStrategy(metadataService, metadataViewModel));
-            _bannerUrl = new ImageViewModel(fileSystemService, _busyProvider, false, new BannerImageStrategy(metadataService, metadataViewModel));
+            _fanartUrl = viewModelFactory.GetImage(true, new FanartImageStrategy(metadataService, metadataViewModel));
+            _posterUrl = viewModelFactory.GetImage(true, new PosterImageStrategy(metadataService, metadataViewModel));
+            _bannerUrl = viewModelFactory.GetImage(false, new BannerImageStrategy(metadataService, metadataViewModel));
         }
 
         public async Task Refresh()
@@ -107,16 +105,20 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         private void ForceInitialLoadTvShowImages()
         {
-            FanartUrl.Path = Path.Combine(_path, "fanart.jpg");
-            PosterUrl.Path = Path.Combine(_path, "poster.jpg");
-            BannerUrl.Path = Path.Combine(_path, "banner.jpg");
+            FanartUrl.RefreshImage(Path.Combine(_path, "fanart.jpg"));
+            PosterUrl.RefreshImage(Path.Combine(_path, "poster.jpg"));
+            BannerUrl.RefreshImage(Path.Combine(_path, "banner.jpg"));
+            foreach (SeasonImagesViewModel season in SeasonImages)
+            {
+                season.Refresh();
+            }
         }
 
         private async Task InitialLoadSeasonImages()
         {
             if (_seasonImages == null)
             {
-                _seasonImages = new ObservableCollection<SeasonImagesViewModel>();
+                _seasonImages = new ObservableCollection<ISeasonImagesViewModel>();
             }
             _seasonImages.Clear();
             IEnumerable<Season> seasons = await _tvShowFileService.GetSeasons(_path);
@@ -128,7 +130,7 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         private void LoadSeason(Season season)
         {
-            SeasonImagesViewModel viewModel = new SeasonImagesViewModel(_fileSystemService, _metadataService, _busyProvider, _path, season.Path);
+            ISeasonImagesViewModel viewModel = _viewModelFactory.GetSeasonImages(_path, season.Path);
             viewModel.BannerUrl.Path = season.BannerUrl;
             viewModel.PosterUrl.Path = season.PosterUrl;
             viewModel.SeasonNumber = season.SeasonNumber;

@@ -53,7 +53,14 @@ namespace PerfectMedia.UI.Images
 
         public void RefreshImage()
         {
-            OnPropertyChanged("Path");
+            RefreshImage(Path);
+        }
+
+        public void RefreshImage(string newPath)
+        {
+            // Force the refresh of the image by WPF Image control by changing it's value
+            Path = string.Empty;
+            Path = newPath;
         }
 
         private void ImageSelectionPropertyChanged(object sender, PropertyChangedEventArgs e)

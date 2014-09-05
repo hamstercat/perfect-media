@@ -105,6 +105,7 @@ namespace PerfectMedia.Movies
         public async Task Delete(string path)
         {
             await _metadataRepository.Delete(path);
+            await DeleteImages(path);
         }
 
         /// <summary>

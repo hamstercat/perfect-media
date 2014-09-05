@@ -46,7 +46,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
         public int? DisplayEpisode { get; set; }
 
         public string Plot { get; set; }
-        public ImageViewModel ImagePath { get; set; }
+        public IImageViewModel ImagePath { get; set; }
         public string ImageUrl { get; set; }
         public DateTime? LastPlayed { get; set; }
         public DashDelimitedCollectionViewModel<string> Credits { get; set; }
@@ -84,7 +84,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
             IEpisodeMetadataService metadataService,
             ITvShowViewModel tvShowMetadata,
             IProgressManagerViewModel progressManager,
-            IFileSystemService fileSystemService,
             IBusyProvider busyProvider,
             IDialogViewer dialogViewer,
             string path)
@@ -104,7 +103,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
 
             Credits = new DashDelimitedCollectionViewModel<string>(s => s);
             Directors = new DashDelimitedCollectionViewModel<string>(s => s);
-            ImagePath = new ImageViewModel(fileSystemService, busyProvider, true);
+            ImagePath = viewModelFactory.GetImage(true);
 
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this, progressManager, busyProvider);
@@ -174,8 +173,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             EpisodeNumber.Value = metadata.EpisodeNumber;
             EpisodeNumber.Save();
             Plot = metadata.Plot;
-            ImagePath.Path = null;
-            ImagePath.Path = metadata.ImagePath;
+            ImagePath.RefreshImage(metadata.ImagePath);
             ImageUrl = metadata.ImageUrl;
             PlayCount = metadata.PlayCount;
             LastPlayed = metadata.LastPlayed;

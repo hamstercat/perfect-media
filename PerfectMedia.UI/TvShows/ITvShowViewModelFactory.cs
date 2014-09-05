@@ -17,6 +17,7 @@ namespace PerfectMedia.UI.TvShows
         ITvShowViewModel GetTvShow(string path);
         ITvShowImagesViewModel GetTvShowImages(ITvShowViewModel tvShow, string path);
         ISeasonViewModel GetSeason(ITvShowViewModel tvShow, string path);
+        ISeasonImagesViewModel GetSeasonImages(string tvShowPath, string seasonPath);
         IEpisodeViewModel GetEpisode(ITvShowViewModel tvShow, string path);
         IImageViewModel GetImage(bool horizontalAlignement);
         IImageViewModel GetImage(bool horizontalAlignement, IImageStrategy imageStrategy);

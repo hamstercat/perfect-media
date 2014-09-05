@@ -9,5 +9,6 @@ namespace PerfectMedia.UI.Images
         object OriginalContent { get; set; }
         Task LoadAvailableImages();
         void RefreshImage();
+        void RefreshImage(string newPath);
     }
 }

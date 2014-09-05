@@ -148,7 +148,7 @@
     <value>Episode</value>
   </data>
   <data name="EpisodeNotFound" xml:space="preserve">
-    <value />
+    <value>Episode could not be located</value>
   </data>
   <data name="FindNewEpisodes" xml:space="preserve">
     <value>Find New Episodes</value>

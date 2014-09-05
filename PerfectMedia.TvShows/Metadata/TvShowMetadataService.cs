@@ -70,7 +70,9 @@ namespace PerfectMedia.TvShows.Metadata
             string serieId = await GetSeriesId(seriePath);
             AvailableTvShowImages images = await FindImages(serieId);
             int seasonNumber = TvShowHelper.FindSeasonNumberFromFolder(seasonPath);
-            return images.Seasons[seasonNumber];
+
+            AvailableSeasonImages result;
+            return images.Seasons.TryGetValue(seasonNumber, out result) ? result : new AvailableSeasonImages();
         }
 
         public Task DeleteImages(string path)

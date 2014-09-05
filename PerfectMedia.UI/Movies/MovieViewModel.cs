@@ -184,8 +184,8 @@ namespace PerfectMedia.UI.Movies
             Title.Value = metadata.Title;
             Title.Save();
             Year = metadata.Year;
-            Poster.Path = metadata.ImagePosterPath;
-            Fanart.Path = metadata.ImageFanartPath;
+            Poster.RefreshImage(metadata.ImagePosterPath);
+            Fanart.RefreshImage(metadata.ImageFanartPath);
 
             Credits.ReplaceWith(metadata.Credits);
             Directors.ReplaceWith(metadata.Directors);

@@ -27,7 +27,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             ITvShowViewModelFactory viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
             _busyProvider = _busyProvider = Substitute.For<IBusyProvider>();
             _path = @"C:\Folder\TV Shows\Game of Thrones\Season 2\3x09.mkv";
-            _viewModel = new EpisodeViewModel(viewModelFactory, _metadataService, _tvShowMetadata, null, null, _busyProvider, null, _path);
+            _viewModel = new EpisodeViewModel(viewModelFactory, _metadataService, _tvShowMetadata, null, _busyProvider, null, _path);
         }
 
         [Fact]
@@ -164,7 +164,6 @@ namespace PerfectMedia.UI.TvShows.Episodes
             Assert.Equal(metadata.DisplaySeason, _viewModel.DisplaySeason);
             Assert.Equal(metadata.EpisodeBookmarks, _viewModel.EpisodeBookmarks);
             Assert.Equal(metadata.EpisodeNumber, _viewModel.EpisodeNumber.Value);
-            Assert.Equal(metadata.ImagePath, _viewModel.ImagePath.Path);
             Assert.Equal(metadata.ImageUrl, _viewModel.ImageUrl);
             Assert.Equal(metadata.LastPlayed, _viewModel.LastPlayed);
             Assert.Equal(metadata.PlayCount, _viewModel.PlayCount);

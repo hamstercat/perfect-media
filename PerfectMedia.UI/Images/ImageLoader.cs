@@ -49,6 +49,7 @@
 
 using System;
 using System.IO;
+using System.Net.Cache;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -168,6 +169,7 @@ namespace PerfectMedia.UI.Images
             _loadedImage.BeginInit();
             _loadedImage.CacheOption = BitmapCacheOption.OnLoad;
             _loadedImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+            _loadedImage.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
             _loadedImage.DownloadCompleted += OnDownloadCompleted;
             _loadedImage.DownloadFailed += OnDownloadFailed;
             _loadedImage.UriSource = new Uri(ImageUri);

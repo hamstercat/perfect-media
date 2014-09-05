@@ -63,7 +63,7 @@ namespace PerfectMedia.UI.TvShows
 
         public ITvShowImagesViewModel GetTvShowImages(ITvShowViewModel metadataViewModel, string path)
         {
-            return new TvShowImagesViewModel(_tvShowFileService, _tvShowMetadataService, _fileSystemService, metadataViewModel, _busyProvider, path);
+            return new TvShowImagesViewModel(_tvShowFileService, _tvShowMetadataService, this, metadataViewModel, _busyProvider, path);
         }
 
         public ISeasonViewModel GetSeason(ITvShowViewModel tvShowMetadata, string path)
@@ -71,9 +71,14 @@ namespace PerfectMedia.UI.TvShows
             return new SeasonViewModel(this, _tvShowFileService, tvShowMetadata, _tvShowMetadataService, _busyProvider, path);
         }
 
+        public ISeasonImagesViewModel GetSeasonImages(string tvShowPath, string seasonPath)
+        {
+            return new SeasonImagesViewModel(this, _tvShowMetadataService, tvShowPath, seasonPath);
+        }
+
         public IEpisodeViewModel GetEpisode(ITvShowViewModel tvShowMetadata, string path)
         {
-            return new EpisodeViewModel(this, _episodeMetadataService, tvShowMetadata, _progressManagerViewModel, _fileSystemService, _busyProvider, _dialogViewer, path);
+            return new EpisodeViewModel(this, _episodeMetadataService, tvShowMetadata, _progressManagerViewModel, _busyProvider, _dialogViewer, path);
         }
 
         public IImageViewModel GetImage(bool horizontalAlignement)

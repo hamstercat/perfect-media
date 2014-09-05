@@ -153,6 +153,9 @@
   <data name="Information" xml:space="preserve">
     <value>Information</value>
   </data>
+  <data name="MovieNotFound" xml:space="preserve">
+    <value>Movie could not be located</value>
+  </data>
   <data name="OriginalTitle" xml:space="preserve">
     <value>Original Title</value>
   </data>

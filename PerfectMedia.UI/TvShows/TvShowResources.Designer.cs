@@ -151,6 +151,15 @@ namespace PerfectMedia.UI.TvShows {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string EpisodeNotFound {
+            get {
+                return ResourceManager.GetString("EpisodeNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Find New Episodes.
         /// </summary>
         public static string FindNewEpisodes {
@@ -322,6 +331,15 @@ namespace PerfectMedia.UI.TvShows {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Specials.
+        /// </summary>
+        public static string Specials {
+            get {
+                return ResourceManager.GetString("Specials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Studio.
         /// </summary>
         public static string Studio {
@@ -336,6 +354,15 @@ namespace PerfectMedia.UI.TvShows {
         public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string TvShowNotFound {
+            get {
+                return ResourceManager.GetString("TvShowNotFound", resourceCulture);
             }
         }
         

@@ -31,7 +31,10 @@ namespace PerfectMedia.UI
         private void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             LogTo.FatalException("Unhandled exception in application", e.Exception);
-            // TODO: show generic message to user and prompt them to send the log
+#pragma warning disable 4014
+            // Fire and forget
+            MahAppsDialogViewer.ShowMessageStatic(General.UnhandledException_Title, General.UnhandledException_Message);
+#pragma warning restore 4014
         }
     }
 }

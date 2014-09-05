@@ -4,6 +4,8 @@ using Anotar.Log4Net;
 using PerfectMedia.Serialization;
 using PerfectMedia.TvShows;
 using PerfectMedia.Movies;
+using PerfectMedia.UI.Movies;
+using PerfectMedia.UI.TvShows;
 
 namespace PerfectMedia.UI.Progress
 {
@@ -25,7 +27,7 @@ namespace PerfectMedia.UI.Progress
                 {
                     if (!string.IsNullOrEmpty(Warning))
                     {
-                        return "Warning: " + Warning;
+                        return string.Format("{0}{1}{2}", General.Warning, General.Semicolon, Warning);
                     }
                     return string.Empty;
                 }
@@ -61,24 +63,24 @@ namespace PerfectMedia.UI.Progress
             }
             catch (EpisodeNotFoundException)
             {
-                Error = "Episode could not be located";
+                Error = TvShowResources.EpisodeNotFound;
             }
             catch (TvShowNotFoundException)
             {
-                Error = "TV Show could not be located";
+                Error = TvShowResources.TvShowNotFound;
             }
             catch (MovieNotFoundException)
             {
-                Error = "Movie could not be located";
+                Error = MovieResources.MovieNotFound;
             }
             catch (InvalidNfoException)
             {
-                Warning = "Existing .nfo file was invalid. Original file was backed up.";
+                Warning = General.InvalidNfo;
                 return true;
             }
             catch (Exception ex)
             {
-                Error = "Unhandled exception (check the log for more information)";
+                Error = General.UnhandledExceptionOnUpdate;
                 LogTo.ErrorException(Display, ex);
             }
             return false;

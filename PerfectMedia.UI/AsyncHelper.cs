@@ -25,9 +25,7 @@ namespace PerfectMedia.UI
         {
             if (exception != null)
             {
-                string title = "An unhandled error has occured";
-                string message = "This is most probably a bug. For more information about the error, please look at the logs.";
-                await MahAppsDialogViewer.ShowMessageStatic(title, message);
+                await MahAppsDialogViewer.ShowMessageStatic(General.UnhandledException_Title, General.UnhandledException_Message);
             }
         }
     }

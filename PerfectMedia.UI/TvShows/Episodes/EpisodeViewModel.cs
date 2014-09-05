@@ -66,9 +66,10 @@ namespace PerfectMedia.UI.TvShows.Episodes
                 {
                     return Title.CachedValue;
                 }
-                return string.Format("{0}x{1:d2}: {2}",
+                return string.Format("{0}x{1:d2}{2}{3}",
                     SeasonNumber.CachedValue,
                     EpisodeNumber.CachedValue,
+                    General.Semicolon,
                     Title.CachedValue);
             }
         }

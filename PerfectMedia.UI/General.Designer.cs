@@ -61,6 +61,33 @@ namespace PerfectMedia.UI {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Existing .nfo file was invalid. Original file was backed up..
+        /// </summary>
+        public static string InvalidNfo {
+            get {
+                return ResourceManager.GetString("InvalidNfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .nfo file &quot;{0}&quot; is invalid. That file has been backed up as a &quot;.bak&quot; file in the same folder..
+        /// </summary>
+        public static string InvalidNfoException_Message {
+            get {
+                return ResourceManager.GetString("InvalidNfoException_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid .nfo file.
+        /// </summary>
+        public static string InvalidNfoException_Title {
+            get {
+                return ResourceManager.GetString("InvalidNfoException_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Movies.
         /// </summary>
         public static string Movies {
@@ -111,6 +138,42 @@ namespace PerfectMedia.UI {
         public static string TvShows {
             get {
                 return ResourceManager.GetString("TvShows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is most probably a bug. For more information about the error, please look at the logs..
+        /// </summary>
+        public static string UnhandledException_Message {
+            get {
+                return ResourceManager.GetString("UnhandledException_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An unhandled error has occured.
+        /// </summary>
+        public static string UnhandledException_Title {
+            get {
+                return ResourceManager.GetString("UnhandledException_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unhandled exception (check the log for more information).
+        /// </summary>
+        public static string UnhandledExceptionOnUpdate {
+            get {
+                return ResourceManager.GetString("UnhandledExceptionOnUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        public static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
     }

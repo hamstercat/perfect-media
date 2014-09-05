@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using PerfectMedia.Serialization;
 using PerfectMedia.UI.Busy;
@@ -82,8 +79,8 @@ namespace PerfectMedia.UI
             }
             catch (InvalidNfoException ex)
             {
-                title = "Invalid .nfo file";
-                message = string.Format(".nfo file \"{0}\" is invalid. That file has been backed up as a \".bak\" file in the same folder.", ex.NfoFilePath);
+                title = General.InvalidNfoException_Title;
+                message = string.Format(General.InvalidNfoException_Message, ex.NfoFilePath);
             }
             await ShowMessageIfNeeded(title, message);
         }

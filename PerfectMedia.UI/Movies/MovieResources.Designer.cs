@@ -169,6 +169,15 @@ namespace PerfectMedia.UI.Movies {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Movie could not be located.
+        /// </summary>
+        public static string MovieNotFound {
+            get {
+                return ResourceManager.GetString("MovieNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Original Title.
         /// </summary>
         public static string OriginalTitle {

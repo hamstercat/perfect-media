@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using PerfectMedia.UI.TvShows;
 
 namespace PerfectMedia.UI.Converters
 {
@@ -11,9 +12,9 @@ namespace PerfectMedia.UI.Converters
             int seasonNumber = (int)value;
             if (seasonNumber == 0)
             {
-                return "Specials";
+                return TvShowResources.Specials;
             }
-            return "Season " + seasonNumber;
+            return string.Format("{0} {1}", TvShowResources.Season, seasonNumber);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

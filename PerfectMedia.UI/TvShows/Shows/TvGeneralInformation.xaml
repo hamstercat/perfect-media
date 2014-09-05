@@ -5,6 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:img="clr-namespace:PerfectMedia.UI.Images"
              xmlns:shows="clr-namespace:PerfectMedia.UI.TvShows.Shows"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="en"
+             lex:ResxLocalizationProvider.DefaultAssembly="PerfectMedia.UI"
+             lex:ResxLocalizationProvider.DefaultDictionary="TvShowResources"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance Type=shows:TvShowViewModel}">
@@ -30,21 +34,21 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Content="Path" />
+            <Label Grid.Row="0" Grid.Column="0" Content="{lex:Loc Path}" />
             <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Path}" IsReadOnly="True" />
-            <Label Grid.Row="1" Grid.Column="0" Content="Title*" />
+            <Label Grid.Row="1" Grid.Column="0" Content="{lex:Loc Title, Converter={StaticResource RequiredLabelConverter}}" />
             <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title.Value}" />
-            <Label Grid.Row="2" Grid.Column="0" Content="Genre" />
+            <Label Grid.Row="2" Grid.Column="0" Content="{lex:Loc Genres}" />
             <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Genres.String}" />
 
-            <Label Grid.Row="3" Grid.Column="0" Content="Rating" />
+            <Label Grid.Row="3" Grid.Column="0" Content="{lex:Loc Rating}" />
             <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Rating, TargetNullValue=''}" />
-            <Label Grid.Row="3" Grid.Column="2" Content="Runtime (in minutes)" />
+            <Label Grid.Row="3" Grid.Column="2" Content="{lex:Loc Runtime}" />
             <TextBox Grid.Row="3" Grid.Column="3" Text="{Binding RuntimeInMinutes, TargetNullValue=''}" />
 
-            <Label Grid.Row="4" Grid.Column="0" Content="MPAA Rating" />
+            <Label Grid.Row="4" Grid.Column="0" Content="{lex:Loc MpaaRating}" />
             <ComboBox Grid.Row="4" Grid.Column="1" SelectedValue="{Binding MpaaRating, Mode=TwoWay}" SelectedValuePath="Tag">
-                <ComboBoxItem Tag="" FontStyle="Italic">(None)</ComboBoxItem>
+                <ComboBoxItem Tag="" FontStyle="Italic"><lex:Loc Key="None" /></ComboBoxItem>
                 <ComboBoxItem Tag="TV-Y">TV-Y</ComboBoxItem>
                 <ComboBoxItem Tag="TV-Y7">TV-Y7</ComboBoxItem>
                 <ComboBoxItem Tag="TV-G">TV-G</ComboBoxItem>
@@ -52,15 +56,15 @@
                 <ComboBoxItem Tag="TV-14">TV-14</ComboBoxItem>
                 <ComboBoxItem Tag="TV-MA">TV-MA</ComboBoxItem>
             </ComboBox>
-            <Label Grid.Row="4" Grid.Column="2" Content="Premiered Date" />
+            <Label Grid.Row="4" Grid.Column="2" Content="{lex:Loc PremieredDate}" />
             <DatePicker Grid.Row="4" Grid.Column="3" SelectedDate="{Binding PremieredDate}" />
 
-            <Label Grid.Row="5" Grid.Column="0" Content="Id *" />
+            <Label Grid.Row="5" Grid.Column="0" Content="{lex:Loc Id, Converter={StaticResource RequiredLabelConverter}}" />
             <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Id}" />
-            <Label Grid.Row="5" Grid.Column="2" Content="Studio" />
+            <Label Grid.Row="5" Grid.Column="2" Content="{lex:Loc Studio}" />
             <TextBox Grid.Row="5" Grid.Column="3" Text="{Binding Studio}" />
 
-            <Label Grid.Row="6" Grid.Column="0" Content="Plot" />
+            <Label Grid.Row="6" Grid.Column="0" Content="{lex:Loc Plot}" />
             <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Plot}" TextWrapping="Wrap" />
             <img:SelectableImage Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" DataContext="{Binding Images.FanartUrl}" />
         </Grid>

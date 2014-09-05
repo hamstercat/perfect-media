@@ -6,6 +6,10 @@
              xmlns:views="clr-namespace:PerfectMedia.UI"
              xmlns:showselection="clr-namespace:PerfectMedia.UI.TvShows.ShowSelection"
              xmlns:img="clr-namespace:PerfectMedia.UI.Images"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="en"
+             lex:ResxLocalizationProvider.DefaultAssembly="PerfectMedia.UI"
+             lex:ResxLocalizationProvider.DefaultDictionary="TvShowResources"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              views:IsClosedAttachedBehavior.IsClosedView="{Binding IsClosed}">
@@ -25,9 +29,16 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="Title: " />
+            <Label Grid.Column="0">
+                <Label.Content>
+                    <MultiBinding StringFormat="{}{0}{1}">
+                        <lex:BLoc Key="Title" />
+                        <lex:BLoc Key="PerfectMedia.UI:General:Semicolon" />
+                    </MultiBinding>
+                </Label.Content>
+            </Label>
             <TextBox Grid.Column="1" Text="{Binding SearchTitle, UpdateSourceTrigger=PropertyChanged}" />
-            <Button Grid.Column="2" Content="Search" Command="{Binding SearchCommand}" IsDefault="True" />
+            <Button Grid.Column="2" Content="{lex:Loc Search}" Command="{Binding SearchCommand}" IsDefault="True" />
         </Grid>
         <ListView Grid.Row="1" ItemsSource="{Binding Selection.AvailableItems}" SelectedItem="{Binding Selection.SelectedItem}">
             <ListView.ItemTemplate>
@@ -48,8 +59,8 @@
             <img:ImageLoader Grid.Row="2" ImageUri="{Binding SelectedItem.Banner}" InitialImage="/PerfectMedia.UI;component/Images/Blank.png"
                              RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
             <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Cancel" Click="CancelClick" IsCancel="True" />
-                <Button Content="Save" Command="{Binding SaveCommand}" />
+                <Button Content="{lex:Loc Cancel}" Click="CancelClick" IsCancel="True" />
+                <Button Content="{lex:Loc Save}" Command="{Binding SaveCommand}" />
             </StackPanel>
         </Grid>
     </Grid>

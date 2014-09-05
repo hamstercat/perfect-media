@@ -4,6 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:img="clr-namespace:PerfectMedia.UI.Images"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="en"
+             lex:ResxLocalizationProvider.DefaultAssembly="PerfectMedia.UI"
+             lex:ResxLocalizationProvider.DefaultDictionary="TvShowResources"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Background="White" Grid.IsSharedSizeScope="True">
@@ -27,31 +31,31 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="Title *" />
+        <Label Grid.Row="0" Grid.Column="0" Content="{lex:Loc Title, Converter={StaticResource RequiredLabelConverter}}" />
         <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title.Value}" />
-        <Label Grid.Row="1" Grid.Column="0" Content="Plot" />
+        <Label Grid.Row="1" Grid.Column="0" Content="{lex:Loc Plot}" />
         <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Plot}" TextWrapping="Wrap" />
 
-        <Label Grid.Row="2" Grid.Column="0" Content="Season *" />
+        <Label Grid.Row="2" Grid.Column="0" Content="{lex:Loc Season, Converter={StaticResource RequiredLabelConverter}}" />
         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SeasonNumber.Value, TargetNullValue=''}" />
-        <Label Grid.Row="3" Grid.Column="0" Content="Episode *" />
+        <Label Grid.Row="3" Grid.Column="0" Content="{lex:Loc Episode, Converter={StaticResource RequiredLabelConverter}}" />
         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding EpisodeNumber.Value, TargetNullValue=''}" />
-        <Label Grid.Row="4" Grid.Column="0" Content="Rating" />
+        <Label Grid.Row="4" Grid.Column="0" Content="{lex:Loc Rating}" />
         <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Rating, TargetNullValue=''}" />
-        <Label Grid.Row="5" Grid.Column="0" Content="Aired Date" />
+        <Label Grid.Row="5" Grid.Column="0" Content="{lex:Loc AiredDate}" />
         <DatePicker Grid.Row="5" Grid.Column="1" SelectedDate="{Binding AiredDate}" />
-        <Label Grid.Row="6" Grid.Column="0" Content="Credits" />
+        <Label Grid.Row="6" Grid.Column="0" Content="{lex:Loc Credits}" />
         <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Credits.String}" />
-        <Label Grid.Row="7" Grid.Column="0" Content="Director" />
+        <Label Grid.Row="7" Grid.Column="0" Content="{lex:Loc Directors}" />
         <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Directors.String}" />
-        <Label Grid.Row="8" Grid.Column="0" Content="Play Count" />
+        <Label Grid.Row="8" Grid.Column="0" Content="{lex:Loc PlayCount}" />
         <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding PlayCount, TargetNullValue=''}" />
-        <Label Grid.Row="9" Grid.Column="0" Content="Last Played" />
+        <Label Grid.Row="9" Grid.Column="0" Content="{lex:Loc LastPlayed}" />
         <DatePicker Grid.Row="9" Grid.Column="1" SelectedDate="{Binding LastPlayed}" />
 
-        <Label Grid.Row="10" Grid.Column="0" Content="Display Season" Visibility="{Binding SeasonNumber.Value, Converter={StaticResource SpecialsSeasonVisibilityConverter}}" />
+        <Label Grid.Row="10" Grid.Column="0" Content="{lex:Loc DisplaySeason}" Visibility="{Binding SeasonNumber.Value, Converter={StaticResource SpecialsSeasonVisibilityConverter}}" />
         <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding DisplaySeason, TargetNullValue=''}" Visibility="{Binding SeasonNumber.Value, Converter={StaticResource SpecialsSeasonVisibilityConverter}}" />
-        <Label Grid.Row="10" Grid.Column="2" Content="Display Episode" Visibility="{Binding SeasonNumber.Value, Converter={StaticResource SpecialsSeasonVisibilityConverter}}" />
+        <Label Grid.Row="10" Grid.Column="2" Content="{lex:Loc DisplayEpisode}" Visibility="{Binding SeasonNumber.Value, Converter={StaticResource SpecialsSeasonVisibilityConverter}}" />
         <TextBox Grid.Row="10" Grid.Column="3" Text="{Binding DisplayEpisode, TargetNullValue=''}" Visibility="{Binding SeasonNumber.Value, Converter={StaticResource SpecialsSeasonVisibilityConverter}}" />
         <!-- TODO: EpisodeBookmarks when multi-episode file is supported -->
 

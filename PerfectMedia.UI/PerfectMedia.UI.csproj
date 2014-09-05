@@ -256,6 +256,11 @@
       <DependentUpon>SourcesResources.resx</DependentUpon>
     </Compile>
     <Compile Include="TreeViewItemViewModel.cs" />
+    <Compile Include="TvShows\TvShowResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TvShowResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Validations\ActorsValidAttribute.cs" />
     <Compile Include="Validations\FolderExistsAttribute.cs" />
     <Compile Include="Validations\LocalizedRequiredAttribute.cs" />
@@ -488,6 +493,10 @@
     <EmbeddedResource Include="Sources\SourcesResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SourcesResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TvShows\TvShowResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>TvShowResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Validations\ValidationsResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

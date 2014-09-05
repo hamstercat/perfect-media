@@ -18,14 +18,30 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <ProgressBar Grid.Row="0" Grid.Column="0" Minimum="0" Maximum="{Binding Total.Count, Mode=OneWay}" Value="{Binding Completed.Count, Mode=OneWay}" />
-        <TextBlock Grid.Row="0" Grid.Column="1">
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}{1}">
+                        <lex:BLoc Key="PerfectMedia.UI:ProgressResources:CurrentItem" />
+                        <lex:BLoc Key="PerfectMedia.UI:General:Semicolon" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            <TextBlock Grid.Column="1" Text="{Binding CurrentItem.Display}" />
+        </Grid>
+        <ProgressBar Grid.Row="1" Grid.Column="0" Minimum="0" Maximum="{Binding Total.Count, Mode=OneWay}" Value="{Binding Completed.Count, Mode=OneWay}" />
+        <TextBlock Grid.Row="1" Grid.Column="1">
             <TextBlock.Text>
                 <MultiBinding StringFormat="{}{0} / {1}">
                     <Binding Path="Completed.Count" />
@@ -33,7 +49,7 @@
                 </MultiBinding>
             </TextBlock.Text>
         </TextBlock>
-        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
             <TextBlock.Text>
                 <MultiBinding StringFormat="{}{0}{1}({2})">
                     <lex:BLoc Key="PerfectMedia.UI:ProgressResources:Errors" />
@@ -42,7 +58,7 @@
                 </MultiBinding>
             </TextBlock.Text>
         </TextBlock>
-        <ListBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding InError}">
+        <ListBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding InError}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock>

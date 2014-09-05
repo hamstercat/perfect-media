@@ -358,7 +358,7 @@ namespace PerfectMedia.UI.TvShows {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to TV Show could not be located.
         /// </summary>
         public static string TvShowNotFound {
             get {

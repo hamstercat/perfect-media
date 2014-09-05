@@ -217,7 +217,7 @@
     <value>Title</value>
   </data>
   <data name="TvShowNotFound" xml:space="preserve">
-    <value />
+    <value>TV Show could not be located</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>Update</value>

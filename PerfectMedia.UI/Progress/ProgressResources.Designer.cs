@@ -61,6 +61,15 @@ namespace PerfectMedia.UI.Progress {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current Item.
+        /// </summary>
+        internal static string CurrentItem {
+            get {
+                return ResourceManager.GetString("CurrentItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Errors.
         /// </summary>
         internal static string Errors {

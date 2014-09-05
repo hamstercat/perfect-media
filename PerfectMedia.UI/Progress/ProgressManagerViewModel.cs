@@ -16,6 +16,7 @@ namespace PerfectMedia.UI.Progress
         public ObservableCollection<ProgressItem> Total { get; private set; }
         public ObservableCollection<ProgressItem> Completed { get; private set; }
         public ObservableCollection<ProgressItem> InError { get; private set; }
+        public ProgressItem CurrentItem { get; set; }
 
         public ProgressManagerViewModel(IProgressIndicatorFactory progressIndicatorFactory, IBusyProvider busyProvider)
         {
@@ -32,6 +33,7 @@ namespace PerfectMedia.UI.Progress
             if (!_collecting)
             {
                 _collecting = true;
+                CurrentItem = null;
                 ClearItems();
                 ShowProgressIndicator();
             }
@@ -48,6 +50,7 @@ namespace PerfectMedia.UI.Progress
                 _collecting = false;
                 foreach (ProgressItem item in Total)
                 {
+                    CurrentItem = item;
                     await ExecuteItem(item);
                 }
             }

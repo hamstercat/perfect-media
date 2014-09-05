@@ -29,14 +29,14 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0">
-                <Label.Content>
+            <TextBlock Grid.Column="0">
+                <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0}{1}">
-                        <lex:BLoc Key="Title" />
+                        <lex:BLoc Key="PerfectMedia.UI:TvShowResources:Title" />
                         <lex:BLoc Key="PerfectMedia.UI:General:Semicolon" />
                     </MultiBinding>
-                </Label.Content>
-            </Label>
+                </TextBlock.Text>
+            </TextBlock>
             <TextBox Grid.Column="1" Text="{Binding SearchTitle, UpdateSourceTrigger=PropertyChanged}" />
             <Button Grid.Column="2" Content="{lex:Loc Search}" Command="{Binding SearchCommand}" IsDefault="True" />
         </Grid>

@@ -8,31 +8,26 @@ namespace PerfectMedia.UI.Actors
     {
         private readonly IActorManagerViewModel _actorManager;
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add { }
+            remove { }
+        }
 
         public RemoveCommand(IActorManagerViewModel actorManager)
         {
             _actorManager = actorManager;
-            _actorManager.PropertyChanged += ActorManagerPropertyChanged;
         }
 
         public bool CanExecute(object parameter)
         {
-            return _actorManager.SelectedActor != null;
+            return true;
         }
 
         public void Execute(object parameter)
         {
-            _actorManager.Actors.Remove(_actorManager.SelectedActor);
-        }
-
-        private void ActorManagerPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            EventHandler handler = CanExecuteChanged;
-            if (handler != null)
-            {
-                handler(this, new EventArgs());
-            }
+            var actor = (IActorViewModel)parameter;
+            _actorManager.Actors.Remove(actor);
         }
     }
 }

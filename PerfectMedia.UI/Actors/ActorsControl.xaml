@@ -24,20 +24,21 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="300" />
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
-            <Button Content="{lex:Loc Add}" Command="{Binding AddCommand}" />
-            <Button Content="{lex:Loc Delete}" Command="{Binding RemoveCommand}" />
-        </StackPanel>
-        <ListView Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Actors}" SelectedItem="{Binding SelectedActor}" IsSynchronizedWithCurrentItem="True"
-                  ui:SelectorExtenders.IsAutoscroll="True" x:Name="ActorsList">
+        <ListView Grid.Column="0" ItemsSource="{Binding Actors}" SelectedItem="{Binding SelectedActor}" IsSynchronizedWithCurrentItem="True" x:Name="ActorsList">
+            <ListView.Template>
+                <ControlTemplate TargetType="ListBox">
+                    <ScrollViewer x:Name="ListViewScrollViewer">
+                        <StackPanel>
+                            <StackPanel IsItemsHost="True" />
+                            <Button Content="{lex:Loc Add}" Command="{Binding AddCommand}" />
+                        </StackPanel>
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ListView.Template>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="{lex:Loc Name, Assembly=PerfectMedia.UI, Dict=ActorsResources}">
@@ -60,9 +61,16 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding Path=DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Content="{lex:Loc Delete}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-        <img:SelectableImage Grid.Row="1" Grid.Column="1" DataContext="{Binding SelectedItem.ThumbPath, ElementName=ActorsList}" MaxWidth="300" MaxHeight="450" />
+        <img:SelectableImage Grid.Column="1" DataContext="{Binding SelectedItem.ThumbPath, ElementName=ActorsList}" MaxWidth="300" MaxHeight="450" />
     </Grid>
 </UserControl>

@@ -34,7 +34,7 @@
                     <ScrollViewer x:Name="ListViewScrollViewer">
                         <StackPanel>
                             <StackPanel IsItemsHost="True" />
-                            <Button Content="{lex:Loc Add}" Command="{Binding AddCommand}" />
+                            <Button Content="{lex:Loc Add}" Command="{Binding AddCommand}" HorizontalAlignment="Left" />
                         </StackPanel>
                     </ScrollViewer>
                 </ControlTemplate>

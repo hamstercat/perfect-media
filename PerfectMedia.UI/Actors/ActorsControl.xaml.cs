@@ -2,10 +2,12 @@
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using Anotar.Log4Net;
 
 namespace PerfectMedia.UI.Actors
 {
@@ -51,7 +53,10 @@ namespace PerfectMedia.UI.Actors
                 {
                     items.MoveCurrentTo(selectedItem);
                     ScrollToEnd();
-                    FocusOnFirstTextBox(selectedItem);
+#pragma warning disable 4014
+                    // Fire and forget
+                    AsyncHelper.ExecuteEventHandlerTask(this, () => FocusOnFirstTextBox(selectedItem));
+#pragma warning restore 4014
                 }
             });
 
@@ -65,15 +70,35 @@ namespace PerfectMedia.UI.Actors
             scrollViewer.ScrollToEnd();
         }
 
-        private void FocusOnFirstTextBox(object selectedItem)
+        private async Task FocusOnFirstTextBox(object selectedItem)
         {
             var listBoxItem = (ListBoxItem)ActorsList.ItemContainerGenerator.ContainerFromItem(selectedItem);
             if (listBoxItem != null)
             {
-                var firstTextBox = FindVisualChild<TextBox>(listBoxItem);
-                // TODO: make this work
-                firstTextBox.Focus();
+                TextBox firstTextBox = await FindFirstTextBox(listBoxItem);
+                if (firstTextBox != null)
+                {
+                    firstTextBox.Focus();
+                }
             }
+        }
+
+        private static async Task<TextBox> FindFirstTextBox(ListBoxItem listBoxItem)
+        {
+            var firstTextBox = FindVisualChild<TextBox>(listBoxItem);
+            int loopCount = 0;
+            // This loop is required as FindVisualChild returns null until the item has been generated
+            while(firstTextBox == null)
+            {
+                await Task.Delay(10);
+                firstTextBox = FindVisualChild<TextBox>(listBoxItem);
+                if (loopCount++ == 100)
+                {
+                    LogTo.Error("We've waited more than 1 second, still can't find the textbox to focus");
+                    break;
+                }
+            }
+            return firstTextBox;
         }
 
         private static TChildItem FindVisualChild<TChildItem>(DependencyObject obj)

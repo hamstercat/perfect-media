@@ -133,7 +133,7 @@ namespace PerfectMedia.UI.Images
 
         private void Refresh()
         {
-            if (ImageUri != null && PathIsValid(ImageUri))
+            if (!string.IsNullOrEmpty(ImageUri) && PathIsValid(ImageUri))
             {
                 RetryCount++;
                 LoadImage();
@@ -156,7 +156,7 @@ namespace PerfectMedia.UI.Images
 
         private bool PathIsValid(string imagePath)
         {
-            return IsPathAnUrl(imagePath) || File.Exists(imagePath);
+            return IsPathAnUrl(imagePath) || FileExists(imagePath);
         }
 
         private bool IsPathAnUrl(string path)
@@ -164,18 +164,23 @@ namespace PerfectMedia.UI.Images
             return path.StartsWith("http://") || path.StartsWith("https://");
         }
 
+        private static bool FileExists(string imagePath)
+        {
+            var file = new FileInfo(imagePath);
+            return file.Exists && file.Length > 0;
+        }
+
         private void LoadImage()
         {
             _loadedImage = new BitmapImage();
             _loadedImage.BeginInit();
             _loadedImage.CacheOption = BitmapCacheOption.OnLoad;
-            _loadedImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+            _loadedImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache | BitmapCreateOptions.IgnoreColorProfile;
             _loadedImage.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
             _loadedImage.DownloadCompleted += OnDownloadCompleted;
             _loadedImage.DownloadFailed += OnDownloadFailed;
             _loadedImage.UriSource = new Uri(ImageUri);
             _loadedImage.EndInit();
-            // TODO: find a way for this to work when the image is invalid
         }
 
         private void LoadInitialImage()

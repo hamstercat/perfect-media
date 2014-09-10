@@ -35,6 +35,7 @@ namespace PerfectMedia.UI
             // Fire and forget
             MahAppsDialogViewer.ShowMessageStatic(General.UnhandledException_Title, General.UnhandledException_Message);
 #pragma warning restore 4014
+            e.Handled = true;
         }
     }
 }

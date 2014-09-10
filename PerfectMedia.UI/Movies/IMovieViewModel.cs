@@ -8,8 +8,8 @@ namespace PerfectMedia.UI.Movies
     {
         string Path { get; }
         string Id { get; }
-        ICachedPropertyViewModel<string> SetName { get; }
+        IPropertyViewModel<string> SetName { get; }
         IMovieSelectionViewModel Selection { get; }
-        ICachedPropertyViewModel<string> Title { get; }
+        IPropertyViewModel<string> Title { get; }
     }
 }

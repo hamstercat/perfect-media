@@ -34,16 +34,16 @@ namespace PerfectMedia.UI.Music.Artists
         {
             get
             {
-                if (string.IsNullOrEmpty(Name.CachedValue))
+                if (string.IsNullOrEmpty(Name.OriginalValue))
                 {
                     return System.IO.Path.GetFileNameWithoutExtension(Path);
                 }
-                return Name.CachedValue;
+                return Name.OriginalValue;
             }
         }
 
         [RequiredCached]
-        public ICachedPropertyViewModel<string> Name { get; private set; }
+        public IPropertyViewModel<string> Name { get; private set; }
 
         public string Biography { get; set; }
         public DateTime? BornOn { get; set; }
@@ -62,6 +62,7 @@ namespace PerfectMedia.UI.Music.Artists
             IProgressManagerViewModel progressManager,
             IBusyProvider busyProvider,
             IDialogViewer dialogViewer,
+            IKeyDataStore keyDataStore,
             string path)
             : base(busyProvider, dialogViewer, viewModelFactory.GetAlbum("dummy"))
         {
@@ -69,7 +70,7 @@ namespace PerfectMedia.UI.Music.Artists
             _viewModelFactory = viewModelFactory;
             _musicFileService = musicFileService;
             _busyProvider = busyProvider;
-            Name = viewModelFactory.GetStringCachedProperty(path, true);
+            Name = new RequiredPropertyDecorator<string>(new StringCachedPropertyDecorator(keyDataStore, path));
             Path = path;
 
             Genres = new DashDelimitedCollectionViewModel<string>(s => s);

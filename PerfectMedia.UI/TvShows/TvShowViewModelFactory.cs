@@ -58,7 +58,7 @@ namespace PerfectMedia.UI.TvShows
 
         public ITvShowViewModel GetTvShow(string path)
         {
-            return new TvShowViewModel(this, _tvShowFileService, _tvShowMetadataService, _busyProvider, _dialogViewer, _progressManagerViewModel, path);
+            return new TvShowViewModel(this, _tvShowFileService, _tvShowMetadataService, _busyProvider, _dialogViewer, _progressManagerViewModel, _keyDataStore, path);
         }
 
         public ITvShowImagesViewModel GetTvShowImages(ITvShowViewModel metadataViewModel, string path)
@@ -78,7 +78,7 @@ namespace PerfectMedia.UI.TvShows
 
         public IEpisodeViewModel GetEpisode(ITvShowViewModel tvShowMetadata, string path)
         {
-            return new EpisodeViewModel(this, _episodeMetadataService, tvShowMetadata, _progressManagerViewModel, _busyProvider, _dialogViewer, path);
+            return new EpisodeViewModel(this, _episodeMetadataService, tvShowMetadata, _progressManagerViewModel, _busyProvider, _dialogViewer, _keyDataStore, path);
         }
 
         public IImageViewModel GetImage(bool horizontalAlignement)
@@ -94,16 +94,6 @@ namespace PerfectMedia.UI.TvShows
         public ITvShowSelectionViewModel GetTvShowSelection(ITvShowViewModel tvShowMetadata, string path)
         {
             return new TvShowSelectionViewModel(_tvShowMetadataService, tvShowMetadata, _busyProvider, path);
-        }
-
-        public ICachedPropertyViewModel<string> GetStringCachedProperty(string key, bool isRequired)
-        {
-            return new StringCachedPropertyViewModel(_keyDataStore, key, isRequired);
-        }
-
-        public ICachedPropertyViewModel<int?> GetIntCachedProperty(string key, bool isRequired)
-        {
-            return new IntCachedPropertyViewModel(_keyDataStore, key, isRequired);
         }
 
         public IActorManagerViewModel GetActorManager(Action onPropertyChanged)

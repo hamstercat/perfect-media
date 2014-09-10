@@ -10,7 +10,7 @@ namespace PerfectMedia.UI.Cache
 {
     public class IntCachedPropertyViewModelTests
     {
-        private IntCachedPropertyViewModel _viewModel;
+        private IntCachedPropertyDecorator _viewModel;
         private readonly IKeyDataStore _keyDataStore;
         private readonly string _key;
 
@@ -18,7 +18,7 @@ namespace PerfectMedia.UI.Cache
         {
             _keyDataStore = Substitute.For<IKeyDataStore>();
             _key = @"C:\Folder\TV Shows\Adventure Time\Season 1\1x01.mkv?episodeNumber";
-            _viewModel = new IntCachedPropertyViewModel(_keyDataStore, _key, true);
+            _viewModel = new IntCachedPropertyDecorator(_keyDataStore, _key);
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace PerfectMedia.UI.Cache
                 .Returns("1");
 
             // Act
-            _viewModel = new IntCachedPropertyViewModel(_keyDataStore, _key, true);
+            _viewModel = new IntCachedPropertyDecorator(_keyDataStore, _key);
 
             // Assert
             Assert.Equal(1, _viewModel.Value);

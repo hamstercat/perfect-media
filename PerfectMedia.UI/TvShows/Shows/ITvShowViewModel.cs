@@ -14,7 +14,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         string Path { get; }
         string Id { get; }
         string DisplayName { get; }
-        ICachedPropertyViewModel<string> Title { get; }
+        IPropertyViewModel<string> Title { get; }
         ITvShowSelectionViewModel Selection { get; }
         ObservableCollection<ISeasonViewModel> Children { get; }
         Task<IEnumerable<ProgressItem>> FindNewEpisodes();

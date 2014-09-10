@@ -89,7 +89,7 @@ namespace PerfectMedia.UI.TvShows
             {
                 foreach (ITvShowViewModel tvShow in e.NewItems.Cast<ITvShowViewModel>())
                 {
-                    if (string.IsNullOrEmpty(tvShow.Title.CachedValue))
+                    if (string.IsNullOrEmpty(tvShow.Title.OriginalValue))
                     {
                         // Add to cache
                         tvShow.Refresh();

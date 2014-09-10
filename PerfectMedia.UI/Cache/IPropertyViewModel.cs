@@ -2,10 +2,10 @@
 
 namespace PerfectMedia.UI.Cache
 {
-    public interface ICachedPropertyViewModel<T> : INotifyPropertyChanged
+    public interface IPropertyViewModel<T> : INotifyPropertyChanged
     {
         T Value { get; set; }
-        T CachedValue { get; }
+        T OriginalValue { get; }
         void Save();
     }
 }

@@ -16,7 +16,6 @@ namespace PerfectMedia.UI.Movies
         IImageViewModel GetImage(IImageStrategy imageStrategy);
         IMovieSelectionViewModel GetSelection(IMovieViewModel movieViewModel);
         IMovieSetViewModel GetMovieSet(string setName);
-        ICachedPropertyViewModel<string> GetStringCachedProperty(string key, bool isRequired);
         IActorManagerViewModel GetActorManager(Action onPropertyChanged);
     }
 }

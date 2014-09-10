@@ -28,46 +28,51 @@ namespace PerfectMedia.UI.Actors
         {
             ItemCollection items = ActorsList.Items;
             var sourceCollections = (INotifyCollectionChanged)items.SourceCollection;
-            var autoscroller = new NotifyCollectionChangedEventHandler((s1, e1) =>
+            if (sourceCollections != null)
             {
-                object selectedItem = null;
-                switch (e1.Action)
+                var autoscroller = new NotifyCollectionChangedEventHandler((s1, e1) =>
                 {
-                    case NotifyCollectionChangedAction.Add:
-                    case NotifyCollectionChangedAction.Move:
-                        selectedItem = e1.NewItems[e1.NewItems.Count - 1];
-                        break;
-                    case NotifyCollectionChangedAction.Remove:
-                        if (items.Count < e1.OldStartingIndex)
-                        {
-                            selectedItem = items[e1.OldStartingIndex - 1];
-                        }
-                        else if (items.Count > 0) selectedItem = items[0];
-                        break;
-                    case NotifyCollectionChangedAction.Reset:
-                        if (items.Count > 0) selectedItem = items[0];
-                        break;
-                }
+                    object selectedItem = null;
+                    switch (e1.Action)
+                    {
+                        case NotifyCollectionChangedAction.Add:
+                        case NotifyCollectionChangedAction.Move:
+                            selectedItem = e1.NewItems[e1.NewItems.Count - 1];
+                            break;
+                        case NotifyCollectionChangedAction.Remove:
+                            if (items.Count < e1.OldStartingIndex)
+                            {
+                                selectedItem = items[e1.OldStartingIndex - 1];
+                            }
+                            else if (items.Count > 0) selectedItem = items[0];
+                            break;
+                        case NotifyCollectionChangedAction.Reset:
+                            if (items.Count > 0) selectedItem = items[0];
+                            break;
+                    }
 
-                if (selectedItem != null)
-                {
-                    items.MoveCurrentTo(selectedItem);
-                    ScrollToEnd();
+                    if (selectedItem != null)
+                    {
+                        items.MoveCurrentTo(selectedItem);
+                        ScrollToEnd();
 #pragma warning disable 4014
-                    // Fire and forget
-                    AsyncHelper.ExecuteEventHandlerTask(this, () => FocusOnFirstTextBox(selectedItem));
+                        // Fire and forget
+                        AsyncHelper.ExecuteEventHandlerTask(this, () => FocusOnFirstTextBox(selectedItem));
 #pragma warning restore 4014
-                }
-            });
-
-            sourceCollections.CollectionChanged += autoscroller;
+                    }
+                });
+                sourceCollections.CollectionChanged += autoscroller;
+            }
         }
 
         private void ScrollToEnd()
         {
             ControlTemplate template = ActorsList.Template;
             var scrollViewer = (ScrollViewer)template.FindName("ListViewScrollViewer", ActorsList);
-            scrollViewer.ScrollToEnd();
+            if (scrollViewer != null)
+            {
+                scrollViewer.ScrollToEnd();
+            }
         }
 
         private async Task FocusOnFirstTextBox(object selectedItem)

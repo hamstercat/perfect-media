@@ -114,9 +114,13 @@
       <DependentUpon>BusyIndicator.xaml</DependentUpon>
     </Compile>
     <Compile Include="Busy\BusyViewModel.cs" />
-    <Compile Include="Cache\CachedPropertyViewModel.cs" />
-    <Compile Include="Cache\IntCachedPropertyViewModel.cs" />
-    <Compile Include="Cache\StringCachedPropertyViewModel.cs" />
+    <Compile Include="Cache\CachedPropertyDecorator.cs" />
+    <Compile Include="Cache\IntCachedPropertyDecorator.cs" />
+    <Compile Include="Cache\IPropertyViewModel.cs" />
+    <Compile Include="Cache\PropertyDecorator.cs" />
+    <Compile Include="Cache\PropertyViewModel.cs" />
+    <Compile Include="Cache\RequiredPropertyDecorator.cs" />
+    <Compile Include="Cache\StringCachedPropertyDecorator.cs" />
     <Compile Include="Converters\IsEmptyToBooleanConverter.cs" />
     <Compile Include="Converters\NotZeroConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
@@ -128,7 +132,6 @@
     <Compile Include="Converters\VisibleIfFalseConverter.cs" />
     <Compile Include="Converters\VisibleIfTrueConverter.cs" />
     <Compile Include="Busy\IBusyProvider.cs" />
-    <Compile Include="Cache\ICachedPropertyViewModel.cs" />
     <Compile Include="IAsyncCommand.cs" />
     <Compile Include="Images\ImageLoader.cs" />
     <Compile Include="Images\ImagesResources.Designer.cs">

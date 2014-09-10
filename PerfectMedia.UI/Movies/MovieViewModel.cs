@@ -27,7 +27,7 @@ namespace PerfectMedia.UI.Movies
         private readonly IBusyProvider _busyProvider;
 
         [RequiredCached]
-        public ICachedPropertyViewModel<string> Title { get; private set; }
+        public IPropertyViewModel<string> Title { get; private set; }
 
         [LocalizedRequired]
         public string Id { get; set; }
@@ -44,7 +44,7 @@ namespace PerfectMedia.UI.Movies
         [ActorsValid]
         public IActorManagerViewModel ActorManager { get; private set; }
 
-        public ICachedPropertyViewModel<string> SetName { get; private set; }
+        public IPropertyViewModel<string> SetName { get; private set; }
         public IImageViewModel Poster { get; private set; }
         public IImageViewModel Fanart { get; private set; }
         public string OriginalTitle { get; set; }
@@ -65,11 +65,11 @@ namespace PerfectMedia.UI.Movies
         {
             get
             {
-                if (string.IsNullOrEmpty(Title.CachedValue))
+                if (string.IsNullOrEmpty(Title.OriginalValue))
                 {
                     return System.IO.Path.GetFileNameWithoutExtension(Path);
                 }
-                return Title.CachedValue;
+                return Title.OriginalValue;
             }
         }
 
@@ -86,6 +86,7 @@ namespace PerfectMedia.UI.Movies
             IProgressManagerViewModel progressManager,
             IBusyProvider busyProvider,
             IDialogViewer dialogViewer,
+            IKeyDataStore keyDataStore,
             string path)
             : base(busyProvider, dialogViewer)
         {
@@ -99,9 +100,9 @@ namespace PerfectMedia.UI.Movies
             SaveCommand = new SaveMetadataCommand(this);
             DeleteCommand = new DeleteMetadataCommand(this);
 
-            Title = viewModelFactory.GetStringCachedProperty(path + "?title", true);
+            Title = new RequiredPropertyDecorator<string>(new StringCachedPropertyDecorator(keyDataStore, path + "?title"));
             Title.PropertyChanged += TitlePropertyChanged;
-            SetName = viewModelFactory.GetStringCachedProperty(path + "?setName", false);
+            SetName = new StringCachedPropertyDecorator(keyDataStore, path + "?setName");
             SetName.PropertyChanged += TitlePropertyChanged;
             Path = path;
             Poster = viewModelFactory.GetImage(new PosterImageStrategy(metadataService, this));
@@ -190,12 +191,11 @@ namespace PerfectMedia.UI.Movies
             Credits.ReplaceWith(metadata.Credits);
             Directors.ReplaceWith(metadata.Directors);
             Genres.ReplaceWith(metadata.Genres);
-            AddActors(metadata.Actors);
+            ActorManager.Initialize(TransformActors(metadata.Actors));
         }
 
-        private void AddActors(IEnumerable<ActorMetadata> actors)
+        private IEnumerable<IActorViewModel> TransformActors(IEnumerable<ActorMetadata> actors)
         {
-            ActorManager.Actors.Clear();
             foreach (ActorMetadata actor in actors)
             {
                 ActorViewModel actorViewModel = new ActorViewModel(_viewModelFactory.GetImage());
@@ -203,7 +203,7 @@ namespace PerfectMedia.UI.Movies
                 actorViewModel.Role = actor.Role;
                 actorViewModel.ThumbUrl = actor.Thumb;
                 actorViewModel.ThumbPath.Path = actor.ThumbPath;
-                ActorManager.Actors.Add(actorViewModel);
+                yield return actorViewModel;
             }
         }
 

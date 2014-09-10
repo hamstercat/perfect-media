@@ -23,6 +23,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         private readonly ITvShowFileService _tvShowFileService;
         private readonly ITvShowMetadataService _metadataService;
         private readonly IBusyProvider _busyProvider;
+        private readonly IKeyDataStore _keyDataStore;
         private readonly string _path;
 
         public TvShowViewModelTests()
@@ -31,19 +32,17 @@ namespace PerfectMedia.UI.TvShows.Shows
             _tvShowFileService = Substitute.For<ITvShowFileService>();
             _metadataService = Substitute.For<ITvShowMetadataService>();
             _busyProvider = Substitute.For<IBusyProvider>();
+            _keyDataStore = Substitute.For<IKeyDataStore>();
 
             _path = @"C:\Folder\TV Shows\Game of Thrones";
-            ICachedPropertyViewModel<string> cachedProperty = Substitute.For<ICachedPropertyViewModel<string>>();
             _viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
-            _viewModelFactory.GetStringCachedProperty(_path, Arg.Any<bool>())
-                .Returns(cachedProperty);
             IActorManagerViewModel actorManager = Substitute.For<IActorManagerViewModel>();
             actorManager.Actors
                 .Returns(new ObservableCollection<IActorViewModel>());
             _viewModelFactory.GetActorManager(Arg.Any<Action>())
                 .Returns(actorManager);
 
-            _viewModel = new TvShowViewModel(_viewModelFactory, _tvShowFileService, _metadataService, _busyProvider, null, null, _path);
+            _viewModel = new TvShowViewModel(_viewModelFactory, _tvShowFileService, _metadataService, _busyProvider, null, null, _keyDataStore, _path);
         }
 
         [Fact]
@@ -142,7 +141,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             _viewModelFactory.GetTvShowImages(Arg.Any<ITvShowViewModel>(), _path)
                 .Returns(imagesViewModel);
             // Recreate the ViewModel as the ImagesViewModel is retrieved in the constructor
-            _viewModel = new TvShowViewModel(_viewModelFactory, _tvShowFileService, _metadataService, _busyProvider, null, null, _path);
+            _viewModel = new TvShowViewModel(_viewModelFactory, _tvShowFileService, _metadataService, _busyProvider, null, null, _keyDataStore, _path);
 
             // Act
             await _viewModel.Refresh();
@@ -254,7 +253,6 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         private bool AssertMetadataEqualsViewModel(TvShowMetadata metadata)
         {
-            Assert.Equal(2, _viewModel.ActorManager.Actors.Count);
             Assert.Equal(metadata.Genres, _viewModel.Genres.Collection);
             Assert.Equal(metadata.Id, _viewModel.Id);
             Assert.Equal(metadata.ImdbId, _viewModel.ImdbId);

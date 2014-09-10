@@ -28,13 +28,13 @@ namespace PerfectMedia.UI.TvShows.Episodes
         public double? Rating { get; set; }
 
         [RequiredCached]
-        public ICachedPropertyViewModel<string> Title { get; private set; }
+        public IPropertyViewModel<string> Title { get; private set; }
 
         [RequiredCached]
-        public ICachedPropertyViewModel<int?> SeasonNumber { get; private set; }
+        public IPropertyViewModel<int?> SeasonNumber { get; private set; }
 
         [RequiredCached]
-        public ICachedPropertyViewModel<int?> EpisodeNumber { get; private set; }
+        public IPropertyViewModel<int?> EpisodeNumber { get; private set; }
 
         [Positive]
         public int? PlayCount { get; set; }
@@ -58,19 +58,19 @@ namespace PerfectMedia.UI.TvShows.Episodes
         {
             get
             {
-                if (string.IsNullOrEmpty(Title.CachedValue))
+                if (string.IsNullOrEmpty(Title.OriginalValue))
                 {
                     return System.IO.Path.GetFileName(Path);
                 }
                 if (SeasonNumber == null || EpisodeNumber == null)
                 {
-                    return Title.CachedValue;
+                    return Title.OriginalValue;
                 }
                 return string.Format("{0}x{1:d2}{2}{3}",
-                    SeasonNumber.CachedValue,
-                    EpisodeNumber.CachedValue,
+                    SeasonNumber.OriginalValue,
+                    EpisodeNumber.OriginalValue,
                     General.Semicolon,
-                    Title.CachedValue);
+                    Title.OriginalValue);
             }
         }
 
@@ -86,6 +86,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             IProgressManagerViewModel progressManager,
             IBusyProvider busyProvider,
             IDialogViewer dialogViewer,
+            IKeyDataStore keyDataStore,
             string path)
             : base(busyProvider, dialogViewer)
         {
@@ -93,11 +94,11 @@ namespace PerfectMedia.UI.TvShows.Episodes
             _tvShowMetadata = tvShowMetadata;
             _busyProvider = busyProvider;
 
-            Title = viewModelFactory.GetStringCachedProperty(path + "?title", true);
+            Title = new RequiredPropertyDecorator<string>(new StringCachedPropertyDecorator(keyDataStore, path + "?title"));
             Title.PropertyChanged += CachedPropertyChanged;
-            SeasonNumber = viewModelFactory.GetIntCachedProperty(path + "?seasonNumber", true);
+            SeasonNumber = new RequiredPropertyDecorator<int?>(new IntCachedPropertyDecorator(keyDataStore, path + "?seasonNumber"));
             SeasonNumber.PropertyChanged += CachedPropertyChanged;
-            EpisodeNumber = viewModelFactory.GetIntCachedProperty(path + "?episodeNumber", true);
+            EpisodeNumber = new RequiredPropertyDecorator<int?>(new IntCachedPropertyDecorator(keyDataStore, path + "?episodeNumber"));
             EpisodeNumber.PropertyChanged += CachedPropertyChanged;
             Path = path;
 

@@ -49,7 +49,7 @@ namespace PerfectMedia.UI.Movies
 
         public IMovieViewModel GetMovie(string path)
         {
-            return new MovieViewModel(_metadataService, this, _fileSystemService, _progressManager, _busyProvider, _dialogViewer, path);
+            return new MovieViewModel(_metadataService, this, _fileSystemService, _progressManager, _busyProvider, _dialogViewer, _keyDataStore, path);
         }
 
         public IImageViewModel GetImage()
@@ -70,11 +70,6 @@ namespace PerfectMedia.UI.Movies
         public IMovieSetViewModel GetMovieSet(string setName)
         {
             return new MovieSetViewModel(_fileSystemService, this, _metadataService, _progressManager, _busyProvider, _dialogViewer, setName);
-        }
-
-        public ICachedPropertyViewModel<string> GetStringCachedProperty(string key, bool isRequired)
-        {
-            return new StringCachedPropertyViewModel(_keyDataStore, key, isRequired);
         }
 
         public IActorManagerViewModel GetActorManager(Action onPropertyChanged)

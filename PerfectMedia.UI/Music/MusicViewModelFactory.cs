@@ -48,12 +48,7 @@ namespace PerfectMedia.UI.Music
 
         public IArtistViewModel GetArtist(string path)
         {
-            return new ArtistViewModel(_metadataService, this, _musicFileService, _progressManager, _busyProvider, _dialogViewer, path);
-        }
-
-        public ICachedPropertyViewModel<string> GetStringCachedProperty(string key, bool isRequired)
-        {
-            return new StringCachedPropertyViewModel(_keyDataStore, key, isRequired);
+            return new ArtistViewModel(_metadataService, this, _musicFileService, _progressManager, _busyProvider, _dialogViewer, _keyDataStore, path);
         }
 
         public IAlbumViewModel GetAlbum(string path)

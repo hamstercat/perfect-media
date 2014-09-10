@@ -30,11 +30,11 @@ namespace PerfectMedia.UI.TvShows.Shows
         {
             get
             {
-                if (string.IsNullOrEmpty(Title.CachedValue))
+                if (string.IsNullOrEmpty(Title.OriginalValue))
                 {
                     return System.IO.Path.GetFileName(Path);
                 }
-                return Title.CachedValue;
+                return Title.OriginalValue;
             }
         }
 
@@ -42,7 +42,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         public double? Rating { get; set; }
 
         [RequiredCached]
-        public ICachedPropertyViewModel<string> Title { get; private set; }
+        public IPropertyViewModel<string> Title { get; private set; }
 
         [LocalizedRequired]
         public string Id { get; set; }
@@ -77,6 +77,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             IBusyProvider busyProvider,
             IDialogViewer dialogViewer,
             IProgressManagerViewModel progressManager,
+            IKeyDataStore keyDataStore,
             string path)
             : base(busyProvider, dialogViewer)
         {
@@ -84,7 +85,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             _tvShowFileService = tvShowFileService;
             _metadataService = metadataService;
             _busyProvider = busyProvider;
-            Title = viewModelFactory.GetStringCachedProperty(path, true);
+            Title = new RequiredPropertyDecorator<string>(new StringCachedPropertyDecorator(keyDataStore, path));
             Title.PropertyChanged += TitleValueChanged;
             Path = path;
             Selection = viewModelFactory.GetTvShowSelection(this, path);
@@ -178,13 +179,12 @@ namespace PerfectMedia.UI.TvShows.Shows
             Language = metadata.Language;
 
             Genres.ReplaceWith(metadata.Genres);
-            AddActors(metadata.Actors);
+            ActorManager.Initialize(TransformActors(metadata.Actors));
             await Images.Refresh();
         }
 
-        private void AddActors(IEnumerable<ActorMetadata> actors)
+        private IEnumerable<IActorViewModel> TransformActors(IEnumerable<ActorMetadata> actors)
         {
-            ActorManager.Actors.Clear();
             foreach (ActorMetadata actor in actors)
             {
                 ActorViewModel actorViewModel = new ActorViewModel(_viewModelFactory.GetImage(true));
@@ -192,7 +192,7 @@ namespace PerfectMedia.UI.TvShows.Shows
                 actorViewModel.Role = actor.Role;
                 actorViewModel.ThumbUrl = actor.Thumb;
                 actorViewModel.ThumbPath.Path = actor.ThumbPath;
-                ActorManager.Actors.Add(actorViewModel);
+                yield return actorViewModel;
             }
         }
 

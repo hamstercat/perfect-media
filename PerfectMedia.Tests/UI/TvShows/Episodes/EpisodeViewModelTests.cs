@@ -26,8 +26,9 @@ namespace PerfectMedia.UI.TvShows.Episodes
             _tvShowMetadata = Substitute.For<ITvShowViewModel>();
             ITvShowViewModelFactory viewModelFactory = Substitute.For<ITvShowViewModelFactory>();
             _busyProvider = _busyProvider = Substitute.For<IBusyProvider>();
+            var keyDataStore = Substitute.For<IKeyDataStore>();
             _path = @"C:\Folder\TV Shows\Game of Thrones\Season 2\3x09.mkv";
-            _viewModel = new EpisodeViewModel(viewModelFactory, _metadataService, _tvShowMetadata, null, _busyProvider, null, _path);
+            _viewModel = new EpisodeViewModel(viewModelFactory, _metadataService, _tvShowMetadata, null, _busyProvider, null, keyDataStore, _path);
         }
 
         [Fact]

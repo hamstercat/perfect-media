@@ -9,5 +9,6 @@ namespace PerfectMedia.UI.Actors
         string Role { get; }
         string ThumbUrl { get; }
         IImageViewModel ThumbPath { get; }
+        IActorViewModel Clone();
     }
 }

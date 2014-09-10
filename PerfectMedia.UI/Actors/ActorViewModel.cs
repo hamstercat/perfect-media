@@ -20,5 +20,10 @@ namespace PerfectMedia.UI.Actors
         {
             ThumbPath = newImageViewModel;
         }
+
+        public IActorViewModel Clone()
+        {
+            return (IActorViewModel)MemberwiseClone();
+        }
     }
 }

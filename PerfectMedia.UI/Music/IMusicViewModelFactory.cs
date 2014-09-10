@@ -10,7 +10,6 @@ namespace PerfectMedia.UI.Music
     {
         ISourceManagerViewModel GetSourceManager();
         IArtistViewModel GetArtist(string path);
-        ICachedPropertyViewModel<string> GetStringCachedProperty(string key, bool isRequired);
         IAlbumViewModel GetAlbum(string path);
         ITrackViewModel GetTrack(string path);
     }

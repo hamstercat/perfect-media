@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace PerfectMedia.UI.Cache
 {
-    public class StringCachedPropertyViewModel : CachedPropertyViewModel<string>
+    public class StringCachedPropertyDecorator : CachedPropertyDecorator<string>
     {
-        public StringCachedPropertyViewModel(IKeyDataStore keyDataStore, string propertyKey, bool isRequired)
-            : base(keyDataStore, propertyKey, isRequired)
+        public StringCachedPropertyDecorator(IKeyDataStore keyDataStore, string propertyKey)
+            : base(keyDataStore, propertyKey)
         { }
 
         protected override string ConvertToString(string item)

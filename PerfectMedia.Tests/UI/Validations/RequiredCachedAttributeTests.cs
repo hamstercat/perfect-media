@@ -25,7 +25,7 @@ namespace PerfectMedia.UI.Validations
         public void IsValid_WhenCachePropertyDoesntHaveValue_ReturnsFalse(string value)
         {
             // Arrange
-            var cachedProperty = Substitute.For<ICachedPropertyViewModel<string>>();
+            var cachedProperty = Substitute.For<IPropertyViewModel<string>>();
 
             // Act
             bool isValid = _attributes.IsValid(cachedProperty);
@@ -38,7 +38,7 @@ namespace PerfectMedia.UI.Validations
         public void IsValid_WhenCachePropertyHasValue_ReturnsTrue()
         {
             // Arrange
-            var cachedProperty = Substitute.For<ICachedPropertyViewModel<string>>();
+            var cachedProperty = Substitute.For<IPropertyViewModel<string>>();
             cachedProperty.Value
                 .Returns("Dinosaur");
 

@@ -6,6 +6,6 @@ namespace PerfectMedia.UI.Music.Artists
     public interface IArtistViewModel : IMetadataProvider
     {
         string Path { get; }
-        ICachedPropertyViewModel<string> Name { get; }
+        IPropertyViewModel<string> Name { get; }
     }
 }

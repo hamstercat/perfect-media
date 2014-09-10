@@ -1,6 +1,5 @@
 ﻿using System;
 using PerfectMedia.UI.Actors;
-using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Movies.Selection;
 using PerfectMedia.UI.Movies.Set;
@@ -16,6 +15,6 @@ namespace PerfectMedia.UI.Movies
         IImageViewModel GetImage(IImageStrategy imageStrategy);
         IMovieSelectionViewModel GetSelection(IMovieViewModel movieViewModel);
         IMovieSetViewModel GetMovieSet(string setName);
-        IActorManagerViewModel GetActorManager(Action onPropertyChanged);
+        IActorManagerViewModel GetActorManager(string moviePath, Action onPropertyChanged);
     }
 }

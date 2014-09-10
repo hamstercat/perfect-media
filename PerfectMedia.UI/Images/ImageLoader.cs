@@ -53,6 +53,7 @@ using System.Net.Cache;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Anotar.Log4Net;
 
 namespace PerfectMedia.UI.Images
 {
@@ -89,7 +90,7 @@ namespace PerfectMedia.UI.Images
         /// <summary>
         /// Gets or sets the initial image path string.
         /// </summary>
-        public string InitialImage{get;set;}
+        public string InitialImage { get; set; }
 
         /// <summary>
         /// Gets or sets the source property which forwards to the base Image class.
@@ -155,7 +156,7 @@ namespace PerfectMedia.UI.Images
 
         private bool PathIsValid(string imagePath)
         {
-            return (IsPathAnUrl(imagePath) || File.Exists(imagePath));
+            return IsPathAnUrl(imagePath) || File.Exists(imagePath);
         }
 
         private bool IsPathAnUrl(string path)
@@ -174,6 +175,7 @@ namespace PerfectMedia.UI.Images
             _loadedImage.DownloadFailed += OnDownloadFailed;
             _loadedImage.UriSource = new Uri(ImageUri);
             _loadedImage.EndInit();
+            // TODO: find a way for this to work when the image is invalid
         }
 
         private void LoadInitialImage()

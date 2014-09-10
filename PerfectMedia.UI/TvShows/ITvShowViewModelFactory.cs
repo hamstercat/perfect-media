@@ -1,7 +1,6 @@
 ﻿using System;
 using PerfectMedia.Sources;
 using PerfectMedia.UI.Actors;
-using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Sources;
 using PerfectMedia.UI.TvShows.Episodes;
@@ -22,6 +21,6 @@ namespace PerfectMedia.UI.TvShows
         IImageViewModel GetImage(bool horizontalAlignement);
         IImageViewModel GetImage(bool horizontalAlignement, IImageStrategy imageStrategy);
         ITvShowSelectionViewModel GetTvShowSelection(ITvShowViewModel tvShow, string path);
-        IActorManagerViewModel GetActorManager(Action onPropertyChanged);
+        IActorManagerViewModel GetActorManager(string tvShowPath, Action onPropertyChanged);
     }
 }

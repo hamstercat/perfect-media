@@ -11,7 +11,7 @@ namespace PerfectMedia.UI.Cache
         private readonly string _propertyKey;
 
         protected CachedPropertyDecorator(IKeyDataStore keyDataStore, string propertyKey)
-            : base(new PropertyViewModel<T>(default(T)))
+            : base(new PropertyViewModel<T>())
         {
             _keyDataStore = keyDataStore;
             _propertyKey = propertyKey;

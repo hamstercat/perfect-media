@@ -45,8 +45,8 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid>
-                                    <TextBlock Text="{Binding Name}" Style="{StaticResource GridBlockStyle}" />
-                                    <TextBox Text="{Binding Name}" Style="{StaticResource GridEditStyle}" />
+                                    <TextBlock Text="{Binding Name.Value}" Style="{StaticResource GridBlockStyle}" />
+                                    <TextBox Text="{Binding Name.Value}" Style="{StaticResource GridEditStyle}" />
                                 </Grid>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -55,8 +55,8 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid>
-                                    <TextBlock Text="{Binding Role}" Style="{StaticResource GridBlockStyle}" />
-                                    <TextBox Text="{Binding Role}" Style="{StaticResource GridEditStyle}" />
+                                    <TextBlock Text="{Binding Role.Value}" Style="{StaticResource GridBlockStyle}" />
+                                    <TextBox Text="{Binding Role.Value}" Style="{StaticResource GridEditStyle}" />
                                 </Grid>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

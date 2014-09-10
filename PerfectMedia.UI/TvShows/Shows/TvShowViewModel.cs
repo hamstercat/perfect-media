@@ -96,7 +96,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             DeleteCommand = new DeleteMetadataCommand(this);
 
             Images = viewModelFactory.GetTvShowImages(this, path);
-            ActorManager = viewModelFactory.GetActorManager(() => OnPropertyChanged("ActorManager"));
+            ActorManager = viewModelFactory.GetActorManager(path, () => OnPropertyChanged("ActorManager"));
             Genres = new DashDelimitedCollectionViewModel<string>(s => s);
 
             // We need to set a "dummy" item in the collection for an arrow to appear in the TreeView since we're lazy-loading the items under it
@@ -123,6 +123,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         protected override async Task SaveInternal()
         {
             Title.Save();
+            await ActorManager.Save();
             TvShowMetadata metadata = CreateMetadata();
             await _metadataService.Save(Path, metadata);
         }
@@ -188,8 +189,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             foreach (ActorMetadata actor in actors)
             {
                 ActorViewModel actorViewModel = new ActorViewModel(_viewModelFactory.GetImage(true));
-                actorViewModel.Name = actor.Name;
-                actorViewModel.Role = actor.Role;
+                actorViewModel.Initialize(actor.Name, actor.Role);
                 actorViewModel.ThumbUrl = actor.Thumb;
                 actorViewModel.ThumbPath.Path = actor.ThumbPath;
                 yield return actorViewModel;
@@ -219,8 +219,8 @@ namespace PerfectMedia.UI.TvShows.Shows
             {
                 ActorMetadata actor = new ActorMetadata
                 {
-                    Name = actorViewModel.Name,
-                    Role = actorViewModel.Role,
+                    Name = actorViewModel.Name.Value,
+                    Role = actorViewModel.Role.Value,
                     Thumb = actorViewModel.ThumbUrl,
                     ThumbPath = actorViewModel.ThumbPath.Path
                 };

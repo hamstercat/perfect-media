@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Input;
 using PerfectMedia.UI.Images;
 
@@ -30,6 +31,7 @@ namespace PerfectMedia.UI.Actors
         {
             IImageViewModel image = _viewModelFactory.GetImage(true);
             ActorViewModel newActor = new ActorViewModel(image);
+            newActor.ThumbPath.Path = Path.GetTempFileName();
             _actorManager.Actors.Add(newActor);
         }
     }

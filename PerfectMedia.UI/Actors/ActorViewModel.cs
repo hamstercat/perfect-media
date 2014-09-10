@@ -1,4 +1,5 @@
-﻿using PerfectMedia.UI.Images;
+﻿using PerfectMedia.UI.Cache;
+using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Validations;
 using PropertyChanged;
 
@@ -8,10 +9,10 @@ namespace PerfectMedia.UI.Actors
     public class ActorViewModel : BaseViewModel, IActorViewModel
     {
         [LocalizedRequired]
-        public string Name { get; set; }
+        public IPropertyViewModel<string> Name { get; set; }
 
         [LocalizedRequired]
-        public string Role { get; set; }
+        public IPropertyViewModel<string> Role { get; set; }
 
         public string ThumbUrl { get; set; }
         public IImageViewModel ThumbPath { get; private set; }
@@ -19,11 +20,16 @@ namespace PerfectMedia.UI.Actors
         public ActorViewModel(IImageViewModel newImageViewModel)
         {
             ThumbPath = newImageViewModel;
+            Name = new RequiredPropertyDecorator<string>(new PropertyViewModel<string>());
+            Role = new RequiredPropertyDecorator<string>(new PropertyViewModel<string>());
         }
 
-        public IActorViewModel Clone()
+        public void Initialize(string name, string role)
         {
-            return (IActorViewModel)MemberwiseClone();
+            Name.Value = name;
+            Name.Save();
+            Role.Value = role;
+            Role.Save();
         }
     }
 }

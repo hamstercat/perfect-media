@@ -39,7 +39,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             IActorManagerViewModel actorManager = Substitute.For<IActorManagerViewModel>();
             actorManager.Actors
                 .Returns(new ObservableCollection<IActorViewModel>());
-            _viewModelFactory.GetActorManager(Arg.Any<Action>())
+            _viewModelFactory.GetActorManager(_path, Arg.Any<Action>())
                 .Returns(actorManager);
 
             _viewModel = new TvShowViewModel(_viewModelFactory, _tvShowFileService, _metadataService, _busyProvider, null, null, _keyDataStore, _path);
@@ -221,8 +221,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         {
             IImageViewModel image = Substitute.For<IImageViewModel>();
             ActorViewModel actor = new ActorViewModel(image);
-            actor.Name = "ActorName" + i;
-            actor.Role = "ActorRole" + i;
+            actor.Initialize("ActorName" + i, "ActorRole" + i);
             actor.ThumbUrl = "ActorThumb" + i;
             return actor;
         }

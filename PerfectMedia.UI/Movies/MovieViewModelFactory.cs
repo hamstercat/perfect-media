@@ -3,7 +3,6 @@ using PerfectMedia.Movies;
 using PerfectMedia.Sources;
 using PerfectMedia.UI.Actors;
 using PerfectMedia.UI.Busy;
-using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Movies.Selection;
 using PerfectMedia.UI.Movies.Set;
@@ -72,9 +71,9 @@ namespace PerfectMedia.UI.Movies
             return new MovieSetViewModel(_fileSystemService, this, _metadataService, _progressManager, _busyProvider, _dialogViewer, setName);
         }
 
-        public IActorManagerViewModel GetActorManager(Action onPropertyChanged)
+        public IActorManagerViewModel GetActorManager(string moviePath, Action onPropertyChanged)
         {
-            return new ActorManagerViewModel(_actorViewModelFactory, onPropertyChanged);
+            return new ActorManagerViewModel(_actorViewModelFactory, _fileSystemService, moviePath, onPropertyChanged);
         }
     }
 }

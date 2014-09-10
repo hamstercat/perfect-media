@@ -4,7 +4,6 @@ using PerfectMedia.TvShows;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Actors;
 using PerfectMedia.UI.Busy;
-using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.Sources;
@@ -96,9 +95,9 @@ namespace PerfectMedia.UI.TvShows
             return new TvShowSelectionViewModel(_tvShowMetadataService, tvShowMetadata, _busyProvider, path);
         }
 
-        public IActorManagerViewModel GetActorManager(Action onPropertyChanged)
+        public IActorManagerViewModel GetActorManager(string tvShowPath, Action onPropertyChanged)
         {
-            return new ActorManagerViewModel(_actorViewModelFactory, onPropertyChanged);
+            return new ActorManagerViewModel(_actorViewModelFactory, _fileSystemService, tvShowPath, onPropertyChanged);
         }
     }
 }

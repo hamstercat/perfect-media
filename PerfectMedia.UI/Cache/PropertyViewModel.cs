@@ -13,6 +13,10 @@ namespace PerfectMedia.UI.Cache
         public T Value { get; set; }
         public T OriginalValue { get; private set; }
 
+        public PropertyViewModel()
+            : this(default(T))
+        { }
+
         public PropertyViewModel(T value)
         {
             OriginalValue = Value = value;

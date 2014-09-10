@@ -110,7 +110,7 @@ namespace PerfectMedia.UI.Movies
             Credits = new DashDelimitedCollectionViewModel<string>(s => s);
             Directors = new DashDelimitedCollectionViewModel<string>(s => s);
             Genres = new DashDelimitedCollectionViewModel<string>(s => s);
-            ActorManager = viewModelFactory.GetActorManager(() => OnPropertyChanged("ActorManager"));
+            ActorManager = viewModelFactory.GetActorManager(path, () => OnPropertyChanged("ActorManager"));
         }
 
         public IEnumerable<IMovieViewModel> FindMovie(string path)
@@ -143,6 +143,7 @@ namespace PerfectMedia.UI.Movies
         {
             Title.Save();
             SetName.Save();
+            await ActorManager.Save();
             MovieMetadata metadata = CreateMetadata();
             await _metadataService.Save(Path, metadata);
         }
@@ -199,8 +200,7 @@ namespace PerfectMedia.UI.Movies
             foreach (ActorMetadata actor in actors)
             {
                 ActorViewModel actorViewModel = new ActorViewModel(_viewModelFactory.GetImage());
-                actorViewModel.Name = actor.Name;
-                actorViewModel.Role = actor.Role;
+                actorViewModel.Initialize(actor.Name, actor.Role);
                 actorViewModel.ThumbUrl = actor.Thumb;
                 actorViewModel.ThumbPath.Path = actor.ThumbPath;
                 yield return actorViewModel;
@@ -237,8 +237,8 @@ namespace PerfectMedia.UI.Movies
             {
                 ActorMetadata actor = new ActorMetadata
                 {
-                    Name = actorViewModel.Name,
-                    Role = actorViewModel.Role,
+                    Name = actorViewModel.Name.Value,
+                    Role = actorViewModel.Role.Value,
                     Thumb = actorViewModel.ThumbUrl,
                     ThumbPath = actorViewModel.ThumbPath.Path
                 };

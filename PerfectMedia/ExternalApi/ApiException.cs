@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace PerfectMedia
+namespace PerfectMedia.ExternalApi
 {
     [Serializable]
     public class ApiException : Exception

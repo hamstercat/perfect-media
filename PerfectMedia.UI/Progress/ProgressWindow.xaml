@@ -63,7 +63,7 @@
                 <DataTemplate>
                     <TextBlock>
                         <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}{1}">
+                            <MultiBinding StringFormat="{}{0}{1}{2}">
                                 <Binding Path="Display" />
                                 <lex:BLoc Key="PerfectMedia.UI:General:Semicolon" />
                                 <Binding Path="Message" />

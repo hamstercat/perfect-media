@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using PerfectMedia.ExternalApi;
 using PerfectMedia.FileInformation;
 
 namespace PerfectMedia.TvShows.Metadata

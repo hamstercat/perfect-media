@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Anotar.Log4Net;
+using PerfectMedia.ExternalApi;
 
 namespace PerfectMedia.UI
 {
@@ -8,24 +9,31 @@ namespace PerfectMedia.UI
     {
         public static async Task ExecuteEventHandlerTask(object caller, Func<Task> func)
         {
-            Exception exception = null;
+            string title = null;
+            string message = null;
             try
             {
                 await func();
             }
+            catch (NoInternetConnectionException)
+            {
+                title = General.NoInternetConnection_Title;
+                message = General.NoInternetConnection_Message;
+            }
             catch (Exception ex)
             {
-                exception = ex;
                 LogTo.ErrorException("Unhandled exception in async method " + caller.GetType().FullName, ex);
+                title = General.UnhandledException_Title;
+                message = General.UnhandledException_Message;
             }
-            await ShowUnhandledExceptionMessage(exception);
+            await ShowUnhandledExceptionMessage(title, message);
         }
 
-        private static async Task ShowUnhandledExceptionMessage(Exception exception)
+        private static async Task ShowUnhandledExceptionMessage(string title, string message)
         {
-            if (exception != null)
+            if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(message))
             {
-                await MahAppsDialogViewer.ShowMessageStatic(General.UnhandledException_Title, General.UnhandledException_Message);
+                await MahAppsDialogViewer.ShowMessageStatic(title, message);
             }
         }
     }

@@ -132,6 +132,12 @@
   <data name="Music" xml:space="preserve">
     <value>Music</value>
   </data>
+  <data name="NoInternetConnection_Message" xml:space="preserve">
+    <value>An internet connection is required but couldn't be found. Please check your connection for any issues.</value>
+  </data>
+  <data name="NoInternetConnection_Title" xml:space="preserve">
+    <value>No internet connection found</value>
+  </data>
   <data name="Semicolon" xml:space="preserve">
     <value>: </value>
   </data>

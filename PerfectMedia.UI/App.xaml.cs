@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Threading;
 using Anotar.Log4Net;
+using PerfectMedia.ExternalApi;
 
 namespace PerfectMedia.UI
 {

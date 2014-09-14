@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Anotar.Log4Net;
+using PerfectMedia.ExternalApi;
 using PerfectMedia.Serialization;
 using PerfectMedia.TvShows;
 using PerfectMedia.Movies;
@@ -77,6 +78,10 @@ namespace PerfectMedia.UI.Progress
             {
                 Warning = General.InvalidNfo;
                 return true;
+            }
+            catch (NoInternetConnectionException)
+            {
+                Error = General.NoInternetConnection_Title;
             }
             catch (Exception ex)
             {

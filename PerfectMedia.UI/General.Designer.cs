@@ -106,6 +106,24 @@ namespace PerfectMedia.UI {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An internet connection is required but couldn&apos;t be found. Please check your connection for any issues..
+        /// </summary>
+        public static string NoInternetConnection_Message {
+            get {
+                return ResourceManager.GetString("NoInternetConnection_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No internet connection found.
+        /// </summary>
+        public static string NoInternetConnection_Title {
+            get {
+                return ResourceManager.GetString("NoInternetConnection_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to : .
         /// </summary>
         public static string Semicolon {

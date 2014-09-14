@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Nito.AsyncEx.Synchronous;
 using NSubstitute;
+using PerfectMedia.ExternalApi;
 using PerfectMedia.FileInformation;
 using Xunit;
 

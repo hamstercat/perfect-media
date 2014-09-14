@@ -56,7 +56,12 @@ namespace PerfectMedia.ExternalApi
             _rateGate.WaitToProceed();
             _restClient.ExecuteAsync(request, (response) =>
             {
-                if (response.ErrorException != null)
+                if (response == null)
+                {
+                    Exception ex = new NoInternetConnectionException();
+                    taskCompletionSource.TrySetException(ex);
+                }
+                else if (response.ErrorException != null)
                 {
                     Exception ex = TransformStatusCodeToException(response, request.Resource);
                     taskCompletionSource.TrySetException(ex);
@@ -84,7 +89,12 @@ namespace PerfectMedia.ExternalApi
             _rateGate.WaitToProceed();
             _restClient.ExecuteAsync<T>(request, (response) =>
             {
-                if (response.ErrorException != null)
+                if (response == null)
+                {
+                    Exception ex = new NoInternetConnectionException();
+                    taskCompletionSource.TrySetException(ex);
+                }
+                else if (response.ErrorException != null)
                 {
                     Exception ex = TransformStatusCodeToException(response, request.Resource);
                     taskCompletionSource.TrySetException(ex);

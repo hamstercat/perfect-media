@@ -62,6 +62,7 @@
       <Link>Properties\ProjectAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ExternalApi\IRateGate.cs" />
+    <Compile Include="ExternalApi\NoInternetConnectionException.cs" />
     <Compile Include="ExternalApi\NullRateGate.cs" />
     <Compile Include="GeneralSettings.cs" />
     <Compile Include="IDialogViewer.cs" />
@@ -116,7 +117,7 @@
     <Compile Include="Serialization\IXmlSerializerFactory.cs" />
     <Compile Include="Serialization\NfoRepository.cs" />
     <Compile Include="ExternalApi\RestApiService.cs" />
-    <Compile Include="ApiException.cs" />
+    <Compile Include="ExternalApi\ApiException.cs" />
     <Compile Include="Serialization\XmlSerializerFactory.cs" />
     <Compile Include="SettingsHelper.cs" />
     <Compile Include="Sources\ISourceRepository.cs" />

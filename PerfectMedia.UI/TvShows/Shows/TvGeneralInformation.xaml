@@ -66,15 +66,15 @@
 
             <Label Grid.Row="6" Grid.Column="0" Content="{lex:Loc Plot}" />
             <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Plot}" TextWrapping="Wrap" />
-            <img:SelectableImage Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" DataContext="{Binding Images.FanartUrl}" />
+            <img:SelectableImage Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" DataContext="{Binding Images.FanartUrl}" WidthRatio="1920" HeightRatio="1080" />
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <img:SelectableImage Grid.Row="0" DataContext="{Binding Images.PosterUrl}" />
-            <img:SelectableImage Grid.Row="1" DataContext="{Binding Images.BannerUrl}" />
+            <img:SelectableImage Grid.Row="0" DataContext="{Binding Images.PosterUrl}" WidthRatio="680" HeightRatio="1000" />
+            <img:SelectableImage Grid.Row="1" DataContext="{Binding Images.BannerUrl}" WidthRatio="758" HeightRatio="140" />
         </Grid>
     </Grid>
 </UserControl>

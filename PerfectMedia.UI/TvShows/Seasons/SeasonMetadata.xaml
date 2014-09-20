@@ -16,7 +16,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="0" Text="{Binding Path}" />
-        <img:SelectableImage Grid.Row="1" DataContext="{Binding PosterUrl}" MaxWidth="300" />
-        <img:SelectableImage Grid.Row="2" DataContext="{Binding BannerUrl}" MaxWidth="300" />
+        <img:SelectableImage Grid.Row="1" DataContext="{Binding PosterUrl}" MaxWidth="300" WidthRatio="680" HeightRatio="1000" />
+        <img:SelectableImage Grid.Row="2" DataContext="{Binding BannerUrl}" MaxWidth="300" WidthRatio="758" HeightRatio="140" />
     </Grid>
 </UserControl>

@@ -7,5 +7,6 @@ namespace PerfectMedia.UI.TvShows.Seasons
         IImageViewModel BannerUrl { get; }
         IImageViewModel PosterUrl { get; }
         int SeasonNumber { get; set; }
+        void Refresh();
     }
 }

@@ -53,12 +53,11 @@ using System.Net.Cache;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Anotar.Log4Net;
 
 namespace PerfectMedia.UI.Images
 {
     /// <summary>
-    /// Defines the ImageLoader class, derived from System.Windows.Controls.Image
+    /// Defines the ImageLoader class, derived from System.Windows.Controls.Image.
     /// </summary>
     public class ImageLoader : System.Windows.Controls.Image
     {
@@ -68,29 +67,52 @@ namespace PerfectMedia.UI.Images
         public static readonly DependencyProperty ImageUriProperty = DependencyProperty.Register("ImageUri", typeof(string), typeof(ImageLoader), new PropertyMetadata(null, OnImageUriChanged));
         private static void OnImageUriChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ImageLoader imageLoader = (ImageLoader)d;
-            imageLoader.RetryCount = 0;
+            var imageLoader = (ImageLoader)d;
+            imageLoader._retryCount = 0;
             imageLoader.Refresh();
         }
-
-        /// <summary>
-        /// Storage for the loaded image.
-        /// </summary>
-        private BitmapImage _loadedImage;
 
         /// <summary>
         /// Gets or sets the ImageUri property.
         /// </summary>
         public string ImageUri
         {
-            get { return GetValue(ImageUriProperty) as string; }
+            get { return (string)GetValue(ImageUriProperty); }
             set { SetValue(ImageUriProperty, value); }
         }
 
         /// <summary>
-        /// Gets or sets the initial image path string.
+        /// The WidthRatio dependency property.
         /// </summary>
-        public string InitialImage { get; set; }
+        public static readonly DependencyProperty WidthRatioProperty = DependencyProperty.Register("WidthRatio", typeof(double), typeof(ImageLoader), new PropertyMetadata(0d, OnRatioChanged));
+        private static void OnRatioChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var imageLoader = (ImageLoader)d;
+            imageLoader.LoadInitialImage();
+        }
+
+        /// <summary>
+        /// Gets or sets the width ratio.
+        /// </summary>
+        public double WidthRatio
+        {
+            get { return (double)GetValue(WidthRatioProperty); }
+            set { SetValue(WidthRatioProperty, value); }
+        }
+
+        /// <summary>
+        /// The HeightRatio dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HeightRatioProperty = DependencyProperty.Register("HeightRatio", typeof(double), typeof(ImageLoader), new PropertyMetadata(0d, OnRatioChanged));
+
+        /// <summary>
+        /// Gets or sets the height ratio.
+        /// </summary>
+        public double HeightRatio
+        {
+            get { return (double)GetValue(HeightRatioProperty); }
+            set { SetValue(HeightRatioProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets the source property which forwards to the base Image class.
@@ -104,9 +126,19 @@ namespace PerfectMedia.UI.Images
         }
 
         /// <summary>
-        /// Gets or sets the number of times an image has failed to load in a refresh.
+        /// Storage for the loaded image.
         /// </summary>
-        public int RetryCount { get; set; }
+        private BitmapImage _loadedImage;
+
+        /// <summary>
+        /// Number of times an image has failed to load in a refresh.
+        /// </summary>
+        private int _retryCount;
+
+        /// <summary>
+        /// True if the image from ImageUri has been loaded.
+        /// </summary>
+        private bool _imageLoaded;
 
         /// <summary>
         /// Handles the download failure event.
@@ -115,7 +147,7 @@ namespace PerfectMedia.UI.Images
         /// <param name="e">The event arguments.</param>
         private void OnDownloadFailed(object sender, ExceptionEventArgs e)
         {
-            if (RetryCount < 2)
+            if (_retryCount < 2)
             {
                 Refresh();
             }
@@ -128,14 +160,16 @@ namespace PerfectMedia.UI.Images
         /// <param name="e">The event arguments.</param>
         private void OnDownloadCompleted(object sender, EventArgs e)
         {
+            _imageLoaded = true;
             Source = _loadedImage;
         }
 
         private void Refresh()
         {
+            _imageLoaded = false;
             if (!string.IsNullOrEmpty(ImageUri) && PathIsValid(ImageUri))
             {
-                RetryCount++;
+                _retryCount++;
                 LoadImage();
 
                 // The image may be cached, in which case we will not use the initial image
@@ -185,19 +219,27 @@ namespace PerfectMedia.UI.Images
 
         private void LoadInitialImage()
         {
-            if (!string.IsNullOrWhiteSpace(InitialImage))
+            if (!_imageLoaded)
             {
-                BitmapImage initialImage = new BitmapImage();
-
-                // Load the initial bitmap from the local resource
-                initialImage.BeginInit();
-                initialImage.UriSource = new Uri(InitialImage, UriKind.Relative);
-                initialImage.DecodePixelWidth = (int)ActualWidth;
-                initialImage.EndInit();
-
                 // Set the initial image as the image source
-                Source = initialImage;
+                Source = CreateInitialImage();
             }
+        }
+
+        private DrawingImage CreateInitialImage()
+        {
+            var geometryGroup = new GeometryGroup();
+            geometryGroup.Children.Add(
+                new RectangleGeometry(new Rect(0, 0, WidthRatio, HeightRatio))
+            );
+            var geometryDrawing = new GeometryDrawing
+            {
+                Geometry = geometryGroup,
+                Brush = new SolidColorBrush(Colors.LightGray)
+            };
+            var image = new DrawingImage(geometryDrawing);
+            image.Freeze();
+            return image;
         }
     }
 }

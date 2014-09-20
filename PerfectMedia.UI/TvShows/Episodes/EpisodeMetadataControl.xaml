@@ -59,6 +59,7 @@
         <TextBox Grid.Row="10" Grid.Column="3" Text="{Binding DisplayEpisode, TargetNullValue=''}" Visibility="{Binding SeasonNumber.Value, Converter={StaticResource SpecialsSeasonVisibilityConverter}}" />
         <!-- TODO: EpisodeBookmarks when multi-episode file is supported -->
 
-        <img:SelectableImage Grid.Row="2" Grid.RowSpan="7" Grid.Column="2" Grid.ColumnSpan="2" MaxWidth="400" DataContext="{Binding ImagePath}" />
+        <img:SelectableImage Grid.Row="2" Grid.RowSpan="7" Grid.Column="2" Grid.ColumnSpan="2" DataContext="{Binding ImagePath}"
+                             MaxWidth="400" WidthRatio="1920" HeightRatio="1080" />
     </Grid>
 </UserControl>

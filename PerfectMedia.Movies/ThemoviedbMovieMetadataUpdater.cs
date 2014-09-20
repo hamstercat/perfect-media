@@ -130,28 +130,31 @@ namespace PerfectMedia.Movies
         private async Task<AvailableMovieImages> ConvertImagesResult(MovieImagesResult movieImagesResult)
         {
             AvailableMovieImages availableMovieImages = new AvailableMovieImages();
-            availableMovieImages.Fanarts = await ConvertImagesCollection(movieImagesResult.Backdrops);
-            availableMovieImages.Posters = await ConvertImagesCollection(movieImagesResult.Posters);
+            availableMovieImages.Fanarts = await ConvertImagesCollection(movieImagesResult.Backdrops, 1920, 1080);
+            availableMovieImages.Posters = await ConvertImagesCollection(movieImagesResult.Posters, 680, 1000);
             return availableMovieImages;
         }
 
-        private async Task<IEnumerable<Image>> ConvertImagesCollection(IEnumerable<ThemoviedbImage> images)
+        private async Task<IEnumerable<Image>> ConvertImagesCollection(IEnumerable<ThemoviedbImage> images, double widthRatio, double heightRatio)
         {
             List<Image> fanarts = new List<Image>();
             foreach (ThemoviedbImage image in images)
             {
-                fanarts.Add(await ConvertThemoviedbImage(image));
+                Image item = await ConvertThemoviedbImage(image, widthRatio, heightRatio);
+                fanarts.Add(item);
             }
             return fanarts;
         }
 
-        private async Task<Image> ConvertThemoviedbImage(ThemoviedbImage themoviedbImage)
+        private async Task<Image> ConvertThemoviedbImage(ThemoviedbImage themoviedbImage, double widthRatio, double heightRatio)
         {
             return new Image
             {
                 Url = await GetImageBasePath() + "original" + themoviedbImage.FilePath,
-                Size = string.Format("{0}x{1}", themoviedbImage.Width, themoviedbImage.Height),
-                Rating = themoviedbImage.VoteAverage
+                Description = string.Format("{0}x{1}", themoviedbImage.Width, themoviedbImage.Height),
+                Rating = themoviedbImage.VoteAverage,
+                WidthRatio = widthRatio,
+                HeightRatio = heightRatio
             };
         }
 

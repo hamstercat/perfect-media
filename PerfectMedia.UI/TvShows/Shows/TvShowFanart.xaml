@@ -8,41 +8,43 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance Type=shows:TvShowImagesViewModel}">
-    <Grid MinWidth="650">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid MinWidth="650">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <img:SelectableImage Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" DataContext="{Binding FanartUrl}" />
-            <img:SelectableImage Grid.Row="0" Grid.Column="1" DataContext="{Binding PosterUrl}" MaxWidth="300" />
-            <img:SelectableImage Grid.Row="1" Grid.Column="1" DataContext="{Binding BannerUrl}" MaxWidth="300" />
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <img:SelectableImage Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" DataContext="{Binding FanartUrl}" WidthRatio="1920" HeightRatio="1080" />
+                <img:SelectableImage Grid.Row="0" Grid.Column="1" DataContext="{Binding PosterUrl}" MaxWidth="300" WidthRatio="680" HeightRatio="1000" />
+                <img:SelectableImage Grid.Row="1" Grid.Column="1" DataContext="{Binding BannerUrl}" MaxWidth="300" WidthRatio="758" HeightRatio="140" />
+            </Grid>
+            <Grid Grid.Row="1">
+                <ItemsControl ItemsSource="{Binding SeasonImages}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Width="250">
+                                <TextBlock Text="{Binding SeasonNumber, Converter={StaticResource SeasonNumberToNameConverter}}" />
+                                <img:SelectableImage DataContext="{Binding PosterUrl}" MaxWidth="250" WidthRatio="680" HeightRatio="1000" />
+                                <img:SelectableImage DataContext="{Binding BannerUrl}" MaxWidth="250" WidthRatio="758" HeightRatio="140" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Grid>
         </Grid>
-        <Grid Grid.Row="1">
-            <ItemsControl ItemsSource="{Binding SeasonImages}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Width="250">
-                            <TextBlock Text="{Binding SeasonNumber, Converter={StaticResource SeasonNumberToNameConverter}}" />
-                            <img:SelectableImage  DataContext="{Binding PosterUrl}" MaxWidth="250" />
-                            <img:SelectableImage  DataContext="{Binding BannerUrl}" MaxWidth="250" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </Grid>
-    </Grid>
+    </ScrollViewer>
 </UserControl>

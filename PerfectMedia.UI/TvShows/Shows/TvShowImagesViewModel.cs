@@ -108,7 +108,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             FanartUrl.RefreshImage(Path.Combine(_path, "fanart.jpg"));
             PosterUrl.RefreshImage(Path.Combine(_path, "poster.jpg"));
             BannerUrl.RefreshImage(Path.Combine(_path, "banner.jpg"));
-            foreach (SeasonImagesViewModel season in SeasonImages)
+            foreach (ISeasonImagesViewModel season in SeasonImages)
             {
                 season.Refresh();
             }

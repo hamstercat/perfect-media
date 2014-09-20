@@ -10,8 +10,36 @@ namespace PerfectMedia.UI.Images
     /// <summary>
     /// Interaction logic for SelectableImage.xaml
     /// </summary>
-    public partial class SelectableImage : UserControl
+    public partial class SelectableImage
     {
+        /// <summary>
+        /// The WidthRatio dependency property.
+        /// </summary>
+        public static readonly DependencyProperty WidthRatioProperty = DependencyProperty.Register("WidthRatio", typeof(double), typeof(SelectableImage), null);
+
+        /// <summary>
+        /// Gets or sets the width ratio.
+        /// </summary>
+        public double WidthRatio
+        {
+            get { return (double)GetValue(WidthRatioProperty); }
+            set { SetValue(WidthRatioProperty, value); }
+        }
+
+        /// <summary>
+        /// The HeightRatio dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HeightRatioProperty = DependencyProperty.Register("HeightRatio", typeof(double), typeof(SelectableImage), null);
+
+        /// <summary>
+        /// Gets or sets the height ratio.
+        /// </summary>
+        public double HeightRatio
+        {
+            get { return (double)GetValue(HeightRatioProperty); }
+            set { SetValue(HeightRatioProperty, value); }
+        }
+
         public SelectableImage()
         {
             InitializeComponent();

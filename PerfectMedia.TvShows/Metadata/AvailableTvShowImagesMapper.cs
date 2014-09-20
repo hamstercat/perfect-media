@@ -57,14 +57,17 @@ namespace PerfectMedia.TvShows.Metadata
         private void AddFanartImage(Banner banner)
         {
             Image image = CreateImage(banner);
-            image.Size = banner.BannerType2;
+            image.Description = banner.BannerType2;
+            image.WidthRatio = 1920;
+            image.HeightRatio = 1080;
             _fanarts.Add(image);
         }
 
         private void AddPosterImage(Banner banner)
         {
             Image image = CreateImage(banner);
-            image.Size = banner.BannerType2;
+            image.WidthRatio = 680;
+            image.HeightRatio = 1000;
             if (banner.Season.HasValue)
             {
                 image.Description = TvShowHelper.GetSeasonName(banner.Season.Value);
@@ -81,6 +84,8 @@ namespace PerfectMedia.TvShows.Metadata
         private void AddBannerImage(Banner banner)
         {
             Image image = CreateImage(banner);
+            image.WidthRatio = 758;
+            image.HeightRatio = 140;
             if (banner.Season.HasValue)
             {
                 image.Description = TvShowHelper.GetSeasonName(banner.Season.Value);

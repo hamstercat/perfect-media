@@ -71,6 +71,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <img:SelectableImage Grid.Column="1" DataContext="{Binding SelectedItem.ThumbPath, ElementName=ActorsList}" MaxWidth="300" MaxHeight="450" />
+        <img:SelectableImage Grid.Column="1" DataContext="{Binding SelectedItem.ThumbPath, ElementName=ActorsList}"
+                             MaxWidth="300" MaxHeight="450" WidthRatio="300" HeightRatio="450" />
     </Grid>
 </UserControl>

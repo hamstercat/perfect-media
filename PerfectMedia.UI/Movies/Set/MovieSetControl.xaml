@@ -16,7 +16,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding SetName, ValidatesOnDataErrors=True}" />
-        <img:SelectableImage Grid.Row="1" Grid.Column="0" DataContext="{Binding Fanart}" />
-        <img:SelectableImage Grid.Row="1" Grid.Column="1" DataContext="{Binding Poster}" MaxWidth="300" />
+        <img:SelectableImage Grid.Row="1" Grid.Column="0" DataContext="{Binding Fanart}" WidthRatio="1920" HeightRatio="1080" />
+        <img:SelectableImage Grid.Row="1" Grid.Column="1" DataContext="{Binding Poster}" MaxWidth="300" WidthRatio="1000" HeightRatio="1500" />
     </Grid>
 </UserControl>

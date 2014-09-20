@@ -12,8 +12,9 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Hyperlink TextDecorations="{x:Null}" MouseEnter="GridMouseEnter" MouseLeave="GridMouseLeave" Click="HyperlinkClick">
         <Grid>
-            <img:ImageLoader ImageUri="{Binding Path}" InitialImage="/PerfectMedia.UI;component/Images/Blank.png"
-                             RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+            <img:ImageLoader ImageUri="{Binding Path}" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"
+                             WidthRatio="{Binding WidthRatio, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                             HeightRatio="{Binding HeightRatio, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
             <Grid x:Name="MouseOverOverlay" Visibility="Hidden">
                 <Rectangle Fill="LightBlue" Opacity="0.55" />
                 <TextBlock Text="{lex:Loc Change}" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Foreground="Black" Padding="5" />

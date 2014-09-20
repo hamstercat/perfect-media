@@ -17,7 +17,7 @@
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" MaxWidth="300" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <img:SelectableImage Grid.Column="0" DataContext="{Binding FanartUrl}" WidthRatio="1920" HeightRatio="1080" />
                 <Grid Grid.Column="1">

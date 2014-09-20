@@ -6,8 +6,6 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary Source="./Style.xaml" x:Key="GeneralStyle" />
-
             <app:ServiceLocator x:Key="ServiceLocator" />
 
             <conv:NullToBooleanConverter x:Key="NullToBooleanConverter" />
@@ -22,6 +20,7 @@
             <conv:RequiredLabelConverter x:Key="RequiredLabelConverter" />
 
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Style.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />

@@ -24,8 +24,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <img:ImageLoader Grid.Row="0" Grid.Column="0" ImageUri="{Binding Selection.SelectedItem.Url}"
-                         WidthRatio="{Binding Selection.SelectedItem.WidthRatio}" HeightRatio="{Binding Selection.SelectedItem.HeightRatio}"
-                         RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>
+                         WidthRatio="{Binding Selection.SelectedItem.WidthRatio}" HeightRatio="{Binding Selection.SelectedItem.HeightRatio}" />
         <Grid Grid.Row="0" Grid.Column="1">
             <StackPanel>
                 <Button Content="{lex:Loc Save}" Command="{Binding Selection.SaveCommand}" />
@@ -46,8 +45,7 @@
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <img:ImageLoader Grid.Row="0" ImageUri="{Binding Url}" WidthRatio="{Binding WidthRatio}" HeightRatio="{Binding HeightRatio}"
-                                         RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                        <img:ImageLoader Grid.Row="0" ImageUri="{Binding Url}" WidthRatio="{Binding WidthRatio}" HeightRatio="{Binding HeightRatio}" />
                         <TextBlock Grid.Row="1" Text="{Binding Description}" HorizontalAlignment="Center" />
                     </Grid>
                 </DataTemplate>

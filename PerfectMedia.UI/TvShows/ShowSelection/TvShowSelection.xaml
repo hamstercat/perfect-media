@@ -56,8 +56,7 @@
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="{Binding SelectedItem, Converter={StaticResource SeriesNameAndYearConverter}}" />
             <TextBlock Grid.Row="1" Text="{Binding SelectedItem.Overview}" TextWrapping="WrapWithOverflow" />
-            <img:ImageLoader Grid.Row="2" ImageUri="{Binding SelectedItem.Banner}" WidthRatio="758" HeightRatio="140"
-                             RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+            <img:ImageLoader Grid.Row="2" ImageUri="{Binding SelectedItem.Banner}" WidthRatio="758" HeightRatio="140" />
             <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="{lex:Loc Cancel}" Click="CancelClick" IsCancel="True" />
                 <Button Content="{lex:Loc Save}" Command="{Binding SaveCommand}" />

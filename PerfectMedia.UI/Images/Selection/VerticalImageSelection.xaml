@@ -24,8 +24,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <img:ImageLoader Grid.Row="0" Grid.Column="0" MaxHeight="140" ImageUri="{Binding Selection.SelectedItem.Url}"
-                         WidthRatio="{Binding Selection.SelectedItem.WidthRatio}" HeightRatio="{Binding Selection.SelectedItem.HeightRatio}"
-                         RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>
+                         WidthRatio="{Binding Selection.SelectedItem.WidthRatio}" HeightRatio="{Binding Selection.SelectedItem.HeightRatio}" />
         <Grid Grid.Row="0" Grid.Column="1">
             <StackPanel>
                 <Button Content="{lex:Loc Save}" Command="{Binding Selection.SaveCommand}" />
@@ -41,8 +40,7 @@
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <img:ImageLoader Height="140" ImageUri="{Binding Url}" WidthRatio="{Binding WidthRatio}" HeightRatio="{Binding HeightRatio}"
-                                     RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>
+                    <img:ImageLoader Height="140" ImageUri="{Binding Url}" WidthRatio="{Binding WidthRatio}" HeightRatio="{Binding HeightRatio}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

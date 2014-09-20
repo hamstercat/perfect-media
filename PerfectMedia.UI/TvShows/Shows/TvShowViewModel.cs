@@ -107,6 +107,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         {
             TvShowMetadata metadata = await _metadataService.Get(Path);
             await RefreshFromMetadata(metadata);
+            await Images.Refresh();
         }
 
         protected override async Task<IEnumerable<ProgressItem>> UpdateInternal()

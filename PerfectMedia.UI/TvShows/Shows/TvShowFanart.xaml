@@ -15,17 +15,19 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" MaxWidth="300" />
                 </Grid.ColumnDefinitions>
-                <img:SelectableImage Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" DataContext="{Binding FanartUrl}" WidthRatio="1920" HeightRatio="1080" />
-                <img:SelectableImage Grid.Row="0" Grid.Column="1" DataContext="{Binding PosterUrl}" MaxWidth="300" WidthRatio="680" HeightRatio="1000" />
-                <img:SelectableImage Grid.Row="1" Grid.Column="1" DataContext="{Binding BannerUrl}" MaxWidth="300" WidthRatio="758" HeightRatio="140" />
+                <img:SelectableImage Grid.Column="0" DataContext="{Binding FanartUrl}" WidthRatio="1920" HeightRatio="1080" />
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <img:SelectableImage Grid.Row="0" DataContext="{Binding PosterUrl}" MaxWidth="300" WidthRatio="680" HeightRatio="1000" />
+                    <img:SelectableImage Grid.Row="1" DataContext="{Binding BannerUrl}" MaxWidth="300" WidthRatio="758" HeightRatio="140" />
+                </Grid>
             </Grid>
             <Grid Grid.Row="1">
                 <ItemsControl ItemsSource="{Binding SeasonImages}">

@@ -19,50 +19,10 @@ namespace PerfectMedia.UI.TvShows.Shows
         private readonly IBusyProvider _busyProvider;
         private readonly string _path;
 
-        private bool _tvShowImagesLoaded;
-
-        private readonly IImageViewModel _fanartUrl;
-        public IImageViewModel FanartUrl
-        {
-            get
-            {
-                InitialLoadTvShowImages();
-                return _fanartUrl;
-            }
-        }
-
-        private readonly IImageViewModel _posterUrl;
-        public IImageViewModel PosterUrl
-        {
-            get
-            {
-                InitialLoadTvShowImages();
-                return _posterUrl;
-            }
-        }
-
-        private readonly IImageViewModel _bannerUrl;
-        public IImageViewModel BannerUrl
-        {
-            get
-            {
-                InitialLoadTvShowImages();
-                return _bannerUrl;
-            }
-        }
-
-        private ObservableCollection<ISeasonImagesViewModel> _seasonImages;
-        public ObservableCollection<ISeasonImagesViewModel> SeasonImages
-        {
-            get
-            {
-                if (_seasonImages == null)
-                {
-                    InitialLoadSeasonImages();
-                }
-                return _seasonImages;
-            }
-        }
+        public IImageViewModel FanartUrl { get; private set; }
+        public IImageViewModel PosterUrl { get; private set; }
+        public IImageViewModel BannerUrl { get; private set; }
+        public ObservableCollection<ISeasonImagesViewModel> SeasonImages { get; private set; }
 
         public TvShowImagesViewModel(ITvShowFileService tvShowFileService,
             ITvShowMetadataService metadataService,
@@ -75,31 +35,19 @@ namespace PerfectMedia.UI.TvShows.Shows
             _viewModelFactory = viewModelFactory;
             _busyProvider = busyProvider;
             _path = path;
-            _tvShowImagesLoaded = false;
+            SeasonImages = new ObservableCollection<ISeasonImagesViewModel>();
 
-            _fanartUrl = viewModelFactory.GetImage(true, new FanartImageStrategy(metadataService, metadataViewModel));
-            _posterUrl = viewModelFactory.GetImage(true, new PosterImageStrategy(metadataService, metadataViewModel));
-            _bannerUrl = viewModelFactory.GetImage(false, new BannerImageStrategy(metadataService, metadataViewModel));
+            FanartUrl = viewModelFactory.GetImage(true, new FanartImageStrategy(metadataService, metadataViewModel));
+            PosterUrl = viewModelFactory.GetImage(true, new PosterImageStrategy(metadataService, metadataViewModel));
+            BannerUrl = viewModelFactory.GetImage(false, new BannerImageStrategy(metadataService, metadataViewModel));
         }
 
         public async Task Refresh()
         {
             using (_busyProvider.DoWork())
             {
-                ForceInitialLoadTvShowImages();
                 await InitialLoadSeasonImages();
-            }
-        }
-
-        private void InitialLoadTvShowImages()
-        {
-            using (_busyProvider.DoWork())
-            {
-                if (!_tvShowImagesLoaded)
-                {
-                    _tvShowImagesLoaded = true;
-                    ForceInitialLoadTvShowImages();
-                }
+                ForceInitialLoadTvShowImages();
             }
         }
 
@@ -116,11 +64,7 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         private async Task InitialLoadSeasonImages()
         {
-            if (_seasonImages == null)
-            {
-                _seasonImages = new ObservableCollection<ISeasonImagesViewModel>();
-            }
-            _seasonImages.Clear();
+            SeasonImages.Clear();
             IEnumerable<Season> seasons = await _tvShowFileService.GetSeasons(_path);
             foreach (Season season in seasons)
             {
@@ -134,7 +78,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             viewModel.BannerUrl.Path = season.BannerUrl;
             viewModel.PosterUrl.Path = season.PosterUrl;
             viewModel.SeasonNumber = season.SeasonNumber;
-            _seasonImages.Add(viewModel);
+            SeasonImages.Add(viewModel);
         }
     }
 }

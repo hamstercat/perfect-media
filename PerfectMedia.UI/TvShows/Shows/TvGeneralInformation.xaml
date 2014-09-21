@@ -26,8 +26,7 @@
             <Style TargetType="Grid" x:Key="GridRow">
                 <Setter Property="Margin" Value="0,0,0,5" />
             </Style>
-            <Style TargetType="Grid" x:Key="GridRowBackground">
-                <Setter Property="Margin" Value="0,0,0,5" />
+            <Style TargetType="Grid" x:Key="GridRowBackground" BasedOn="{StaticResource GridRow}">
                 <Setter Property="Background" Value="White" />
                 <Setter Property="Opacity" Value="0.7" />
             </Style>
@@ -47,18 +46,19 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Grid.RowSpan="10" Style="{StaticResource GridRowBackground}" />
+            <Grid Grid.Row="0" Grid.RowSpan="7" Style="{StaticResource GridRowBackground}" />
             <Grid Grid.Row="0" Style="{StaticResource GridRow}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{lex:Loc Path}" />
-                <TextBlock Grid.Column="1" Text="{Binding Path}" VerticalAlignment="Center" />
+                <TextBlock x:Name="Path" Grid.Column="1" VerticalAlignment="Center">
+                    <Hyperlink Click="PathHyperlinkClick">
+                        <Run Text="{Binding Path}" />
+                    </Hyperlink>
+                </TextBlock>
             </Grid>
             <Grid Grid.Row="1" Style="{StaticResource GridRowRequiredBackground}" />
             <Grid Grid.Row="1" Style="{StaticResource GridRow}">
@@ -73,74 +73,93 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels2" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="{lex:Loc Genres}" />
-                <TextBox Grid.Column="1" Text="{Binding Genres.String}" />
+                <Grid Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource GridRowRequiredBackground}" />
+                <Grid Grid.Column="0" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="{lex:Loc Id, Converter={StaticResource RequiredLabelConverter}}" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Id}" />
+                </Grid>
+                <Label Grid.Column="2" Content="{lex:Loc PremieredDate}" />
+                <Grid Grid.Column="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <DatePicker Grid.Column="0" SelectedDate="{Binding PremieredDate}" />
+                </Grid>
             </Grid>
             <Grid Grid.Row="3" Style="{StaticResource GridRow}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
-                    <ColumnDefinition Width="30" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels2" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{lex:Loc Rating}" />
-                <TextBox Grid.Column="1" Text="{Binding Rating, TargetNullValue=''}" />
-                <TextBlock Grid.Column="2" Text="/10" VerticalAlignment="Center" />
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" Text="{Binding Rating, TargetNullValue=''}" />
+                    <TextBlock Grid.Column="1" Text="/10" VerticalAlignment="Center" />
+                </Grid>
+                <Label Grid.Column="2" Content="{lex:Loc MpaaRating}" />
+                <Grid Grid.Column="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox Grid.Column="0" SelectedValue="{Binding MpaaRating, Mode=TwoWay}" SelectedValuePath="Tag">
+                        <ComboBoxItem Tag="" FontStyle="Italic">
+                            <lex:Loc Key="None" />
+                        </ComboBoxItem>
+                        <ComboBoxItem Tag="TV-Y">TV-Y</ComboBoxItem>
+                        <ComboBoxItem Tag="TV-Y7">TV-Y7</ComboBoxItem>
+                        <ComboBoxItem Tag="TV-G">TV-G</ComboBoxItem>
+                        <ComboBoxItem Tag="TV-PG">TV-PG</ComboBoxItem>
+                        <ComboBoxItem Tag="TV-14">TV-14</ComboBoxItem>
+                        <ComboBoxItem Tag="TV-MA">TV-MA</ComboBoxItem>
+                    </ComboBox>
+                </Grid>
             </Grid>
             <Grid Grid.Row="4" Style="{StaticResource GridRow}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
-                    <ColumnDefinition Width="30" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels2" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{lex:Loc Runtime}" />
-                <TextBox Grid.Column="1" Text="{Binding RuntimeInMinutes, TargetNullValue=''}" />
-                <TextBlock Grid.Column="2" Text="{lex:Loc Minutes}" VerticalAlignment="Center" />
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" Text="{Binding RuntimeInMinutes, TargetNullValue=''}" />
+                    <TextBlock Grid.Column="1" Text="{lex:Loc Minutes}" VerticalAlignment="Center" />
+                </Grid>
+                <Label Grid.Column="2" Content="{lex:Loc Studio}" />
+                <TextBox Grid.Column="3" Text="{Binding Studio}" />
             </Grid>
             <Grid Grid.Row="5" Style="{StaticResource GridRow}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="{lex:Loc MpaaRating}" />
-                <ComboBox Grid.Column="1" SelectedValue="{Binding MpaaRating, Mode=TwoWay}" SelectedValuePath="Tag">
-                    <ComboBoxItem Tag="" FontStyle="Italic">
-                        <lex:Loc Key="None" />
-                    </ComboBoxItem>
-                    <ComboBoxItem Tag="TV-Y">TV-Y</ComboBoxItem>
-                    <ComboBoxItem Tag="TV-Y7">TV-Y7</ComboBoxItem>
-                    <ComboBoxItem Tag="TV-G">TV-G</ComboBoxItem>
-                    <ComboBoxItem Tag="TV-PG">TV-PG</ComboBoxItem>
-                    <ComboBoxItem Tag="TV-14">TV-14</ComboBoxItem>
-                    <ComboBoxItem Tag="TV-MA">TV-MA</ComboBoxItem>
-                </ComboBox>
+                <Label Grid.Column="0" Content="{lex:Loc Genres}" />
+                <TextBox Grid.Column="1" Text="{Binding Genres.String}" />
             </Grid>
             <Grid Grid.Row="6" Style="{StaticResource GridRow}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="{lex:Loc PremieredDate}" />
-                <DatePicker Grid.Column="1" SelectedDate="{Binding PremieredDate}" />
-            </Grid>
-            <Grid Grid.Row="7" Style="{StaticResource GridRow}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="{lex:Loc Studio}" />
-                <TextBox Grid.Column="1" Text="{Binding Studio}" />
-            </Grid>
-            <Grid Grid.Row="8" Style="{StaticResource GridRowRequiredBackground}" />
-            <Grid Grid.Row="8" Style="{StaticResource GridRow}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="{lex:Loc Id, Converter={StaticResource RequiredLabelConverter}}" />
-                <TextBox Grid.Column="1" Text="{Binding Id}" />
-            </Grid>
-            <Grid Grid.Row="9" Style="{StaticResource GridRow}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
                     <ColumnDefinition Width="*" />

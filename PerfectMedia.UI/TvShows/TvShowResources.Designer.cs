@@ -214,6 +214,15 @@ namespace PerfectMedia.UI.TvShows {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to minutes.
+        /// </summary>
+        public static string Minutes {
+            get {
+                return ResourceManager.GetString("Minutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MPAA Rating.
         /// </summary>
         public static string MpaaRating {
@@ -286,7 +295,7 @@ namespace PerfectMedia.UI.TvShows {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Runtime (in minutes).
+        ///   Looks up a localized string similar to Runtime.
         /// </summary>
         public static string Runtime {
             get {

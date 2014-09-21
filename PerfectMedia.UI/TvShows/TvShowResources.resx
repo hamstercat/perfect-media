@@ -168,6 +168,9 @@
   <data name="LastPlayed" xml:space="preserve">
     <value>Last Played</value>
   </data>
+  <data name="Minutes" xml:space="preserve">
+    <value>minutes</value>
+  </data>
   <data name="MpaaRating" xml:space="preserve">
     <value>MPAA Rating</value>
   </data>
@@ -193,7 +196,7 @@
     <value>Refresh</value>
   </data>
   <data name="Runtime" xml:space="preserve">
-    <value>Runtime (in minutes)</value>
+    <value>Runtime</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>

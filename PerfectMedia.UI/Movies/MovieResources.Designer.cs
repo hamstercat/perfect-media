@@ -169,6 +169,15 @@ namespace PerfectMedia.UI.Movies {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to minutes.
+        /// </summary>
+        public static string Minutes {
+            get {
+                return ResourceManager.GetString("Minutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Movie could not be located.
         /// </summary>
         public static string MovieNotFound {
@@ -250,7 +259,7 @@ namespace PerfectMedia.UI.Movies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Runtime (in minutes).
+        ///   Looks up a localized string similar to Runtime.
         /// </summary>
         public static string Runtime {
             get {
@@ -277,7 +286,7 @@ namespace PerfectMedia.UI.Movies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SetName.
+        ///   Looks up a localized string similar to Set Name.
         /// </summary>
         public static string SetName {
             get {

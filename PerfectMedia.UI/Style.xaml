@@ -6,4 +6,15 @@
         <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />
         <Setter Property="Margin" Value="5" />
     </Style>
+    <Style TargetType="Grid" x:Key="GridRow">
+        <Setter Property="Margin" Value="0,0,0,5" />
+    </Style>
+    <Style TargetType="Grid" x:Key="GridRowRequiredBackground" BasedOn="{StaticResource GridRow}">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Opacity" Value="0.8" />
+    </Style>
+    <Style TargetType="Rectangle" x:Key="OverlayRectangle">
+        <Setter Property="Fill" Value="White" />
+        <Setter Property="Opacity" Value="0.7" />
+    </Style>
 </ResourceDictionary>

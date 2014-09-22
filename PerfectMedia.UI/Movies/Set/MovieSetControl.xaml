@@ -4,19 +4,32 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:img="clr-namespace:PerfectMedia.UI.Images"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="en"
+             lex:ResxLocalizationProvider.DefaultAssembly="PerfectMedia.UI"
+             lex:ResxLocalizationProvider.DefaultDictionary="MovieResources"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid MinWidth="650">
+    <Grid MinWidth="650" Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding SetName, ValidatesOnDataErrors=True}" />
-        <img:SelectableImage Grid.Row="1" Grid.Column="0" DataContext="{Binding Fanart}" WidthRatio="1920" HeightRatio="1080" />
-        <img:SelectableImage Grid.Row="1" Grid.Column="1" DataContext="{Binding Poster}" MaxWidth="300" WidthRatio="1000" HeightRatio="1500" />
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="{lex:Loc SetName}" />
+            <TextBox Grid.Column="1" Text="{Binding SetName, ValidatesOnDataErrors=True}" />
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <img:SelectableImage Grid.Column="0" DataContext="{Binding Fanart}" WidthRatio="1920" HeightRatio="1080" />
+            <img:SelectableImage Grid.Column="1" DataContext="{Binding Poster}" MaxWidth="300" WidthRatio="1000" HeightRatio="1500" />
+        </Grid>
     </Grid>
 </UserControl>

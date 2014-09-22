@@ -153,6 +153,9 @@
   <data name="Information" xml:space="preserve">
     <value>Information</value>
   </data>
+  <data name="Minutes" xml:space="preserve">
+    <value>minutes</value>
+  </data>
   <data name="MovieNotFound" xml:space="preserve">
     <value>Movie could not be located</value>
   </data>
@@ -181,7 +184,7 @@
     <value>Refresh</value>
   </data>
   <data name="Runtime" xml:space="preserve">
-    <value>Runtime (in minutes)</value>
+    <value>Runtime</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
@@ -190,7 +193,7 @@
     <value>Search</value>
   </data>
   <data name="SetName" xml:space="preserve">
-    <value>SetName</value>
+    <value>Set Name</value>
   </data>
   <data name="Sources" xml:space="preserve">
     <value>Sources</value>

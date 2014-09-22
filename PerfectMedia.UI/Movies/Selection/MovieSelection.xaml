@@ -23,13 +23,13 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="400" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0">
+            <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5,0,0,0">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0}{1}">
                         <lex:BLoc Key="PerfectMedia.UI:MovieResources:Title" />
@@ -37,8 +37,8 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-            <TextBox Grid.Column="1" Text="{Binding SearchTitle, UpdateSourceTrigger=PropertyChanged}" />
-            <Button Grid.Column="2" Content="{lex:Loc Search}" Command="{Binding SearchCommand}" IsDefault="True" />
+            <TextBox Grid.Column="1" Text="{Binding SearchTitle, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,0,0" />
+            <Button Grid.Column="2" Content="{lex:Loc Search}" Command="{Binding SearchCommand}" IsDefault="True" Margin="5,0,5,0" />
         </Grid>
         <ListView Grid.Row="1" ItemsSource="{Binding Selection.AvailableItems}" SelectedItem="{Binding Selection.SelectedItem}">
             <ListView.ItemTemplate>
@@ -47,23 +47,26 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Grid Grid.Row="2" DataContext="{Binding Selection}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <img:ImageLoader Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" ImageUri="{Binding SelectedItem.BackdropPath}" WidthRatio="1920" HeightRatio="1080" />
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SelectedItem, Converter={StaticResource MovieTitleAndYearConverter}}" />
-            <img:ImageLoader Grid.Row="1" Grid.Column="1" ImageUri="{Binding SelectedItem.PosterPath}" WidthRatio="1000" HeightRatio="1500" />
-            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="{lex:Loc Cancel}" Click="CancelClick" IsCancel="True" />
-                <Button Content="{lex:Loc Save}" Command="{Binding SaveCommand}" />
-            </StackPanel>
-        </Grid>
+        <Border Grid.Row="2" BorderBrush="Black" BorderThickness="1">
+            <Grid DataContext="{Binding Selection}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <img:ImageLoader Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" ImageUri="{Binding SelectedItem.BackdropPath}" WidthRatio="1920" HeightRatio="1080" />
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SelectedItem, Converter={StaticResource MovieTitleAndYearConverter}}"
+                       VerticalAlignment="Center" Margin="5" />
+                <img:ImageLoader Grid.Row="1" Grid.Column="1" ImageUri="{Binding SelectedItem.PosterPath}" WidthRatio="1000" HeightRatio="1500" />
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="{lex:Loc Cancel}" Click="CancelClick" IsCancel="True" Margin="5,0,0,5" />
+                    <Button Content="{lex:Loc Save}" Command="{Binding SaveCommand}" Margin="5,0,5,5" />
+                </StackPanel>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

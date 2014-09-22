@@ -23,13 +23,6 @@
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="BorderBrush" Value="Transparent" />
             </Style>
-            <Style TargetType="Grid" x:Key="GridRow">
-                <Setter Property="Margin" Value="0,0,0,5" />
-            </Style>
-            <Style TargetType="Grid" x:Key="GridRowRequiredBackground" BasedOn="{StaticResource GridRow}">
-                <Setter Property="Background" Value="White" />
-                <Setter Property="Opacity" Value="0.8" />
-            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -44,7 +37,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Rectangle Grid.Row="0" Grid.RowSpan="7" Fill="White" Opacity="0.7" />
+            <Rectangle Grid.Row="0" Grid.RowSpan="7" Style="{StaticResource OverlayRectangle}" />
             <Grid Grid.Row="0" Style="{StaticResource GridRow}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />

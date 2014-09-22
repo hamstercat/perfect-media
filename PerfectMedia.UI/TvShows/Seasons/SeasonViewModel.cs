@@ -23,11 +23,16 @@ namespace PerfectMedia.UI.TvShows.Seasons
         private readonly string _path;
         private bool _imagesLoaded;
 
+        public string Path
+        {
+            get { return _path; }
+        }
+
         public override string DisplayName
         {
             get
             {
-                return System.IO.Path.GetFileName(_path);
+                return System.IO.Path.GetFileName(Path);
             }
         }
 
@@ -91,7 +96,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
 
         protected override async Task LoadChildrenInternal()
         {
-            IEnumerable<PerfectMedia.TvShows.Episode> episodes = await _tvShowFileService.GetEpisodes(_path);
+            IEnumerable<PerfectMedia.TvShows.Episode> episodes = await _tvShowFileService.GetEpisodes(Path);
             foreach (PerfectMedia.TvShows.Episode episode in episodes)
             {
                 IEpisodeViewModel episodeViewModel = _viewModelFactory.GetEpisode(_tvShowMetadata, episode.Path);
@@ -105,7 +110,7 @@ namespace PerfectMedia.UI.TvShows.Seasons
             {
                 if (!_imagesLoaded)
                 {
-                    Season season = _tvShowFileService.GetSeason(_tvShowMetadata.Path, _path);
+                    Season season = _tvShowFileService.GetSeason(_tvShowMetadata.Path, Path);
                     _imagesLoaded = true;
                     PosterUrl.Path = season.PosterUrl;
                     BannerUrl.Path = season.BannerUrl;

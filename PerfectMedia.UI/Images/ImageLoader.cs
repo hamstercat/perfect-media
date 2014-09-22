@@ -68,8 +68,11 @@ namespace PerfectMedia.UI.Images
         private static void OnImageUriChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var imageLoader = (ImageLoader)d;
-            imageLoader._retryCount = 0;
-            imageLoader.Refresh();
+            if (e.NewValue != e.OldValue)
+            {
+                imageLoader._retryCount = 0;
+                imageLoader.Refresh();
+            }
         }
 
         /// <summary>
@@ -175,6 +178,7 @@ namespace PerfectMedia.UI.Images
                 // The image may be cached, in which case we will not use the initial image
                 if (!_loadedImage.IsDownloading)
                 {
+                    _imageLoaded = true;
                     Source = _loadedImage;
                 }
                 else

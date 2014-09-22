@@ -18,6 +18,7 @@ namespace PerfectMedia.UI.TvShows.Shows
         private readonly ITvShowViewModelFactory _viewModelFactory;
         private readonly IBusyProvider _busyProvider;
         private readonly string _path;
+        private bool _seasonImagesLoaded;
 
         public IImageViewModel FanartUrl { get; private set; }
         public IImageViewModel PosterUrl { get; private set; }
@@ -64,11 +65,15 @@ namespace PerfectMedia.UI.TvShows.Shows
 
         private async Task InitialLoadSeasonImages()
         {
-            SeasonImages.Clear();
-            IEnumerable<Season> seasons = await _tvShowFileService.GetSeasons(_path);
-            foreach (Season season in seasons)
+            if (!_seasonImagesLoaded)
             {
-                LoadSeason(season);
+                _seasonImagesLoaded = true;
+                SeasonImages.Clear();
+                IEnumerable<Season> seasons = await _tvShowFileService.GetSeasons(_path);
+                foreach (Season season in seasons)
+                {
+                    LoadSeason(season);
+                }
             }
         }
 

@@ -6,6 +6,7 @@
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:music="clr-namespace:PerfectMedia.UI.Music"
              xmlns:artists="clr-namespace:PerfectMedia.UI.Music.Artists"
+             xmlns:albums="clr-namespace:PerfectMedia.UI.Music.Albums"
              xmlns:img="clr-namespace:PerfectMedia.UI.Images"
              xmlns:selectimg="clr-namespace:PerfectMedia.UI.Images.Selection"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
@@ -73,6 +74,21 @@
                                 <Button Content="{lex:Loc Delete}" Command="{Binding DeleteCommand}" />
                             </StackPanel>
                             <artists:ArtistControl Grid.Row="1" />
+                        </Grid>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type albums:AlbumViewModel}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <Button Content="{lex:Loc Refresh}" Command="{Binding RefreshCommand}" />
+                                <Button Content="{lex:Loc Update}" Command="{Binding UpdateCommand}" />
+                                <Button Content="{lex:Loc Save}" Command="{Binding SaveCommand}" />
+                                <Button Content="{lex:Loc Delete}" Command="{Binding DeleteCommand}" />
+                            </StackPanel>
+                            <albums:AlbumControl Grid.Row="1" />
                         </Grid>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type img:ImageViewModel}">

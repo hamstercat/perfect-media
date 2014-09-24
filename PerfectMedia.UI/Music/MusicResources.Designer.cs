@@ -61,6 +61,24 @@ namespace PerfectMedia.UI.Music {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Album could not be located.
+        /// </summary>
+        public static string AlbumNotFound {
+            get {
+                return ResourceManager.GetString("AlbumNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Artist could not be located.
+        /// </summary>
+        public static string ArtistNotFound {
+            get {
+                return ResourceManager.GetString("ArtistNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Biography.
         /// </summary>
         public static string Biography {
@@ -142,6 +160,15 @@ namespace PerfectMedia.UI.Music {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Id.
+        /// </summary>
+        public static string Id {
+            get {
+                return ResourceManager.GetString("Id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Instruments.
         /// </summary>
         public static string Instruments {
@@ -210,6 +237,15 @@ namespace PerfectMedia.UI.Music {
         public static string Styles {
             get {
                 return ResourceManager.GetString("Styles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
             }
         }
         

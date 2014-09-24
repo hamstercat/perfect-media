@@ -46,6 +46,9 @@ namespace PerfectMedia.UI.Music.Artists
         [RequiredCached]
         public IPropertyViewModel<string> Name { get; private set; }
 
+        [LocalizedRequired]
+        public string Id { get; set; }
+
         public string Biography { get; set; }
         public DateTime? BornOn { get; set; }
         public DateTime? DiedOn { get; set; }
@@ -65,7 +68,7 @@ namespace PerfectMedia.UI.Music.Artists
             IDialogViewer dialogViewer,
             IKeyDataStore keyDataStore,
             string path)
-            : base(busyProvider, dialogViewer, viewModelFactory.GetAlbum("dummy"))
+            : base(busyProvider, dialogViewer, viewModelFactory.GetAlbum("dummy", null))
         {
             _metadataService = metadataService;
             _viewModelFactory = viewModelFactory;
@@ -120,7 +123,7 @@ namespace PerfectMedia.UI.Music.Artists
             IEnumerable<AlbumFile> albums = await _musicFileService.GetAlbums(Path);
             foreach (AlbumFile album in albums)
             {
-                IAlbumViewModel albumViewModel = _viewModelFactory.GetAlbum(album.Path);
+                IAlbumViewModel albumViewModel = _viewModelFactory.GetAlbum(album.Path, this);
                 Children.Add(albumViewModel);
             }
         }
@@ -133,6 +136,7 @@ namespace PerfectMedia.UI.Music.Artists
             DisbandedOn = metadata.DisbandedOn;
             FormedOn = metadata.FormedOn;
             Genres.ReplaceWith(metadata.Genres);
+            Id = metadata.Mbid;
             Instruments = metadata.Instruments;
             Moods.ReplaceWith(metadata.Moods);
             Name.Value = metadata.Name;
@@ -152,6 +156,7 @@ namespace PerfectMedia.UI.Music.Artists
                 DisbandedOn = DisbandedOn,
                 FormedOn = FormedOn,
                 Genres = Genres.Collection.ToList(),
+                Mbid = Id,
                 Instruments = Instruments,
                 Moods = Moods.Collection.ToList(),
                 Name = Name.Value,

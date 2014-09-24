@@ -37,7 +37,8 @@ namespace PerfectMedia.Music
 
         public async Task<IEnumerable<ArtistSummary>> FindArtists(string name)
         {
-            string url = string.Format("/ws/2/artist?query={0}", HttpUtility.HtmlEncode(name));
+            // TODO: handle paging?
+            string url = string.Format("/ws/2/artist?query={0}", HttpUtility.UrlEncode(name));
             ArtistQueryMetadata metadata = await _restApiService.Get<ArtistQueryMetadata>(url);
             return metadata.ArtistList;
         }
@@ -50,12 +51,15 @@ namespace PerfectMedia.Music
             return metadata;
         }
 
-        public Task<IEnumerable<AlbumSummary>> FindAlbums(string artistId)
+        public async Task<IEnumerable<Release>> FindAlbums(string artistId)
         {
-            throw new NotImplementedException();
+            // TODO: handle paging
+            string url = string.Format("/ws/2/release?artist={0}", artistId);
+            AlbumQueryMetadata metadata = await _restApiService.Get<AlbumQueryMetadata>(url);
+            return metadata.ReleaseList;
         }
 
-        public Task<AlbumSummary> GetAlbum(string albumId)
+        public Task<Release> GetAlbum(string albumId)
         {
             throw new NotImplementedException();
         }

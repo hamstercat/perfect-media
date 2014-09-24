@@ -1,8 +1,8 @@
 ﻿using PerfectMedia.Music;
+using PerfectMedia.Music.Albums;
 using PerfectMedia.Music.Artists;
 using PerfectMedia.Sources;
 using PerfectMedia.UI.Busy;
-using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Music.Albums;
 using PerfectMedia.UI.Music.Artists;
 using PerfectMedia.UI.Music.Tracks;
@@ -13,7 +13,8 @@ namespace PerfectMedia.UI.Music
 {
     public class MusicViewModelFactory : IMusicViewModelFactory
     {
-        private readonly IArtistMetadataService _metadataService;
+        private readonly IArtistMetadataService _artistMetadataService;
+        private readonly IAlbumMetadataService _albumMetadataService;
         private readonly ISourceService _sourceService;
         private readonly IFileSystemService _fileSystemService;
         private readonly IMusicFileService _musicFileService;
@@ -22,7 +23,8 @@ namespace PerfectMedia.UI.Music
         private readonly IProgressManagerViewModel _progressManager;
         private readonly IDialogViewer _dialogViewer;
 
-        public MusicViewModelFactory(IArtistMetadataService metadataService,
+        public MusicViewModelFactory(IArtistMetadataService artistMetadataService,
+            IAlbumMetadataService albumMetadataService,
             ISourceService sourceService,
             IFileSystemService fileSystemService,
             IMusicFileService musicFileService,
@@ -31,7 +33,8 @@ namespace PerfectMedia.UI.Music
             IProgressManagerViewModel progressManager,
             IDialogViewer dialogViewer)
         {
-            _metadataService = metadataService;
+            _artistMetadataService = artistMetadataService;
+            _albumMetadataService = albumMetadataService;
             _sourceService = sourceService;
             _fileSystemService = fileSystemService;
             _musicFileService = musicFileService;
@@ -48,12 +51,12 @@ namespace PerfectMedia.UI.Music
 
         public IArtistViewModel GetArtist(string path)
         {
-            return new ArtistViewModel(_metadataService, this, _musicFileService, _progressManager, _busyProvider, _dialogViewer, _keyDataStore, path);
+            return new ArtistViewModel(_artistMetadataService, this, _musicFileService, _progressManager, _busyProvider, _dialogViewer, _keyDataStore, path);
         }
 
-        public IAlbumViewModel GetAlbum(string path)
+        public IAlbumViewModel GetAlbum(string path, IArtistViewModel artistViewModel)
         {
-            return new AlbumViewModel(_musicFileService, this, _busyProvider, _dialogViewer, path);
+            return new AlbumViewModel(_musicFileService, _albumMetadataService, this, _busyProvider, _dialogViewer, _progressManager, _keyDataStore, artistViewModel, path);
         }
 
         public ITrackViewModel GetTrack(string path)

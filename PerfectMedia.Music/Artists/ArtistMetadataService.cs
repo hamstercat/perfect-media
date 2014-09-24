@@ -47,7 +47,7 @@ namespace PerfectMedia.Music.Artists
         private async Task<string> FindArtistId(string path)
         {
             ArtistMetadata metadata = await Get(path);
-            if (!string.IsNullOrEmpty(metadata.Mbid))
+            if (string.IsNullOrEmpty(metadata.Mbid))
             {
                 return await FindIdFromArtistName(path, metadata);
             }

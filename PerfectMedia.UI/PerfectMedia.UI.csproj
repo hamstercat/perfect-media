@@ -210,6 +210,9 @@
     </Compile>
     <Compile Include="Movies\Set\SetFanartImageStrategy.cs" />
     <Compile Include="Movies\Set\SetPosterImageStrategy.cs" />
+    <Compile Include="Music\Albums\AlbumControl.xaml.cs">
+      <DependentUpon>AlbumControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Music\Albums\AlbumViewModel.cs" />
     <Compile Include="Music\Albums\IAlbumViewModel.cs" />
     <Compile Include="Music\Artists\ArtistControl.xaml.cs">
@@ -403,6 +406,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Music\Albums\AlbumControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Music\Artists\ArtistControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -480,6 +487,7 @@
     <EmbeddedResource Include="Movies\MovieResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MovieResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Music\MusicResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

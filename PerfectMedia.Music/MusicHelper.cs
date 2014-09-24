@@ -14,7 +14,7 @@ namespace PerfectMedia.Music
         internal static Album FindAlbumFromFolder(string path)
         {
             string folderName = Path.GetFileName(path);
-            var match = Regex.Match(folderName, @"\[\(d+)\]\s*(.*)");
+            var match = Regex.Match(folderName, @"\[(\d+)\]\s*(.*)");
             if (match.Success)
             {
                 int year;

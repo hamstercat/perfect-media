@@ -20,7 +20,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
     public class EpisodeViewModel : MediaViewModel<object>, IEpisodeViewModel
     {
         private readonly IEpisodeMetadataService _metadataService;
-        private readonly ITvShowViewModel _tvShowMetadata;
+        private readonly ITvShowViewModel _tvShowViewModel;
         private readonly IBusyProvider _busyProvider;
         private bool _localMetadataExists;
 
@@ -82,7 +82,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
 
         public EpisodeViewModel(ITvShowViewModelFactory viewModelFactory,
             IEpisodeMetadataService metadataService,
-            ITvShowViewModel tvShowMetadata,
+            ITvShowViewModel tvShowViewModel,
             IProgressManagerViewModel progressManager,
             IBusyProvider busyProvider,
             IDialogViewer dialogViewer,
@@ -91,7 +91,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
             : base(busyProvider, dialogViewer)
         {
             _metadataService = metadataService;
-            _tvShowMetadata = tvShowMetadata;
+            _tvShowViewModel = tvShowViewModel;
             _busyProvider = busyProvider;
 
             Title = new RequiredPropertyDecorator<string>(new StringCachedPropertyDecorator(keyDataStore, path + "?title"));
@@ -129,7 +129,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
         protected override async Task<IEnumerable<ProgressItem>> UpdateInternal()
         {
             List<ProgressItem> items = new List<ProgressItem>();
-            foreach (ProgressItem item in await _tvShowMetadata.Update())
+            foreach (ProgressItem item in await _tvShowViewModel.Update())
             {
                 items.Add(item);
             }
@@ -215,7 +215,7 @@ namespace PerfectMedia.UI.TvShows.Episodes
         {
             using (_busyProvider.DoWork())
             {
-                await _metadataService.Update(Path, _tvShowMetadata.Id);
+                await _metadataService.Update(Path, _tvShowViewModel.Id);
                 await Refresh();
             }
         }

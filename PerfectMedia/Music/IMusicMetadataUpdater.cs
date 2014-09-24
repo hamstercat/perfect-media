@@ -9,7 +9,7 @@ namespace PerfectMedia.Music
     {
         Task<IEnumerable<ArtistSummary>> FindArtists(string name);
         Task<ArtistSummary> GetArtistMetadata(string artistId);
-        Task<IEnumerable<AlbumSummary>> FindAlbums(string artistId);
-        Task<AlbumSummary> GetAlbum(string albumId);
+        Task<IEnumerable<Release>> FindAlbums(string artistId);
+        Task<Release> GetAlbum(string albumId);
     }
 }

@@ -71,7 +71,7 @@
     <Compile Include="Music\Albums\Album.cs" />
     <Compile Include="Music\Albums\AlbumFile.cs" />
     <Compile Include="Music\Albums\AlbumMetadata.cs" />
-    <Compile Include="Music\Albums\AlbumSummary.cs" />
+    <Compile Include="Music\Albums\Release.cs" />
     <Compile Include="Music\Albums\AlbumNotFoundException.cs" />
     <Compile Include="Music\Albums\IAlbumMetadataRepository.cs" />
     <Compile Include="Music\Albums\IAlbumMetadataService.cs" />

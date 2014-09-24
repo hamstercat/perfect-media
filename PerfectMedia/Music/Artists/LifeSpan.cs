@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-
-namespace PerfectMedia.Music.Artists
+﻿namespace PerfectMedia.Music.Artists
 {
     public class LifeSpan
     {
-        public int Begin { get; set; }
-        public int? End { get; set; }
+        // Can be either YYYY-mm-dd or YYYY
+        public string Begin { get; set; }
+        // Can be either YYYY-mm-dd or YYYY
+        public string End { get; set; }
         public bool Ended { get; set; }
     }
 }

@@ -2,10 +2,13 @@
 using System.Threading.Tasks;
 using Anotar.Log4Net;
 using PerfectMedia.ExternalApi;
+using PerfectMedia.Music.Albums;
+using PerfectMedia.Music.Artists;
 using PerfectMedia.Serialization;
 using PerfectMedia.TvShows;
 using PerfectMedia.Movies;
 using PerfectMedia.UI.Movies;
+using PerfectMedia.UI.Music;
 using PerfectMedia.UI.TvShows;
 
 namespace PerfectMedia.UI.Progress
@@ -73,6 +76,14 @@ namespace PerfectMedia.UI.Progress
             catch (MovieNotFoundException)
             {
                 Error = MovieResources.MovieNotFound;
+            }
+            catch (ArtistNotFoundException)
+            {
+                Error = MusicResources.ArtistNotFound;
+            }
+            catch (AlbumNotFoundException)
+            {
+                Error = MusicResources.AlbumNotFound;
             }
             catch (InvalidNfoException)
             {

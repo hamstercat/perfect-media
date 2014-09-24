@@ -9,6 +9,6 @@ namespace PerfectMedia.Music.Albums
         Task Save(string path, AlbumMetadata metadata);
         Task Update(string path, string artistId);
         Task Delete(string path);
-        Task<IEnumerable<AlbumSummary>> FindAlbums(string artistId);
+        Task<IEnumerable<Release>> FindAlbums(string artistId);
     }
 }

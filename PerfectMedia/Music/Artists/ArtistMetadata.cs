@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using PerfectMedia.Music.Albums;
 using PerfectMedia.Serialization;
 
 namespace PerfectMedia.Music.Artists

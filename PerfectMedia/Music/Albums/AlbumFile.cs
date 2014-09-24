@@ -1,4 +1,4 @@
-﻿namespace PerfectMedia.Music
+﻿namespace PerfectMedia.Music.Albums
 {
     public class AlbumFile
     {

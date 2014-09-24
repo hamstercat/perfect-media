@@ -34,11 +34,31 @@ namespace PerfectMedia.Music.Artists
             await Save(path, artistMetadata);
         }
 
+        public async Task Delete(string path)
+        {
+            await _metadataRepository.Delete(path);
+        }
+
+        public async Task<IEnumerable<ArtistSummary>> FindArtists(string name)
+        {
+            return await _metadataUpdater.FindArtists(name);
+        }
+
         private async Task<string> FindArtistId(string path)
         {
-            // TODO: check local nfo first for id or name
-            string artistName = MusicHelper.FindArtistNameFromFolder(path);
-            ArtistSummary metadata = (await _metadataUpdater.FindArtists(artistName)).FirstOrDefault();
+            ArtistMetadata metadata = await Get(path);
+            if (!string.IsNullOrEmpty(metadata.Mbid))
+            {
+                return await FindIdFromArtistName(path, metadata);
+            }
+            return metadata.Mbid;
+        }
+
+        private async Task<string> FindIdFromArtistName(string path, ArtistMetadata artistMetadata)
+        {
+            string artistName = FindArtistName(path, artistMetadata);
+            IEnumerable<ArtistSummary> artistSummaries = await _metadataUpdater.FindArtists(artistName);
+            ArtistSummary metadata = artistSummaries.FirstOrDefault();
             if (metadata == null)
             {
                 throw new ArtistNotFoundException("Couldn't find artist for path: " + path);
@@ -46,9 +66,13 @@ namespace PerfectMedia.Music.Artists
             return metadata.Id;
         }
 
-        public async Task Delete(string path)
+        private static string FindArtistName(string path, ArtistMetadata artistMetadata)
         {
-            await _metadataRepository.Delete(path);
+            if (string.IsNullOrEmpty(artistMetadata.Name))
+            {
+                return MusicHelper.FindArtistNameFromFolder(path);
+            }
+            return artistMetadata.Name;
         }
 
         private ArtistMetadata ConvertMetadata(ArtistSummary artist)

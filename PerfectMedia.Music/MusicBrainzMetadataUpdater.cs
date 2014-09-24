@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using PerfectMedia.ExternalApi;
+using PerfectMedia.Music.Albums;
 using PerfectMedia.Music.Artists;
 
 namespace PerfectMedia.Music
@@ -47,6 +48,16 @@ namespace PerfectMedia.Music
             ArtistSummary metadata = await _restApiService.Get<ArtistSummary>(url);
             metadata.Id = artistId;
             return metadata;
+        }
+
+        public Task<IEnumerable<AlbumSummary>> FindAlbums(string artistId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<AlbumSummary> GetAlbum(string albumId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

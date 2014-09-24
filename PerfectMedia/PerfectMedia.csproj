@@ -68,9 +68,13 @@
     <Compile Include="IDialogViewer.cs" />
     <Compile Include="IGeneralSettings.cs" />
     <Compile Include="Movies\IMovieSettingsService.cs" />
-    <Compile Include="Music\Album.cs" />
-    <Compile Include="Music\AlbumFile.cs" />
-    <Compile Include="Music\AlbumMetadata.cs" />
+    <Compile Include="Music\Albums\Album.cs" />
+    <Compile Include="Music\Albums\AlbumFile.cs" />
+    <Compile Include="Music\Albums\AlbumMetadata.cs" />
+    <Compile Include="Music\Albums\AlbumSummary.cs" />
+    <Compile Include="Music\Albums\AlbumNotFoundException.cs" />
+    <Compile Include="Music\Albums\IAlbumMetadataRepository.cs" />
+    <Compile Include="Music\Albums\IAlbumMetadataService.cs" />
     <Compile Include="Music\Artists\ArtistMetadata.cs" />
     <Compile Include="Music\Artists\ArtistNotFoundException.cs" />
     <Compile Include="Music\Artists\ArtistSummary.cs" />
@@ -78,6 +82,7 @@
     <Compile Include="Music\Artists\IArtistMetadataService.cs" />
     <Compile Include="Music\Artists\Tag.cs" />
     <Compile Include="Music\IMusicFileService.cs" />
+    <Compile Include="Music\IMusicImageService.cs" />
     <Compile Include="Music\IMusicMetadataUpdater.cs" />
     <Compile Include="Music\Artists\LifeSpan.cs" />
     <Compile Include="Music\Track.cs" />

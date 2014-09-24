@@ -40,6 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ProjectAssemblyInfo.cs">
+      <Link>Properties\ProjectAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Albums\AlbumMetadataRepository.cs" />
+    <Compile Include="Albums\AlbumMetadataService.cs" />
     <Compile Include="Artists\ArtistMetadataRepository.cs" />
     <Compile Include="Artists\ArtistMetadataService.cs" />
     <Compile Include="MusicBrainzMetadataUpdater.cs" />

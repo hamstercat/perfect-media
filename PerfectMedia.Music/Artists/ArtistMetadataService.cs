@@ -9,11 +9,18 @@ namespace PerfectMedia.Music.Artists
     {
         private readonly IArtistMetadataRepository _metadataRepository;
         private readonly IMusicMetadataUpdater _metadataUpdater;
+        private readonly IMusicImageService _imageService;
+        private readonly IMusicImageUpdater _imageUpdater;
 
-        public ArtistMetadataService(IArtistMetadataRepository metadataRepository, IMusicMetadataUpdater metadataUpdater)
+        public ArtistMetadataService(IArtistMetadataRepository metadataRepository,
+            IMusicMetadataUpdater metadataUpdater,
+            IMusicImageService imageService,
+            IMusicImageUpdater imageUpdater)
         {
             _metadataRepository = metadataRepository;
             _metadataUpdater = metadataUpdater;
+            _imageService = imageService;
+            _imageUpdater = imageUpdater;
         }
 
         public async Task<ArtistMetadata> Get(string path)
@@ -32,16 +39,18 @@ namespace PerfectMedia.Music.Artists
             ArtistSummary metadata = await _metadataUpdater.GetArtistMetadata(artistId);
             ArtistMetadata artistMetadata = ConvertMetadata(metadata);
             await Save(path, artistMetadata);
+            await UpdateImage(path, artistId);
         }
 
         public async Task Delete(string path)
         {
             await _metadataRepository.Delete(path);
+            await _imageService.DeleteArtist(path);
         }
 
-        public async Task<IEnumerable<ArtistSummary>> FindArtists(string name)
+        public async Task<IEnumerable<ArtistSummary>> FindArtists(string name, int page, int pageSize)
         {
-            return await _metadataUpdater.FindArtists(name);
+            return await _metadataUpdater.FindArtists(name, page, pageSize);
         }
 
         private async Task<string> FindArtistId(string path)
@@ -57,13 +66,20 @@ namespace PerfectMedia.Music.Artists
         private async Task<string> FindIdFromArtistName(string path, ArtistMetadata artistMetadata)
         {
             string artistName = FindArtistName(path, artistMetadata);
-            IEnumerable<ArtistSummary> artistSummaries = await _metadataUpdater.FindArtists(artistName);
-            ArtistSummary metadata = artistSummaries.FirstOrDefault();
-            if (metadata == null)
+            for (int page = 0; page < int.MaxValue; page++)
             {
-                throw new ArtistNotFoundException("Couldn't find artist for path: " + path);
+                PagedList<ArtistSummary> artists = await _metadataUpdater.FindArtists(artistName, page, MusicHelper.DefaultPageSize);
+                ArtistSummary artistSummary = artists.FirstOrDefault();
+                if (artistSummary != null)
+                {
+                    return artistSummary.Id;
+                }
+                if (!artists.HasMoreResults)
+                {
+                    break;
+                }
             }
-            return metadata.Id;
+            throw new ArtistNotFoundException("Couldn't find artist for path: " + path);
         }
 
         private static string FindArtistName(string path, ArtistMetadata artistMetadata)
@@ -82,6 +98,15 @@ namespace PerfectMedia.Music.Artists
                 Mbid = artist.Id,
                 Name = artist.Name
             };
+        }
+
+        private async Task UpdateImage(string path, string artistId)
+        {
+            IEnumerable<Image> images = await _imageUpdater.FindImages(artistId);
+            if (images.Any())
+            {
+                await _imageService.UpdateArtist(path, images.First());
+            }
         }
     }
 }

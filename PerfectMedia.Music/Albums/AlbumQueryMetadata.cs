@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PerfectMedia.Music.Albums
+﻿namespace PerfectMedia.Music.Albums
 {
     public class AlbumQueryMetadata
     {
-        public List<Release> ReleaseList { get; set; }
+        public ReleaseList ReleaseList { get; set; }
+        public int Count { get; set; }
     }
 }

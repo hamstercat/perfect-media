@@ -154,12 +154,6 @@ namespace PerfectMedia.UI.Movies
             await Refresh();
         }
 
-        protected override Task LoadChildrenInternal()
-        {
-            // Do nothing
-            return Task.Delay(0);
-        }
-
         private void TitlePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged("Title");

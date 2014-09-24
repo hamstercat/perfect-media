@@ -44,6 +44,20 @@ namespace PerfectMedia.UI.Music.Albums
         [RequiredCached]
         public IPropertyViewModel<string> Title { get; private set; }
 
+        [LocalizedRequired]
+        public string Id { get; set; }
+
+        public DashDelimitedCollectionViewModel<string> Genres { get; private set; }
+        public string Label { get; set; }
+        public DashDelimitedCollectionViewModel<string> Moods { get; private set; }
+        public double? Rating { get; set; }
+        public DateTime? ReleaseDate { get; set; }
+        public string Review { get; set; }
+        public DashDelimitedCollectionViewModel<string> Styles { get; private set; }
+        public DashDelimitedCollectionViewModel<string> Themes { get; private set; }
+        public string Type { get; set; }
+        public int? Year { get; set; }
+
         public AlbumViewModel(IMusicFileService musicFileService,
             IAlbumMetadataService metadataService,
             IMusicViewModelFactory viewModelFactory,
@@ -62,6 +76,11 @@ namespace PerfectMedia.UI.Music.Albums
             _artistViewModel = artistViewModel;
             Title = new RequiredPropertyDecorator<string>(new StringCachedPropertyDecorator(keyDataStore, path));
             Path = path;
+
+            Genres = new DashDelimitedCollectionViewModel<string>(s => s);
+            Moods = new DashDelimitedCollectionViewModel<string>(s => s);
+            Styles = new DashDelimitedCollectionViewModel<string>(s => s);
+            Themes = new DashDelimitedCollectionViewModel<string>(s => s);
 
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this, progressManager, busyProvider);
@@ -116,13 +135,40 @@ namespace PerfectMedia.UI.Music.Albums
 
         private void RefreshFromMetadata(AlbumMetadata metadata)
         {
-            // TODO
+            Genres.ReplaceWith(metadata.Genres);
+            Label = metadata.Label;
+            Id = metadata.Mbid;
+            Moods.ReplaceWith(metadata.Moods);
+            Rating = metadata.Rating;
+            ReleaseDate = metadata.ReleaseDate;
+            Review = metadata.Review;
+            Styles.ReplaceWith(metadata.Styles);
+            Themes.ReplaceWith(metadata.Themes);
+            Title.Value = metadata.Title;
+            Title.Save();
+            Type = metadata.Type;
+            Year = metadata.Year;
         }
 
         private AlbumMetadata CreateMetadata()
         {
-            // TODO
-            return new AlbumMetadata();
+            return new AlbumMetadata
+            {
+                //Artists
+                Genres = Genres.Collection.ToList(),
+                Label = Label,
+                Mbid = Id,
+                Moods = Moods.Collection.ToList(),
+                Rating = Rating,
+                ReleaseDate = ReleaseDate,
+                Review = Review,
+                Styles = Styles.Collection.ToList(),
+                Themes = Themes.Collection.ToList(),
+                Title = Title.Value,
+                //Tracks
+                Type = Type,
+                Year = Year
+            };
         }
 
         private async Task UpdateMethod()

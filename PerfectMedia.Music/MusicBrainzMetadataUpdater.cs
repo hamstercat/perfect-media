@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using PerfectMedia.ExternalApi;
@@ -30,17 +28,17 @@ namespace PerfectMedia.Music
         public MusicBrainzMetadataUpdater(IRestApiService restApiService)
         {
             _restApiService = restApiService;
-            _restApiService.SetHeader("Accept", "application/json");
+            _restApiService.SetHeader("Accept", "application/xml");
             _restApiService.SetHeader("User-Agent", UserAgent);
             _restApiService.SetRateLimiter(1);
         }
 
-        public async Task<IEnumerable<ArtistSummary>> FindArtists(string name)
+        public async Task<PagedList<ArtistSummary>> FindArtists(string name, int page, int pageSize)
         {
-            // TODO: handle paging?
-            string url = string.Format("/ws/2/artist?query={0}", HttpUtility.UrlEncode(name));
+            int offset = page * pageSize;
+            string url = string.Format("/ws/2/artist?query={0}&offset={1}&limit={2}", HttpUtility.UrlEncode(name), offset, pageSize);
             ArtistQueryMetadata metadata = await _restApiService.Get<ArtistQueryMetadata>(url);
-            return metadata.ArtistList;
+            return new PagedList<ArtistSummary>(metadata.ArtistList, page, pageSize, metadata.ArtistList.Count);
         }
 
         public async Task<ArtistSummary> GetArtistMetadata(string artistId)
@@ -51,15 +49,15 @@ namespace PerfectMedia.Music
             return metadata;
         }
 
-        public async Task<IEnumerable<Release>> FindAlbums(string artistId)
+        public async Task<PagedList<ReleaseGroup>> FindAlbums(string artistId, int page, int pageSize)
         {
-            // TODO: handle paging
-            string url = string.Format("/ws/2/release?artist={0}", artistId);
+            int offset = page * pageSize;
+            string url = string.Format("/ws/2/release-group?artist={0}&offset={1}&limit={2}", artistId, offset, pageSize);
             AlbumQueryMetadata metadata = await _restApiService.Get<AlbumQueryMetadata>(url);
-            return metadata.ReleaseList;
+            return new PagedList<ReleaseGroup>(metadata.ReleaseList.Release, page, pageSize, metadata.Count);
         }
 
-        public Task<Release> GetAlbum(string albumId)
+        public Task<ReleaseGroup> GetAlbum(string albumId)
         {
             throw new NotImplementedException();
         }

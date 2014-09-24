@@ -7,9 +7,9 @@ namespace PerfectMedia.Music
 {
     public interface IMusicMetadataUpdater
     {
-        Task<IEnumerable<ArtistSummary>> FindArtists(string name);
+        Task<PagedList<ArtistSummary>> FindArtists(string name, int page, int pageSize);
         Task<ArtistSummary> GetArtistMetadata(string artistId);
-        Task<IEnumerable<Release>> FindAlbums(string artistId);
-        Task<Release> GetAlbum(string albumId);
+        Task<PagedList<ReleaseGroup>> FindAlbums(string artistId, int page, int pageSize);
+        Task<ReleaseGroup> GetAlbum(string albumId);
     }
 }

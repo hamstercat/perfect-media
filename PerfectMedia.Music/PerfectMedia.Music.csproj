@@ -46,8 +46,12 @@
     <Compile Include="Albums\AlbumMetadataRepository.cs" />
     <Compile Include="Albums\AlbumMetadataService.cs" />
     <Compile Include="Albums\AlbumQueryMetadata.cs" />
+    <Compile Include="Albums\ReleaseList.cs" />
+    <Compile Include="Artists\ArtistList.cs" />
     <Compile Include="Artists\ArtistMetadataRepository.cs" />
     <Compile Include="Artists\ArtistMetadataService.cs" />
+    <Compile Include="MusicImageService.cs" />
+    <Compile Include="FanartTvMusicImageUpdater.cs" />
     <Compile Include="MusicBrainzMetadataUpdater.cs" />
     <Compile Include="Artists\ArtistQueryMetadata.cs" />
     <Compile Include="MusicFileService.cs" />

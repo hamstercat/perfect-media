@@ -3,8 +3,8 @@ using System.Xml.Serialization;
 
 namespace PerfectMedia.Music.Artists
 {
-    public class ArtistQueryMetadata
+    public class ArtistList : List<ArtistSummary>
     {
-        public List<ArtistSummary> ArtistList { get; set; }
+        public int QueryCount { get; set; }
     }
 }

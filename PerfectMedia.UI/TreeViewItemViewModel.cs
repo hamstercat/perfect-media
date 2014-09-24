@@ -16,7 +16,6 @@ namespace PerfectMedia.UI
     {
         public abstract string DisplayName { get; }
         protected abstract Task LoadInternal();
-        protected abstract Task LoadChildrenInternal();
 
         private readonly IBusyProvider _busyProvider;
         private bool _childrenLoaded;
@@ -64,6 +63,12 @@ namespace PerfectMedia.UI
                     await LoadChildrenInternal();
                 }
             }
+        }
+
+        protected virtual Task LoadChildrenInternal()
+        {
+            // By default, do nothing
+            return Task.Delay(0);
         }
 
         protected void LazyLoaded()

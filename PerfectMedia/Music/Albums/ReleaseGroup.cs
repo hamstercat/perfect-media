@@ -2,7 +2,7 @@
 
 namespace PerfectMedia.Music.Albums
 {
-    public class Release
+    public class ReleaseGroup
     {
         public string Id { get; set; }
         public string Title { get; set; }

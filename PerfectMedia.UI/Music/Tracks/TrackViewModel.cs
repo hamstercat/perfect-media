@@ -20,12 +20,6 @@ namespace PerfectMedia.UI.Music.Tracks
             Path = path;
         }
 
-        protected override Task LoadChildrenInternal()
-        {
-            // Do nothing
-            return Task.Delay(0);
-        }
-
         protected override Task RefreshInternal()
         {
             throw new System.NotImplementedException();

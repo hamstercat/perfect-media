@@ -6,6 +6,8 @@ namespace PerfectMedia.Music
 {
     internal static class MusicHelper
     {
+        internal const int DefaultPageSize = 100;
+
         internal static string FindArtistNameFromFolder(string path)
         {
             return Path.GetFileName(path);

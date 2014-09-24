@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PerfectMedia.Music.Albums
@@ -10,11 +9,18 @@ namespace PerfectMedia.Music.Albums
     {
         private readonly IMusicMetadataUpdater _metadataUpdater;
         private readonly IAlbumMetadataRepository _metadataRepository;
+        private readonly IMusicImageService _imageService;
+        private readonly IMusicImageUpdater _imageUpdater;
 
-        public AlbumMetadataService(IMusicMetadataUpdater metadataUpdater, IAlbumMetadataRepository metadataRepository)
+        public AlbumMetadataService(IMusicMetadataUpdater metadataUpdater,
+            IAlbumMetadataRepository metadataRepository,
+            IMusicImageService imageService,
+            IMusicImageUpdater imageUpdater)
         {
             _metadataUpdater = metadataUpdater;
             _metadataRepository = metadataRepository;
+            _imageService = imageService;
+            _imageUpdater = imageUpdater;
         }
 
         public async Task<AlbumMetadata> Get(string path)
@@ -30,19 +36,21 @@ namespace PerfectMedia.Music.Albums
         public async Task Update(string path, string artistId)
         {
             string albumId = await FindAlbumId(path, artistId);
-            Release album = await _metadataUpdater.GetAlbum(albumId);
+            ReleaseGroup album = await _metadataUpdater.GetAlbum(albumId);
             AlbumMetadata albumMetadata = ConvertMetadata(album);
             await Save(path, albumMetadata);
+            await UpdateImage(path, albumId);
         }
 
         public async Task Delete(string path)
         {
             await _metadataRepository.Delete(path);
+            await _imageService.DeleteArtist(path);
         }
 
-        public async Task<IEnumerable<Release>> FindAlbums(string artistId)
+        public async Task<IEnumerable<ReleaseGroup>> FindAlbums(string artistId, int page, int pageNumber)
         {
-            return await _metadataUpdater.FindAlbums(artistId);
+            return await _metadataUpdater.FindAlbums(artistId, page, pageNumber);
         }
 
         private async Task<string> FindAlbumId(string path, string artistId)
@@ -57,20 +65,27 @@ namespace PerfectMedia.Music.Albums
 
         private async Task<string> FindIdFromPath(string path, string artistId)
         {
-            IEnumerable<Release> releases = await _metadataUpdater.FindAlbums(artistId);
-            Album matchingAlbum = MusicHelper.FindAlbumFromFolder(path);
-            string id = MatchAlbumByYear(releases, matchingAlbum) ?? MatchAlbumByTitle(releases, matchingAlbum);
-            if (string.IsNullOrEmpty(id))
+            for(int page = 0; page < int.MaxValue; page++)
             {
-                string message = string.Format("Couldn't find album of artist {0} for path: {1}", artistId, path);
-                throw new AlbumNotFoundException(message);
+                PagedList<ReleaseGroup> releases = await _metadataUpdater.FindAlbums(artistId, page, MusicHelper.DefaultPageSize);
+                Album matchingAlbum = MusicHelper.FindAlbumFromFolder(path);
+                string id = MatchAlbumByYear(releases, matchingAlbum) ?? MatchAlbumByTitle(releases, matchingAlbum);
+                if (!string.IsNullOrEmpty(id))
+                {
+                    return id;
+                }
+                if (!releases.HasMoreResults)
+                {
+                    break;
+                }
             }
-            return id;
+            string message = string.Format("Couldn't find album of artist {0} for path: {1}", artistId, path);
+            throw new AlbumNotFoundException(message);
         }
 
-        private string MatchAlbumByYear(IEnumerable<Release> releases, Album matchingAlbum)
+        private string MatchAlbumByYear(IEnumerable<ReleaseGroup> releases, Album matchingAlbum)
         {
-            List<Release> matches = releases.Where(a => a.Year == matchingAlbum.Year).ToList();
+            List<ReleaseGroup> matches = releases.Where(a => a.Year == matchingAlbum.Year).ToList();
             if (matches.Count == 1)
             {
                 return matches[0].Id;
@@ -82,9 +97,9 @@ namespace PerfectMedia.Music.Albums
             return null;
         }
 
-        private string MatchAlbumByTitle(IEnumerable<Release> releases, Album matchingAlbum)
+        private string MatchAlbumByTitle(IEnumerable<ReleaseGroup> releases, Album matchingAlbum)
         {
-            List<Release> matches = releases.Where(a => EqualsIgnoreCase(a, matchingAlbum)).ToList();
+            List<ReleaseGroup> matches = releases.Where(a => EqualsIgnoreCase(a, matchingAlbum)).ToList();
             if (matches.Any())
             {
                 return matches[0].Id;
@@ -92,12 +107,12 @@ namespace PerfectMedia.Music.Albums
             return null;
         }
 
-        private static bool EqualsIgnoreCase(Release release, Album matchingAlbum)
+        private static bool EqualsIgnoreCase(ReleaseGroup release, Album matchingAlbum)
         {
             return string.Equals(release.Title, matchingAlbum.Title, StringComparison.InvariantCultureIgnoreCase);
         }
 
-        private AlbumMetadata ConvertMetadata(Release release)
+        private AlbumMetadata ConvertMetadata(ReleaseGroup release)
         {
             return new AlbumMetadata
             {
@@ -106,6 +121,15 @@ namespace PerfectMedia.Music.Albums
                 ReleaseDate = release.DateTime,
                 Year = release.Year
             };
+        }
+
+        private async Task UpdateImage(string path, string albumId)
+        {
+            IEnumerable<Image> images = await _imageUpdater.FindImages(albumId);
+            if (images.Any())
+            {
+                await _imageService.UpdateAlbum(path, images.First());
+            }
         }
     }
 }

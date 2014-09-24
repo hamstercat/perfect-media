@@ -9,6 +9,6 @@ namespace PerfectMedia.Music.Artists
         Task Save(string path, ArtistMetadata metadata);
         Task Update(string path);
         Task Delete(string path);
-        Task<IEnumerable<ArtistSummary>> FindArtists(string name);
+        Task<IEnumerable<ArtistSummary>> FindArtists(string name, int page, int pageNumber);
     }
 }

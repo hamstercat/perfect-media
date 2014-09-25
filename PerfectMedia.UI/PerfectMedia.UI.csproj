@@ -218,6 +218,13 @@
     <Compile Include="Music\Artists\ArtistControl.xaml.cs">
       <DependentUpon>ArtistControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Music\Artists\ArtistFanart.xaml.cs">
+      <DependentUpon>ArtistFanart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Music\Artists\ArtistFanartImageStrategy.cs" />
+    <Compile Include="Music\Artists\ArtistGeneralInformation.xaml.cs">
+      <DependentUpon>ArtistGeneralInformation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Music\Artists\ArtistViewModel.cs" />
     <Compile Include="Music\Artists\IArtistViewModel.cs" />
     <Compile Include="Music\IMusicManagerViewModel.cs" />
@@ -411,6 +418,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Music\Artists\ArtistControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Music\Artists\ArtistFanart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Music\Artists\ArtistGeneralInformation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

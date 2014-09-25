@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
+using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using PerfectMedia.ExternalApi;
@@ -42,8 +43,8 @@ namespace PerfectMedia.Music
             int offset = page * pageSize;
             string url = string.Format("/ws/2/artist?query={0}&offset={1}&limit={2}", HttpUtility.UrlEncode(name), offset, pageSize);
             string result = await _restApiService.Get(url);
-            ArtistQueryMetadata metadata = DeserializeMusicBrainzXml<ArtistQueryMetadata>(result);
-            return new PagedList<ArtistSummary>(metadata.Collection, page, pageSize, metadata.Collection.QueryCount);
+            ArtistQueryMetadata metadata = DeserializeArtistQueryMetadata(result);
+            return new PagedList<ArtistSummary>(metadata.Collection, page, pageSize, metadata.Collection.TotalCount);
         }
 
         public async Task<ArtistSummary> GetArtistMetadata(string artistId)
@@ -58,8 +59,9 @@ namespace PerfectMedia.Music
         {
             int offset = page * pageSize;
             string url = string.Format("/ws/2/release-group?artist={0}&offset={1}&limit={2}", artistId, offset, pageSize);
-            AlbumQueryMetadata metadata = await _restApiService.Get<AlbumQueryMetadata>(url);
-            return new PagedList<ReleaseGroup>(metadata.ReleaseList.Release, page, pageSize, metadata.Count);
+            string result = await _restApiService.Get(url);
+            AlbumQueryMetadata metadata = DeserializeAlbumQueryMetadata(result);
+            return new PagedList<ReleaseGroup>(metadata.Collection, page, pageSize, metadata.Collection.TotalCount);
         }
 
         public Task<ReleaseGroup> GetAlbum(string albumId)
@@ -67,19 +69,53 @@ namespace PerfectMedia.Music
             throw new NotImplementedException();
         }
 
-        // MusicBrainz API returns XML that doesn't play well with Restsharp's built-in deserializer
-        private T DeserializeMusicBrainzXml<T>(string result)
+        private ArtistQueryMetadata DeserializeArtistQueryMetadata(string xml)
         {
-            using (TextReader stream = new StringReader(result))
+            XElement root = DeserializeMusicBrainzXml(xml);
+            var serializer = new XmlSerializer(typeof(ArtistQueryMetadata));
+            using (XmlReader xmlReader = root.CreateReader())
             {
-                XDocument xml = XDocument.Load(stream);
-                var serialize = new XmlSerializer(typeof(T));
-                if (xml.Root == null)
-                {
-                    return default(T);
-                }
-                return (T)serialize.Deserialize(xml.Root.CreateReader());
+                var metadata = (ArtistQueryMetadata)serializer.Deserialize(xmlReader);
+                metadata.Collection.TotalCount = GetTotalCountAttribute(root);
+                return metadata;
             }
+        }
+
+        private AlbumQueryMetadata DeserializeAlbumQueryMetadata(string xml)
+        {
+            XElement root = DeserializeMusicBrainzXml(xml);
+            var serializer = new XmlSerializer(typeof(AlbumQueryMetadata));
+            using (XmlReader xmlReader = root.CreateReader())
+            {
+                var metadata = (AlbumQueryMetadata)serializer.Deserialize(xmlReader);
+                metadata.Collection.TotalCount = GetTotalCountAttribute(root);
+                return metadata;
+            }
+        }
+
+        // MusicBrainz API returns XML that doesn't play well with Restsharp's built-in deserializer
+        private XElement DeserializeMusicBrainzXml(string xml)
+        {
+            using (TextReader stream = new StringReader(xml))
+            {
+                XDocument xmlDoc = XDocument.Load(stream);
+                return xmlDoc.Root;
+            }
+        }
+
+        private int GetTotalCountAttribute(XElement root)
+        {
+            XElement firstNode = root.Elements().FirstOrDefault();
+            if (firstNode != null)
+            {
+                XAttribute attribute = firstNode.Attribute("count");
+                if (attribute != null)
+                {
+                    int count;
+                    return int.TryParse(attribute.Value, out count) ? count : 0;
+                }
+            }
+            return 0;
         }
     }
 }

@@ -30,5 +30,15 @@ namespace PerfectMedia.Music
             IEnumerable<string> tracks = await _fileSystemService.FindAudioFiles(albumFolder);
             return tracks.Select(folder => new TrackFile { Path = folder });
         }
+
+        public string GetArtistImage(string path)
+        {
+            return MusicHelper.GetArtistImage(path);
+        }
+
+        public string GetAlbumImage(string path)
+        {
+            return MusicHelper.GetAlbumImage(path);
+        }
     }
 }

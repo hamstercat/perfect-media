@@ -9,6 +9,7 @@ using PerfectMedia.Music.Albums;
 using PerfectMedia.Music.Artists;
 using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Cache;
+using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Music.Albums;
 using PerfectMedia.UI.Progress;
@@ -26,6 +27,7 @@ namespace PerfectMedia.UI.Music.Artists
         private readonly IBusyProvider _busyProvider;
 
         public string Path { get; private set; }
+        public IImageViewModel Fanart { get; private set; }
         public ICommand RefreshCommand { get; private set; }
         public ICommand UpdateCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
@@ -63,6 +65,7 @@ namespace PerfectMedia.UI.Music.Artists
         public ArtistViewModel(IArtistMetadataService metadataService,
             IMusicViewModelFactory viewModelFactory,
             IMusicFileService musicFileService,
+            IMusicImageUpdater imageUpdater,
             IProgressManagerViewModel progressManager,
             IBusyProvider busyProvider,
             IDialogViewer dialogViewer,
@@ -76,6 +79,7 @@ namespace PerfectMedia.UI.Music.Artists
             _busyProvider = busyProvider;
             Name = new RequiredPropertyDecorator<string>(new StringCachedPropertyDecorator(keyDataStore, path));
             Path = path;
+            Fanart = viewModelFactory.GetImage(true, new ArtistFanartImageStrategy(imageUpdater, this));
 
             Genres = new DashDelimitedCollectionViewModel<string>(s => s);
             Moods = new DashDelimitedCollectionViewModel<string>(s => s);
@@ -92,6 +96,7 @@ namespace PerfectMedia.UI.Music.Artists
         {
             ArtistMetadata metadata = await _metadataService.Get(Path);
             RefreshFromMetadata(metadata);
+            RefreshImage();
         }
 
         protected override async Task<IEnumerable<ProgressItem>> UpdateInternal()
@@ -143,6 +148,12 @@ namespace PerfectMedia.UI.Music.Artists
             Name.Save();
             Styles.ReplaceWith(metadata.Styles);
             YearsActive.ReplaceWith(metadata.YearsActive);
+        }
+
+        private void RefreshImage()
+        {
+            string fanartPath = _musicFileService.GetArtistImage(Path);
+            Fanart.RefreshImage(fanartPath);
         }
 
         private ArtistMetadata CreateMetadata()

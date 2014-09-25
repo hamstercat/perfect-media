@@ -7,9 +7,6 @@ namespace PerfectMedia.Music.Artists
     public class ArtistList : List<ArtistSummary>
     {
         [XmlAttribute("count")]
-        public int QueryCount { get; set; }
-
-        [XmlAttribute("offset")]
-        public int QueryOffset { get; set; }
+        public int TotalCount { get; set; }
     }
 }

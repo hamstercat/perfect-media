@@ -8,5 +8,7 @@ namespace PerfectMedia.Music
     {
         Task<IEnumerable<AlbumFile>> GetAlbums(string artistFolder);
         Task<IEnumerable<TrackFile>> GetTracks(string albumFolder);
+        string GetArtistImage(string path);
+        string GetAlbumImage(string path);
     }
 }

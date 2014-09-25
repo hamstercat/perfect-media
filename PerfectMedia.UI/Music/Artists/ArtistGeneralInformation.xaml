@@ -1,0 +1,183 @@
+﻿<UserControl x:Class="PerfectMedia.UI.Music.Artists.ArtistGeneralInformation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:artists="clr-namespace:PerfectMedia.UI.Music.Artists"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             xmlns:images="clr-namespace:PerfectMedia.UI.Images"
+             lex:LocalizeDictionary.DesignCulture="en"
+             lex:ResxLocalizationProvider.DefaultAssembly="PerfectMedia.UI"
+             lex:ResxLocalizationProvider.DefaultDictionary="MusicResources"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance Type=artists:ArtistViewModel}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="TextBox">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+            <Style TargetType="DatePicker">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <images:ImageLoader ImageUri="{Binding Fanart.Path}" VerticalAlignment="Top" WidthRatio="1920" HeightRatio="1080" />
+        <Grid Margin="10" Grid.IsSharedSizeScope="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Rectangle Grid.Row="0" Grid.RowSpan="11" Style="{StaticResource OverlayRectangle}" />
+            <Grid Grid.Row="0" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc Path}" />
+                <TextBlock x:Name="Path" Grid.Column="1" VerticalAlignment="Center">
+                    <Hyperlink Click="PathHyperlinkClick">
+                        <Run Text="{Binding Path}" />
+                    </Hyperlink>
+                </TextBlock>
+            </Grid>
+            <Grid Grid.Row="1" Style="{StaticResource GridRowRequiredBackground}" />
+            <Grid Grid.Row="1" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc Title, Converter={StaticResource RequiredLabelConverter}}" />
+                <TextBox Grid.Column="1" Text="{Binding Name.Value}" />
+            </Grid>
+            <Grid Grid.Row="2" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc ForSingleArtist}" FontStyle="Italic" HorizontalAlignment="Center" />
+                <Label Grid.Column="1" Content="{lex:Loc ForBand}" FontStyle="Italic" HorizontalAlignment="Center" />
+            </Grid>
+            <Grid Grid.Row="3" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels2" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc DateOfBirth}" />
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <DatePicker Grid.Column="0" SelectedDate="{Binding BornOn}" />
+                </Grid>
+                <Label Grid.Column="2" Content="{lex:Loc DateOfFormation}" />
+                <Grid Grid.Column="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <DatePicker Grid.Column="0" SelectedDate="{Binding FormedOn}" />
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="4" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels2" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc DeceasedDate}" />
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <DatePicker Grid.Column="0" SelectedDate="{Binding DiedOn}" />
+                </Grid>
+                <Label Grid.Column="2" Content="{lex:Loc DisbandDate}" />
+                <Grid Grid.Column="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <DatePicker Grid.Column="0" SelectedDate="{Binding DisbandedOn}" />
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="5" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc Genres}" />
+                <TextBox Grid.Column="1" Text="{Binding Genres.String}" />
+            </Grid>
+            <Grid Grid.Row="6" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc Styles}" />
+                <TextBox Grid.Column="1" Text="{Binding Styles.String}" />
+            </Grid>
+            <Grid Grid.Row="7" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc Instruments}" />
+                <TextBox Grid.Column="1" Text="{Binding Instruments}" />
+            </Grid>
+            <Grid Grid.Row="8" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc Moods}" />
+                <TextBox Grid.Column="1" Text="{Binding Moods.String}" />
+            </Grid>
+            <Grid Grid.Row="9" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels2" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource GridRowRequiredBackground}" Height="26" />
+                <Grid Grid.Column="0" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="{lex:Loc Id, Converter={StaticResource RequiredLabelConverter}}" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Id}" />
+                </Grid>
+                <Label Grid.Column="2" Content="{lex:Loc YearsActive}" />
+                <TextBox Grid.Column="3" Text="{Binding YearsActive.String}" />
+            </Grid>
+            <Grid Grid.Row="10" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc Biography}" />
+                <TextBox Grid.Column="1" Text="{Binding Biography}" TextWrapping="Wrap" />
+            </Grid>
+            <Border Grid.Row="0" Grid.RowSpan="11" BorderBrush="Black" BorderThickness="1" />
+        </Grid>
+    </Grid>
+</UserControl>

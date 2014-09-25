@@ -1,8 +1,13 @@
-﻿namespace PerfectMedia.Music.Albums
+﻿using System.Xml.Serialization;
+
+namespace PerfectMedia.Music.Albums
 {
+    [XmlType(Namespace = "http://musicbrainz.org/ns/mmd-2.0#")]
+    [XmlRoot("metadata", Namespace = "http://musicbrainz.org/ns/mmd-2.0#")]
     public class AlbumQueryMetadata
     {
-        public ReleaseList ReleaseList { get; set; }
-        public int Count { get; set; }
+        [XmlArray("release-group-list")]
+        [XmlArrayItem("release-group")]
+        public ReleaseGroupList Collection { get; set; }
     }
 }

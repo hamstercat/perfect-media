@@ -3,6 +3,7 @@ using PerfectMedia.Music.Albums;
 using PerfectMedia.Music.Artists;
 using PerfectMedia.Sources;
 using PerfectMedia.UI.Busy;
+using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Music.Albums;
 using PerfectMedia.UI.Music.Artists;
 using PerfectMedia.UI.Music.Tracks;
@@ -18,6 +19,7 @@ namespace PerfectMedia.UI.Music
         private readonly ISourceService _sourceService;
         private readonly IFileSystemService _fileSystemService;
         private readonly IMusicFileService _musicFileService;
+        private readonly IMusicImageUpdater _imageUpdater;
         private readonly IBusyProvider _busyProvider;
         private readonly IKeyDataStore _keyDataStore;
         private readonly IProgressManagerViewModel _progressManager;
@@ -28,6 +30,7 @@ namespace PerfectMedia.UI.Music
             ISourceService sourceService,
             IFileSystemService fileSystemService,
             IMusicFileService musicFileService,
+            IMusicImageUpdater imageUpdater,
             IBusyProvider busyProvider,
             IKeyDataStore keyDataStore,
             IProgressManagerViewModel progressManager,
@@ -38,6 +41,7 @@ namespace PerfectMedia.UI.Music
             _sourceService = sourceService;
             _fileSystemService = fileSystemService;
             _musicFileService = musicFileService;
+            _imageUpdater = imageUpdater;
             _busyProvider = busyProvider;
             _keyDataStore = keyDataStore;
             _progressManager = progressManager;
@@ -51,7 +55,7 @@ namespace PerfectMedia.UI.Music
 
         public IArtistViewModel GetArtist(string path)
         {
-            return new ArtistViewModel(_artistMetadataService, this, _musicFileService, _progressManager, _busyProvider, _dialogViewer, _keyDataStore, path);
+            return new ArtistViewModel(_artistMetadataService, this, _musicFileService, _imageUpdater, _progressManager, _busyProvider, _dialogViewer, _keyDataStore, path);
         }
 
         public IAlbumViewModel GetAlbum(string path, IArtistViewModel artistViewModel)
@@ -62,6 +66,16 @@ namespace PerfectMedia.UI.Music
         public ITrackViewModel GetTrack(string path)
         {
             return new TrackViewModel(_busyProvider, _dialogViewer, path);
+        }
+
+        public IImageViewModel GetImage(bool horizontalAlignement)
+        {
+            return new ImageViewModel(_fileSystemService, _busyProvider, horizontalAlignement);
+        }
+
+        public IImageViewModel GetImage(bool horizontalAlignement, IImageStrategy imageStrategy)
+        {
+            return new ImageViewModel(_fileSystemService, _busyProvider, horizontalAlignement, imageStrategy);
         }
     }
 }

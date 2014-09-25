@@ -40,5 +40,15 @@ namespace PerfectMedia.Music
             }
             return new Album { Title = folderName };
         }
+
+        internal static string GetArtistImage(string path)
+        {
+            return Path.Combine(path, "fanart.jpg");
+        }
+
+        internal static string GetAlbumImage(string path)
+        {
+            return Path.Combine(path, "folder.jpg");
+        }
     }
 }

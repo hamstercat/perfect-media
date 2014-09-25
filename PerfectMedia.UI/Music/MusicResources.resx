@@ -153,6 +153,12 @@
   <data name="Id" xml:space="preserve">
     <value>Id</value>
   </data>
+  <data name="Images" xml:space="preserve">
+    <value>Images</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
   <data name="Instruments" xml:space="preserve">
     <value>Instruments</value>
   </data>

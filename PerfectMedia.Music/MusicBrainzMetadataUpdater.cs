@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 using PerfectMedia.ExternalApi;
 using PerfectMedia.Music.Albums;
 using PerfectMedia.Music.Artists;
@@ -37,8 +41,9 @@ namespace PerfectMedia.Music
         {
             int offset = page * pageSize;
             string url = string.Format("/ws/2/artist?query={0}&offset={1}&limit={2}", HttpUtility.UrlEncode(name), offset, pageSize);
-            ArtistQueryMetadata metadata = await _restApiService.Get<ArtistQueryMetadata>(url);
-            return new PagedList<ArtistSummary>(metadata.ArtistList, page, pageSize, metadata.ArtistList.Count);
+            string result = await _restApiService.Get(url);
+            ArtistQueryMetadata metadata = DeserializeMusicBrainzXml<ArtistQueryMetadata>(result);
+            return new PagedList<ArtistSummary>(metadata.Collection, page, pageSize, metadata.Collection.QueryCount);
         }
 
         public async Task<ArtistSummary> GetArtistMetadata(string artistId)
@@ -60,6 +65,21 @@ namespace PerfectMedia.Music
         public Task<ReleaseGroup> GetAlbum(string albumId)
         {
             throw new NotImplementedException();
+        }
+
+        // MusicBrainz API returns XML that doesn't play well with Restsharp's built-in deserializer
+        private T DeserializeMusicBrainzXml<T>(string result)
+        {
+            using (TextReader stream = new StringReader(result))
+            {
+                XDocument xml = XDocument.Load(stream);
+                var serialize = new XmlSerializer(typeof(T));
+                if (xml.Root == null)
+                {
+                    return default(T);
+                }
+                return (T)serialize.Deserialize(xml.Root.CreateReader());
+            }
         }
     }
 }

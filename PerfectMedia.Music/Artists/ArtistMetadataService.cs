@@ -102,7 +102,7 @@ namespace PerfectMedia.Music.Artists
 
         private async Task UpdateImage(string path, string artistId)
         {
-            IEnumerable<Image> images = await _imageUpdater.FindImages(artistId);
+            IEnumerable<string> images = await _imageUpdater.FindArtistImages(artistId);
             if (images.Any())
             {
                 await _imageService.UpdateArtist(path, images.First());

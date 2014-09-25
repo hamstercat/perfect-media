@@ -125,7 +125,7 @@ namespace PerfectMedia.Music.Albums
 
         private async Task UpdateImage(string path, string albumId)
         {
-            IEnumerable<Image> images = await _imageUpdater.FindImages(albumId);
+            IEnumerable<string> images = await _imageUpdater.FindAlbumImages(albumId);
             if (images.Any())
             {
                 await _imageService.UpdateAlbum(path, images.First());

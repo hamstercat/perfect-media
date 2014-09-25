@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Configuration;
+using System.IO;
 using System.Text.RegularExpressions;
 using PerfectMedia.Music.Albums;
 
@@ -7,6 +8,14 @@ namespace PerfectMedia.Music
     internal static class MusicHelper
     {
         internal const int DefaultPageSize = 100;
+
+        internal static string FanartTvApiKey
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["FanartTvApiKey"];
+            }
+        }
 
         internal static string FindArtistNameFromFolder(string path)
         {

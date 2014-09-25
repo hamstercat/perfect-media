@@ -87,6 +87,15 @@ namespace PerfectMedia.UI
             }
         }
 
+        private IRestApiService FanartTvRestApi
+        {
+            get
+            {
+                string fanartTvBaseUrl = ConfigurationManager.AppSettings["FanartTvUrl"];
+                return new RestApiService(fanartTvBaseUrl, "yyyy-MM-dd");
+            }
+        }
+
         public ServiceLocator()
         {
             _kernel = new StandardKernel();
@@ -148,6 +157,7 @@ namespace PerfectMedia.UI
                 .ConfigureFor<ThemoviedbMovieMetadataUpdater>(movieMetadataUpdater => movieMetadataUpdater.WithConstructorArgument(ThemoviedbRestApi))
                 .ConfigureFor<ImdbMovieSynopsisService>(movieSynopsisService => movieSynopsisService.WithConstructorArgument(ImdbRestApi))
                 .ConfigureFor<MusicBrainzMetadataUpdater>(musicBrainzMetadataUpdater => musicBrainzMetadataUpdater.WithConstructorArgument(MusicBrainzRestApi))
+                .ConfigureFor<FanartTvMusicImageUpdater>(fanartTvMusicImageUpdater => fanartTvMusicImageUpdater.WithConstructorArgument(FanartTvRestApi))
                 .ConfigureFor<KeyDataStore>(keyDataStore => keyDataStore.InSingletonScope()));
         }
     }

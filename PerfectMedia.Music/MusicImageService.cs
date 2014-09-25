@@ -9,7 +9,7 @@ namespace PerfectMedia.Music
 {
     public class MusicImageService : IMusicImageService
     {
-        public Task UpdateArtist(string path, Image image)
+        public Task UpdateArtist(string path, string imageUrl)
         {
             throw new NotImplementedException();
         }
@@ -19,7 +19,7 @@ namespace PerfectMedia.Music
             throw new NotImplementedException();
         }
 
-        public Task UpdateAlbum(string path, Image image)
+        public Task UpdateAlbum(string path, string imageUrl)
         {
             throw new NotImplementedException();
         }

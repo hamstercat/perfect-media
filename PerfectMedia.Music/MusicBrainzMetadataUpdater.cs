@@ -66,7 +66,8 @@ namespace PerfectMedia.Music
 
         public Task<ReleaseGroup> GetAlbum(string albumId)
         {
-            throw new NotImplementedException();
+            string url = string.Format("/ws/2/release-group/{0}", albumId);
+            return _restApiService.Get<ReleaseGroup>(url);
         }
 
         private ArtistQueryMetadata DeserializeArtistQueryMetadata(string xml)

@@ -40,14 +40,14 @@
             <TextBox Grid.Column="1" Text="{Binding SearchTitle, UpdateSourceTrigger=PropertyChanged}" />
             <Button Grid.Column="2" Content="{lex:Loc Search}" Command="{Binding SearchCommand}" IsDefault="True" />
         </Grid>
-        <ListView Grid.Row="1" ItemsSource="{Binding Selection.AvailableItems}" SelectedItem="{Binding Selection.SelectedItem}">
+        <ListView Grid.Row="1" ItemsSource="{Binding AvailableItems}" SelectedItem="{Binding SelectedItem}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Converter={StaticResource SeriesNameAndYearConverter}}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Grid Grid.Row="2" DataContext="{Binding Selection}">
+        <Grid Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />

@@ -87,7 +87,6 @@
     <Compile Include="UI\Converters\VisibleIfTrueConverterTests.cs" />
     <Compile Include="UI\Converters\VisibleIfFalseConverterTests.cs" />
     <Compile Include="UI\Images\Selection\ChooseImageFileViewModelTests.cs" />
-    <Compile Include="UI\Images\Selection\ImageSelectionViewModelTests.cs" />
     <Compile Include="UI\Images\Selection\LoadFileCommandTests.cs" />
     <Compile Include="UI\Images\Selection\DownloadCommandTests.cs" />
     <Compile Include="UI\Images\Selection\NoImageStrategyTests.cs" />

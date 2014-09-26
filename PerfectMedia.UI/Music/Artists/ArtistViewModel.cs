@@ -12,6 +12,7 @@ using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Metadata;
 using PerfectMedia.UI.Music.Albums;
+using PerfectMedia.UI.Music.Artists.Selection;
 using PerfectMedia.UI.Progress;
 using PerfectMedia.UI.Validations;
 using PropertyChanged;
@@ -28,6 +29,7 @@ namespace PerfectMedia.UI.Music.Artists
 
         public string Path { get; private set; }
         public IImageViewModel Fanart { get; private set; }
+        public IArtistSelectionViewModel Selection { get; private set; }
         public ICommand RefreshCommand { get; private set; }
         public ICommand UpdateCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
@@ -80,6 +82,7 @@ namespace PerfectMedia.UI.Music.Artists
             Name = new RequiredPropertyDecorator<string>(new StringCachedPropertyDecorator(keyDataStore, path));
             Path = path;
             Fanart = viewModelFactory.GetImage(true, new ArtistFanartImageStrategy(imageUpdater, this));
+            Selection = viewModelFactory.GetArtistSelection(this);
 
             Genres = new DashDelimitedCollectionViewModel<string>(s => s);
             Moods = new DashDelimitedCollectionViewModel<string>(s => s);

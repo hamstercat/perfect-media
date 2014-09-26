@@ -2,52 +2,48 @@
 using System.Windows.Input;
 using PerfectMedia.Movies;
 using PerfectMedia.UI.Busy;
+using PerfectMedia.UI.Selection;
 using PropertyChanged;
 using System.Threading.Tasks;
 
 namespace PerfectMedia.UI.Movies.Selection
 {
     [ImplementPropertyChanged]
-    public class MovieSelectionViewModel : BaseViewModel, IMovieSelectionViewModel
+    public class MovieSelectionViewModel : SearchableSelectionViewModel<Movie>, IMovieSelectionViewModel
     {
-        public string SearchTitle { get; set; }
-        public bool IsClosed { get; set; }
-        public object OriginalContent { get; set; }
-        public SelectionViewModel<Movie> Selection { get; private set; }
-        public ICommand SearchCommand { get; private set; }
+        private readonly IMovieMetadataService _metadataService;
+        private readonly IMovieViewModel _movieViewModel;
 
         public MovieSelectionViewModel(IMovieMetadataService metadataService, IMovieViewModel movieViewModel, IBusyProvider busyProvider)
+            : base(busyProvider, movieViewModel.Title.Value)
         {
-            SearchCommand = new SearchCommand(metadataService, this, busyProvider);
-            Selection = new SelectionViewModel<Movie>(busyProvider, async movie =>
-            {
-                await SaveNewId(metadataService, movie.Id, movieViewModel.Path);
-                await Update(metadataService, movieViewModel, movieViewModel.Path);
-                IsClosed = true;
-            });
+            _metadataService = metadataService;
+            _movieViewModel = movieViewModel;
         }
 
-        public void ReplaceMovies(IEnumerable<Movie> movies)
+        protected override async Task SaveInternal(Movie selectedItem)
         {
-            Selection.AvailableItems.Clear();
-            foreach (Movie movie in movies)
-            {
-                Selection.AvailableItems.Add(movie);
-            }
+            await SaveNewId(selectedItem.Id, _movieViewModel.Path);
+            await Update(_movieViewModel.Path);
         }
 
-        private async Task SaveNewId(IMovieMetadataService metadataService, string movieId, string path)
+        protected override Task<IEnumerable<Movie>> SearchInternal(string searchTitle)
         {
-            MovieMetadata metadata = await metadataService.Get(path);
+            return _metadataService.FindMovies(searchTitle);
+        }
+
+        private async Task SaveNewId(string movieId, string path)
+        {
+            MovieMetadata metadata = await _metadataService.Get(path);
             metadata.Id = movieId;
-            await metadataService.Save(path, metadata);
+            await _metadataService.Save(path, metadata);
         }
 
-        private async Task Update(IMovieMetadataService metadataService, IMovieViewModel movieViewModel, string path)
+        private async Task Update(string path)
         {
-            await metadataService.DeleteImages(path);
-            await metadataService.Update(path);
-            await movieViewModel.Refresh();
+            await _metadataService.DeleteImages(path);
+            await _metadataService.Update(path);
+            await _movieViewModel.Refresh();
         }
     }
 }

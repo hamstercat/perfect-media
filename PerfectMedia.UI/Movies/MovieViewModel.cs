@@ -94,7 +94,6 @@ namespace PerfectMedia.UI.Movies
             _viewModelFactory = viewModelFactory;
             _fileSystemService = fileSystemService;
             _busyProvider = busyProvider;
-            Selection = viewModelFactory.GetSelection(this);
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this, progressManager, busyProvider);
             SaveCommand = new SaveMetadataCommand(this);
@@ -105,6 +104,7 @@ namespace PerfectMedia.UI.Movies
             SetName = new StringCachedPropertyDecorator(keyDataStore, path + "?setName");
             SetName.PropertyChanged += TitlePropertyChanged;
             Path = path;
+            Selection = viewModelFactory.GetSelection(this);
             Poster = viewModelFactory.GetImage(new PosterImageStrategy(metadataService, this));
             Fanart = viewModelFactory.GetImage(new FanartImageStrategy(metadataService, this));
             Credits = new DashDelimitedCollectionViewModel<string>(s => s);

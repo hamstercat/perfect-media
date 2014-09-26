@@ -11,20 +11,12 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance Type=albums:AlbumViewModel}">
-    <Grid Grid.IsSharedSizeScope="True">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Content="{lex:Loc Path}" />
-        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Path}" IsReadOnly="True" />
-        <Label Grid.Row="1" Grid.Column="0" Content="{lex:Loc Title, Converter={StaticResource RequiredLabelConverter}}" />
-        <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title.Value}" />
-    </Grid>
+    <TabControl>
+        <TabItem Header="{lex:Loc Information}">
+            <albums:AlbumGeneralInformation  />
+        </TabItem>
+        <TabItem Header="{lex:Loc Images}">
+            <albums:AlbumFanart />
+        </TabItem>
+    </TabControl>
 </UserControl>

@@ -88,7 +88,7 @@ namespace PerfectMedia.UI.TvShows.Shows
             Title = new RequiredPropertyDecorator<string>(new StringCachedPropertyDecorator(keyDataStore, path));
             Title.PropertyChanged += TitleValueChanged;
             Path = path;
-            Selection = viewModelFactory.GetTvShowSelection(this, path);
+            Selection = viewModelFactory.GetTvShowSelection(this);
 
             RefreshCommand = new RefreshMetadataCommand(this);
             UpdateCommand = new UpdateMetadataCommand(this, progressManager, busyProvider);

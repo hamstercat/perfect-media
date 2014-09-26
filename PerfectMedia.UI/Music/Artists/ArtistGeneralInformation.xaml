@@ -60,7 +60,7 @@
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="{lex:Loc Title, Converter={StaticResource RequiredLabelConverter}}" />
+                <Label Grid.Column="0" Content="{lex:Loc Name, Converter={StaticResource RequiredLabelConverter}}" />
                 <TextBox Grid.Column="1" Text="{Binding Name.Value}" />
             </Grid>
             <Grid Grid.Row="2" Style="{StaticResource GridRow}">
@@ -136,16 +136,16 @@
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="{lex:Loc Instruments}" />
-                <TextBox Grid.Column="1" Text="{Binding Instruments}" />
+                <Label Grid.Column="0" Content="{lex:Loc Moods}" />
+                <TextBox Grid.Column="1" Text="{Binding Moods.String}" />
             </Grid>
             <Grid Grid.Row="8" Style="{StaticResource GridRow}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="{lex:Loc Moods}" />
-                <TextBox Grid.Column="1" Text="{Binding Moods.String}" />
+                <Label Grid.Column="0" Content="{lex:Loc Instruments}" />
+                <TextBox Grid.Column="1" Text="{Binding Instruments}" />
             </Grid>
             <Grid Grid.Row="9" Style="{StaticResource GridRow}">
                 <Grid.ColumnDefinitions>

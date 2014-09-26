@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="PerfectMedia.UI.Music.Albums.Selection.AlbumSelection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:selection="clr-namespace:PerfectMedia.UI.Music.Albums.Selection"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             xmlns:ui="clr-namespace:PerfectMedia.UI"
+             lex:LocalizeDictionary.DesignCulture="en"
+             lex:ResxLocalizationProvider.DefaultAssembly="PerfectMedia.UI"
+             lex:ResxLocalizationProvider.DefaultDictionary="MusicResources"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             ui:IsClosedAttachedBehavior.IsClosedView="{Binding IsClosed}"
+             d:DataContext="{d:DesignInstance Type=selection:AlbumSelectionViewModel}">
+    <UserControl.Resources>
+        <selection:AlbumTitleAndYearConverter x:Key="AlbumTitleAndYearConverter" />
+        <selection:AlbumTypeConverter x:Key="AlbumTypeConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="300" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}{1}">
+                        <lex:BLoc Key="PerfectMedia.UI:MusicResources:Title" />
+                        <lex:BLoc Key="PerfectMedia.UI:General:Semicolon" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            <TextBox Grid.Column="1" Text="{Binding SearchTitle, UpdateSourceTrigger=PropertyChanged}" />
+            <Button Grid.Column="2" Content="{lex:Loc Search}" Command="{Binding SearchCommand}" IsDefault="True" />
+        </Grid>
+        <ListView Grid.Row="1" ItemsSource="{Binding AvailableItems}" SelectedItem="{Binding SelectedItem}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource AlbumTitleAndYearConverter}}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="{lex:Loc Title}" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SelectedItem.Title}" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="{lex:Loc Year}" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SelectedItem.Year}" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="{lex:Loc Type}" />
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SelectedItem, Converter={StaticResource AlbumTypeConverter}}" />
+            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="{lex:Loc Cancel}" Click="CancelClick" IsCancel="True" />
+                <Button Content="{lex:Loc Save}" Command="{Binding SaveCommand}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

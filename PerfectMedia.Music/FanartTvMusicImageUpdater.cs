@@ -25,9 +25,13 @@ namespace PerfectMedia.Music
             return images.ArtistBackground.Select(artistBackground => artistBackground.Url);
         }
 
-        public Task<IEnumerable<string>> FindAlbumImages(string id)
+        public async Task<IEnumerable<string>> FindAlbumImages(string id)
         {
-            throw new NotImplementedException();
+            string url = string.Format("/v3/music/albums/{0}?api_key={1}", id, MusicHelper.FanartTvApiKey);
+            AlbumImagesQuery images = await _restApiService.Get<AlbumImagesQuery>(url);
+            AlbumImages album = images.Albums.First().Value;
+            return album.AlbumCover.Select(img => img.Url);
+
         }
     }
 }

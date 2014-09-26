@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using PerfectMedia.TvShows.Metadata;
 using PerfectMedia.UI.Busy;
+using PerfectMedia.UI.Selection;
 using PerfectMedia.UI.TvShows.Shows;
 using PropertyChanged;
 using System.Threading.Tasks;
@@ -9,49 +10,43 @@ using System.Threading.Tasks;
 namespace PerfectMedia.UI.TvShows.ShowSelection
 {
     [ImplementPropertyChanged]
-    public class TvShowSelectionViewModel : BaseViewModel, ITvShowSelectionViewModel
+    public class TvShowSelectionViewModel : SearchableSelectionViewModel<Series>, ITvShowSelectionViewModel
     {
-        public string SearchTitle { get; set; }
-        public bool IsClosed { get; set; }
-        public object OriginalContent { get; set; }
-        public SelectionViewModel<Series> Selection { get; private set; }
-        public ICommand SearchCommand { get; private set; }
+        private readonly ITvShowMetadataService _metadataService;
+        private readonly ITvShowViewModel _tvShowMetadata;
 
         public TvShowSelectionViewModel(ITvShowMetadataService metadataService,
             ITvShowViewModel tvShowMetadata,
-            IBusyProvider busyProvider,
-            string path)
+            IBusyProvider busyProvider)
+            : base(busyProvider, tvShowMetadata.Title.OriginalValue)
         {
-            SearchCommand = new SearchCommand(metadataService, this, busyProvider);
-            Selection = new SelectionViewModel<Series>(busyProvider, async serie =>
-            {
-                await SaveNewId(metadataService, serie.SeriesId, path);
-                await Update(metadataService, tvShowMetadata, path);
-                IsClosed = true;
-            });
+            _metadataService = metadataService;
+            _tvShowMetadata = tvShowMetadata;
         }
 
-        public void ReplaceSeries(IEnumerable<Series> series)
+        protected override async Task SaveInternal(Series selectedItem)
         {
-            Selection.AvailableItems.Clear();
-            foreach (Series serie in series)
-            {
-                Selection.AvailableItems.Add(serie);
-            }
+            await SaveNewId(selectedItem.SeriesId, _tvShowMetadata.Path);
+            await Update(_tvShowMetadata.Path);
         }
 
-        private async Task SaveNewId(ITvShowMetadataService metadataService, string serieId, string path)
+        protected override Task<IEnumerable<Series>> SearchInternal(string searchTitle)
         {
-            TvShowMetadata metadata = await metadataService.Get(path);
+            return _metadataService.FindSeries(searchTitle);
+        }
+
+        private async Task SaveNewId(string serieId, string path)
+        {
+            TvShowMetadata metadata = await _metadataService.Get(path);
             metadata.Id = serieId;
-            await metadataService.Save(path, metadata);
+            await _metadataService.Save(path, metadata);
         }
 
-        private async Task Update(ITvShowMetadataService metadataService, ITvShowViewModel tvShowMetadata, string path)
+        private async Task Update(string path)
         {
-            await metadataService.DeleteImages(path);
-            await metadataService.Update(path);
-            await tvShowMetadata.Refresh();
+            await _metadataService.DeleteImages(path);
+            await _metadataService.Update(path);
+            await _tvShowMetadata.Refresh();
         }
     }
 }

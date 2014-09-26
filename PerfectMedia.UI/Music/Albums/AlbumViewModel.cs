@@ -7,7 +7,9 @@ using PerfectMedia.Music;
 using PerfectMedia.Music.Albums;
 using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Cache;
+using PerfectMedia.UI.Images;
 using PerfectMedia.UI.Metadata;
+using PerfectMedia.UI.Music.Albums.Selection;
 using PerfectMedia.UI.Music.Artists;
 using PerfectMedia.UI.Music.Tracks;
 using PerfectMedia.UI.Progress;
@@ -24,6 +26,8 @@ namespace PerfectMedia.UI.Music.Albums
         private readonly IArtistViewModel _artistViewModel;
 
         public string Path { get; private set; }
+        public IImageViewModel CoverArt { get; private set; }
+        public IAlbumSelectionViewModel Selection { get; private set; }
         public ICommand RefreshCommand { get; private set; }
         public ICommand UpdateCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
@@ -39,6 +43,11 @@ namespace PerfectMedia.UI.Music.Albums
                 }
                 return Title.OriginalValue;
             }
+        }
+
+        public string ArtistId
+        {
+            get { return _artistViewModel.Id; }
         }
 
         [RequiredCached]
@@ -60,6 +69,7 @@ namespace PerfectMedia.UI.Music.Albums
 
         public AlbumViewModel(IMusicFileService musicFileService,
             IAlbumMetadataService metadataService,
+            IMusicImageUpdater imageUpdater,
             IMusicViewModelFactory viewModelFactory,
             IBusyProvider busyProvider,
             IDialogViewer dialogViewer,
@@ -76,6 +86,8 @@ namespace PerfectMedia.UI.Music.Albums
             _artistViewModel = artistViewModel;
             Title = new RequiredPropertyDecorator<string>(new StringCachedPropertyDecorator(keyDataStore, path));
             Path = path;
+            CoverArt = viewModelFactory.GetImage(true, new AlbumCoverArtImageStrategy(imageUpdater, this));
+            Selection = viewModelFactory.GetAlbumSelection(this);
 
             Genres = new DashDelimitedCollectionViewModel<string>(s => s);
             Moods = new DashDelimitedCollectionViewModel<string>(s => s);

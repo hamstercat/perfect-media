@@ -1,6 +1,6 @@
 ﻿namespace PerfectMedia.Music.Images
 {
-    public class ArtistBackground
+    public class FanartTvImage
     {
         public string Url { get; set; }
     }

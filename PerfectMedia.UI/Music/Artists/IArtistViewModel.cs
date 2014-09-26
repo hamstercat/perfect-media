@@ -1,5 +1,6 @@
 ﻿using PerfectMedia.UI.Cache;
 using PerfectMedia.UI.Metadata;
+using PerfectMedia.UI.Music.Artists.Selection;
 
 namespace PerfectMedia.UI.Music.Artists
 {
@@ -8,5 +9,6 @@ namespace PerfectMedia.UI.Music.Artists
         string Path { get; }
         string Id { get; }
         IPropertyViewModel<string> Name { get; }
+        IArtistSelectionViewModel Selection { get; }
     }
 }

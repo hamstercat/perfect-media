@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
+using PerfectMedia.UI.Selection;
 using PerfectMedia.UI.Sources;
 
 namespace PerfectMedia.UI.Movies
@@ -8,7 +8,7 @@ namespace PerfectMedia.UI.Movies
     /// <summary>
     /// Interaction logic for MovieControl.xaml
     /// </summary>
-    public partial class MovieControl : UserControl
+    public partial class MovieControl
     {
         public MovieControl()
         {
@@ -17,30 +17,31 @@ namespace PerfectMedia.UI.Movies
 
         private void ShowSources(object sender, RoutedEventArgs e)
         {
-            SourcesWindow sourcesWindow = new SourcesWindow { DataContext = DataContext };
+            var sourcesWindow = new SourcesWindow { DataContext = DataContext };
             sourcesWindow.ShowDialog();
         }
 
         private void ShowMovieSelection(object sender, RoutedEventArgs e)
         {
             object originalContent = BindingOperations.GetBinding(MainContentControl, ContentProperty);
-            IMovieViewModel movie = GetMovieViewModel(sender);
-            movie.Selection.OriginalContent = originalContent;
-            movie.Selection.IsClosed = false;
-            MainContentControl.Content = movie.Selection;
+            ISelectionViewModel movie = GetMovieViewModel(sender);
+            movie.OriginalContent = originalContent;
+            movie.IsClosed = false;
+            MainContentControl.Content = movie;
         }
 
-        private IMovieViewModel GetMovieViewModel(object sender)
+        private ISelectionViewModel GetMovieViewModel(object sender)
         {
-            FrameworkElement frameworkElement = (FrameworkElement)sender;
-            return (IMovieViewModel)frameworkElement.DataContext;
+            var frameworkElement = (FrameworkElement)sender;
+            var movie = (IMovieViewModel)frameworkElement.DataContext;
+            return movie.Selection;
         }
 
         private async void MoviesSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             await AsyncHelper.ExecuteEventHandlerTask(this, async () =>
             {
-                ITreeViewItemViewModel newItem = (ITreeViewItemViewModel) e.NewValue;
+                var newItem = (ITreeViewItemViewModel)e.NewValue;
                 if (newItem != null)
                 {
                     await newItem.Load();

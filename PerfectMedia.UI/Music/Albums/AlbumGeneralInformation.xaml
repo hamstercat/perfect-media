@@ -1,0 +1,201 @@
+﻿<UserControl x:Class="PerfectMedia.UI.Music.Albums.AlbumGeneralInformation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:albums="clr-namespace:PerfectMedia.UI.Music.Albums"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             xmlns:images="clr-namespace:PerfectMedia.UI.Images"
+             lex:LocalizeDictionary.DesignCulture="en"
+             lex:ResxLocalizationProvider.DefaultAssembly="PerfectMedia.UI"
+             lex:ResxLocalizationProvider.DefaultDictionary="MusicResources"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance Type=albums:AlbumViewModel}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="TextBox">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+            <Style TargetType="DatePicker">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <images:ImageLoader ImageUri="{Binding CoverArt.Path}" VerticalAlignment="Top" WidthRatio="1920" HeightRatio="1080" />
+        <Grid Margin="10" Grid.IsSharedSizeScope="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Rectangle Grid.Row="0" Grid.RowSpan="10" Style="{StaticResource OverlayRectangle}" />
+            <Grid Grid.Row="0" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc Path}" />
+                <TextBlock x:Name="Path" Grid.Column="1" VerticalAlignment="Center">
+                    <Hyperlink Click="PathHyperlinkClick">
+                        <Run Text="{Binding Path}" />
+                    </Hyperlink>
+                </TextBlock>
+            </Grid>
+            <Grid Grid.Row="1" Style="{StaticResource GridRowRequiredBackground}" />
+            <Grid Grid.Row="1" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc Title, Converter={StaticResource RequiredLabelConverter}}" />
+                <TextBox Grid.Column="1" Text="{Binding Title.Value}" />
+            </Grid>
+            <Grid Grid.Row="2" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels2" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource GridRowRequiredBackground}" />
+                <Grid Grid.Column="0" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="{lex:Loc Id, Converter={StaticResource RequiredLabelConverter}}" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Id}" />
+                </Grid>
+                <Label Grid.Column="2" Content="{lex:Loc ReleaseDate}" />
+                <Grid Grid.Column="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <DatePicker Grid.Column="0" SelectedDate="{Binding ReleaseDate}" />
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="3" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels2" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc Rating}" />
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" Text="{Binding Rating, TargetNullValue=''}" />
+                    <TextBlock Grid.Column="1" Text="/10" VerticalAlignment="Center" />
+                </Grid>
+                <Label Grid.Column="2" Content="{lex:Loc Year}" />
+                <TextBox Grid.Column="3" Text="{Binding Year}" />
+            </Grid>
+            <Grid Grid.Row="4" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels2" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc Type}" />
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox Grid.Column="0" SelectedValue="{Binding Type, Mode=TwoWay}" SelectedValuePath="Tag">
+                        <ComboBoxItem Tag="" FontStyle="Italic">
+                            <lex:Loc Key="None" />
+                        </ComboBoxItem>
+                        <ComboBoxItem Tag="Album">Album</ComboBoxItem>
+                        <ComboBoxItem Tag="Single">Single</ComboBoxItem>
+                        <ComboBoxItem Tag="EP">EP</ComboBoxItem>
+                        <ComboBoxItem Tag="Broadcast">Broadcast</ComboBoxItem>
+                        <!-- TODO: treat the following seconday type -->
+                        <!--
+                        Compilation,
+                        Soundtrack,
+                        Spokenword,
+                        Interview,
+                        Audiobook,
+                        Live,
+                        Remix,
+                        DJ-mix,
+                        Mixtape/Street
+                        -->
+                        <ComboBoxItem Tag="Compilation">Compilation</ComboBoxItem>
+                        <ComboBoxItem Tag="Soundtrack">Soundtrack</ComboBoxItem>
+                        <ComboBoxItem Tag="Spokenword">Spokenword</ComboBoxItem>
+                        <ComboBoxItem Tag="Interview">Interview</ComboBoxItem>
+                        <ComboBoxItem Tag="Audiobook">Audiobook</ComboBoxItem>
+                        <ComboBoxItem Tag="Live">Live</ComboBoxItem>
+                        <ComboBoxItem Tag="Remix">Remix</ComboBoxItem>
+                        <ComboBoxItem Tag="DJ-mix">DJ-mix</ComboBoxItem>
+                        <ComboBoxItem Tag="Mixtape/Street">Mixtape/Street</ComboBoxItem>
+                    </ComboBox>
+                </Grid>
+                <Label Grid.Column="2" Content="{lex:Loc Label}" />
+                <TextBox Grid.Column="3" Text="{Binding Label}" />
+            </Grid>
+            <Grid Grid.Row="5" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc Genres}" />
+                <TextBox Grid.Column="1" Text="{Binding Genres.String}" />
+            </Grid>
+            <Grid Grid.Row="6" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc Styles}" />
+                <TextBox Grid.Column="1" Text="{Binding Styles.String}" />
+            </Grid>
+            <Grid Grid.Row="7" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc Moods}" />
+                <TextBox Grid.Column="1" Text="{Binding Moods.String}" />
+            </Grid>
+            <Grid Grid.Row="8" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc Themes}" />
+                <TextBox Grid.Column="1" Text="{Binding Themes}" />
+            </Grid>
+            <Grid Grid.Row="9" Style="{StaticResource GridRow}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{lex:Loc Review}" />
+                <TextBox Grid.Column="1" Text="{Binding Review}" TextWrapping="Wrap" />
+            </Grid>
+            <Border Grid.Row="0" Grid.RowSpan="10" BorderBrush="Black" BorderThickness="1" />
+        </Grid>
+    </Grid>
+</UserControl>

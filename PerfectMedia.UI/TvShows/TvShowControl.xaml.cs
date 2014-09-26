@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using PerfectMedia.UI.Selection;
 using PerfectMedia.UI.Sources;
 using PerfectMedia.UI.TvShows.Shows;
 
@@ -9,7 +10,7 @@ namespace PerfectMedia.UI.TvShows
     /// <summary>
     /// Interaction logic for TvShowControl.xaml
     /// </summary>
-    public partial class TvShowControl : UserControl
+    public partial class TvShowControl
     {
         public TvShowControl()
         {
@@ -18,30 +19,31 @@ namespace PerfectMedia.UI.TvShows
 
         private void ShowSources(object sender, RoutedEventArgs e)
         {
-            SourcesWindow sourcesWindow = new SourcesWindow { DataContext = DataContext };
+            var sourcesWindow = new SourcesWindow { DataContext = DataContext };
             sourcesWindow.ShowDialog();
         }
 
         private void ShowTvShowSelection(object sender, RoutedEventArgs e)
         {
             object originalContent = BindingOperations.GetBinding(MainContentControl, ContentProperty);
-            ITvShowViewModel tvShow = GetTvShowViewModel(sender);
-            tvShow.Selection.OriginalContent = originalContent;
-            tvShow.Selection.IsClosed = false;
-            MainContentControl.Content = tvShow.Selection;
+            ISelectionViewModel tvShow = GetTvShowViewModel(sender);
+            tvShow.OriginalContent = originalContent;
+            tvShow.IsClosed = false;
+            MainContentControl.Content = tvShow;
         }
 
-        private ITvShowViewModel GetTvShowViewModel(object sender)
+        private ISelectionViewModel GetTvShowViewModel(object sender)
         {
-            FrameworkElement frameworkElement = (FrameworkElement)sender;
-            return (ITvShowViewModel)frameworkElement.DataContext;
+            var frameworkElement = (FrameworkElement)sender;
+            var tvShow = (ITvShowViewModel)frameworkElement.DataContext;
+            return tvShow.Selection;
         }
 
         private async void TvShowsSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             await AsyncHelper.ExecuteEventHandlerTask(this, async () =>
             {
-                ITreeViewItemViewModel newItem = (ITreeViewItemViewModel) e.NewValue;
+                var newItem = (ITreeViewItemViewModel)e.NewValue;
                 await newItem.Load();
             });
         }
@@ -50,8 +52,8 @@ namespace PerfectMedia.UI.TvShows
         {
             await AsyncHelper.ExecuteEventHandlerTask(this, async () =>
             {
-                TreeViewItem treeViewItem = (TreeViewItem) e.OriginalSource;
-                ITreeViewItemViewModel treeViewItemViewModel = (ITreeViewItemViewModel) treeViewItem.DataContext;
+                var treeViewItem = (TreeViewItem)e.OriginalSource;
+                var treeViewItemViewModel = (ITreeViewItemViewModel)treeViewItem.DataContext;
                 await treeViewItemViewModel.LoadChildren();
             });
         }

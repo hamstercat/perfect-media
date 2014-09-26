@@ -90,9 +90,9 @@ namespace PerfectMedia.UI.TvShows
             return new ImageViewModel(_fileSystemService, _busyProvider, horizontalAlignement, imageStrategy);
         }
 
-        public ITvShowSelectionViewModel GetTvShowSelection(ITvShowViewModel tvShowMetadata, string path)
+        public ITvShowSelectionViewModel GetTvShowSelection(ITvShowViewModel tvShowMetadata)
         {
-            return new TvShowSelectionViewModel(_tvShowMetadataService, tvShowMetadata, _busyProvider, path);
+            return new TvShowSelectionViewModel(_tvShowMetadataService, tvShowMetadata, _busyProvider);
         }
 
         public IActorManagerViewModel GetActorManager(string tvShowPath, Action onPropertyChanged)

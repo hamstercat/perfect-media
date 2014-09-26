@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using PerfectMedia.UI.Music.Albums;
+using PerfectMedia.UI.Music.Artists;
+using PerfectMedia.UI.Selection;
 using PerfectMedia.UI.Sources;
 
 namespace PerfectMedia.UI.Music
@@ -28,15 +20,47 @@ namespace PerfectMedia.UI.Music
 
         private void ShowSources(object sender, RoutedEventArgs e)
         {
-            SourcesWindow sourcesWindow = new SourcesWindow { DataContext = DataContext };
+            var sourcesWindow = new SourcesWindow { DataContext = DataContext };
             sourcesWindow.ShowDialog();
+        }
+
+        private void ShowArtistSelection(object sender, RoutedEventArgs e)
+        {
+            object originalContent = BindingOperations.GetBinding(MainContentControl, ContentProperty);
+            ISelectionViewModel tvShow = GetArtistViewModel(sender);
+            tvShow.OriginalContent = originalContent;
+            tvShow.IsClosed = false;
+            MainContentControl.Content = tvShow;
+        }
+
+        private ISelectionViewModel GetArtistViewModel(object sender)
+        {
+            var frameworkElement = (FrameworkElement)sender;
+            var artist = (IArtistViewModel)frameworkElement.DataContext;
+            return artist.Selection;
+        }
+
+        private void ShowAlbumSelection(object sender, RoutedEventArgs e)
+        {
+            object originalContent = BindingOperations.GetBinding(MainContentControl, ContentProperty);
+            ISelectionViewModel tvShow = GetAlbumViewModel(sender);
+            tvShow.OriginalContent = originalContent;
+            tvShow.IsClosed = false;
+            MainContentControl.Content = tvShow;
+        }
+
+        private ISelectionViewModel GetAlbumViewModel(object sender)
+        {
+            var frameworkElement = (FrameworkElement)sender;
+            var album = (IAlbumViewModel)frameworkElement.DataContext;
+            return album.Selection;
         }
 
         private async void MusicSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             await AsyncHelper.ExecuteEventHandlerTask(this, async () =>
             {
-                ITreeViewItemViewModel newItem = (ITreeViewItemViewModel) e.NewValue;
+                var newItem = (ITreeViewItemViewModel)e.NewValue;
                 await newItem.Load();
             });
         }
@@ -45,8 +69,8 @@ namespace PerfectMedia.UI.Music
         {
             await AsyncHelper.ExecuteEventHandlerTask(this, async () =>
             {
-                TreeViewItem treeViewItem = (TreeViewItem) e.OriginalSource;
-                ITreeViewItemViewModel treeViewItemViewModel = (ITreeViewItemViewModel) treeViewItem.DataContext;
+                var treeViewItem = (TreeViewItem)e.OriginalSource;
+                var treeViewItemViewModel = (ITreeViewItemViewModel)treeViewItem.DataContext;
                 await treeViewItemViewModel.LoadChildren();
             });
         }

@@ -1,13 +1,14 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using PerfectMedia.UI.Selection;
 
 namespace PerfectMedia.UI.Movies.Selection
 {
     /// <summary>
     /// Interaction logic for TvShowSelection.xaml
     /// </summary>
-    public partial class MovieSelection : UserControl, ICloseable
+    public partial class MovieSelection : ICloseable
     {
         public MovieSelection()
         {
@@ -22,8 +23,8 @@ namespace PerfectMedia.UI.Movies.Selection
 
         private void RestoreInitialBinding(ContentControl mainContentControl)
         {
-            IMovieSelectionViewModel movieSelection = (IMovieSelectionViewModel)DataContext;
-            Binding originalBinding = (Binding)movieSelection.OriginalContent;
+            var movieSelection = (ISelectionViewModel)DataContext;
+            var originalBinding = (Binding)movieSelection.OriginalContent;
             BindingOperations.SetBinding(mainContentControl, ContentProperty, originalBinding);
         }
 

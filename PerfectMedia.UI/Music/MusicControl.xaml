@@ -10,6 +10,8 @@
              xmlns:img="clr-namespace:PerfectMedia.UI.Images"
              xmlns:selectimg="clr-namespace:PerfectMedia.UI.Images.Selection"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             xmlns:artistselection="clr-namespace:PerfectMedia.UI.Music.Artists.Selection"
+             xmlns:albumselection="clr-namespace:PerfectMedia.UI.Music.Albums.Selection"
              lex:LocalizeDictionary.DesignCulture="en"
              lex:ResxLocalizationProvider.DefaultAssembly="PerfectMedia.UI"
              lex:ResxLocalizationProvider.DefaultDictionary="MusicResources"
@@ -72,6 +74,7 @@
                                 <Button Content="{lex:Loc Update}" Command="{Binding UpdateCommand}" />
                                 <Button Content="{lex:Loc Save}" Command="{Binding SaveCommand}" />
                                 <Button Content="{lex:Loc Delete}" Command="{Binding DeleteCommand}" />
+                                <Button Content="{lex:Loc ChangeArtist}" Click="ShowArtistSelection" />
                             </StackPanel>
                             <artists:ArtistControl Grid.Row="1" />
                         </Grid>
@@ -87,12 +90,19 @@
                                 <Button Content="{lex:Loc Update}" Command="{Binding UpdateCommand}" />
                                 <Button Content="{lex:Loc Save}" Command="{Binding SaveCommand}" />
                                 <Button Content="{lex:Loc Delete}" Command="{Binding DeleteCommand}" />
+                                <Button Content="{lex:Loc ChangeAlbum}" Click="ShowAlbumSelection" />
                             </StackPanel>
                             <albums:AlbumControl Grid.Row="1" />
                         </Grid>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type img:ImageViewModel}">
                         <selectimg:ImageSelection />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type artistselection:ArtistSelectionViewModel}">
+                        <artistselection:ArtistSelection />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type albumselection:AlbumSelectionViewModel}">
+                        <albumselection:AlbumSelection />
                     </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>

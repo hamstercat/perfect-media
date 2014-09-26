@@ -40,7 +40,7 @@
             <TextBox Grid.Column="1" Text="{Binding SearchTitle, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,0,0" />
             <Button Grid.Column="2" Content="{lex:Loc Search}" Command="{Binding SearchCommand}" IsDefault="True" Margin="5,0,5,0" />
         </Grid>
-        <ListView Grid.Row="1" ItemsSource="{Binding Selection.AvailableItems}" SelectedItem="{Binding Selection.SelectedItem}">
+        <ListView Grid.Row="1" ItemsSource="{Binding AvailableItems}" SelectedItem="{Binding SelectedItem}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Converter={StaticResource MovieTitleAndYearConverter}}" />
@@ -48,7 +48,7 @@
             </ListView.ItemTemplate>
         </ListView>
         <Border Grid.Row="2" BorderBrush="Black" BorderThickness="1">
-            <Grid DataContext="{Binding Selection}">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />

@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using PerfectMedia.TvShows.Metadata;
+using PerfectMedia.UI.Selection;
 
 namespace PerfectMedia.UI.TvShows.ShowSelection
 {
-    public interface ITvShowSelectionViewModel : INotifyPropertyChanged
+    public interface ITvShowSelectionViewModel : ISearchableSelectionViewModel<Series>
     {
-        string SearchTitle { get; set; }
-        bool IsClosed { get; set; }
-        object OriginalContent { get; set; }
-        void ReplaceSeries(IEnumerable<Series> series);
+        void SetAvailableItems(IEnumerable<Series> items);
     }
 }

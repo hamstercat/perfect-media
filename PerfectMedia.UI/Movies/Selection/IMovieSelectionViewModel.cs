@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using PerfectMedia.Movies;
+using PerfectMedia.UI.Selection;
 
 namespace PerfectMedia.UI.Movies.Selection
 {
-    public interface IMovieSelectionViewModel : INotifyPropertyChanged
+    public interface IMovieSelectionViewModel : ISearchableSelectionViewModel<Movie>
     {
-        string SearchTitle { get; set; }
-        bool IsClosed { get; set; }
-        object OriginalContent { get; set; }
-        void ReplaceMovies(IEnumerable<Movie> movies);
+        void SetAvailableItems(IEnumerable<Movie> items);
     }
 }

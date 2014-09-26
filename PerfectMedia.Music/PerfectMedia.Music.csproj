@@ -48,7 +48,9 @@
     <Compile Include="Albums\AlbumMetadataService.cs" />
     <Compile Include="Albums\AlbumQueryMetadata.cs" />
     <Compile Include="Albums\ReleaseGroupList.cs" />
-    <Compile Include="Images\ArtistBackground.cs" />
+    <Compile Include="Images\AlbumImages.cs" />
+    <Compile Include="Images\AlbumImagesQuery.cs" />
+    <Compile Include="Images\FanartTvImage.cs" />
     <Compile Include="Images\ArtistImagesQuery.cs" />
     <Compile Include="Artists\ArtistList.cs" />
     <Compile Include="Artists\ArtistMetadataRepository.cs" />

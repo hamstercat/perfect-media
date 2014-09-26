@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using PerfectMedia.UI.Busy;
 using PerfectMedia.UI.Images.Selection;
@@ -45,8 +46,9 @@ namespace PerfectMedia.UI.Images
         {
             using (_busyProvider.DoWork())
             {
-                ImageSelection = new ImageSelectionViewModel(_fileSystemService, _imageStrategy, _busyProvider, Path, _horizontalAlignement);
-                await ImageSelection.LoadAvailableImages();
+                ImageSelection = new ImageSelectionViewModel(_fileSystemService, _busyProvider, Path, _horizontalAlignement);
+                IEnumerable<Image> images = await _imageStrategy.FindImages();
+                ImageSelection.SetAvailableItems(images);
                 ImageSelection.PropertyChanged += ImageSelectionPropertyChanged;
             }
         }

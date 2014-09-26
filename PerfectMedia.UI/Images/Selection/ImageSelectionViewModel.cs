@@ -1,49 +1,34 @@
 ﻿using System.Threading.Tasks;
 using PerfectMedia.UI.Busy;
+using PerfectMedia.UI.Selection;
 using PropertyChanged;
 
 namespace PerfectMedia.UI.Images.Selection
 {
     [ImplementPropertyChanged]
-    public class ImageSelectionViewModel : BaseViewModel, IImageSelectionViewModel
+    public class ImageSelectionViewModel : SelectionViewModel<Image>, IImageSelectionViewModel
     {
-        private readonly IImageStrategy _imageStrategy;
-        private readonly IBusyProvider _busyProvider;
+        private readonly IFileSystemService _fileSystemService;
+        private readonly string _path;
 
         public bool HorizontalAlignement { get; private set; }
-        public bool IsClosed { get; set; }
-        public object OriginalContent { get; set; }
-        public SelectionViewModel<Image> Selection { get; private set; }
         public IChooseImageFileViewModel Download { get; private set; }
 
         public ImageSelectionViewModel(IFileSystemService fileSystemService,
-            IImageStrategy imageStrategy,
             IBusyProvider busyProvider,
             string path,
             bool horizontalAlignement)
+            : base(busyProvider, new Image { Url = path })
         {
-            _imageStrategy = imageStrategy;
-            _busyProvider = busyProvider;
+            _fileSystemService = fileSystemService;
+            _path = path;
             HorizontalAlignement = horizontalAlignement;
-            Image defaultImage = new Image { Url = path };
-            Selection = new SelectionViewModel<Image>(busyProvider, defaultImage, async image =>
-            {
-                await fileSystemService.DownloadImage(path, image.Url);
-                IsClosed = true;
-            });
             Download = new ChooseImageFileViewModel(fileSystemService, this, busyProvider, path);
         }
 
-        public async Task LoadAvailableImages()
+        protected override async Task SaveInternal(Image selectedItem)
         {
-            using (_busyProvider.DoWork())
-            {
-                Selection.AvailableItems.Clear();
-                foreach (Image image in await _imageStrategy.FindImages())
-                {
-                    Selection.AvailableItems.Add(image);
-                }
-            }
+            await _fileSystemService.DownloadImage(_path, selectedItem.Url);
         }
     }
 }

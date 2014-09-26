@@ -20,7 +20,7 @@ namespace PerfectMedia.UI.TvShows
         IEpisodeViewModel GetEpisode(ITvShowViewModel tvShow, string path);
         IImageViewModel GetImage(bool horizontalAlignement);
         IImageViewModel GetImage(bool horizontalAlignement, IImageStrategy imageStrategy);
-        ITvShowSelectionViewModel GetTvShowSelection(ITvShowViewModel tvShow, string path);
+        ITvShowSelectionViewModel GetTvShowSelection(ITvShowViewModel tvShow);
         IActorManagerViewModel GetActorManager(string tvShowPath, Action onPropertyChanged);
     }
 }
